@@ -7,7 +7,7 @@ EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 6 9
-Title "UlTiM8 - Ultimate LED panel, using APA102"
+Title "ULTiM8x8 - Ultimate LED panel, using APA102"
 Date "2016-02-18"
 Rev "rev3"
 Comp "WyoLum"

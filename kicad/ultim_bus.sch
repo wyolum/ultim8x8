@@ -1,0 +1,190 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:ultim8x8_sym
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L CONN_1 P1
+U 1 1 56C5F93F
+P 1375 1500
+F 0 "P1" V 1450 1475 40  0000 L CNN
+F 1 "CONN_1" H 1375 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1375 1500 60  0001 C CNN
+F 3 "" H 1375 1500 60  0000 C CNN
+	1    1375 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P2
+U 1 1 56C5FA4D
+P 1625 1500
+F 0 "P2" V 1700 1475 40  0000 L CNN
+F 1 "CONN_1" H 1625 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1625 1500 60  0001 C CNN
+F 3 "" H 1625 1500 60  0000 C CNN
+	1    1625 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P3
+U 1 1 56C5FA73
+P 1875 1500
+F 0 "P3" V 1950 1475 40  0000 L CNN
+F 1 "CONN_1" H 1875 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1875 1500 60  0001 C CNN
+F 3 "" H 1875 1500 60  0000 C CNN
+	1    1875 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P4
+U 1 1 56C5FA9C
+P 2125 1500
+F 0 "P4" V 2200 1475 40  0000 L CNN
+F 1 "CONN_1" H 2125 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 2125 1500 60  0001 C CNN
+F 3 "" H 2125 1500 60  0000 C CNN
+	1    2125 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P5
+U 1 1 56C5FAC8
+P 2375 1500
+F 0 "P5" V 2450 1475 40  0000 L CNN
+F 1 "CONN_1" H 2375 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 2375 1500 60  0001 C CNN
+F 3 "" H 2375 1500 60  0000 C CNN
+	1    2375 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P6
+U 1 1 56C5FAF7
+P 2625 1500
+F 0 "P6" V 2700 1475 40  0000 L CNN
+F 1 "CONN_1" H 2625 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 2625 1500 60  0001 C CNN
+F 3 "" H 2625 1500 60  0000 C CNN
+	1    2625 1500
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1375 1650 1375 1775
+Wire Wire Line
+	1375 1775 2625 1775
+Wire Wire Line
+	2625 1650 2625 2125
+Wire Wire Line
+	2375 1650 2375 1775
+Connection ~ 2375 1775
+Wire Wire Line
+	2125 1650 2125 1775
+Connection ~ 2125 1775
+Wire Wire Line
+	1875 1650 1875 1775
+Connection ~ 1875 1775
+Wire Wire Line
+	1625 1650 1625 1775
+Connection ~ 1625 1775
+$Comp
+L CONN_1 P7
+U 1 1 56C60213
+P 3125 1500
+F 0 "P7" V 3200 1475 40  0000 L CNN
+F 1 "CONN_1" H 3125 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 3125 1500 60  0001 C CNN
+F 3 "" H 3125 1500 60  0000 C CNN
+	1    3125 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P8
+U 1 1 56C60219
+P 3375 1500
+F 0 "P8" V 3450 1475 40  0000 L CNN
+F 1 "CONN_1" H 3375 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 3375 1500 60  0001 C CNN
+F 3 "" H 3375 1500 60  0000 C CNN
+	1    3375 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P9
+U 1 1 56C6021F
+P 3625 1500
+F 0 "P9" V 3700 1475 40  0000 L CNN
+F 1 "CONN_1" H 3625 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 3625 1500 60  0001 C CNN
+F 3 "" H 3625 1500 60  0000 C CNN
+	1    3625 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P10
+U 1 1 56C60225
+P 3875 1500
+F 0 "P10" V 3950 1475 40  0000 L CNN
+F 1 "CONN_1" H 3875 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 3875 1500 60  0001 C CNN
+F 3 "" H 3875 1500 60  0000 C CNN
+	1    3875 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P11
+U 1 1 56C6022B
+P 4125 1500
+F 0 "P11" V 4200 1475 40  0000 L CNN
+F 1 "CONN_1" H 4125 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 4125 1500 60  0001 C CNN
+F 3 "" H 4125 1500 60  0000 C CNN
+	1    4125 1500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P12
+U 1 1 56C60231
+P 4375 1500
+F 0 "P12" V 4450 1475 40  0000 L CNN
+F 1 "CONN_1" H 4375 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 4375 1500 60  0001 C CNN
+F 3 "" H 4375 1500 60  0000 C CNN
+	1    4375 1500
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	3125 1650 3125 2125
+Wire Wire Line
+	3125 1775 4375 1775
+Wire Wire Line
+	4375 1775 4375 1650
+Wire Wire Line
+	4125 1650 4125 1775
+Connection ~ 4125 1775
+Wire Wire Line
+	3875 1650 3875 1775
+Connection ~ 3875 1775
+Wire Wire Line
+	3625 1650 3625 1775
+Connection ~ 3625 1775
+Wire Wire Line
+	3375 1650 3375 1775
+Connection ~ 3375 1775
+Wire Wire Line
+	3125 2125 2625 2125
+Connection ~ 3125 1775
+Connection ~ 2625 1775
+$EndSCHEMATC

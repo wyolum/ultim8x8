@@ -1,13 +1,14 @@
 "Id";"Designator";"Package";"Quantity";"Designation";"Supplier and ref";
-1;"C1,C3";"c_0805";2;"100n";;;
+1;"C3,C1";"c_0805";2;"100n";;;
 2;"P3";"PowerIn_stud";1;"5V";;;
 3;"P4";"PowerIn_stud";1;"GND";;;
-4;"L101";"OSHW_6mm";1;"OSHW";;;
-5;"L103";"logo_MLlabs";1;"Maniacal Labs";;;
-6;"L102";"logo_wyo_butterfly";1;"Wyolum";;;
+4;"L2";"OSHW_6mm";1;"OSHW";;;
+5;"L4";"logo_MLlabs";1;"Maniacal Labs";;;
+6;"L3";"logo_wyo_butterfly";1;"Wyolum";;;
 7;"P6";"header_3pos_smd_male";1;"Output2";;;
 8;"P5";"header_3pos_smd_male";1;"Input2";;;
 9;"P2";"header_3pos_smd_male";1;"Output1";;;
 10;"P1";"header_3pos_smd_male";1;"Input1";;;
 11;"U04,U01,U02,U03,U05,U06,U07,U08,U09,U10,U11,U12,U13,U14,U15,U17,U18,U19,U20,U21,U22,U23,U24,U25,U26,U27,U28,U29,U30,U31,U32,U33,U34,U35,U36,U37,U38,U39,U40,U41,U42,U43,U44,U45,U46,U47,U48,U49,U50,U51,U52,U53,U54,U55,U56,U57,U58,U59,U60,U61,U62,U63,U64,U16";"APA102";64;"APA102";;;
 12;"C2,C4";"c_2917";2;"47u,8V";;;
+13;"L1";"logo_ultim8x8";1;"ULTiM8x8";;;

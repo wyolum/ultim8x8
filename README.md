@@ -4,9 +4,9 @@ built using APA102 RGB LEDs
 8x8 matrix
 Modular
 
-![ultim8 top](https://github.com/wyolum/ultim8x8/blob/master/kicad/ultim8_images/ultim8x8_01.png)
+![ultim8 top](https://github.com/wyolum/ultim8x8/blob/master/kicad/ultim8x8_images/ultim8x8_01.png)
 
-![ultim8 bottom](https://github.com/wyolum/ultim8x8/blob/master/kicad/ultim8_images/ultim8x8_02.png)
+![ultim8 bottom](https://github.com/wyolum/ultim8x8/blob/master/kicad/ultim8x8_images/ultim8x8_02.png)
 
 License
 -------

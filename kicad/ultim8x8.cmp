@@ -1,0 +1,766 @@
+Cmp-Mod V01 Created by Cvpcb 0.201504161001+5603~22~ubuntu14.10.1-product   date = Fri Apr 17 17:48:03 2015
+
+BeginCmp
+TimeStamp = /511688A7/5118AB57;
+Reference = C101;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AB5E;
+Reference = C117;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AB58;
+Reference = C201;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AB5B;
+Reference = C217;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AB54;
+Reference = C301;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AB5D;
+Reference = C317;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AB59;
+Reference = C401;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AB5C;
+Reference = C417;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/5118AB5A;
+Reference = C501;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/51189821;
+Reference = C517;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118AB55;
+Reference = C601;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118AB5F;
+Reference = C617;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AB56;
+Reference = C701;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AB60;
+Reference = C717;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/51168961;
+Reference = C801;
+ValeurCmp = 100n;
+IdModule  = TinyTiM_Libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AB61;
+Reference = C817;
+ValeurCmp = 47u,8V;
+IdModule  = TinyTiM_Libs:c_2917;
+EndCmp
+
+BeginCmp
+TimeStamp = /511CD9F8;
+Reference = L101;
+ValeurCmp = OSHW;
+IdModule  = TinyTiM_Lib:OSHW_6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = /511CD9F5;
+Reference = L102;
+ValeurCmp = Wyolum;
+IdModule  = TinyTiM_Lib:Logo-WL3;
+EndCmp
+
+BeginCmp
+TimeStamp = /55214A46;
+Reference = P1;
+ValeurCmp = Data_In_Serial;
+IdModule  = TinyTiM_Libs:Conn_x3_PTSM;
+EndCmp
+
+BeginCmp
+TimeStamp = /55214CF7;
+Reference = P2;
+ValeurCmp = Data_Out_Serial;
+IdModule  = TinyTiM_Libs:Conn_x3_PTSM;
+EndCmp
+
+BeginCmp
+TimeStamp = /5355499C;
+Reference = P3;
+ValeurCmp = Data_In;
+IdModule  = TinyTiM_Lib:Header_8x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /53556B99;
+Reference = P4;
+ValeurCmp = Data_Out;
+IdModule  = TinyTiM_Lib:Header_8x2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5358CE5E;
+Reference = P5;
+ValeurCmp = Data_In_Serial;
+IdModule  = TinyTiM_Libs:Conn_x3_PTSM;
+EndCmp
+
+BeginCmp
+TimeStamp = /5358D167;
+Reference = P6;
+ValeurCmp = Data_Out_Serial;
+IdModule  = TinyTiM_Libs:Conn_x3_PTSM;
+EndCmp
+
+BeginCmp
+TimeStamp = /5118A74D;
+Reference = P125;
+ValeurCmp = G>H;
+IdModule  = TinyTiM_Libs:ShortLink2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5118A740;
+Reference = P126;
+ValeurCmp = F>G;
+IdModule  = TinyTiM_Libs:ShortLink2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5118A737;
+Reference = P127;
+ValeurCmp = E>F;
+IdModule  = TinyTiM_Libs:ShortLink2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5118A72D;
+Reference = P128;
+ValeurCmp = D>E;
+IdModule  = TinyTiM_Libs:ShortLink2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5118A723;
+Reference = P129;
+ValeurCmp = C>D;
+IdModule  = TinyTiM_Libs:ShortLink2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5118A719;
+Reference = P130;
+ValeurCmp = B>C;
+IdModule  = TinyTiM_Libs:ShortLink2;
+EndCmp
+
+BeginCmp
+TimeStamp = /5118A707;
+Reference = P131;
+ValeurCmp = A>B;
+IdModule  = TinyTiM_Libs:ShortLink2;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AB77;
+Reference = S101;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_SSide;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AB75;
+Reference = S102;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_SSide;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5356BD57;
+Reference = S103;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5356BD5D;
+Reference = S104;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AB7B;
+Reference = S401;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AB76;
+Reference = S402;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/51189825;
+Reference = S501;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/51189824;
+Reference = S502;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AB78;
+Reference = S801;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AB70;
+Reference = S802;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5356BE2F;
+Reference = S803;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5356BE35;
+Reference = S804;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_NPTH;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/55311DB5;
+Reference = S805;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_SSide;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/55311D21;
+Reference = S806;
+ValeurCmp = CONN_1;
+IdModule  = TinyTiM_Libs:Screw_SSide;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/51189846;
+Reference = U101;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Lib:RGB_WS2811B;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AB0C;
+Reference = U102;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AB00;
+Reference = U103;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AB8D;
+Reference = U104;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AAFC;
+Reference = U105;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AAF2;
+Reference = U106;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AAF0;
+Reference = U107;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511688A7/5118AAE5;
+Reference = U108;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118ABBA;
+Reference = U201;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5116894B;
+Reference = U202;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AB01;
+Reference = U203;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AB90;
+Reference = U204;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AAFB;
+Reference = U205;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AAF5;
+Reference = U206;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AAEE;
+Reference = U207;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51178F3E/5118AAEA;
+Reference = U208;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118ABB8;
+Reference = U301;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AB08;
+Reference = U302;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AB02;
+Reference = U303;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AB91;
+Reference = U304;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AAFA;
+Reference = U305;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AAF3;
+Reference = U306;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AAEB;
+Reference = U307;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179283/5118AAE4;
+Reference = U308;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118ABBC;
+Reference = U401;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AB0D;
+Reference = U402;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AB05;
+Reference = U403;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AB92;
+Reference = U404;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AAF9;
+Reference = U405;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/51168947;
+Reference = U406;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AAED;
+Reference = U407;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179344/5118AAE7;
+Reference = U408;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/5118ABB9;
+Reference = U501;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/5118AB0A;
+Reference = U502;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/5116894A;
+Reference = U503;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/51189833;
+Reference = U504;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/51168948;
+Reference = U505;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/5118AAF7;
+Reference = U506;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/5118AAEC;
+Reference = U507;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /51179413/5118AAE9;
+Reference = U508;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118ABB7;
+Reference = U601;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118AB0B;
+Reference = U602;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118AB06;
+Reference = U603;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118AB8C;
+Reference = U604;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118AAFE;
+Reference = U605;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/5118AAF6;
+Reference = U606;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/51168946;
+Reference = U607;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /511794A8/51168945;
+Reference = U608;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118ABB6;
+Reference = U701;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AB07;
+Reference = U702;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AB04;
+Reference = U703;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AB8E;
+Reference = U704;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AAFD;
+Reference = U705;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AAF4;
+Reference = U706;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AAEF;
+Reference = U707;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117954B/5118AAE8;
+Reference = U708;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118ABBB;
+Reference = U801;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AB09;
+Reference = U802;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AB03;
+Reference = U803;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AB8F;
+Reference = U804;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AAFF;
+Reference = U805;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AAF8;
+Reference = U806;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AAF1;
+Reference = U807;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Libs:RGB_WS2811B_Trans;
+EndCmp
+
+BeginCmp
+TimeStamp = /5117961B/5118AAE6;
+Reference = U808;
+ValeurCmp = RGB_WS2811B;
+IdModule  = TinyTiM_Lib:RGB_WS2811B;
+EndCmp
+
+EndListe

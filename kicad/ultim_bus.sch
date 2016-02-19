@@ -169,7 +169,7 @@ $EndComp
 Wire Wire Line
 	3125 1650 3125 1875
 Wire Wire Line
-	3125 1775 4375 1775
+	3125 1775 4625 1775
 Wire Wire Line
 	4375 1775 4375 1650
 Wire Wire Line
@@ -341,7 +341,7 @@ $EndComp
 Wire Wire Line
 	3125 3200 3125 3425
 Wire Wire Line
-	3125 3325 4375 3325
+	3125 3325 4625 3325
 Wire Wire Line
 	4375 3325 4375 3200
 Wire Wire Line
@@ -513,7 +513,7 @@ $EndComp
 Wire Wire Line
 	3125 4950 3125 5175
 Wire Wire Line
-	3125 5075 4375 5075
+	3125 5075 4625 5075
 Wire Wire Line
 	4375 5075 4375 4950
 Wire Wire Line
@@ -829,7 +829,7 @@ $EndComp
 Wire Wire Line
 	3125 6425 3125 6650
 Wire Wire Line
-	3125 6550 4375 6550
+	3125 6550 4625 6550
 Wire Wire Line
 	4375 6550 4375 6425
 Wire Wire Line
@@ -1128,4 +1128,288 @@ NoConn ~ 6900 2850
 NoConn ~ 6650 2850
 NoConn ~ 6400 2850
 NoConn ~ 6150 2850
+Text Label 2775 1875 0    40   ~ 8
+ROW1
+Text Label 2775 3425 0    40   ~ 8
+ROW2
+Text Label 2775 5175 0    40   ~ 8
+ROW3
+Text Label 2775 6650 0    40   ~ 8
+ROW4
+$Comp
+L CONN_1 P67
+U 1 1 56C74E79
+P 4625 1500
+F 0 "P67" V 4700 1475 40  0000 L CNN
+F 1 "CONN_1" H 4625 1555 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 4625 1500 60  0001 C CNN
+F 3 "" H 4625 1500 60  0000 C CNN
+	1    4625 1500
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4625 1775 4625 1650
+Connection ~ 4375 1775
+$Comp
+L CONN_1 P68
+U 1 1 56C7530E
+P 4625 3050
+F 0 "P68" V 4700 3025 40  0000 L CNN
+F 1 "CONN_1" H 4625 3105 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 4625 3050 60  0001 C CNN
+F 3 "" H 4625 3050 60  0000 C CNN
+	1    4625 3050
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4625 3325 4625 3200
+Connection ~ 4375 3325
+$Comp
+L CONN_1 P69
+U 1 1 56C7588B
+P 4625 4800
+F 0 "P69" V 4700 4775 40  0000 L CNN
+F 1 "CONN_1" H 4625 4855 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 4625 4800 60  0001 C CNN
+F 3 "" H 4625 4800 60  0000 C CNN
+	1    4625 4800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4625 5075 4625 4950
+Connection ~ 4375 5075
+$Comp
+L CONN_1 P70
+U 1 1 56C75D12
+P 4625 6275
+F 0 "P70" V 4700 6250 40  0000 L CNN
+F 1 "CONN_1" H 4625 6330 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 4625 6275 60  0001 C CNN
+F 3 "" H 4625 6275 60  0000 C CNN
+	1    4625 6275
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4625 6550 4625 6425
+Connection ~ 4375 6550
+$Comp
+L CONN_1 P71
+U 1 1 56C762A9
+P 4625 6850
+F 0 "P71" V 4725 6800 40  0000 L CNN
+F 1 "CONN_1" H 4625 6905 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 4625 6850 60  0001 C CNN
+F 3 "" H 4625 6850 60  0000 C CNN
+	1    4625 6850
+	0    1    1    0   
+$EndComp
+NoConn ~ 4625 6700
+$Comp
+L CONN_1 M1
+U 1 1 56C79345
+P 8150 1500
+F 0 "M1" V 8230 1500 40  0000 C CNN
+F 1 "MouseBite" V 8300 1500 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8150 1500 60  0001 C CNN
+F 3 "" H 8150 1500 60  0000 C CNN
+F 4 "Value" H 8150 1500 60  0001 C CNN "manf#"
+	1    8150 1500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8150 1650
+$Comp
+L CONN_1 M2
+U 1 1 56C79A4E
+P 8450 1500
+F 0 "M2" V 8530 1500 40  0000 C CNN
+F 1 "MouseBite" V 8600 1500 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8450 1500 60  0001 C CNN
+F 3 "" H 8450 1500 60  0000 C CNN
+F 4 "Value" H 8450 1500 60  0001 C CNN "manf#"
+	1    8450 1500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8450 1650
+$Comp
+L CONN_1 M3
+U 1 1 56C79B72
+P 8750 1500
+F 0 "M3" V 8830 1500 40  0000 C CNN
+F 1 "MouseBite" V 8900 1500 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8750 1500 60  0001 C CNN
+F 3 "" H 8750 1500 60  0000 C CNN
+F 4 "Value" H 8750 1500 60  0001 C CNN "manf#"
+	1    8750 1500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8750 1650
+$Comp
+L CONN_1 M4
+U 1 1 56C79B7A
+P 9050 1500
+F 0 "M4" V 9130 1500 40  0000 C CNN
+F 1 "MouseBite" V 9200 1500 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 9050 1500 60  0001 C CNN
+F 3 "" H 9050 1500 60  0000 C CNN
+F 4 "Value" H 9050 1500 60  0001 C CNN "manf#"
+	1    9050 1500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 9050 1650
+$Comp
+L CONN_1 M5
+U 1 1 56C79CCC
+P 8150 1900
+F 0 "M5" V 8230 1900 40  0000 C CNN
+F 1 "MouseBite" V 8300 1900 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8150 1900 60  0001 C CNN
+F 3 "" H 8150 1900 60  0000 C CNN
+F 4 "Value" H 8150 1900 60  0001 C CNN "manf#"
+	1    8150 1900
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8150 2050
+$Comp
+L CONN_1 M6
+U 1 1 56C79CD4
+P 8450 1900
+F 0 "M6" V 8530 1900 40  0000 C CNN
+F 1 "MouseBite" V 8600 1900 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8450 1900 60  0001 C CNN
+F 3 "" H 8450 1900 60  0000 C CNN
+F 4 "Value" H 8450 1900 60  0001 C CNN "manf#"
+	1    8450 1900
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8450 2050
+$Comp
+L CONN_1 M7
+U 1 1 56C79CDC
+P 8750 1900
+F 0 "M7" V 8830 1900 40  0000 C CNN
+F 1 "MouseBite" V 8900 1900 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8750 1900 60  0001 C CNN
+F 3 "" H 8750 1900 60  0000 C CNN
+F 4 "Value" H 8750 1900 60  0001 C CNN "manf#"
+	1    8750 1900
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8750 2050
+$Comp
+L CONN_1 M8
+U 1 1 56C79CE4
+P 9050 1900
+F 0 "M8" V 9130 1900 40  0000 C CNN
+F 1 "MouseBite" V 9200 1900 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 9050 1900 60  0001 C CNN
+F 3 "" H 9050 1900 60  0000 C CNN
+F 4 "Value" H 9050 1900 60  0001 C CNN "manf#"
+	1    9050 1900
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 9050 2050
+$Comp
+L CONN_1 M9
+U 1 1 56C7A031
+P 8150 2300
+F 0 "M9" V 8230 2300 40  0000 C CNN
+F 1 "MouseBite" V 8300 2300 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8150 2300 60  0001 C CNN
+F 3 "" H 8150 2300 60  0000 C CNN
+F 4 "Value" H 8150 2300 60  0001 C CNN "manf#"
+	1    8150 2300
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8150 2450
+$Comp
+L CONN_1 M10
+U 1 1 56C7A039
+P 8450 2300
+F 0 "M10" V 8530 2300 40  0000 C CNN
+F 1 "MouseBite" V 8600 2300 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8450 2300 60  0001 C CNN
+F 3 "" H 8450 2300 60  0000 C CNN
+F 4 "Value" H 8450 2300 60  0001 C CNN "manf#"
+	1    8450 2300
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8450 2450
+$Comp
+L CONN_1 M11
+U 1 1 56C7A041
+P 8750 2300
+F 0 "M11" V 8830 2300 40  0000 C CNN
+F 1 "MouseBite" V 8900 2300 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8750 2300 60  0001 C CNN
+F 3 "" H 8750 2300 60  0000 C CNN
+F 4 "Value" H 8750 2300 60  0001 C CNN "manf#"
+	1    8750 2300
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8750 2450
+$Comp
+L CONN_1 M12
+U 1 1 56C7A049
+P 9050 2300
+F 0 "M12" V 9130 2300 40  0000 C CNN
+F 1 "MouseBite" V 9200 2300 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 9050 2300 60  0001 C CNN
+F 3 "" H 9050 2300 60  0000 C CNN
+F 4 "Value" H 9050 2300 60  0001 C CNN "manf#"
+	1    9050 2300
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 9050 2450
+$Comp
+L CONN_1 M13
+U 1 1 56C7A051
+P 8150 2700
+F 0 "M13" V 8230 2700 40  0000 C CNN
+F 1 "MouseBite" V 8300 2700 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8150 2700 60  0001 C CNN
+F 3 "" H 8150 2700 60  0000 C CNN
+F 4 "Value" H 8150 2700 60  0001 C CNN "manf#"
+	1    8150 2700
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8150 2850
+$Comp
+L CONN_1 M14
+U 1 1 56C7A059
+P 8450 2700
+F 0 "M14" V 8530 2700 40  0000 C CNN
+F 1 "MouseBite" V 8600 2700 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8450 2700 60  0001 C CNN
+F 3 "" H 8450 2700 60  0000 C CNN
+F 4 "Value" H 8450 2700 60  0001 C CNN "manf#"
+	1    8450 2700
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8450 2850
+$Comp
+L CONN_1 M15
+U 1 1 56C7A061
+P 8750 2700
+F 0 "M15" V 8830 2700 40  0000 C CNN
+F 1 "MouseBite" V 8900 2700 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 8750 2700 60  0001 C CNN
+F 3 "" H 8750 2700 60  0000 C CNN
+F 4 "Value" H 8750 2700 60  0001 C CNN "manf#"
+	1    8750 2700
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 8750 2850
+$Comp
+L CONN_1 M16
+U 1 1 56C7A069
+P 9050 2700
+F 0 "M16" V 9130 2700 40  0000 C CNN
+F 1 "MouseBite" V 9200 2700 30  0000 C CNN
+F 2 "ultim8x8_libs:mouse-bite-2.54mm-slot" H 9050 2700 60  0001 C CNN
+F 3 "" H 9050 2700 60  0000 C CNN
+F 4 "Value" H 9050 2700 60  0001 C CNN "manf#"
+	1    9050 2700
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 9050 2850
 $EndSCHEMATC

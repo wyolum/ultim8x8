@@ -6,7 +6,7 @@
 #C:/KiCad/share/modules/packages3d/
 #kicad/share/modules/packages3d/
 #./
-/home/anool/projects-git/TinyTiM/KiCad/uTiM/TinyTim_3D/
+/home/anool/projects-git/TinyTiM/KiCad/uTiM/TinyTiM_3D/
 ## put here your model names that you don't want to load (e.g. smallest ones)
 ## separated by a comma (none means all the models will be parsed)
 ## (volume=1 means all models with a volume < 1mm3 will not be included)

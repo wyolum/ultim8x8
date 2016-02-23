@@ -1,5 +1,5 @@
-Drill report for /home/anool/projects-git/ultim8x8/kicad/ultim8x8.kicad_pcb
-Created on Fri Feb 19 17:20:51 2016
+Drill report for /home/samata/projects-git/ultim8x8/kicad/ultim8x8.kicad_pcb
+Created on Wed Feb 24 00:02:54 2016
 
 Copper Layer Stackup:
     =============================================================
@@ -10,11 +10,11 @@ Copper Layer Stackup:
 Drill file 'ultim8x8.drl' contains
     plated through holes:
     =============================================================
-    T1  0.64mm  0.025"  (17 holes)
+    T1  0.64mm  0.025"  (22 holes)
     T2  0.70mm  0.028"  (64 holes)
     T3  1.20mm  0.047"  (2 holes)
 
-    Total plated holes count 83
+    Total plated holes count 88
 
 
 Not plated through holes are merged with plated holes

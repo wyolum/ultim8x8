@@ -1,10 +1,12 @@
-(module PowerIn_stud (layer F.Cu) (tedit 56C1B204)
-  (fp_text reference S801 (at 0 2.54) (layer F.SilkS)
-    (effects (font (size 1 1) (thickness 0.15)))
+(module PowerIn_stud (layer F.Cu) (tedit 56CD6648)
+  (fp_text reference P4 (at 0 2.54) (layer F.SilkS) hide
+    (effects (font (size 1.016 1.016) (thickness 0.2032)))
   )
-  (fp_text value 5V (at 6.35 0) (layer F.SilkS)
-    (effects (font (size 1.27 1.27) (thickness 0.254)))
+  (fp_text value GND (at 0 -5.842) (layer F.SilkS)
+    (effects (font (size 2.032 2.032) (thickness 0.381)))
   )
+  (fp_circle (center 0 0) (end -0.762 0) (layer Dwgs.User) (width 0.254))
+  (fp_circle (center 0 0) (end -4.572 0) (layer Dwgs.User) (width 0.254))
   (pad 1 thru_hole circle (at 0 0) (size 8.5 8.5) (drill 1.2) (layers F.Cu F.SilkS F.Mask))
   (model PowerIn_Stud.wrl
     (at (xyz 0 0 0))

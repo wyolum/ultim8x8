@@ -1,8 +1,8 @@
 (export (version D)
   (design
-    (source /home/anool/projects-git/ultim8x8/kicad_8x8_45/ultim8x8.sch)
-    (date "Fri Mar 18 16:08:04 2016")
-    (tool "Eeschema 4.0.2-4+6225~38~ubuntu15.04.1-stable")
+    (source /home/samata/projects-git/ultim8x8/kicad_8x8_45/ultim8x8.sch)
+    (date "Fri Mar 18 20:11:11 2016")
+    (tool "Eeschema 4.0.2-4+6225~38~ubuntu15.10.1-stable")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title "ULTiM8x8 - Ultimate LED panel, using APA102")
@@ -829,7 +829,7 @@
         (field (name Value) LOGO_1))))
   (libraries
     (library (logical ultim8x8_sym)
-      (uri /home/anool/projects-git/ultim8x8/kicad_8x8_45/ultim8x8_libs/ultim8x8_sym.lib)))
+      (uri /home/samata/projects-git/ultim8x8/kicad_8x8_45/ultim8x8_libs/ultim8x8_sym.lib)))
   (nets
     (net (code 1) (name /Row_B/CI_C)
       (node (ref U17) (pin 2))

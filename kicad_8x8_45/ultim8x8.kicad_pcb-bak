@@ -1,9 +1,9 @@
-(kicad_pcb (version 4) (host pcbnew 4.0.2-4+6225~38~ubuntu15.04.1-stable)
+(kicad_pcb (version 4) (host pcbnew 4.0.2-4+6225~38~ubuntu15.10.1-stable)
 
   (general
     (links 420)
     (no_connects 0)
-    (area 18.138019 21.59 99.616382 98.348801)
+    (area 29.082999 29.082999 90.297001 90.297001)
     (thickness 1.6002)
     (drawings 215)
     (tracks 856)
@@ -14,8 +14,8 @@
 
   (page A4)
   (layers
-    (0 Front signal hide)
-    (31 Back signal hide)
+    (0 Front signal)
+    (31 Back signal)
     (32 B.Adhes user)
     (33 F.Adhes user)
     (34 B.Paste user)
@@ -24,7 +24,7 @@
     (37 F.SilkS user)
     (38 B.Mask user)
     (39 F.Mask user)
-    (40 Dwgs.User user)
+    (40 Dwgs.User user hide)
     (41 Cmts.User user)
     (42 Eco1.User user)
     (43 Eco2.User user)
@@ -3762,14 +3762,14 @@
     )
   )
 
-  (module ultim8x8_libs:C_1210_HandSoldering (layer Back) (tedit 56EBDC40) (tstamp 552125ED)
+  (module ultim8x8_libs:C_1210_HandSoldering (layer Back) (tedit 56EBDEB8) (tstamp 552125ED)
     (at 44.45 74.93 90)
     (descr "Capacitor SMD 1210, hand soldering")
     (tags "capacitor 1210")
     (path /511688A7/5118AB5E)
     (attr smd)
-    (fp_text reference C2 (at 0 2.7 90) (layer B.SilkS)
-      (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
+    (fp_text reference C2 (at 0 0 180) (layer B.SilkS)
+      (effects (font (size 1.016 1.016) (thickness 0.2032)) (justify mirror))
     )
     (fp_text value "47uF 20V" (at 0 -2.7 90) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
@@ -3791,14 +3791,14 @@
     )
   )
 
-  (module ultim8x8_libs:C_1210_HandSoldering (layer Back) (tedit 56EBDC44) (tstamp 55212691)
+  (module ultim8x8_libs:C_1210_HandSoldering (layer Back) (tedit 56EBDEF4) (tstamp 55212691)
     (at 74.93 74.93 90)
     (descr "Capacitor SMD 1210, hand soldering")
     (tags "capacitor 1210")
     (path /5117961B/5118AB61)
     (attr smd)
-    (fp_text reference C4 (at 0 2.7 90) (layer B.SilkS)
-      (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
+    (fp_text reference C4 (at 0 0 180) (layer B.SilkS)
+      (effects (font (size 1.016 1.016) (thickness 0.2032)) (justify mirror))
     )
     (fp_text value "47uF 20V" (at 0 -2.7 90) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))

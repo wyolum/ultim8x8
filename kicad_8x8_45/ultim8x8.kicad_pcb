@@ -1,4 +1,4 @@
-(kicad_pcb (version 4) (host pcbnew 4.0.2-4+6225~38~ubuntu15.04.1-stable)
+(kicad_pcb (version 4) (host pcbnew 4.0.2-4+6225~38~ubuntu15.10.1-stable)
 
   (general
     (links 420)
@@ -14,8 +14,8 @@
 
   (page A4)
   (layers
-    (0 Front signal hide)
-    (31 Back signal hide)
+    (0 Front signal)
+    (31 Back signal)
     (32 B.Adhes user)
     (33 F.Adhes user)
     (34 B.Paste user)

@@ -30,12 +30,12 @@ P 4 0 1 0  -25 150  25 125  -25 100  -25 150 F
 P 5 0 1 0  40 -135  55 -150  55 -140  45 -150  55 -150 N
 P 5 0 1 0  40 115  55 100  55 110  45 100  55 100 N
 P 6 0 1 0  40 -10  55 -25  55 -15  50 -20  45 -25  55 -25 N
-X DI 1 -400 200 200 R 40 40 1 1 W
-X CI 2 -400 0 200 R 40 40 1 1 W
-X GND 3 -400 -200 200 R 40 40 1 1 O
+X DI 1 -400 200 200 R 40 40 1 1 I
+X CI 2 -400 0 200 R 40 40 1 1 I
+X GND 3 -400 -200 200 R 40 40 1 1 W
 X VCC 4 400 -200 200 L 40 40 1 1 W
-X CO 5 400 0 200 L 40 40 1 1 W
-X DO 6 400 200 200 L 40 40 1 1 I
+X CO 5 400 0 200 L 40 40 1 1 O
+X DO 6 400 200 200 L 40 40 1 1 O
 ENDDRAW
 ENDDEF
 #
@@ -70,14 +70,6 @@ F0 "C" 0 100 50 H V L CNN
 F1 "C2" 0 -100 50 H V L CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CAP CER 0.1UF 25V 10% X7R 0805" 0 200 60 H I L CNN
-F5 "100nF, 25V" 0 300 60 H I L CNN
-F6 "Surface Mount, MLCC" 0 400 60 H I L CNN
-F7 "Kemet" 0 500 60 H I L CNN
-F8 "C0805C104K3RACTU" 0 600 60 H I L CNN
-F9 "Digikey" 0 700 60 H I L CNN
-F10 "399-1168-1-ND" 0 800 60 H I L CNN
-F11 "http://www.digikey.com/product-detail/en/C0805C104K3RACTU/399-1168-1-ND/411443" 0 900 60 H I L CNN
 $FPLIST
  SM*
  C?
@@ -98,14 +90,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN4_S" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CONN RCPT 4POS .100\" SNGL HORZ" 0 100 60 H I L CNN
-F5 "Header, Female" 0 200 60 H I L CNN
-F6 "0.1\" right angle" 0 300 60 H I L CNN
-F7 "Samtec" 0 400 60 H I L CNN
-F8 "BCS-104-L-S-HE" 0 500 60 H I L CNN
-F9 "Arrow" 0 600 60 H I L CNN
-F10 "BCS-104-L-S-HE" 0 700 60 H I L CNN
-F11 "http://components.arrow.com/part/detail/2769370S3578027N1004" 0 800 60 H I L CNN
 DRAW
 S -100 200 100 -200 0 1 0 N
 X P1 1 -350 150 250 R 50 50 1 1 P I
@@ -136,14 +120,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_2" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CONN HEADER 50POS .100\" SGL GOLD" 0 100 60 H I L CNN
-F5 "Header, Unshrouded, Male pin," 0 200 60 H I L CNN
-F6 "0.1\"" 0 300 60 H I L CNN
-F7 "Samtec Inc" 0 400 60 H I L CNN
-F8 "TSW-150-07-L-S" 0 500 60 H I L CNN
-F9 "Digikey" 0 600 60 H I L CNN
-F10 "SAM1031-50-ND" 0 700 60 H I L CNN
-F11 "http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=SAM1031-50-ND&x=15&y=16&cur=USD" 0 800 60 H I L CNN
 DRAW
 S -100 100 100 -100 0 1 0 N
 X P1 1 -350 50 250 R 50 50 1 1 P I
@@ -158,14 +134,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_2_Link" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CONN HEADER 50POS .100\" SGL GOLD" 0 100 60 H I L CNN
-F5 "Header, Unshrouded, Male pin," 0 200 60 H I L CNN
-F6 "0.1\"" 0 300 60 H I L CNN
-F7 "Samtec Inc" 0 400 60 H I L CNN
-F8 "TSW-150-07-L-S" 0 500 60 H I L CNN
-F9 "Digikey" 0 600 60 H I L CNN
-F10 "SAM1031-50-ND" 0 700 60 H I L CNN
-F11 "http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=SAM1031-50-ND&x=15&y=16&cur=USD" 0 800 60 H I L CNN
 DRAW
 S -100 100 100 -100 0 1 0 N
 X P1 1 -350 -50 250 R 50 50 1 1 P I
@@ -180,9 +148,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_3" 50 0 50 V V C CNN
 F2 "" 0 -50 60 H V C CNN
 F3 "" 0 -50 60 H V C CNN
-F4 "CONN HEADER 50POS .100\" SGL GOLD" 0 50 60 H I L CNN
-F5 "Header, Unshrouded, Male pin," 0 150 60 H I L CNN
-F6 "0.1\"" 0 250 60 H I L CNN
 DRAW
 S -100 150 100 -150 0 1 0 N
 X P1 1 -350 100 250 R 50 50 1 1 P I
@@ -198,14 +163,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_8" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CONN HEADER 50POS .100\" SGL GOLD" 0 300 60 H I L CNN
-F5 "Header, Unshrouded, Male pin," 0 500 60 H I L CNN
-F6 "0.1\"" 0 200 60 H I L CNN
-F7 "Samtec Inc" 0 400 60 H I L CNN
-F8 "TSW-150-07-L-S" 0 600 60 H I L CNN
-F9 "Digikey" 0 700 60 H I L CNN
-F10 "SAM1031-50-ND" 0 800 60 H I L CNN
-F11 "http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=SAM1031-50-ND&x=15&y=16&cur=USD" 0 900 60 H I L CNN
 DRAW
 S -100 400 100 -400 0 1 0 N
 X P1 1 -350 350 250 R 50 50 1 1 P I
@@ -254,14 +211,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_E" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CONN HEADER 50POS .100\" SGL GOLD" 0 100 60 H I L CNN
-F5 "Header, Unshrouded, Male pin," 0 200 60 H I L CNN
-F6 "0.1\"" 0 300 60 H I L CNN
-F7 "Samtec Inc" 0 400 60 H I L CNN
-F8 "TSW-150-07-L-S" 0 500 60 H I L CNN
-F9 "Digikey" 0 600 60 H I L CNN
-F10 "SAM1031-50-ND" 0 700 60 H I L CNN
-F11 "http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=SAM1031-50-ND&x=15&y=16&cur=USD" 0 800 60 H I L CNN
 DRAW
 S -100 200 100 -200 0 1 0 N
 X P1 1 -350 150 250 R 50 50 1 1 P I
@@ -278,14 +227,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_N" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CONN HEADER 16POS .100 R/A 30AU" 0 100 60 H I L CNN
-F5 "Header, Unshrouded, Male pin," 0 200 60 H I L CNN
-F6 "0.1\" right angle" 0 300 60 H I L CNN
-F7 "FCI" 0 400 60 H I L CNN
-F8 "68016-116HLF" 0 500 60 H I L CNN
-F9 "Digikey" 0 600 60 H I L CNN
-F10 "609-3317-ND" 0 700 60 H I L CNN
-F11 "http://www.digikey.com/product-detail/en/68016-116HLF/609-3317-ND/1878554" 0 800 60 H I L CNN
 DRAW
 S -100 200 100 -200 0 1 0 N
 X P1 1 -350 150 250 R 50 50 1 1 P I
@@ -302,14 +243,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_S" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "Conn Socket Strip SKT 5 POS 2.54mm Solder RA Thru-Hole" 0 150 60 H I L CNN
-F5 "Header, Female" 0 250 60 H I L CNN
-F6 "0.1\" right angle" 0 300 60 H I L CNN
-F7 "Samtec" 0 400 60 H I L CNN
-F8 "BCS-105-L-S-HE" 0 500 60 H I L CNN
-F9 "Arrow" 0 600 60 H I L CNN
-F10 "BCS-105-L-S-HE" 0 700 60 H I L CNN
-F11 "http://components.arrow.com/part/detail/2769348S8864109N1004" 0 800 60 H I L CNN
 DRAW
 S -100 250 100 -250 0 1 0 N
 X P1 1 -350 200 250 R 50 50 1 1 P I
@@ -327,14 +260,6 @@ F0 "P" -50 0 50 V V C CNN
 F1 "CONN_W" 50 0 50 V V C CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CONN HEADER 50POS .100\" SGL GOLD" 0 100 60 H I L CNN
-F5 "Header, Unshrouded, Male pin," 0 200 60 H I L CNN
-F6 "0.1\"" 0 300 60 H I L CNN
-F7 "Samtec Inc" 0 400 60 H I L CNN
-F8 "TSW-150-07-L-S" 0 500 60 H I L CNN
-F9 "Digikey" 0 600 60 H I L CNN
-F10 "SAM1031-50-ND" 0 700 60 H I L CNN
-F11 "http://www.digikey.com/scripts/DkSearch/dksus.dll?WT.z_header=search_go&lang=en&keywords=SAM1031-50-ND&x=15&y=16&cur=USD" 0 800 60 H I L CNN
 DRAW
 S -100 200 100 -200 0 1 0 N
 X P1 1 -350 150 250 R 50 50 1 1 P I
@@ -351,14 +276,6 @@ F0 "C" -100 100 50 H V L CNN
 F1 "C_POL_1" 0 -150 50 H V L CNN
 F2 "" 0 0 60 H V C CNN
 F3 "" 0 0 60 H V C CNN
-F4 "CAP ALUM 47UF 8V 20% SMD" 0 200 60 H I L CNN
-F5 "47u,8V" 0 300 60 H I L CNN
-F6 "2917 (7343 Metric)" 0 400 60 H I L CNN
-F7 "Panasonic Electronic Components" 0 500 60 H I L CNN
-F8 "EEF-CD0K470R" 0 600 60 H I L CNN
-F9 "Digikey" 0 700 60 H I L CNN
-F10 "PCE3606CT-ND" 0 800 60 H I L CNN
-F11 "http://www.digikey.com/product-detail/en/EEF-CD0K470R/PCE3606CT-ND/614442" 0 900 60 H I L CNN
 $FPLIST
  SM*
  C?

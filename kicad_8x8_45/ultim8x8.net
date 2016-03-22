@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/samata/projects-git/ultim8x8/kicad_8x8_45/ultim8x8.sch)
-    (date "Fri Mar 18 20:11:11 2016")
+    (date "Tue Mar 22 20:50:00 2016")
     (tool "Eeschema 4.0.2-4+6225~38~ubuntu15.10.1-stable")
     (sheet (number 1) (name /) (tstamps /)
       (title_block

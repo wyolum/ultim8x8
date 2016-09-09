@@ -14,14 +14,14 @@
 
   (page A4)
   (layers
-    (0 Front signal hide)
-    (31 Back signal hide)
+    (0 Front signal)
+    (31 Back signal)
     (32 B.Adhes user)
     (33 F.Adhes user)
     (34 B.Paste user)
     (35 F.Paste user)
     (36 B.SilkS user)
-    (37 F.SilkS user hide)
+    (37 F.SilkS user)
     (38 B.Mask user)
     (39 F.Mask user)
     (40 Dwgs.User user)
@@ -62,7 +62,7 @@
     (pad_to_mask_clearance 0.254)
     (aux_axis_origin 29.21 90.17)
     (grid_origin 29.21 90.17)
-    (visible_elements 7FFFAF7F)
+    (visible_elements 7FFFEF7F)
     (pcbplotparams
       (layerselection 0x010fc_80000001)
       (usegerberextensions true)

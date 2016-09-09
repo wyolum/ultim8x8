@@ -1,0 +1,160 @@
+Cura_SteamEngine version 15.04.6
+Copyright (C) 2014 David Braam
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+Default config 'default.cfg' not used
+Loading /home/anool/projects-git/ultim8x8/fabricate/ultim8x_assy_idea2/ultim8x8_assy01.stl from disk...
+Loaded from disk in 0.000s
+Analyzing and optimizing model...
+  Face counts: 1164 -> 1164 100.0%
+  Vertex counts: 3492 -> 576 16.5%
+  Size: 57.150000 57.150000 57.150000
+  vMin: -28.575000 -28.575000 0.028000
+  vMax: 28.575000 28.575000 57.178000
+  vMin: -28.575000 -28.575000 -28.575000
+  vMax: 28.575000 28.575000 28.575000
+  Matrix: 1.000000 0.000000 0.000000
+  Matrix: 0.000000 1.000000 0.000000
+  Matrix: 0.000000 0.000000 1.000000
+Optimize model 0.002s 
+Slicing model...
+Layer count: 570
+Sliced model in 0.041s
+Generating support map...
+Generating layer parts...
+Generated layer parts in 0.011s
+Generated inset in 0.042s
+Generated up/down skin in 0.002s
+Wrote layers in  0.08s.
+Wrote   1.1 MB.
+Total time elapsed  0.18s.
+Print time: 7469
+Filament: 2392
+Filament2: 0
+#############CURA PLUGIN SETTINGS#############
+/usr/share/cura/CuraEngine
+-v
+-s
+supportZDistance=0
+-s
+posx=0.0
+-s
+initialLayerSpeed=20.0
+-s
+supportXYDistance=0
+-s
+supportEverywhere=0
+-s
+filamentDiameter=3000.0
+-s
+insetXSpeed=50.0
+-s
+initialLayerThickness=300.0
+-s
+supportAngle=-1.0
+-s
+fanFullOnLayerNr=2.0
+-s
+raftBaseThickness=0
+-s
+retractionSpeed=0
+-s
+fanSpeedMax=100.0
+-s
+layerThickness=100.0
+-s
+endCode=M104 S0                     ;extruder heater off
+M140 S0                     ;heated bed heater off (if you have it)
+G91                         ;relative positioning
+G1 E-1 F300                    ;retract the filament a bit before lifting the nozzle, to release some of the pressure
+G1 Z+0.5 E-5 X-20 Y-20 F9000   ;move Z up a bit and retract filament even more
+G28 X0 Y0                      ;move X/Y to min endstops, so the head is out of the way
+M84                         ;steppers off
+G90                         ;absolute positioning
+
+-s
+minimalExtrusionBeforeRetraction=0
+-s
+spiralizeMode=1.0
+-s
+retractionMinimalDistance=0
+-s
+skirtMinLength=0
+-s
+objectSink=-28.575
+-s
+retractionAmount=0
+-s
+raftLineSpacing=0
+-s
+filamentFlow=100.0
+-s
+startCode=M109 S185.0     ;Set Nozzle Temp and Wait
+M190 S60.0      ;Set Bed Temp and Wait
+G21           ;metric values
+G90           ;absolute positioning
+G28           ;Home
+G1 Z15.0 F300 ;move the platform down 15mm
+G92 E0        ;zero the extruded length
+G1 F200 E5    ;extrude 5mm of feed stock
+G92 E0        ;zero the extruded length again
+
+-s
+raftBaseLinewidth=0
+-s
+skirtDistance=0
+-s
+inset0Speed=50.0
+-s
+enableCombing=0
+-s
+printSpeed=50.0
+-s
+extrusionWidth=500.0
+-s
+upSkinCount=6.0
+-s
+moveSpeed=200.0
+-s
+supportLineDistance=0
+-s
+retractionAmountExtruderSwitch=0
+-s
+posy=0.0
+-s
+insetCount=2.0
+-s
+raftInterfaceLinewidth=0
+-s
+sparseInfillLineDistance=2000.0
+-s
+raftInterfaceThickness=0
+-s
+minimalLayerTime=5.0
+-s
+infillSpeed=50.0
+-s
+downSkinCount=6.0
+-s
+skirtLineCount=0
+-s
+raftMargin=0
+-s
+supportExtruder=-1.0
+-s
+fanSpeedMin=50.0
+-o
+/home/anool/projects-git/ultim8x8/fabricate/ultim8x_assy_idea2/ultim8x8_assy01.gcode
+/home/anool/projects-git/ultim8x8/fabricate/ultim8x_assy_idea2/ultim8x8_assy01.stl
+###############END CURA SETTINGS##############

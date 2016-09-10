@@ -1,9 +1,9 @@
-(kicad_pcb (version 4) (host pcbnew 4.1.0-alpha+201608091232+7014~46~ubuntu16.04.1-product)
+(kicad_pcb (version 20160815) (host pcbnew 4.1.0-alpha+201609021633+7109~49~ubuntu16.04.1-product)
 
   (general
     (links 420)
     (no_connects 0)
-    (area 18.138019 21.82368 99.616382 98.379281)
+    (area 29.082999 29.082999 90.297001 90.297001)
     (thickness 1.6002)
     (drawings 215)
     (tracks 855)
@@ -14,8 +14,8 @@
 
   (page A4)
   (layers
-    (0 Front signal)
-    (31 Back signal)
+    (0 Front signal hide)
+    (31 Back signal hide)
     (32 B.Adhes user)
     (33 F.Adhes user)
     (34 B.Paste user)
@@ -230,6 +230,8 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
+    (diff_pair_gap 0.25)
+    (diff_pair_width 0.2)
     (add_net "Net-(U01-Pad5)")
     (add_net "Net-(U01-Pad6)")
     (add_net "Net-(U02-Pad5)")
@@ -351,6 +353,8 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
+    (diff_pair_gap 0.25)
+    (diff_pair_width 0.2)
     (add_net /Row_A/CI_A)
     (add_net /Row_A/CI_B)
     (add_net /Row_A/DI_A)
@@ -378,6 +382,8 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
+    (diff_pair_gap 0.25)
+    (diff_pair_width 0.2)
   )
 
   (net_class 20mil ""
@@ -387,6 +393,8 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
+    (diff_pair_gap 0.25)
+    (diff_pair_width 0.2)
   )
 
   (net_class 25mil ""
@@ -396,6 +404,8 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
+    (diff_pair_gap 0.25)
+    (diff_pair_width 0.2)
     (add_net /Row_A/5V)
     (add_net GND)
   )
@@ -417,7 +427,7 @@
       (net 3 GND))
     (pad 2 smd rect (at -1.016 0 90) (size 1.0668 1.4224) (layers Back B.Paste B.Mask)
       (net 4 /Row_A/5V))
-    (model Cap_0805_2012.wrl
+    (model ${KIPRJMOD}/ultim8x8_3D_modules/Cap_0805_2012.wrl
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -441,7 +451,7 @@
       (net 3 GND))
     (pad 2 smd rect (at -1.016 0 90) (size 1.0668 1.4224) (layers Back B.Paste B.Mask)
       (net 4 /Row_A/5V))
-    (model Cap_0805_2012.wrl
+    (model ${KIPRJMOD}/ultim8x8_3D_modules/Cap_0805_2012.wrl
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1611,7 +1621,7 @@
       (net 4 /Row_A/5V))
     (pad 2 smd rect (at 2 0 90) (size 2 2.5) (layers Back B.Paste B.Mask)
       (net 3 GND))
-    (model cap_1210_3225M.wrl
+    (model ${KIPRJMOD}/ultim8x8_3D_modules/cap_1210_3225M.wrl
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1640,7 +1650,7 @@
       (net 4 /Row_A/5V))
     (pad 2 smd rect (at 2 0 90) (size 2 2.5) (layers Back B.Paste B.Mask)
       (net 3 GND))
-    (model cap_1210_3225M.wrl
+    (model ${KIPRJMOD}/ultim8x8_3D_modules/cap_1210_3225M.wrl
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
       (rotate (xyz 0 0 0))
@@ -1721,7 +1731,7 @@
     (at 86.36 48.26 225)
     (path /5117961B/56C06E52)
     (attr smd)
-    (fp_text reference U59 (at -0.66468 0.169706 405) (layer F.SilkS)
+    (fp_text reference U59 (at -0.66468 0.169706 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -1756,7 +1766,7 @@
     (at 78.74 48.26 315)
     (path /5117954B/56C1D3BD)
     (attr smd)
-    (fp_text reference U54 (at -0.79196 -0.042426 495) (layer F.SilkS)
+    (fp_text reference U54 (at -0.79196 -0.042426 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -1826,7 +1836,7 @@
     (at 63.5 48.26 315)
     (path /51179413/56C24FF5)
     (attr smd)
-    (fp_text reference U38 (at -0.975807 0.141421 495) (layer F.SilkS)
+    (fp_text reference U38 (at -0.975807 0.141421 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -1931,7 +1941,7 @@
     (at 40.64 48.26 225)
     (path /51178F3E/56C2B7B7)
     (attr smd)
-    (fp_text reference U11 (at -0.820244 0.014142 405) (layer F.SilkS)
+    (fp_text reference U11 (at -0.820244 0.014142 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -1966,7 +1976,7 @@
     (at 33.02 48.26 315)
     (path /511688A7/56C2E20C)
     (attr smd)
-    (fp_text reference U06 (at -0.989949 0.155563 495) (layer F.SilkS)
+    (fp_text reference U06 (at -0.989949 0.155563 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -2071,7 +2081,7 @@
     (at 86.36 63.5 225)
     (path /5117961B/56C06FBB)
     (attr smd)
-    (fp_text reference U61 (at -0.480833 -0.014142 405) (layer F.SilkS)
+    (fp_text reference U61 (at -0.480833 -0.014142 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2141,7 +2151,7 @@
     (at 86.36 33.02 225)
     (path /5117961B/5118ABBB)
     (attr smd)
-    (fp_text reference U57 (at 0.077782 3.669884 405) (layer F.SilkS)
+    (fp_text reference U57 (at 0.077782 3.669884 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2176,7 +2186,7 @@
     (at 78.74 33.02 315)
     (path /5117954B/56C1D3CD)
     (attr smd)
-    (fp_text reference U56 (at -3.097128 -0.226274 585) (layer F.SilkS)
+    (fp_text reference U56 (at -3.097128 -0.226274 225) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -2246,7 +2256,7 @@
     (at 78.74 63.5 315)
     (path /5117954B/56C1D3AD)
     (attr smd)
-    (fp_text reference U52 (at -0.608112 0.141421 495) (layer F.SilkS)
+    (fp_text reference U52 (at -0.608112 0.141421 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -2316,7 +2326,7 @@
     (at 78.74 78.74 315)
     (path /5117954B/56C1D39D)
     (attr smd)
-    (fp_text reference U50 (at -0.777817 -0.028284 495) (layer F.SilkS)
+    (fp_text reference U50 (at -0.777817 -0.028284 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -2351,7 +2361,7 @@
     (at 71.12 78.74 225)
     (path /511794A8/56C21EAF)
     (attr smd)
-    (fp_text reference U47 (at -0.820244 -0.014142 405) (layer F.SilkS)
+    (fp_text reference U47 (at -0.820244 -0.014142 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2421,7 +2431,7 @@
     (at 71.12 63.5 225)
     (path /511794A8/56C21E9F)
     (attr smd)
-    (fp_text reference U45 (at -1.004092 0.169706 405) (layer F.SilkS)
+    (fp_text reference U45 (at -1.004092 0.169706 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2526,7 +2536,7 @@
     (at 71.12 33.02 225)
     (path /511794A8/56C21E5C)
     (attr smd)
-    (fp_text reference U41 (at 0.26163 3.853732 405) (layer F.SilkS)
+    (fp_text reference U41 (at 0.26163 3.853732 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2561,7 +2571,7 @@
     (at 63.5 33.02 315)
     (path /51179413/56C25005)
     (attr smd)
-    (fp_text reference U40 (at -3.280975 -0.042426 585) (layer F.SilkS)
+    (fp_text reference U40 (at -3.280975 -0.042426 225) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -2666,7 +2676,7 @@
     (at 63.5 63.5 315)
     (path /51179413/56C24FE5)
     (attr smd)
-    (fp_text reference U36 (at -0.438406 -0.028284 495) (layer F.SilkS)
+    (fp_text reference U36 (at -0.438406 -0.028284 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -2736,7 +2746,7 @@
     (at 63.5 78.74 315)
     (path /51179413/56C24FD5)
     (attr smd)
-    (fp_text reference U34 (at -0.254558 0.155563 495) (layer F.SilkS)
+    (fp_text reference U34 (at -0.254558 0.155563 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -2771,7 +2781,7 @@
     (at 55.88 78.74 225)
     (path /51179344/56C2749F)
     (attr smd)
-    (fp_text reference U31 (at -0.989949 -0.183848 405) (layer F.SilkS)
+    (fp_text reference U31 (at -0.989949 -0.183848 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2841,7 +2851,7 @@
     (at 55.88 63.5 225)
     (path /51179344/56C2748F)
     (attr smd)
-    (fp_text reference U29 (at -0.820244 0.353553 405) (layer F.SilkS)
+    (fp_text reference U29 (at -0.820244 0.353553 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2911,7 +2921,7 @@
     (at 55.88 48.26 225)
     (path /51179344/56C2747F)
     (attr smd)
-    (fp_text reference U27 (at -1.004092 -0.169706 405) (layer F.SilkS)
+    (fp_text reference U27 (at -1.004092 -0.169706 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -2981,7 +2991,7 @@
     (at 55.88 33.02 225)
     (path /51179344/56C2744C)
     (attr smd)
-    (fp_text reference U25 (at 0.091924 3.684026 405) (layer F.SilkS)
+    (fp_text reference U25 (at 0.091924 3.684026 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -3016,7 +3026,7 @@
     (at 48.26 33.02 315)
     (path /51179283/56C296FB)
     (attr smd)
-    (fp_text reference U24 (at -3.11127 -0.212132 585) (layer F.SilkS)
+    (fp_text reference U24 (at -3.11127 -0.212132 225) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -3051,7 +3061,7 @@
     (at 48.26 48.26 315)
     (path /51179283/56C296EB)
     (attr smd)
-    (fp_text reference U22 (at -0.806102 -0.028284 495) (layer F.SilkS)
+    (fp_text reference U22 (at -0.806102 -0.028284 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -3121,7 +3131,7 @@
     (at 48.26 63.5 315)
     (path /51179283/56C296DB)
     (attr smd)
-    (fp_text reference U20 (at -0.975807 -0.19799 495) (layer F.SilkS)
+    (fp_text reference U20 (at -0.975807 -0.19799 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -3156,7 +3166,7 @@
     (at 48.26 78.74 315)
     (path /51179283/56C296CB)
     (attr smd)
-    (fp_text reference U18 (at -0.79196 -0.014142 495) (layer F.SilkS)
+    (fp_text reference U18 (at -0.79196 -0.014142 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -3191,7 +3201,7 @@
     (at 40.64 78.74 225)
     (path /51178F3E/56C2B7D7)
     (attr smd)
-    (fp_text reference U15 (at -0.806102 0 405) (layer F.SilkS)
+    (fp_text reference U15 (at -0.806102 0 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -3261,7 +3271,7 @@
     (at 40.64 63.5 225)
     (path /51178F3E/56C2B7C7)
     (attr smd)
-    (fp_text reference U13 (at -0.636396 -0.169706 405) (layer F.SilkS)
+    (fp_text reference U13 (at -0.636396 -0.169706 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -3331,7 +3341,7 @@
     (at 40.64 33.02 225)
     (path /51178F3E/56C2B784)
     (attr smd)
-    (fp_text reference U09 (at 0.275772 3.867874 405) (layer F.SilkS)
+    (fp_text reference U09 (at 0.275772 3.867874 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -3366,7 +3376,7 @@
     (at 33.02 33.02 315)
     (path /511688A7/56C2E21C)
     (attr smd)
-    (fp_text reference U08 (at -3.295118 -0.028284 585) (layer F.SilkS)
+    (fp_text reference U08 (at -3.295118 -0.028284 225) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -3471,7 +3481,7 @@
     (at 33.02 78.74 315)
     (path /511688A7/56C2E1EC)
     (attr smd)
-    (fp_text reference U02 (at -0.622254 -0.183848 495) (layer F.SilkS)
+    (fp_text reference U02 (at -0.622254 -0.183848 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -3506,7 +3516,7 @@
     (at 33.02 63.5 315)
     (path /511688A7/56C2E1FC)
     (attr smd)
-    (fp_text reference U04 (at -0.806102 0.339411 495) (layer F.SilkS)
+    (fp_text reference U04 (at -0.806102 0.339411 135) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 315) (layer F.SilkS) hide
@@ -3576,7 +3586,7 @@
     (at 40.64 86.36 135)
     (path /51178F3E/56C2B7DF)
     (attr smd)
-    (fp_text reference U16 (at -3.097128 -0.169706 405) (layer F.SilkS)
+    (fp_text reference U16 (at -3.097128 -0.169706 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 135) (layer F.SilkS) hide
@@ -3646,7 +3656,7 @@
     (at 55.88 86.36 135)
     (path /51179344/56C274A7)
     (attr smd)
-    (fp_text reference U32 (at -3.280975 0.014142 405) (layer F.SilkS)
+    (fp_text reference U32 (at -3.280975 0.014142 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 135) (layer F.SilkS) hide
@@ -3716,7 +3726,7 @@
     (at 71.12 86.36 135)
     (path /511794A8/56C21EB7)
     (attr smd)
-    (fp_text reference U48 (at -3.11127 -0.155563 405) (layer F.SilkS)
+    (fp_text reference U48 (at -3.11127 -0.155563 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 135) (layer F.SilkS) hide
@@ -3821,7 +3831,7 @@
     (at 71.12 48.26 225)
     (path /511794A8/56C21E8F)
     (attr smd)
-    (fp_text reference U43 (at -0.834386 0 405) (layer F.SilkS)
+    (fp_text reference U43 (at -0.834386 0 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide
@@ -3856,7 +3866,7 @@
     (at 86.36 78.74 225)
     (path /5117961B/56C077C2)
     (attr smd)
-    (fp_text reference U63 (at -0.650538 0.155563 405) (layer F.SilkS)
+    (fp_text reference U63 (at -0.650538 0.155563 45) (layer F.SilkS)
       (effects (font (size 0.8 0.8) (thickness 0.15)))
     )
     (fp_text value APA102 (at 0 0 225) (layer F.SilkS) hide

@@ -230,8 +230,6 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
-    (diff_pair_gap 0.25)
-    (diff_pair_width 0.2)
     (add_net "Net-(U01-Pad5)")
     (add_net "Net-(U01-Pad6)")
     (add_net "Net-(U02-Pad5)")
@@ -353,8 +351,6 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
-    (diff_pair_gap 0.25)
-    (diff_pair_width 0.2)
     (add_net /Row_A/CI_A)
     (add_net /Row_A/CI_B)
     (add_net /Row_A/DI_A)
@@ -382,8 +378,6 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
-    (diff_pair_gap 0.25)
-    (diff_pair_width 0.2)
   )
 
   (net_class 20mil ""
@@ -393,8 +387,6 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
-    (diff_pair_gap 0.25)
-    (diff_pair_width 0.2)
   )
 
   (net_class 25mil ""
@@ -404,8 +396,6 @@
     (via_drill 0.635)
     (uvia_dia 0.508)
     (uvia_drill 0.127)
-    (diff_pair_gap 0.25)
-    (diff_pair_width 0.2)
     (add_net /Row_A/5V)
     (add_net GND)
   )

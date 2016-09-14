@@ -2,10 +2,10 @@
 #include <SPI.h>
 
 
-#define NUMPIXELS 64
+#define NUMPIXELS 384
 
-#define DATAPIN    23
-#define CLOCKPIN   24
+#define DATAPIN    4
+#define CLOCKPIN   5
 Adafruit_DotStar strip = Adafruit_DotStar(
     NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BGR);
 #define LEDVAL 1
@@ -16,7 +16,7 @@ void setup() {
 }
 
 void fill(uint8_t r, uint8_t g, uint8_t b) {
-    for(uint8_t i=0;i<NUMPIXELS;i++)
+    for(uint16_t i=0;i<NUMPIXELS;i++)
         strip.setPixelColor(i, r, g, b);
 }
 

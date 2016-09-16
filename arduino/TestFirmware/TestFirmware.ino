@@ -2,7 +2,7 @@
 #include <SPI.h>
 
 
-#define NUMPIXELS 64
+const uint16_t NUMPIXELS = 64*12;
 
 #define DATAPIN    23
 #define CLOCKPIN   24
@@ -16,7 +16,7 @@ void setup() {
 }
 
 void fill(uint8_t r, uint8_t g, uint8_t b) {
-    for(uint8_t i=0;i<NUMPIXELS;i++)
+    for(uint16_t i=0;i<NUMPIXELS;i++)
         strip.setPixelColor(i, r, g, b);
 }
 
@@ -36,8 +36,5 @@ void loop() {
     fill(0, 0, 0);
     strip.show();
     delay(500);
-    for(int ii=0; ii<64; ii++){
-      //strip.setPixelColor(ii, strip.Color(ii, ii * 7, ii*17));
-    }
     strip.show();
 }

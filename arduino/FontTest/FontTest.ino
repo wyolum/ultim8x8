@@ -1,11 +1,11 @@
-#include "font.h"
+#include "font8x16.h"
 #include "Adafruit_DotStar.h"
 #include <SPI.h>
 
 
 const byte N_ROW = 16;
 const byte N_COL = 8;
-const uint16_t NUMPIXELS = N_ROW * N_COL;
+const uint16_t NUMPIXELS = 768; //N_ROW * N_COL;
 
 #define DATAPIN    23
 #define CLOCKPIN   24

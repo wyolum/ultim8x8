@@ -34,7 +34,7 @@ void setPixel(byte row, byte col, uint32_t color){
 }
 
 void display_char(byte ascii, uint32_t color){
-  byte *data = font_8x16 + ascii * 16;
+  byte *data = font + ascii * 16;
   for(uint8_t row=0; row<16; row++){
     for(uint8_t col=0; col<8; col++){
       if((data[row] >> (7 - col)) & 1){

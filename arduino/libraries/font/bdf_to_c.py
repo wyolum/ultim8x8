@@ -26,7 +26,7 @@ def format(bytes):
 i = 0
 out = []
 
-print 'byte font_8x16[16*128] = {'
+print 'byte font_x16[16*128] = {'
 
 for m in x.finditer(t):
     bytes = m.group(1).strip()

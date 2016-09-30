@@ -2,17 +2,23 @@
 #include <SPI.h>
 
 
-<<<<<<< HEAD
-const uint16_t NUMPIXELS = 64*12;
-=======
-#define NUMPIXELS 384
->>>>>>> 02cda4e0ef59d59f6cc80f9263223923a69a3fd6
+const uint16_t NUMPIXELS = 64*14;
+#define M0
 
+#ifdef M0
+#define DATAPIN    23
+#define CLOCKPIN   24
+#else
 #define DATAPIN    4
 #define CLOCKPIN   5
-Adafruit_DotStar strip = Adafruit_DotStar(
-    NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BGR);
+#endif
+
 #define LEDVAL 1
+
+Adafruit_DotStar strip = Adafruit_DotStar(NUMPIXELS,
+					  DATAPIN,
+					  CLOCKPIN,
+					  DOTSTAR_BGR);
 
 void setup() {
     strip.begin(); // Initialize pins for output
@@ -40,5 +46,4 @@ void loop() {
     fill(0, 0, 0);
     strip.show();
     delay(500);
-    strip.show();
 }

@@ -147,7 +147,15 @@ def curry(func, arg):
     def out():
         return func(arg)
     return out
-    
+
+class Tool:
+    def __init__(self):
+        pass
+    def on_click(self, event):
+        pass
+    def on_drag(self, event):
+        pass
+
 class PixelPainter():
     '''
     RGB bit map editor.  TODO: separate classes for rgb_bitmap and GUI

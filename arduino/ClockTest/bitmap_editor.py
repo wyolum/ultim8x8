@@ -21,7 +21,15 @@ def bits2byte(bits):
 assert bits2byte([1, 1, 1, 1, 1, 1, 1, 1]) == 255
 
 class bitmap:
+    '''
+    0-1 2D bitmap.  Each pixel is either on or off.  You can use 3 bitmaps to define an 8-color RGB bitmap.
+    '''
     def __init__(self, bitwidth, bitheight, bytes=None):
+        '''
+        Create a new bitmap.
+        bitwidth  -- how many pixels wide the bitmap is
+        bitheight -- how many pixels tall the bitmap is
+        '''
         self.n_bit = bitwidth * bitheight
         self.n_byte = self.n_bit // 8 + (self.n_bit % 8 > 0)
         self.w = bitwidth
@@ -38,7 +46,9 @@ class bitmap:
     def togglebit(self, i, j):
         self.setbit(i, j, not self.getbit(i, j))
     def transpose(self):
-        ''' return a new bitmap'''
+        ''' 
+        Return a new bitmap transposed along the main diagonal.
+        '''
         out = bitmap(self.h, self.w)
         for i in range(self.h):
             for j in range(self.w):
@@ -46,15 +56,27 @@ class bitmap:
                 out.setbit(j, i, val)
         return out
     def getBytes(self):
-        bytes = []
+        '''
+        Return an tightly packed array of bytes by rows (8 pixels per byte).
+        If the rows are not an multiple of 8, the end of one row 
+        will share a byte with the beginning of the next row.
+        '''
+        bytes = zeros(self.n_byte, uint8)
         for i in range(self.n_byte):
-            bytes.append(bits2byte(self.bits[i * 8: (i + 1) * 8]))
+            bytes[i] = bits2byte(self.bits[i * 8: (i + 1) * 8])
         return bytes
     def __str__(self):
+        '''
+        Return a hex string with the format:
+        n_byte,n_col,n_row:: ...bytes...
+        '''
         bytestr = ','.join(['0x%02x' % b for b in self.getBytes()])
         out = '0x%02x,0x%02x,0x%02x::%s' % (self.n_byte, self.w, self.h, bytestr)
         return out
     def ascii_art(self):
+        '''
+        Print out representation of bitmap to stdout
+        '''
         sys.stdout.write('+')
         for j in range(self.w):
             sys.stdout.write('-')
@@ -73,12 +95,18 @@ class bitmap:
         sys.stdout.write('+\n')
 
 def str2bitmap(s):
+    '''
+    convert a hex string to a bitmap (see bitmap.__str__)
+    '''
     dims, bytes = s.split('::')
     dims = [hex2int(x) for x in dims.split(',')]
     bytes = [hex2int(x) for x in bytes.split(',')]
     return bitmap(dims[1], dims[2], bytes=bytes)
 
 def test():
+    '''
+    Not used.
+    '''
     digits = [
       0x3c,0x7e,0xe7,0xc3,0xc3,0xc3,0xc3,0xc3,0xc3,0xc3,0xc3,0xc3,0xc3,0xe7,0x7e,0x3c, # 0
       0x18,0x1c,0x1e,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0x18,0xff,0xff, # 1
@@ -102,6 +130,7 @@ def test():
     fat_nat = bitmap(8, 16 * 10, bytes=digits)
     print fat_nat
     here
+    
 # test()
 justi_narrow_bytes = [0x38, 0x6c, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0x6c, 0x38, # 0
                       0x20, 0x30, 0x38, 0x34, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0xfc, # 1
@@ -113,9 +142,6 @@ justi_narrow_bytes = [0x38, 0x6c, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6
                       0xfe, 0xfe, 0xc0, 0xc0, 0xe0, 0x70, 0x38, 0x1c, 0x0e, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, 0x06, # 7
                       0x38, 0x44, 0xc6, 0xc6, 0xc6, 0xc6, 0x44, 0x38, 0x44, 0xc6, 0xc6, 0xc6, 0xc6, 0xc6, 0x44, 0x38, # 8
                       0x38, 0x44, 0xc6, 0xc6, 0xc6, 0xc6, 0xc4, 0xf8, 0xc0, 0xc0, 0xc0, 0xc0, 0xc0, 0x46, 0x24, 0x18] # 9
-justi_narrow = bitmap(8, 160, justi_narrow_bytes)
-
-font = justi_narrow
 
 def curry(func, arg):
     def out():
@@ -123,7 +149,10 @@ def curry(func, arg):
     return out
     
 class PixelPainter():
-    pixel_w = 20
+    '''
+    RGB bit map editor.  TODO: separate classes for rgb_bitmap and GUI
+    '''
+    pixel_w = 20  # on screen dimension
     file_options = {'defaultextension':'.xpm2',
                     'filetypes':[('xpm2','.xpm2')],
                     'initialdir':'./',
@@ -136,6 +165,7 @@ class PixelPainter():
         self.g_bitmap = None
         self.b_bitmap = None
         
+        ### set up GUI
         self.r = Tk()
         self.menubar = Menu(self.r)
         self.file_menu = Menu(self.menubar, tearoff=0)
@@ -145,15 +175,13 @@ class PixelPainter():
         self.file_menu.add_command(label='Save As', command=self.save_as, underline=5)
         self.menubar.add_cascade(label="File", menu=self.file_menu, underline=0)
         self.r.config(menu=self.menubar)
-
-        
         self.r.title('')
         self.n_row_var = IntVar(self.r)
         self.n_row_var.set(n_row)
         self.n_col_var = IntVar(self.r)
         self.n_col_var.set(n_col)
-        
         self.menubar = Menu(self.r)
+
         f = Frame(self.r)
         Label(f, text='W:').pack(side=LEFT)
         Entry(f, w=3, textvariable=self.n_col_var).pack(side=LEFT)
@@ -164,8 +192,7 @@ class PixelPainter():
 
         self.can = Canvas(self.r,
                           width=(self.n_col_var.get() + 0) * self.pixel_w,
-                          height=(self.n_row_var.get() + 0) * self.pixel_w,
-        )
+                          height=(self.n_row_var.get() + 0) * self.pixel_w)
         self.can.bind('<Button-1>', self.on_canvas_click)
         self.can.bind('<B1-Motion>', self.on_canvas_drag)
         self.can.config(cursor='dotbox')
@@ -173,11 +200,9 @@ class PixelPainter():
         self.can.pack(side=TOP)
         self.pallette = Canvas(self.r,
                                height = (1 + 2) * self.pixel_w,
-                               width =  (8 + 2) * self.pixel_w,
-                               )
-        self.pallette.bind('<Button-1>', self.change_color)
+                               width =  (8 + 2) * self.pixel_w)
         self.colors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#00FFFF', '#FF00FF', '#FFFF00', '#FFFFFF']
-
+        self.pallette.bind('<Button-1>', self.change_color)
         self.show_current_color = self.pallette.create_rectangle(self.pixel_w * (4 + 0), self.pixel_w * (0 + 0),
                                                             self.pixel_w * (4 + 1), self.pixel_w * (0 + 1),
                                                             outline='white', fill='#FFFFFF')
@@ -194,6 +219,9 @@ class PixelPainter():
         self.r.mainloop()
 
     def open_file(self):
+        '''
+        File dialog to open XPM2 formated file.
+        '''
         self.modified = False
         self.file_options['parent'] = self.r
         file = tkFileDialog.askopenfile(mode='r', **self.file_options)
@@ -227,28 +255,43 @@ class PixelPainter():
             self.r.title(' ' + os.path.split(self.filename)[1])
             self.modified = False
     def new_file(self):
+        '''
+        Start over with blank bitmap.
+        '''
         self.filename = None
         self.modified = False
         self.resize()
         self.r.title('')
     def save(self):
+        '''
+        Save current bitmap to current filename (if not None) else Save As
+        '''
         if self.filename is not None:
             file = open(self.filename, 'w')
             self.save_xpm2(file)
         else:
             self.save_as()
     def save_as(self):
+        '''
+        File dialog to save current bitmap.
+        '''
         file = tkFileDialog.asksaveasfile(mode='w', **self.file_options)
         if file:
             self.save_xpm2(file)
         self.modified = False
         
     def save_xpm2(self, file):
+        '''
+        Write xmp2 formated bitmap to open file.
+        '''
         print >> file, self.toxpm2()
         self.filename = os.path.abspath(file.name)
         self.r.title(' ' + os.path.split(self.filename)[1])
         
     def change_color(self, event):
+        '''
+        Change the current pallete color.
+        '''
         col, row = event.x / self.pixel_w - 1, event.y // self.pixel_w - 1
         if row == 0:
             self.pallette.itemconfig(self.show_current_color, fill=self.colors[col])
@@ -257,6 +300,9 @@ class PixelPainter():
         self.on_canvas_click(event)
 
     def printbitmap(self):
+        '''
+        Print bitmap in C-friendly format.
+        '''
         n_col = self.n_col_var.get()
         n_row = self.n_row_var.get()
         
@@ -266,6 +312,9 @@ class PixelPainter():
         print
 
     def toxpm2(self):
+        '''
+        Return string of bitmap in XPM2 format.
+        '''
         n_col = self.n_col_var.get()
         n_row = self.n_row_var.get()
         
@@ -287,6 +336,9 @@ class PixelPainter():
         print self.toxpm2()
         
     def resize(self):
+        '''
+        Resize and clear the display based on GUI size elements.
+        '''
         n_col = self.n_col_var.get()
         n_row = self.n_row_var.get()
         
@@ -308,11 +360,17 @@ class PixelPainter():
                                                                  fill='black',
                                                                  outline='white'))
     def on_canvas_click(self, event):
+        '''
+        Paint the pixel under the cursor the color given by the pallette show_current_color square.
+        '''
         col, row = event.x / self.pixel_w, event.y / self.pixel_w
         current_color = self.pallette.itemcget(self.show_current_color, 'fill')
         self.paintbit(row, col, current_color)
         
     def paintbit(self, row, col, color):
+        '''
+        Change color of pixel at row/col to color.
+        '''
         if 0 <= row and row < self.n_row_var.get() and 0 <= col and col < self.n_col_var.get():
             if not self.modified:
                 self.modified = True
@@ -329,6 +387,9 @@ class PixelPainter():
             self.b_bitmap.setbit(col, row, b)
             self.can.itemconfig(self.pixels[col][row], fill=color)
     def clear(self):
+        '''
+        Clear bitmap
+        '''
         self.resize()
         
 p = PixelPainter()

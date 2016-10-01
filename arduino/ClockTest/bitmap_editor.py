@@ -148,14 +148,238 @@ def curry(func, arg):
         return func(arg)
     return out
 
+class Pallette:
+    '''
+    Color pallette
+    '''
+    def __init__(self, parent, pixel_w=20):
+        self.parent = parent
+        self.pixel_w = pixel_w
+        self.can = Canvas(self.parent,
+                          height = (1 + 2) * self.pixel_w,
+                          width =  (8 + 2) * self.pixel_w)
+        
+
+        self.colors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#00FFFF', '#FF00FF', '#FFFF00', '#FFFFFF']
+        self.can.bind('<Button-1>', self.change_color)
+        self.show_current_color = self.can.create_rectangle(self.pixel_w * (4 + 0), self.pixel_w * (0 + 0),
+                                                                 self.pixel_w * (4 + 1), self.pixel_w * (0 + 1),
+                                                                 outline='white', fill='#FFFFFF')
+        for i, color in enumerate(self.colors):
+            self.can.create_rectangle(self.pixel_w * (i + 1), self.pixel_w * (1 + 0),
+                                      self.pixel_w * (i + 2), self.pixel_w * (1 + 1),
+                                      outline='white', fill=color)
+        self.can.pack()
+
+    def change_color(self, event):
+        '''
+        Change the current pallete color.
+        '''
+        col, row = event.x // self.pixel_w - 1, event.y // self.pixel_w - 1
+        if row == 0:
+            self.can.itemconfig(self.show_current_color, fill=self.colors[col])
+
+    def get_current_color(self):
+        return self.can.itemcget(self.show_current_color, 'fill')
+
+class Pixels:
+    def __init__(self, can, n_col, n_row, pixel_w=20):
+        self.can = can
+        self.n_col = n_col
+        self.n_row = n_row
+        self.pixel_w = pixel_w
+
+        self.__pixels = []
+        for j in range(self.n_col):
+            self.__pixels.append([])
+            for i in range(self.n_row):
+                self.__pixels[-1].append(self.can.create_rectangle(j * self.pixel_w,
+                                                                   i * self.pixel_w,
+                                                                   (j + 1) * self.pixel_w,
+                                                                   (i + 1) * self.pixel_w,
+                                                                   fill='#000000',
+                                                                   outline='#FFFFFF',
+                                                                   tags=("layer_0", "row_%d" % i, "col_%d" % j)))
+    def set_pixel_color(self, row, col, color, layer=None):
+        if (0 <= row and row < self.n_row and
+            0 <= col and col < self.n_col):
+            if layer is None or layer == 0:
+                self.can.itemconfig(self.__pixels[col][row], fill=color)
+            else:
+                self.can.create_rectangle(col * self.pixel_w,
+                                          row * self.pixel_w,
+                                          (col + 1) * self.pixel_w,
+                                          (row + 1) * self.pixel_w,
+                                          fill=color,
+                                          outline='white',
+                                          tags=("layer_%d" % layer, "row_%d" % row, "col_%d" % col))
+
+    def get_pixel_color(self, row, col):
+        if (0 <= row and row < self.n_row and
+            0 <= col and col < self.n_col):
+            out = self.can.itemcget(self.__pixels[col][row], 'fill')
+        else:
+            out = None
+        return out
+    
+    def get_pixel_coords(self, event):
+        return event.x // self.pixel_w, event.y // self.pixel_w
+    
 class Tool:
     def __init__(self):
-        pass
+        '''
+        You must assign pixels and pallette before use
+        '''
+        self.pixels = None
+        self.pallette = None
+        self.start_pixel = None
+        self.current_pixel = None
+        self.end_pixel = None
+
+    def draw_pixel(self, row, col, layer=0):
+        '''
+        change pixel at row, col to current pallette color
+        '''
+        color = self.pallette.get_current_color()
+        if color != self.pixels.get_pixel_color(row, col):
+            self.pixels.set_pixel_color(row, col, color, layer)
+        
+    def get_pixel_coords(self, event):
+        return self.pixels.get_pixel_coords(event)
+        
+    def on_b1_down(self, event):
+        self.start_pixel = self.pixels.get_pixel_coords(event)
+        self.current_pixel = self.start_pixel
+        self.end_pixel = self.start_pixel
+        self.draw_pixel(self.start_pixel[1], self.start_pixel[0], layer=1)
+        
+    def on_b1_motion(self, event):
+        new_pixel = self.get_pixel_coords(event)
+        out = False
+        if self.current_pixel is None:
+            self.current_pixel = (-1, -1)
+        if (new_pixel[0] != self.current_pixel[0] or
+              new_pixel[1] != self.current_pixel[1]):
+            self.current_pixel = new_pixel
+            out = True
+        return out
+    def on_b1_release(self, event):
+        self.end_pixel = self.get_pixel_coords(event)
+        self.on_drag_release(event)
+        self.finalize()
+        
+    def finalize(self):
+        # copy layer_1 down to layer_0
+        def get_row_from_tags(tags):
+            out = None
+            for tag in tags:
+                if tag.startswith('row_'):
+                    out = int(tag[4:])
+                    break
+            return out
+        def get_col_from_tags(tags):
+            out = None
+            for tag in tags:
+                if tag.startswith('col_'):
+                    out = int(tag[4:])
+                    break
+            return out
+        for pid in self.pixels.can.find_withtag('layer_1'):
+            tags = self.pixels.can.gettags(pid)
+            row = get_row_from_tags(tags)
+            col = get_col_from_tags(tags)
+            color = self.pixels.can.itemcget(pid, 'fill')
+            self.pixels.set_pixel_color(row, col, color, layer=0)
+            self.pixels.can.delete(pid)
+
     def on_click(self, event):
+        '''
+        Press and release on on same pixel
+        '''
         pass
-    def on_drag(self, event):
+    
+    def on_drag_release(self, event):
+        '''
+        Drag event complete.
+        '''
         pass
 
+class Pencil(Tool):
+    def on_b1_motion(self, event):
+        if Tool.on_b1_motion(self, event):
+            self.draw_pixel(self.current_pixel[1], self.current_pixel[0], layer=1)
+
+class Line(Tool):
+    def on_b1_motion(self, event):
+        Tool.on_b1_motion(self, event)
+        ## delete old line
+        for pid in self.pixels.can.find_withtag('layer_1'):
+            self.pixels.can.delete(pid)
+            
+        ## draw new line
+        start = array(self.start_pixel, float)
+        stop = array(self.current_pixel, float)
+        d = stop - start
+        l = linalg.norm(d)
+        if l > 0:
+            d /= l
+            for t in arange(0, l, .1):
+                p = (start + t * d).astype(int)
+                self.draw_pixel(p[1], p[0], layer=1)
+        
+class Circle(Tool):
+    def __init__(self, fill=False):
+        Tool.__init__(self)
+        self.fill = fill
+        
+    def on_b1_motion(self, event):
+        Tool.on_b1_motion(self, event)
+        ## delete old circle
+        for pid in self.pixels.can.find_withtag('layer_1'):
+            self.pixels.can.delete(pid)
+            
+        ## draw new circle
+        center = array(self.start_pixel, float) + [.5,.5]
+        edge = array(self.current_pixel, float)
+        r = linalg.norm(center - edge)
+        if r > 0:
+            if self.fill:
+                x, y = meshgrid(arange(self.pixels.n_row), arange(self.pixels.n_col))
+                yx = transpose([y.ravel(), x.ravel()])
+                d = linalg.norm(center[newaxis] - yx, axis=1)
+                for i in range(len(d)):
+                    if d[i] <= r:
+                        self.draw_pixel(yx[i, 1], yx[i, 0], layer=1)
+                    
+            else:
+                c = 2 * pi * r
+                for theta in arange(0, 2 * pi, .1/c):
+                    d = array([cos(theta), sin(theta)])
+                    p = (center + r * d).astype(int)
+                    self.draw_pixel(p[1], p[0], layer=1)
+        else:
+            self.draw_pixel(int(center[1]), int(center[0]), layer=1)
+
+class Box(Tool):
+    def on_b1_motion(self, event):
+        Tool.on_b1_motion(self, event)
+
+        ## delete old box
+        for pid in self.pixels.can.find_withtag('layer_1'):
+            self.pixels.can.delete(pid)
+
+        ## draw new box
+        start = array(self.start_pixel)
+        stop = array(self.current_pixel)
+
+        x_start = min([start[0], stop[0]])
+        x_stop =  max([start[0], stop[0]])
+        y_start = min([start[1], stop[1]])
+        y_stop =  max([start[1], stop[1]])
+        for row in range(y_start, y_stop + 1):
+            for col in range(x_start, x_stop + 1):
+                self.draw_pixel(row, col, layer=1)
+            
 class PixelPainter():
     '''
     RGB bit map editor.  TODO: separate classes for rgb_bitmap and GUI
@@ -169,9 +393,8 @@ class PixelPainter():
     def __init__(self, n_row=16, n_col=8):
         self.filename = None
         self.modified = False
-        self.r_bitmap = None
-        self.g_bitmap = None
-        self.b_bitmap = None
+        self.pixels = None
+        self.pallette = None
         
         ### set up GUI
         self.r = Tk()
@@ -182,6 +405,14 @@ class PixelPainter():
         self.file_menu.add_command(label='Save', command=self.save, underline=0)
         self.file_menu.add_command(label='Save As', command=self.save_as, underline=5)
         self.menubar.add_cascade(label="File", menu=self.file_menu, underline=0)
+        self.tool_menu = Menu(self.menubar, tearoff=1)
+        self.tool_menu.add_command(label="Pencil", command=curry(self.change_tool, 0), underline=0)
+        self.tool_menu.add_command(label="Line", command=curry(self.change_tool, 1), underline=0)
+        self.tool_menu.add_command(label="Circle", command=curry(self.change_tool, 2), underline=0)
+        self.tool_menu.add_command(label="Filled Circle", command=curry(self.change_tool, 3), underline=0)
+        self.tool_menu.add_command(label="Box", command=curry(self.change_tool, 4), underline=0)
+        self.menubar.add_cascade(label="Tools", menu=self.tool_menu, underline=0)
+        
         self.r.config(menu=self.menubar)
         self.r.title('')
         self.n_row_var = IntVar(self.r)
@@ -203,22 +434,20 @@ class PixelPainter():
                           height=(self.n_row_var.get() + 0) * self.pixel_w)
         self.can.bind('<Button-1>', self.on_canvas_click)
         self.can.bind('<B1-Motion>', self.on_canvas_drag)
-        self.can.config(cursor='dotbox')
+        self.can.bind('<ButtonRelease-1>', self.on_canvas_release)
+        self.pencil = Pencil()
+        self.line = Line()
+        self.circle = Circle()
+        self.filled_circle = Circle(fill=True)
+        self.box = Box()
+        self.cursors = ['pencil', 'crosshair', 'circle', 'dot', 'top_left_corner']
+        self.tools = [self.pencil, self.line, self.circle, self.filled_circle, self.box]
         self.resize()
         self.can.pack(side=TOP)
-        self.pallette = Canvas(self.r,
-                               height = (1 + 2) * self.pixel_w,
-                               width =  (8 + 2) * self.pixel_w)
-        self.colors = ['#000000', '#FF0000', '#00FF00', '#0000FF', '#00FFFF', '#FF00FF', '#FFFF00', '#FFFFFF']
-        self.pallette.bind('<Button-1>', self.change_color)
-        self.show_current_color = self.pallette.create_rectangle(self.pixel_w * (4 + 0), self.pixel_w * (0 + 0),
-                                                            self.pixel_w * (4 + 1), self.pixel_w * (0 + 1),
-                                                            outline='white', fill='#FFFFFF')
-        for i, color in enumerate(self.colors):
-            self.pallette.create_rectangle(self.pixel_w * (i + 1), self.pixel_w * (1 + 0),
-                                           self.pixel_w * (i + 2), self.pixel_w * (1 + 1),
-                                           outline='white', fill=color)
-        self.pallette.pack()
+        self.pallette = Pallette(self.r, self.pixel_w)
+        for tool in self.tools:
+            tool.pallette = self.pallette
+        self.change_tool(0)
 
         f = Frame(self.r)
         Button(f, text="Print", command=self.printbitmap).pack(side=LEFT)
@@ -226,6 +455,10 @@ class PixelPainter():
         f.pack(side=TOP)
         self.r.mainloop()
 
+    def change_tool(self, index):
+        self.current_tool = self.tools[index]
+        self.can.config(cursor=self.cursors[index])
+        
     def open_file(self):
         '''
         File dialog to open XPM2 formated file.
@@ -250,15 +483,12 @@ class PixelPainter():
                 assert len(line) == 3, 'expected 3 elements in color def line got %s' % line
                 c, x, color = line
                 color = color.replace('01', 'FF')
-                assert color in self.colors, 'Color %s not supported' % color
+                assert color in self.pallette.colors, 'Color %s not supported' % color
                 file_colors[c] = color
             for row in range(n_row):
                 line = file.readline().strip()
                 for col in range(n_col):
                     color = file_colors[line[col]]
-                    self.r_bitmap.setbit(col, row, color[1].upper() == 'F')
-                    self.g_bitmap.setbit(col, row, color[3].upper() == 'F')
-                    self.b_bitmap.setbit(col, row, color[5].upper() == 'F')
                     self.paintbit(row, col, color)
             self.r.title(' ' + os.path.split(self.filename)[1])
             self.modified = False
@@ -296,28 +526,25 @@ class PixelPainter():
         self.filename = os.path.abspath(file.name)
         self.r.title(' ' + os.path.split(self.filename)[1])
         
-    def change_color(self, event):
-        '''
-        Change the current pallete color.
-        '''
-        col, row = event.x / self.pixel_w - 1, event.y // self.pixel_w - 1
-        if row == 0:
-            self.pallette.itemconfig(self.show_current_color, fill=self.colors[col])
-
-    def on_canvas_drag(self, event):
-        self.on_canvas_click(event)
-
     def printbitmap(self):
         '''
         Print bitmap in C-friendly format.
         '''
         n_col = self.n_col_var.get()
         n_row = self.n_row_var.get()
-        
-        print str(self.r_bitmap)
-        print str(self.g_bitmap)
-        print str(self.b_bitmap)
-        print
+
+        r_bitmap = bitmap(n_row, n_col)
+        g_bitmap = bitmap(n_row, n_col)
+        b_bitmap = bitmap(n_row, n_col)
+        for r in range(n_row):
+            for c in range(n_col):
+                color = self.pixels.get_pixel_color(r, c)
+                r_bitmap.setbit(c, r, color[1].upper() == 'F')
+                g_bitmap.setbit(c, r, color[3].upper() == 'F')
+                b_bitmap.setbit(c, r, color[5].upper() == 'F')
+        print str(r_bitmap)
+        print str(g_bitmap)
+        print str(b_bitmap)
 
     def toxpm2(self):
         '''
@@ -329,14 +556,12 @@ class PixelPainter():
         out = ['! XPM2',
                '%d %d %d %d' % (n_col, n_row, 8, 1)]
         for i, c in enumerate('abcdefgh'):
-            out.append(' '.join([c, 'c', self.colors[i].replace('FF', '01')]))
+            out.append(' '.join([c, 'c', self.pallette.colors[i].replace('FF', '01')]))
         for i in range(n_row):
             row = []
             for j in range(n_col):
-                color = '#' + (('00', 'FF')[self.r_bitmap.getbit(j, i)] +
-                               ('00', 'FF')[self.g_bitmap.getbit(j, i)] +
-                               ('00', 'FF')[self.b_bitmap.getbit(j, i)])
-                row.append('abcdefgh'[self.colors.index(color)])
+                color = self.pixels.get_pixel_color(i, j)
+                row.append('abcdefgh'[self.pallette.colors.index(color)])
             out.append(''.join(row))
         return '\n'.join(out)
     
@@ -350,30 +575,23 @@ class PixelPainter():
         n_col = self.n_col_var.get()
         n_row = self.n_row_var.get()
         
-        self.r_bitmap = bitmap(n_row, n_col)
-        self.g_bitmap = bitmap(n_row, n_col)
-        self.b_bitmap = bitmap(n_row, n_col)
-
         self.can.config(width=n_col * self.pixel_w,
                         height=n_row * self.pixel_w)
         self.can.delete(all)
-        self.pixels = []
-        for j in range(self.n_col_var.get()):
-            self.pixels.append([])
-            for i in range(self.n_row_var.get()):
-                self.pixels[-1].append(self.can.create_rectangle(j * self.pixel_w,
-                                                                 i * self.pixel_w,
-                                                                 (j + 1) * self.pixel_w,
-                                                                 (i + 1) * self.pixel_w,
-                                                                 fill='black',
-                                                                 outline='white'))
+        self.pixels = Pixels(self.can, n_col, n_row, self.pixel_w)
+        for tool in self.tools:
+            tool.pixels = self.pixels
+    def on_canvas_drag(self, event):
+        self.current_tool.on_b1_motion(event)
+
+    def on_canvas_release(self, event):
+        self.current_tool.on_b1_release(event)
+        
     def on_canvas_click(self, event):
         '''
         Paint the pixel under the cursor the color given by the pallette show_current_color square.
         '''
-        col, row = event.x / self.pixel_w, event.y / self.pixel_w
-        current_color = self.pallette.itemcget(self.show_current_color, 'fill')
-        self.paintbit(row, col, current_color)
+        self.current_tool.on_b1_down(event)
         
     def paintbit(self, row, col, color):
         '''
@@ -390,10 +608,8 @@ class PixelPainter():
             r = color[1].upper() == 'F'
             g = color[3].upper() == 'F'
             b = color[5].upper() == 'F'
-            self.r_bitmap.setbit(col, row, r)
-            self.g_bitmap.setbit(col, row, g)
-            self.b_bitmap.setbit(col, row, b)
-            self.can.itemconfig(self.pixels[col][row], fill=color)
+            self.pixels.set_pixel_color(row, col, color)
+
     def clear(self):
         '''
         Clear bitmap

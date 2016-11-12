@@ -40,7 +40,6 @@ void setup(){
     }
   }
   radio.startListening();                       // Start listening  
-
 }
 
 void loop(){
@@ -62,7 +61,7 @@ void loop(){
 	  while(radio.available()){                    // If an ack with payload was received
 	    radio.read(&gotByte, 1);                  // Read it, and display the response time
 	    unsigned long timer = micros();
-          
+	    
 	    Serial.print(F("Got response "));
 	    Serial.print(gotByte);
 	    Serial.print(F(" round-trip delay: "));
@@ -76,7 +75,18 @@ void loop(){
 	Serial.println(F(", send failed."));         // If no ack response, sending failed
       }
     }
+    delay(1000);
+    count++;                                  // Increment the count variable
   }
-  count++;                                  // Increment the count variable
-  delay(1000);
+  else{
+    byte pipeNo, gotByte;                          // Declare variables for the pipe and the byte received
+    while(radio.available(&pipeNo)){              // Read all available payloads
+      radio.read( &gotByte, 1 );                   
+                                                   // Since this is a call-response. Respond directly with an ack payload.
+      gotByte += 1;                                // Ack payloads are much more efficient than switching to transmit mode to respond to a call
+      radio.writeAckPayload(pipeNo,&gotByte, 1 );  // This can be commented out to send empty payloads.
+      Serial.print(F("Loaded next response "));
+      Serial.println(gotByte);  
+    }
+  }
 }

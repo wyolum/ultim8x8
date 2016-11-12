@@ -27,18 +27,28 @@ void setup(){
     }
   }
   radio.openWritingPipe(addresses[(3) % 6]);
+  while(1){
+    byte msg = 'X';
+    if(radio.write(&msg,1)){
+      Serial.println("Woot!");
+    }
+    else{
+      Serial.println("boo!");
+    }
+    delay(1000);
+  }
   radio.startListening();                       // Start listening  
 
 }
 
 void loop(){
-  radio.stopListening();                                  // First, stop listening so we can talk.      
   unsigned long time = micros();                          // Record the current microsecond count   
   byte gotByte;                                           // Initialize a variable for the incoming response
   
   if(myRadioNum == 0){
     Serial.println(F("Now sending "));                         // Use a simple byte count as payload
     for(byte radioNum=1; radioNum < n_node; radioNum++){
+      radio.stopListening();                                  // First, stop listening so we can talk.      
       radio.openWritingPipe(addresses[radioNum]);
       if(radio.write(&count,1)){                         // Send the count variable to the other radios
 	if(!radio.available()){                             // If nothing in the buffer, we got an ack but it is blank

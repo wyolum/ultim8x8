@@ -22,9 +22,9 @@ void setup(){
   radio.enableAckPayload();                     // Allow optional ack payloads
   radio.enableDynamicPayloads();                // Ack payloads are dynamic payloads
   
-  for(byte radioNum=0; radioNum < 1; radioNum++){
+  for(byte radioNum=0; radioNum < n_node; radioNum++){
     if(radioNum != myRadioNum){
-      radio.openReadingPipe(radioNum,addresses[radioNum]);      // Open a reading pipe on address 0, pipe 1
+      // radio.openReadingPipe(radioNum,addresses[radioNum]);      // Open a reading pipe on address 0, pipe 1
     }
   }
   if(myRadioNum == 0){

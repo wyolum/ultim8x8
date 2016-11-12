@@ -4,7 +4,7 @@
 /****************** User Config ***************************/
 const int n_node = 6;
 
-uint8_t myRadioNum = 0; // 0, 1, 2, 3, 4, 5
+uint8_t myRadioNum = 3; // 0, 1, 2, 3, 4, 5
 
 RF24 radio(9, 10);
 

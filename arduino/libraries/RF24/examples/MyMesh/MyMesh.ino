@@ -39,7 +39,8 @@ void loop(){
   if(myRadioNum == 0){
     Serial.println(F("Now sending "));                         // Use a simple byte count as payload
     for(byte radioNum=1; radioNum < n_node; radioNum++){
-      if(radio.write(&count,radioNum)){                         // Send the count variable to the other radios
+      radio.openWritingPipe(addresses[radioNum]);
+      if(radio.write(&count,1)){                         // Send the count variable to the other radios
 	if(!radio.available()){                             // If nothing in the buffer, we got an ack but it is blank
 	  Serial.print(F("Got blank response. round-trip delay: "));
 	  Serial.print(micros()-time);

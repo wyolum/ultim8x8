@@ -27,15 +27,17 @@ void setup(){
     }
   }
   radio.openWritingPipe(addresses[(3) % 6]);
-  while(1){
-    byte msg = 'X';
-    if(radio.write(&msg,1)){
-      Serial.println("Woot!");
+  if(myRadioNum == 0){
+    while(1){
+      byte msg = 'X';
+      if(radio.write(&msg,1)){
+	Serial.println("Woot!");
+      }
+      else{
+	Serial.println("boo!");
+      }
+      delay(1000);
     }
-    else{
-      Serial.println("boo!");
-    }
-    delay(1000);
   }
   radio.startListening();                       // Start listening  
 

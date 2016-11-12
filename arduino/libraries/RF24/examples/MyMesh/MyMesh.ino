@@ -56,7 +56,6 @@ void loop(){
 	    Serial.print(F(" round-trip delay: "));
 	    Serial.print(timer-time);
 	    Serial.println(F(" microseconds"));
-	    count++;                                  // Increment the count variable
 	  }
 	}
       }
@@ -66,5 +65,6 @@ void loop(){
       }
     }
   }
+  count++;                                  // Increment the count variable
   delay(1000);
 }

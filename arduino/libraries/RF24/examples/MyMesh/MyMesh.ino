@@ -4,7 +4,7 @@
 /****************** User Config ***************************/
 const int n_node = 7;
 
-bool myRadioNum = 0; // 0, 1, 2, 3, 4, 5, 6
+uint8_t myRadioNum = 0; // 0, 1, 2, 3, 4, 5, 6
 
 RF24 radio(9, 10);
 
@@ -29,7 +29,7 @@ void setup(){
   radio.openWritingPipe(addresses[(3) % 6]);
   if(myRadioNum == 0){
     while(1){
-      byte msg = 'X';
+      byte msg = 123;
       if(radio.write(&msg,1)){
 	Serial.println("Woot!");
       }
@@ -43,11 +43,12 @@ void setup(){
 }
 
 void loop(){
-  unsigned long time = micros();                          // Record the current microsecond count   
-  byte gotByte;                                           // Initialize a variable for the incoming response
+  unsigned long time = micros();                              // Record the current microsecond count   
+  byte gotByte;                                               // Initialize a variable for the incoming response
   
   if(myRadioNum == 0){
-    Serial.println(F("Now sending "));                         // Use a simple byte count as payload
+    Serial.print("Now sending ");                             // Use a simple byte count as payload
+    Serial.println(count);
     for(byte radioNum=1; radioNum < n_node; radioNum++){
       radio.stopListening();                                  // First, stop listening so we can talk.      
       radio.openWritingPipe(addresses[radioNum]);
@@ -80,8 +81,8 @@ void loop(){
   }
   else{
     byte pipeNo, gotByte;                          // Declare variables for the pipe and the byte received
-    while(radio.available(&pipeNo)){              // Read all available payloads
-      radio.read( &gotByte, 1 );                   
+    while(radio.available(&pipeNo)){               // Read all available payloads
+      radio.read(&gotByte, 1 );                   
                                                    // Since this is a call-response. Respond directly with an ack payload.
       gotByte += 1;                                // Ack payloads are much more efficient than switching to transmit mode to respond to a call
       radio.writeAckPayload(pipeNo,&gotByte, 1 );  // This can be commented out to send empty payloads.

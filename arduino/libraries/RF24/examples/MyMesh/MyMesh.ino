@@ -33,7 +33,6 @@ void setup(){
 
 void loop(){
   radio.stopListening();                                  // First, stop listening so we can talk.      
-  Serial.println(count);
   unsigned long time = micros();                          // Record the current microsecond count   
   byte gotByte;                                           // Initialize a variable for the incoming response
   

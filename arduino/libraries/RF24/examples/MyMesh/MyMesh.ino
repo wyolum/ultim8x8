@@ -4,7 +4,8 @@
 /****************** User Config ***************************/
 const int n_node = 6;
 
-uint8_t myRadioNum = 3; // 0, 1, 2, 3, 4, 5
+uint8_t myRadioNum = 0; // 0, 1, 2, 3, 4, 5
+// uint8_t myRadioNum = 3; // 0, 1, 2, 3, 4, 5
 
 RF24 radio(9, 10);
 
@@ -18,6 +19,8 @@ byte count = 1;
 
 void setup(){
   Serial.begin(115200);
+  Serial.print("myRadioNum: ");
+  Serial.println(myRadioNum);
   radio.begin();
   radio.enableAckPayload();                     // Allow optional ack payloads
   radio.enableDynamicPayloads();                // Ack payloads are dynamic payloads
@@ -45,7 +48,6 @@ void setup(){
 
 void loop(){
   byte gotByte;                                               // Initialize a variable for the incoming response
-  
   if(myRadioNum == 0){
     Serial.print("Now sending ");                             // Use a simple byte count as payload
     Serial.println(count);
@@ -84,14 +86,15 @@ void loop(){
     byte pipeNo, gotByte;                          // Declare variables for the pipe and the byte received
     while(radio.available(&pipeNo)){               // Read all available payloads
       radio.read(&gotByte, 1 );                   
-                                                   // Since this is a call-response. Respond directly with an ack payload
-
+      Serial.println("got msg");
+      
+      // Since this is a call-response. Respond directly with an ack payload
       if (pipeNo == myRadioNum){
-      	 gotByte += 1;                                // Ack payloads are much more efficient than switching to transmit mode to respond to a call
-      	 radio.writeAckPayload(pipeNo,&gotByte, 1 );  // This can be commented out to send empty payloads.
-     	  Serial.print(F("Loaded next response "));
-     	  Serial.println(gotByte);
-	  }
+	gotByte += 1;                                // Ack payloads are much more efficient than switching to transmit mode to respond to a call
+	radio.writeAckPayload(pipeNo,&gotByte, 1 );  // This can be commented out to send empty payloads.
+	Serial.print(F("Loaded next response "));
+	Serial.println(gotByte);
+      }
     }
   }
 }

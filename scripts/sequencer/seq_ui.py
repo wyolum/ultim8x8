@@ -1,8 +1,13 @@
+from __future__ import print_function
 import os
-import tkFileDialog
 from pylab import *
 from numpy import *
-from Tkinter import *
+try:
+    import tkFileDialog
+    from Tkinter import *
+except:
+    from tkinter import filedialog as tkFileDialog
+    from tkinter import *
 import sys
 from argparse import ArgumentParser
 from bibliopixel import colors
@@ -22,6 +27,8 @@ def byte2bits(byte):
 
 def bits2byte(bits):
     return dot(bits, [2 ** i for i in range(8)])
+
+
 assert bits2byte([1, 1, 1, 1, 1, 1, 1, 1]) == 255
 
 
@@ -590,9 +597,9 @@ class PixelPainter():
                 r_bitmap.setbit(c, r, color[1].upper() == 'F')
                 g_bitmap.setbit(c, r, color[3].upper() == 'F')
                 b_bitmap.setbit(c, r, color[5].upper() == 'F')
-        print str(r_bitmap)
-        print str(g_bitmap)
-        print str(b_bitmap)
+        print(str(r_bitmap))
+        print(str(g_bitmap))
+        print(str(b_bitmap))
 
     def toxpm2(self):
         '''
@@ -619,7 +626,7 @@ class PixelPainter():
             self.driver.update(data)
 
     def printxpm2(self):
-        print self.toxpm2()
+        print(self.toxpm2())
 
     def resize(self):
         '''
@@ -673,6 +680,7 @@ class PixelPainter():
         Clear bitmap
         '''
         self.resize()
+
 
 if __name__ == "__main__":
     parser = ArgumentParser()

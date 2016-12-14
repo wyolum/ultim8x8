@@ -8,7 +8,7 @@ import time
 log.setLogLevel(log.DEBUG)
 
 print("connecting")
-driver = DriverNetworkUDP(num=8 * 8, broadcast=False, host="10.0.1.133", port=1822)
+driver = DriverNetworkUDP(num=8 * 8, broadcast=False, host="10.0.1.138", port=1822)
 
 print("setup matrix")
 led = LEDMatrix(driver, width=8, height=8, coordMap=None,

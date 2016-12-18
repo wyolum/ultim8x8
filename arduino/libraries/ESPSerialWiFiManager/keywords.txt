@@ -1,0 +1,14 @@
+#######################################
+# Syntax Coloring Map For ESPSerialWiFiManager
+#######################################
+# Classes
+#######################################
+ESPSerialWiFiManager	KEYWORD1
+
+#######################################
+# Methods and Functions
+#######################################
+
+begin	KEYWORD2
+run_menu	KEYWORD2
+status	KEYWORD2

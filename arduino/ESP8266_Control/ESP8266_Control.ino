@@ -1,5 +1,5 @@
 #include <ESP8266WiFi.h>
-#include <WiFiUDP.h>
+#include <WiFiUdp.h>
 #include <ESPSerialWiFiManager.h>
 #include <FastLED.h>
 #include <EEPROM.h>

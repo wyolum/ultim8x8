@@ -5,8 +5,11 @@ ultimate LED panel belt Buckle "Wearable Tech"
 built using 
 
 this 3D printed case
+
 ultim8x8 Module
+
 Adafruit Feather M0
+
 1200mAh LiPo Battery
 
 Miniature slide switch

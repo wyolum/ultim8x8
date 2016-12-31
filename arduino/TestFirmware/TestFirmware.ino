@@ -2,15 +2,15 @@
 #include <SPI.h>
 
 
-const uint16_t NUMPIXELS = 64*14;
+const uint16_t NUMPIXELS = 64*1;
 #define M0
 
 #ifdef M0
 #define DATAPIN    23
 #define CLOCKPIN   24
 #else
-#define DATAPIN    4
-#define CLOCKPIN   5
+define DATAPIN    5
+define CLOCKPIN   6
 #endif
 
 #define LEDVAL 1

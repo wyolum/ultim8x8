@@ -181,22 +181,18 @@ F 3 "" H 975 4600 60  0001 C CNN
 $EndComp
 Text Label 2225 4750 0    60   ~ 0
 5V
-Text Label 1550 2100 2    40   ~ 0
+Text Label 1550 2200 2    40   ~ 0
 DI_A
-Wire Wire Line
-	1350 2100 1600 2100
-Text Label 1550 2300 2    40   ~ 0
+Text Label 1550 2400 2    40   ~ 0
 GND
 Wire Wire Line
 	1350 2300 1550 2300
-Text Label 1800 2100 0    40   ~ 0
-DO_H
-Wire Wire Line
-	1750 2100 2000 2100
 Text Label 1800 2300 0    40   ~ 0
+DO_H
+Text Label 1800 2100 0    40   ~ 0
 GND
 Wire Wire Line
-	2000 2300 1800 2300
+	1750 2300 2000 2300
 Text Label 1550 1525 2    40   ~ 0
 DI_A
 Text Label 1800 1525 0    40   ~ 0
@@ -364,10 +360,10 @@ CO_H
 Wire Wire Line
 	1800 2200 2000 2200
 Wire Wire Line
-	1550 2200 1350 2200
-Text Label 1800 2200 0    40   ~ 0
+	1350 2200 1600 2200
+Text Label 1800 2400 0    40   ~ 0
 CO_H
-Text Label 1550 2200 2    40   ~ 0
+Text Label 1525 2100 2    40   ~ 0
 CI_A
 Wire Wire Line
 	975  5250 2225 5250
@@ -399,60 +395,64 @@ F 3 "" H 975 5100 60  0001 C CNN
 $EndComp
 Connection ~ 975  5250
 $Comp
-L CONN_3 P1
+L CONN4_S P1
 U 1 1 56C0E218
-P 1000 1425
-F 0 "P1" H 1025 1225 40  0000 C CNB
+P 1000 1375
+F 0 "P1" H 1000 1125 40  0000 C CNB
 F 1 "Input1" H 1000 1625 40  0000 C CNN
-F 2 "ultim8x8_libs:header_3pos_th_male" H 1000 1375 60  0001 C CNN
-F 3 "" H 1000 1375 60  0000 C CNN
-F 4 "CONN HEADER 50POS .100\" SGL GOLD" H 1000 1475 60  0001 L CNN "Field4"
-F 5 "Header, Unshrouded, Male pin," H 1000 1575 60  0001 L CNN "Field5"
-F 6 "0.1\"" H 1000 1675 60  0001 L CNN "Field6"
-	1    1000 1425
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 1000 1325 60  0001 C CNN
+F 3 "" H 1000 1325 60  0000 C CNN
+F 4 "Value" H 1000 1375 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 1000 1425 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 1000 1525 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 1000 1625 60  0001 L CNN "Field6"
+	1    1000 1375
 	-1   0    0    1   
 $EndComp
 $Comp
-L CONN_3 P2
+L CONN4_S P2
 U 1 1 56C0F3D8
-P 2350 1425
-F 0 "P2" H 2350 1225 40  0000 C CNB
+P 2350 1375
+F 0 "P2" H 2350 1125 40  0000 C CNB
 F 1 "Output1" H 2350 1625 40  0000 C CNN
-F 2 "ultim8x8_libs:header_3pos_th_male" H 2350 1375 60  0001 C CNN
-F 3 "" H 2350 1375 60  0000 C CNN
-F 4 "CONN HEADER 50POS .100\" SGL GOLD" H 2350 1475 60  0001 L CNN "Field4"
-F 5 "Header, Unshrouded, Male pin," H 2350 1575 60  0001 L CNN "Field5"
-F 6 "0.1\"" H 2350 1675 60  0001 L CNN "Field6"
-	1    2350 1425
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 2350 1325 60  0001 C CNN
+F 3 "" H 2350 1325 60  0000 C CNN
+F 4 "Value" H 2350 1375 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 2350 1425 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 2350 1525 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 2350 1625 60  0001 L CNN "Field6"
+	1    2350 1375
 	1    0    0    1   
 $EndComp
 $Comp
-L CONN_3 P5
+L CONN4_S P5
 U 1 1 56C10A4A
-P 1000 2200
+P 1000 2250
 F 0 "P5" H 1000 2000 40  0000 C CNB
-F 1 "Input2" H 1000 2400 40  0000 C CNN
-F 2 "ultim8x8_libs:header_3pos_th_male" H 1000 2150 60  0001 C CNN
-F 3 "" H 1000 2150 60  0000 C CNN
-F 4 "CONN HEADER 50POS .100\" SGL GOLD" H 1000 2250 60  0001 L CNN "Field4"
-F 5 "Header, Unshrouded, Male pin," H 1000 2350 60  0001 L CNN "Field5"
-F 6 "0.1\"" H 1000 2450 60  0001 L CNN "Field6"
-	1    1000 2200
-	-1   0    0    1   
+F 1 "Input2" H 1000 2500 40  0000 C CNN
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 1000 2200 60  0001 C CNN
+F 3 "" H 1000 2200 60  0000 C CNN
+F 4 "Value" H 1000 2250 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 1000 2300 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 1000 2400 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 1000 2500 60  0001 L CNN "Field6"
+	1    1000 2250
+	-1   0    0    -1  
 $EndComp
 $Comp
-L CONN_3 P6
+L CONN4_S P6
 U 1 1 56C121A8
-P 2350 2200
+P 2350 2250
 F 0 "P6" H 2350 2000 40  0000 C CNB
-F 1 "Output2" H 2350 2400 40  0000 C CNN
-F 2 "ultim8x8_libs:header_3pos_th_male" H 2350 2150 60  0001 C CNN
-F 3 "" H 2350 2150 60  0000 C CNN
-F 4 "CONN HEADER 50POS .100\" SGL GOLD" H 2350 2250 60  0001 L CNN "Field4"
-F 5 "Header, Unshrouded, Male pin," H 2350 2350 60  0001 L CNN "Field5"
-F 6 "0.1\"" H 2350 2450 60  0001 L CNN "Field6"
-	1    2350 2200
-	1    0    0    1   
+F 1 "Output2" H 2350 2500 40  0000 C CNN
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 2350 2200 60  0001 C CNN
+F 3 "" H 2350 2200 60  0000 C CNN
+F 4 "Value" H 2350 2250 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 2350 2300 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 2350 2400 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 2350 2500 60  0001 L CNN "Field6"
+	1    2350 2250
+	1    0    0    -1  
 $EndComp
 Text Label 6450 6500 2    60   ~ 0
 DI_B
@@ -512,9 +512,9 @@ Text Notes 700  6100 0    60   ~ 12
 LOGOS
 Text Notes 700  3950 0    60   ~ 12
 POWER INPUT POSTS
-Text Notes 2000 2700 0    60   ~ 12
+Text Notes 2000 2875 0    60   ~ 12
 DATA/CLK\nOUTPUTS
-Text Notes 900  2700 0    60   ~ 12
+Text Notes 900  2875 0    60   ~ 12
 DATA/CLK\nINPUTS
 Text Notes 2850 900  0    60   ~ 12
 8 strips of 8 LEDs each (8x8)
@@ -1589,7 +1589,27 @@ Wire Wire Line
 Wire Wire Line
 	1600 1425 1600 1200
 Wire Wire Line
-	1750 1975 1750 2100
+	1750 1975 1750 2300
 Wire Wire Line
-	1600 2100 1600 1975
+	1600 2200 1600 1975
+Wire Wire Line
+	1550 1225 1350 1225
+Wire Wire Line
+	1800 1225 2000 1225
+Wire Wire Line
+	1800 2400 2000 2400
+Wire Wire Line
+	1550 2400 1350 2400
+Text Label 1550 2300 2    40   ~ 0
+5V
+Text Label 1800 2200 0    40   ~ 0
+5V
+Text Label 1800 1225 0    40   ~ 0
+5V
+Text Label 1550 1225 2    40   ~ 0
+5V
+Wire Wire Line
+	1800 2100 2000 2100
+Wire Wire Line
+	1525 2100 1350 2100
 $EndSCHEMATC

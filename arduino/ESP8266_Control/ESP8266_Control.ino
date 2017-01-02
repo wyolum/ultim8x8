@@ -24,6 +24,9 @@ uint8_t bytesPerPixel = 3;
 
 CRGB leds[numLEDs];
 
+bool showing_network = false;
+long showing_network_start = 0;
+
 int data_available(){
     static int avail = 0;
     avail = udp.parsePacket();
@@ -84,6 +87,9 @@ void display_network_status(){
         }
     }
     FastLED.delay(10);
+
+    showing_network = true;
+    showing_network_start = millis();
 }
 
 void fill_color(CRGB color){
@@ -195,6 +201,13 @@ inline void getData()
 
 void loop()
 {
-    // Serial.println("Loop");
+    if(showing_network){
+        if((millis() - showing_network_start) > 60000){
+            FastLED.clear();
+            FastLED.show();
+            FastLED.delay(0);
+            showing_network = false;
+        }
+    }
     getData();
 }

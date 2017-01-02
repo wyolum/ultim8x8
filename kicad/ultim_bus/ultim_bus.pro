@@ -1,4 +1,4 @@
-update=Fri Mar 25 14:30:21 2016
+update=Mon Jan  2 17:50:59 2017
 version=1
 last_client=kicad
 [pcbnew]
@@ -28,6 +28,6 @@ version=1
 LibDir=
 [eeschema/libraries]
 LibName1=power
-LibName2=ultim8x8_libs/ultim8x8_sym
+LibName2=ultimbus_libs/ultim8x8_sym
 [general]
 version=1

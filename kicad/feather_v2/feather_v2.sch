@@ -100,10 +100,10 @@ U 1 1 5817E55B
 P 5125 1475
 F 0 "JP1" H 5175 1375 50  0000 L CNN
 F 1 "PWR_SEL" H 5125 1575 50  0000 C BNN
-F 2 "feather_v2:Pin_Header_Straight_1x03" H 5125 1475 50  0001 C CNN
+F 2 "feather_v2:switch_spdt" H 5125 1475 50  0001 C CNN
 F 3 "" H 5125 1475 50  0000 C CNN
 	1    5125 1475
-	0    -1   -1   0   
+	0    -1   1    0   
 $EndComp
 Wire Wire Line
 	3925 1575 4800 1575
@@ -200,5 +200,40 @@ Mounting Holes
 Text Label 4375 1375 0    50   ~ 10
 VBAT
 Text Label 4350 1575 0    50   ~ 10
+VUSB
+Wire Wire Line
+	4375 2850 4800 2850
+$Comp
+L JUMPER3 JP2
+U 1 1 586BC487
+P 5125 2950
+F 0 "JP2" H 5175 2850 50  0000 L CNN
+F 1 "PWR_SEL2" H 5125 3050 50  0000 C BNN
+F 2 "feather_v2:switch_spdt" H 5125 2950 50  0001 C CNN
+F 3 "" H 5125 2950 50  0000 C CNN
+	1    5125 2950
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	4350 3050 4800 3050
+Text Label 5775 2950 2    50   ~ 10
+VLED
+Wire Wire Line
+	4800 2850 4800 2600
+Wire Wire Line
+	4800 2600 5125 2600
+Wire Wire Line
+	5125 2600 5125 2700
+Wire Wire Line
+	4800 3050 4800 3325
+Wire Wire Line
+	4800 3325 5125 3325
+Wire Wire Line
+	5125 3325 5125 3200
+Wire Wire Line
+	5775 2950 5225 2950
+Text Label 4375 2850 0    50   ~ 10
+VBAT
+Text Label 4350 3050 0    50   ~ 10
 VUSB
 $EndSCHEMATC

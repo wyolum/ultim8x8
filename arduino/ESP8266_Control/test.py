@@ -1,4 +1,5 @@
 from __future__ import print_function
+from __future__ import division
 from bibliopixel.drivers.network_udp import DriverNetworkUDP
 from bibliopixel import LEDMatrix, MatrixRotation
 from BiblioPixelAnimations.matrix.bloom import Bloom
@@ -7,12 +8,14 @@ import time
 
 log.setLogLevel(log.DEBUG)
 
+numLEDs = 64
+
 print("connecting")
-driver = DriverNetworkUDP(num=8 * 8, broadcast=False, host="10.0.1.138", port=1822)
+driver = DriverNetworkUDP(num=numLEDs, broadcast=False, host="10.0.1.33", port=1822)
 
 print("setup matrix")
-led = LEDMatrix(driver, width=8, height=8, coordMap=None,
-                rotation=MatrixRotation.ROTATE_90, vert_flip=False,
+led = LEDMatrix(driver, width=8, height=numLEDs // 8, coordMap=None,
+                rotation=MatrixRotation.ROTATE_0, vert_flip=False,
                 serpentine=True, threadedUpdate=False,
                 masterBrightness=255, pixelSize=(1, 1))
 

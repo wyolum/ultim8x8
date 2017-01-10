@@ -26,20 +26,19 @@ def main():
     driver = DriverNetworkUDP(num=args.width * args.height,
                               width=args.width, height=args.height,
                               host=args.ip, port=1822)
-
     try:
-        led = LEDMatrix(driver, width=8, height=8, coordMap=None,
-                        rotation=MatrixRotation.ROTATE_0, vert_flip=False,
+        led = LEDMatrix(driver, width=args.width, height=args.height, coordMap=None,
+                        rotation=MatrixRotation.ROTATE_90, vert_flip=False,
                         serpentine=True, threadedUpdate=True,
                         masterBrightness=args.bright, pixelSize=(1, 1))
 
         anim = GenericNetworkReceiver(led, port=3142, interface='0.0.0.0')
         anim.run(threaded=True)
 
-        PixelPainter(n_row=args.height, n_col=args.width,
+        PixelPainter(n_row=args.width, n_col=args.height,
                      display_ip="127.0.0.1", display_port=3142)
-    except:
-        raise
+    except Exception as e:
+        print("Exception Encountered!", e)
     finally:
         # NetworkUDP might miss off... really hammer it
         for _ in range(10):

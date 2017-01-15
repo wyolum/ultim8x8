@@ -14,9 +14,9 @@ Adafruit Feather M0
 
 Miniature slide switch
 
-![buckle](https://github.com/wyolum/ultim8x8/fabricate/buckle/buckle_01.png)
+![buckle](https://github.com/wyolum/ultim8x8/tree/master/fabricate/buckle/buckle_01.png)
 
-![buckle](https://github.com/wyolum/ultim8x8/fabricate/buckle/buckle_02.png)
+![buckle](https://github.com/wyolum/ultim8x8/tree/master/fabricate/buckle/buckle_02.png)
 
 License
 -------

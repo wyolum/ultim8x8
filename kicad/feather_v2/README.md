@@ -7,9 +7,9 @@ Use a 2.54mm pitch slide switch/header+jumper mounted either at JP1 or JP2, to s
 
 Instead of using a Switch, use shorting pads near the switch pads to permanently select one of the two supply options - USB or BAT.
 
-![Feather board top](/kicad/feather_v2/feather_v2_images/feather_02_01.png)
+![Feather board top](/feather_v2_images/feather_02_01.png)
 
-![Feather board bot](/kicad/feather_v2/feather_v2_images/feather_02_02.png)
+![Feather board bot](/feather_v2_images/feather_02_02.png)
 
 License
 -------

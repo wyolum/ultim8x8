@@ -21,9 +21,9 @@ When running at low Amps or driving a single board, the 4 pin 0.1" pitch header 
 * [featherboard_case](/fabricate/featherboard_case) - 3D CAD files for a "wireless" ultim8x8 brick
 
 
-[ultim8 top](/kicad/kicad_8x8_45/ultim8x8_images/ultim8x8_01.png)
+![ultim8 top](/kicad/kicad_8x8_45/ultim8x8_images/ultim8x8_01.png)
 
-[ultim8 bottom](/kicad/kicad_8x8_45/ultim8x8_images/ultim8x8_02.png)
+![ultim8 bottom](/kicad/kicad_8x8_45/ultim8x8_images/ultim8x8_02.png)
 
 License
 -------

@@ -1,4 +1,4 @@
-# ultim8x8
+# buckle
 
 ultim8x8 LED panel belt Buckle "Wearable Tech". Requires this 3D printed case, one ultim8x8 Module, 
 Adafruit Feather M0, 1200mAh LiPo Battery, Miniature slide switch.

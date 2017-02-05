@@ -79,6 +79,13 @@ void setup(void)
   }
   Serial.println( F("OK!") );
 
+  // Kevin, these do not work.
+  strip.setPixelColor(3,strip.Color(10, 0, 0));
+  strip.setPixelColor(4,strip.Color(0, 10, 0));
+  strip.setPixelColor(5,strip.Color(0, 0, 10));
+  strip.show();
+  strip.show();
+
   if ( FACTORYRESET_ENABLE )
   {
     /* Perform a factory reset to make sure everything is in a known state */
@@ -121,8 +128,7 @@ void setup(void)
   Serial.println( F("Switching to DATA mode!") );
   ble.setMode(BLUEFRUIT_MODE_DATA);
 
-  Serial.println(F("******************************"));
-
+  Serial.println(F("******************************"));  
 }
 
 int lastx =5;

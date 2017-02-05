@@ -11,7 +11,7 @@ WiFiUDP udp;
 IPAddress remote_ip;
 int remote_port;
 
-#define numLEDs 64
+#define numLEDs (64 * 7)
 
 #define BASE_BRIGHTNESS 64 //battery cannot handle full
 #define STATUS_LEVEL 32

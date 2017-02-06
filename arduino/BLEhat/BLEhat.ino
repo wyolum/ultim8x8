@@ -7,8 +7,8 @@
 #include "Adafruit_BluefruitLE_SPI.h"
 
 #include "BluefruitConfig.h"
-#define DATAPIN    23 // Ultim8x8
-#define CLOCKPIN   24 // Ultim8x8
+#define DATAPIN    SDA // Ultim8x8
+#define CLOCKPIN   SCL // Ultim8x8
 #define NUMPIXELS 64
 
 Adafruit_DotStar strip = Adafruit_DotStar(
@@ -58,11 +58,7 @@ void setup(void)
 {
   delay(500);
   strip.begin();
-  strip.show();
   strip.setBrightness(50);
-  strip.setPixelColor(0,strip.Color(10, 0, 0));
-  strip.setPixelColor(1,strip.Color(0, 10, 0));
-  strip.setPixelColor(2,strip.Color(0, 0, 10));
   strip.show();
   strip.show();
 
@@ -78,13 +74,6 @@ void setup(void)
     error(F("Couldn't find Bluefruit, make sure it's in CoMmanD mode & check wiring?"));
   }
   Serial.println( F("OK!") );
-
-  // Kevin, these do not work.
-  strip.setPixelColor(3,strip.Color(10, 0, 0));
-  strip.setPixelColor(4,strip.Color(0, 10, 0));
-  strip.setPixelColor(5,strip.Color(0, 0, 10));
-  strip.show();
-  strip.show();
 
   if ( FACTORYRESET_ENABLE )
   {

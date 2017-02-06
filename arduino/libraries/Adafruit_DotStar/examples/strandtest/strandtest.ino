@@ -17,8 +17,10 @@
 //#define CLOCKPIN   A2 //5
 //#define DATAPIN    A0 // Celeste
 //#define CLOCKPIN   9 //PB0 Celeste
-#define DATAPIN    23 // Ultim8x8
-#define CLOCKPIN   24 // Ultim8x8
+//#define DATAPIN    23 // Ultim8x8 (does not work with BLE feather)
+//#define CLOCKPIN   24 // Ultim8x8 (does not work with BLE feather)
+#define DATAPIN    SDA // Ultim8x8
+#define CLOCKPIN   SCL // Ultim8x8
 
 Adafruit_DotStar strip = Adafruit_DotStar(
   NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
@@ -49,7 +51,7 @@ void loop() {
   strip.setPixelColor(head, color); // 'On' pixel at head
   strip.setPixelColor(tail, 0);     // 'Off' pixel at tail
   strip.show();                     // Refresh strip
-  delay(200);                        // Pause 20 milliseconds (~50 FPS)
+  //delay(200);                        // Pause 20 milliseconds (~50 FPS)
   if(++head >= NUMPIXELS) {         // Increment head index.  Off end of strip?
     head = 0;                       //  Yes, reset head index to start
     //if((color >>= 8) == 0)color = 0xFF0000;

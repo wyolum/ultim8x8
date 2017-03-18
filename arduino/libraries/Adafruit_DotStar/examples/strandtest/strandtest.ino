@@ -10,17 +10,17 @@
 #include <SPI.h>         // COMMENT OUT THIS LINE FOR GEMMA OR TRINKET
 //#include <avr/power.h> // ENABLE THIS LINE FOR GEMMA OR TRINKET
 
-#define NUMPIXELS 64 // Number of LEDs in strip
+#define NUMPIXELS (64*14*2) // Number of LEDs in strip
 
 // Here's how to control the LEDs from any two pins:
 //#define DATAPIN    A1 //4
 //#define CLOCKPIN   A2 //5
 //#define DATAPIN    A0 // Celeste
 //#define CLOCKPIN   9 //PB0 Celeste
-//#define DATAPIN    23 // Ultim8x8 (does not work with BLE feather)
-//#define CLOCKPIN   24 // Ultim8x8 (does not work with BLE feather)
-#define DATAPIN    SDA // Ultim8x8
-#define CLOCKPIN   SCL // Ultim8x8
+#define DATAPIN    23 // Ultim8x8 (does not work with BLE feather)
+#define CLOCKPIN   24 // Ultim8x8 (does not work with BLE feather)
+//#define DATAPIN    SDA // Ultim8x8
+//#define CLOCKPIN   SCL // Ultim8x8
 
 Adafruit_DotStar strip = Adafruit_DotStar(
   NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BRG);
@@ -35,7 +35,7 @@ Adafruit_DotStar strip = Adafruit_DotStar(
 
 void setup() {
 
-  strip.setBrightness(5);
+  strip.setBrightness(3);
   strip.begin(); // Initialize pins for output
   strip.show();  // Turn all LEDs off ASAP
   strip.show();  // 2x to be sure?
@@ -47,7 +47,7 @@ void setup() {
 int      head  = 0, tail = -1; // Index of first 'on' and 'off' pixels
 uint32_t color = 0xFF0000;      // 'On' color (starts red)
 uint count = 0;
-void loop() {
+void loop2() {
   strip.setPixelColor(head, color); // 'On' pixel at head
   strip.setPixelColor(tail, 0);     // 'Off' pixel at tail
   strip.show();                     // Refresh strip
@@ -76,29 +76,36 @@ void loop1() {
   count++;
 }
 
-void loop2() {
+void loop() {
   // Some example procedures showing how to display to the pixels:
-  //colorWipe(strip.Color(255, 0, 0), 0); // Red
-  //colorWipe(strip.Color(0, 255, 0), 0); // Green
-  //colorWipe(strip.Color(0, 0, 255), 0); // Blue
-  //colorWipe(strip.Color(0, 0, 0, 255), 0); // White RGBW
+  while(1){
+    colorWipe(strip.Color(255, 0, 0), 0); // Red
+    colorWipe(strip.Color(0, 255, 0), 0); // Green
+    colorWipe(strip.Color(0, 0, 255), 0); // Blue
+  }
+    //colorWipe(strip.Color(0, 0, 0, 255), 0); // White RGBW
   // Send a theater pixel chase in...
-  theaterChase(strip.Color(127, 127, 127), 50); // White
+  //theaterChase(strip.Color(127, 127, 127), 50); // White
   //theaterChase(strip.Color(127, 0, 0), 50); // Red
   //theaterChase(strip.Color(0, 0, 127), 50); // Blue
 
-  rainbow(1);
-  //rainbowCycle(1);
-  theaterChaseRainbow(50);
+  for(int ii=0; ii< 3; ii++){
+    rainbow(1);
+  }
+  rainbowCycle(1);
+  //theaterChaseRainbow(50);
 }
 
 // Fill the dots one after the other with a color
 void colorWipe(uint32_t c, uint8_t wait) {
-  for(uint16_t i=0; i<strip.numPixels(); i++) {
+  //for(uint16_t i=strip.numPixels() - 1; i >= 0; i--) {
+  for(uint16_t i=0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, c);
-    strip.show();
-    delay(wait);
+    //strip.show();
+    //delay(wait);
   }
+  strip.show();
+  //delay(300);
 }
 
 void rainbow(uint8_t wait) {

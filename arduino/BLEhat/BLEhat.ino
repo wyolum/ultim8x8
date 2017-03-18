@@ -41,11 +41,29 @@ void printHex(const uint8_t * data, const uint32_t numBytes);
 // the packet buffer
 extern uint8_t packetbuffer[];
 
-void strip_clear(){
+void swipe_clear(){
   for(int i = 0; i < strip.numPixels(); i++){
     strip.setPixelColor(i,0);
     strip.show();
   }
+}
+
+void strip_clear(){
+  for(int i = 0; i < strip.numPixels(); i++){
+    strip.setPixelColor(i,0);
+  }
+  strip.show();
+}
+
+void setPixel(uint8_t row, uint8_t col, uint32_t color){
+  int pixel;
+  if(row % 2 == 0){
+    pixel = 8 * row + col;
+  }
+  else{
+    pixel = 8 * (row + 1) - (col + 1);
+  }
+  strip.setPixelColor(pixel, color);
 }
 
 /**************************************************************************/
@@ -58,7 +76,7 @@ void setup(void)
 {
   delay(500);
   strip.begin();
-  strip.setBrightness(50);
+  strip.setBrightness(8);
   strip.show();
   strip.show();
 
@@ -124,13 +142,28 @@ int lastx =5;
 int lasty =5;
 int xinc = 1;
 int yinc = 1;
+
+uint32_t count = 0;
 /**************************************************************************/
 /*!
     @brief  Constantly poll for new command or response data
 */
 /**************************************************************************/
+uint8_t display_mode = 2;
+  
 void loop(void)
 {
+  count += 1;
+  if(display_mode == 2){
+    pong();
+  }
+  else if(display_mode == 1){
+    rainbow();
+  }
+  else{
+    strip_clear();
+  }
+  
   /* Wait for new data to arrive */
   uint8_t len = readPacket(&ble, BLE_READPACKET_TIMEOUT);
   if (len == 0) return;
@@ -147,17 +180,9 @@ void loop(void)
     Serial.print(green, HEX);
     if (blue < 0x10) Serial.print("0");
     Serial.println(blue, HEX);
-
-    for (int i = 0; i < strip.numPixels();i ++){
-      strip.setPixelColor(i,strip.Color(red,green,blue));
-    }
-    strip.show();
-    strip.show();
-    strip.show();
-    strip.show();
-    strip.show();
+    display_mode = (red + blue + green > 0);
   }
-
+  
   // Buttons
   if (packetbuffer[1] == 'B') {
     uint8_t buttnum = packetbuffer[2] - '0';
@@ -251,4 +276,111 @@ void loop(void)
     Serial.print(z); Serial.print('\t');
     Serial.print(w); Serial.println();
   }
+}
+
+float px = 0;
+float py = 0;
+float vx = .6;
+float vy = 1.03;
+void pong(){
+  setPixel((int)px, (int)py, 0);
+  px += vx;
+  py += vy;
+  setPixel((int)px, (int)py, Wheel(count % 255));
+  strip.show();
+  strip.show();
+  if(px >= 8 && vx > 0){
+    vx *= -1;
+  }
+  if(px <= 0 && vx < 0){
+    vx *= -1;
+  }
+  if(py >= 8 && vy > 0){
+    vy *= -1;
+  }
+  if(py <= 0 && vy < 0){
+    vy *= -1;
+  }
+}
+
+float cx = 3.5;
+float cy = 3.5;
+
+void rainbow() {
+  uint16_t row, col;
+  for(row=0; row < 8; row++) {
+    for(col=0; col < 8; col++) {
+      float d = 16 * sqrt((row - cx) * (row - cx) + (col - cy) * (col - cy)) + 3 * count;
+      setPixel(row, col, Wheel((int)d & 255));
+    }
+  }
+  setPixel(0, 0, 0);
+  setPixel(7, 0, 0);
+  setPixel(0, 7, 0);
+  setPixel(7, 7, 0);
+  strip.show();
+}
+
+// Slightly different, this makes the rainbow equally distributed throughout
+void rainbowCycle(uint8_t wait) {
+  uint16_t i, j;
+
+  for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
+    for(i=0; i< strip.numPixels(); i++) {
+      strip.setPixelColor(i, Wheel(((i * 256 / strip.numPixels()) + j) & 255));
+    }
+    strip.show();
+    delay(wait);
+  }
+}
+
+//Theatre-style crawling lights.
+void theaterChase(uint32_t c, uint8_t wait) {
+  for (int j=0; j<10; j++) {  //do 10 cycles of chasing
+    for (int q=0; q < 3; q++) {
+      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+        strip.setPixelColor(i+q, c);    //turn every third pixel on
+      }
+      strip.show();
+
+      delay(wait);
+
+      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+        strip.setPixelColor(i+q, 0);        //turn every third pixel off
+      }
+    }
+  }
+}
+
+//Theatre-style crawling lights with rainbow effect
+void theaterChaseRainbow(uint8_t wait) {
+  for (int j=0; j < 256; j++) {     // cycle all 256 colors in the wheel
+    for (int q=0; q < 3; q++) {
+      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+        strip.setPixelColor(i+q, Wheel( (i+j) % 255));    //turn every third pixel on
+      }
+      strip.show();
+
+      delay(wait);
+
+      for (uint16_t i=0; i < strip.numPixels(); i=i+3) {
+        strip.setPixelColor(i+q, 0);        //turn every third pixel off
+      }
+    }
+  }
+}
+
+// Input a value 0 to 255 to get a color value.
+// The colours are a transition r - g - b - back to r.
+uint32_t Wheel(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    return strip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if(WheelPos < 170) {
+    WheelPos -= 85;
+    return strip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return strip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }

@@ -1,0 +1,350 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:feather_v3
+LIBS:ultim8x8_sym
+LIBS:feather_v3-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "ULTiM8x8 Feather Board"
+Date "2016-10-29"
+Rev "2.0"
+Comp "Maniacal Labs & WyoLum"
+Comment1 "Power to panel provided by LiPo battery or USB from Feather (toggle with jumper)"
+Comment2 "Used to mount an Adafruit Feather to the back of the ULTiM8x8"
+Comment3 "www.wyolum.com"
+Comment4 "www.maniacallabs.com"
+$EndDescr
+$Comp
+L CONN_1 P7
+U 1 1 58151907
+P 4550 3975
+F 0 "P7" H 4630 3975 40  0000 L CNN
+F 1 "Screw" H 4550 4030 30  0001 C CNN
+F 2 "feather_v3:Screw" H 4550 3975 60  0001 C CNN
+F 3 "" H 4550 3975 60  0000 C CNN
+F 4 "mfr_pn" H 4550 3975 60  0001 C CNN "manf#"
+	1    4550 3975
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	1800 1275 2150 1275
+Wire Wire Line
+	3325 1375 4800 1375
+Wire Wire Line
+	1775 1975 2150 1975
+Wire Wire Line
+	1775 2075 2150 2075
+$Comp
+L LOGO_1 L4
+U 1 1 581524CC
+P 1000 6900
+F 0 "L4" H 950 7000 40  0000 L CNN
+F 1 "Maniacal Labs" H 1000 6955 30  0001 C CNN
+F 2 "feather_v3:logo_MLlabs_small" H 1800 6900 60  0000 C CNN
+F 3 "" H 1000 6900 60  0000 C CNN
+	1    1000 6900
+	1    0    0    -1  
+$EndComp
+$Comp
+L LOGO_1 L3
+U 1 1 58152670
+P 1000 7125
+F 0 "L3" H 950 7225 40  0000 L CNN
+F 1 "WyoLum" H 1000 7180 30  0001 C CNN
+F 2 "feather_v3:logo_wyo_butterfly_small" H 1950 7125 60  0000 C CNN
+F 3 "" H 1000 7125 60  0000 C CNN
+	1    1000 7125
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_1 P3
+U 1 1 58152AF0
+P 4550 3775
+F 0 "P3" H 4630 3775 40  0000 L CNN
+F 1 "Screw" H 4550 3830 30  0001 C CNN
+F 2 "feather_v3:Screw" H 4550 3775 60  0001 C CNN
+F 3 "" H 4550 3775 60  0000 C CNN
+F 4 "mfr_pn" H 4550 3775 60  0001 C CNN "manf#"
+	1    4550 3775
+	-1   0    0    1   
+$EndComp
+NoConn ~ 2150 975 
+NoConn ~ 2150 1075
+NoConn ~ 2150 1175
+NoConn ~ 2150 1375
+NoConn ~ 2150 1475
+NoConn ~ 2150 1575
+NoConn ~ 2150 1675
+NoConn ~ 2150 1775
+NoConn ~ 2150 1875
+NoConn ~ 2150 2175
+NoConn ~ 2150 2275
+NoConn ~ 2150 2375
+NoConn ~ 2150 2475
+NoConn ~ 3325 2475
+NoConn ~ 3325 2375
+NoConn ~ 3325 2275
+NoConn ~ 3325 2175
+NoConn ~ 3325 2075
+NoConn ~ 3325 1975
+NoConn ~ 3325 1875
+NoConn ~ 3325 1775
+NoConn ~ 3325 1675
+NoConn ~ 3325 1475
+$Comp
+L JUMPER3 JP1
+U 1 1 5817E55B
+P 5125 1475
+F 0 "JP1" H 5175 1375 50  0000 L CNN
+F 1 "PWR_SEL" H 5125 1575 50  0000 C BNN
+F 2 "feather_v3:switch_spdt" H 5125 1475 50  0001 C CNN
+F 3 "" H 5125 1475 50  0000 C CNN
+	1    5125 1475
+	0    -1   1    0   
+$EndComp
+Wire Wire Line
+	3325 1575 4800 1575
+$Comp
+L Feather_M0 H1
+U 1 1 5867FBDF
+P 2750 1725
+F 0 "H1" H 2350 2575 50  0000 C CNN
+F 1 "Feather_M0" V 2450 1725 50  0000 C CNN
+F 2 "feather_v3:FEATHER_M0_2" H 2350 1725 50  0001 C CNN
+F 3 "" H 2350 1725 50  0000 C CNN
+F 4 "mfr_pn" H 2750 1725 60  0001 C CNN "manf#"
+	1    2750 1725
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN4_S P1
+U 1 1 5868039D
+P 4550 5250
+F 0 "P1" V 4500 5250 50  0000 C CNN
+F 1 "Input1" V 4600 5250 50  0000 C CNN
+F 2 "feather_v3:header_2x2pos_th_male" H 4550 5250 60  0001 C CNN
+F 3 "" H 4550 5250 60  0000 C CNN
+	1    4550 5250
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4900 5100 5075 5100
+Wire Wire Line
+	5075 5200 4900 5200
+Wire Wire Line
+	4900 5300 5075 5300
+Wire Wire Line
+	5075 5400 4900 5400
+Text Label 5775 1475 2    50   ~ 10
+VLED
+Text Label 5075 5100 2    50   ~ 10
+VLED
+Text Label 1800 1275 0    50   ~ 10
+GND
+Text Label 1775 1975 0    50   ~ 10
+SCK
+Text Label 1775 2075 0    50   ~ 10
+MOSI
+Text Label 5075 5200 2    50   ~ 10
+GND
+Text Label 5075 5300 2    50   ~ 10
+SCK
+Text Label 5075 5400 2    50   ~ 10
+MOSI
+Wire Wire Line
+	4800 1375 4800 1125
+Wire Wire Line
+	4800 1125 5125 1125
+Wire Wire Line
+	5125 1125 5125 1225
+Wire Wire Line
+	4800 1575 4800 1850
+Wire Wire Line
+	4800 1850 5125 1850
+Wire Wire Line
+	5125 1850 5125 1725
+Wire Wire Line
+	5775 1475 5225 1475
+Text Notes 4000 3525 0    60   ~ 12
+Mounting Hole connections to ULTiM8x8
+Text Label 4375 1375 0    50   ~ 10
+VBAT
+Text Label 4350 1575 0    50   ~ 10
+VUSB
+$Comp
+L CONN_1 P9
+U 1 1 58CE46A5
+P 4550 4175
+F 0 "P9" H 4630 4175 40  0000 L CNN
+F 1 "Screw" H 4550 4230 30  0001 C CNN
+F 2 "feather_v3:Screw" H 4550 4175 60  0001 C CNN
+F 3 "" H 4550 4175 60  0000 C CNN
+F 4 "mfr_pn" H 4550 4175 60  0001 C CNN "manf#"
+	1    4550 4175
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_1 P4
+U 1 1 58CE4705
+P 4550 4375
+F 0 "P4" H 4630 4375 40  0000 L CNN
+F 1 "Screw" H 4550 4430 30  0001 C CNN
+F 2 "feather_v3:Screw" H 4550 4375 60  0001 C CNN
+F 3 "" H 4550 4375 60  0000 C CNN
+F 4 "mfr_pn" H 4550 4375 60  0001 C CNN "manf#"
+	1    4550 4375
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	4700 3775 5125 3775
+Wire Wire Line
+	4700 3975 5125 3975
+Wire Wire Line
+	4700 4175 5125 4175
+Wire Wire Line
+	4700 4375 5125 4375
+Text Label 5125 4375 2    50   ~ 10
+GND
+Text Label 5125 3975 2    50   ~ 10
+SCK
+Text Label 5125 4175 2    50   ~ 10
+MOSI
+Text Label 5125 3775 2    50   ~ 10
+VLED
+Wire Notes Line
+	4000 5000 6500 5000
+Wire Notes Line
+	6500 5000 6500 6000
+Wire Notes Line
+	6500 6000 4000 6000
+Wire Notes Line
+	4000 6000 4000 5000
+Wire Notes Line
+	4000 3550 6500 3550
+Wire Notes Line
+	6500 3550 6500 4550
+Wire Notes Line
+	6500 4550 4000 4550
+Wire Notes Line
+	4000 4550 4000 3550
+Text Notes 4000 4975 0    60   ~ 12
+4 way Header for Input
+Wire Notes Line
+	4000 1000 6500 1000
+Wire Notes Line
+	6500 1000 6500 3000
+Wire Notes Line
+	6500 3000 4000 3000
+Wire Notes Line
+	4000 3000 4000 1000
+Text Notes 4000 975  0    60   ~ 12
+Solder Bridges to power ULTiM8x8 from USB or Battery
+Text Notes 2475 800  0    60   ~ 12
+Feather Header
+Text Notes 950  6650 0    60   ~ 12
+Logos
+$Comp
+L CONN4_S P2
+U 1 1 58CE5EEA
+P 6075 5250
+F 0 "P2" V 6025 5250 50  0000 C CNN
+F 1 "Output1" V 6125 5250 50  0000 C CNN
+F 2 "feather_v3:header_2x2pos_th_male" H 6075 5250 60  0001 C CNN
+F 3 "" H 6075 5250 60  0000 C CNN
+	1    6075 5250
+	1    0    0    1   
+$EndComp
+Text Label 5450 5200 0    50   ~ 10
+GND
+Text Label 5450 5400 0    50   ~ 10
+VLED
+NoConn ~ 5725 5300
+NoConn ~ 5725 5100
+$Comp
+L CONN_1 P11
+U 1 1 58CE643B
+P 5625 3775
+F 0 "P11" H 5705 3775 40  0000 L CNN
+F 1 "Screw" H 5625 3830 30  0001 C CNN
+F 2 "feather_v3:Screw" H 5625 3775 60  0001 C CNN
+F 3 "" H 5625 3775 60  0000 C CNN
+F 4 "mfr_pn" H 5625 3775 60  0001 C CNN "manf#"
+	1    5625 3775
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN_1 P12
+U 1 1 58CE6449
+P 5625 4375
+F 0 "P12" H 5705 4375 40  0000 L CNN
+F 1 "Screw" H 5625 4430 30  0001 C CNN
+F 2 "feather_v3:Screw" H 5625 4375 60  0001 C CNN
+F 3 "" H 5625 4375 60  0000 C CNN
+F 4 "mfr_pn" H 5625 4375 60  0001 C CNN "manf#"
+	1    5625 4375
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5775 3775 6200 3775
+Wire Wire Line
+	5775 4375 6200 4375
+Text Label 6200 4375 2    50   ~ 10
+GND
+Text Label 6200 3775 2    50   ~ 10
+VLED
+$Comp
+L CONN4_S P5
+U 1 1 58CE657D
+P 4550 5750
+F 0 "P5" V 4500 5750 50  0000 C CNN
+F 1 "Input2" V 4600 5750 50  0000 C CNN
+F 2 "feather_v3:header_2x2pos_th_male" H 4550 5750 60  0001 C CNN
+F 3 "" H 4550 5750 60  0000 C CNN
+	1    4550 5750
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 5600 5075 5600
+Wire Wire Line
+	5075 5700 4900 5700
+Wire Wire Line
+	4900 5800 5075 5800
+Wire Wire Line
+	5075 5900 4900 5900
+Text Label 5075 5700 2    50   ~ 10
+VLED
+Text Label 5075 5900 2    50   ~ 10
+GND
+Text Label 5075 5600 2    50   ~ 10
+SCK
+Text Label 5075 5800 2    50   ~ 10
+MOSI
+$Comp
+L CONN4_S P6
+U 1 1 58CE658B
+P 6075 5750
+F 0 "P6" V 6025 5750 50  0000 C CNN
+F 1 "Output2" V 6125 5750 50  0000 C CNN
+F 2 "feather_v3:header_2x2pos_th_male" H 6075 5750 60  0001 C CNN
+F 3 "" H 6075 5750 60  0000 C CNN
+	1    6075 5750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5725 5600 5450 5600
+Text Label 5450 5600 0    50   ~ 10
+GND
+Text Label 5450 5700 0    50   ~ 10
+VLED
+NoConn ~ 5725 5800
+NoConn ~ 5725 5900
+Wire Wire Line
+	5450 5200 5725 5200
+Wire Wire Line
+	5450 5400 5725 5400
+Wire Wire Line
+	5450 5700 5725 5700
+$EndSCHEMATC

@@ -1,0 +1,1693 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:ultim_bus
+LIBS:ultim8x8_sym
+LIBS:feather_v3
+LIBS:ultim_bus-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "ULTiM8x8 Feather Board"
+Date "2016-10-29"
+Rev "2.0"
+Comp "Maniacal Labs & WyoLum"
+Comment1 "Power to panel provided by LiPo battery or USB from Feather (toggle with jumper)"
+Comment2 "Used to mount an Adafruit Feather to the back of the ULTiM8x8"
+Comment3 "www.wyolum.com"
+Comment4 "www.maniacallabs.com"
+$EndDescr
+$Comp
+L CONN_1 P1
+U 1 1 56C5F93F
+P 1300 800
+F 0 "P1" V 1375 775 40  0000 L CNN
+F 1 "CONN_1" H 1300 855 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 1300 800 60  0001 C CNN
+F 3 "" H 1300 800 60  0000 C CNN
+F 4 "Value" H 1300 800 60  0001 C CNN "manf#"
+	1    1300 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P2
+U 1 1 56C5FA4D
+P 1550 800
+F 0 "P2" V 1625 775 40  0000 L CNN
+F 1 "CONN_1" H 1550 855 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 1550 800 60  0001 C CNN
+F 3 "" H 1550 800 60  0000 C CNN
+	1    1550 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P3
+U 1 1 56C5FA73
+P 1800 800
+F 0 "P3" V 1875 775 40  0000 L CNN
+F 1 "CONN_1" H 1800 855 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 1800 800 60  0001 C CNN
+F 3 "" H 1800 800 60  0000 C CNN
+	1    1800 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P4
+U 1 1 56C5FA9C
+P 2050 800
+F 0 "P4" V 2125 775 40  0000 L CNN
+F 1 "CONN_1" H 2050 855 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 2050 800 60  0001 C CNN
+F 3 "" H 2050 800 60  0000 C CNN
+F 4 "Value" H 2050 800 60  0001 C CNN "manf#"
+	1    2050 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P5
+U 1 1 56C5FAC8
+P 2300 800
+F 0 "P5" V 2375 775 40  0000 L CNN
+F 1 "CONN_1" H 2300 855 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 2300 800 60  0001 C CNN
+F 3 "" H 2300 800 60  0000 C CNN
+F 4 "Value" H 2300 800 60  0001 C CNN "manf#"
+	1    2300 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P6
+U 1 1 56C5FAF7
+P 2550 800
+F 0 "P6" V 2625 775 40  0000 L CNN
+F 1 "CONN_1" H 2550 855 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 2550 800 60  0001 C CNN
+F 3 "" H 2550 800 60  0000 C CNN
+	1    2550 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P7
+U 1 1 56C60213
+P 3050 800
+F 0 "P7" V 3125 775 40  0000 L CNN
+F 1 "CONN_1" H 3050 855 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3050 800 60  0001 C CNN
+F 3 "" H 3050 800 60  0000 C CNN
+	1    3050 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P8
+U 1 1 56C60219
+P 3300 800
+F 0 "P8" V 3375 775 40  0000 L CNN
+F 1 "CONN_1" H 3300 855 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3300 800 60  0001 C CNN
+F 3 "" H 3300 800 60  0000 C CNN
+F 4 "Value" H 3300 800 60  0001 C CNN "manf#"
+	1    3300 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P9
+U 1 1 56C6021F
+P 3550 800
+F 0 "P9" V 3625 775 40  0000 L CNN
+F 1 "CONN_1" H 3550 855 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3550 800 60  0001 C CNN
+F 3 "" H 3550 800 60  0000 C CNN
+F 4 "Value" H 3550 800 60  0001 C CNN "manf#"
+	1    3550 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P10
+U 1 1 56C60225
+P 3800 800
+F 0 "P10" V 3875 775 40  0000 L CNN
+F 1 "CONN_1" H 3800 855 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3800 800 60  0001 C CNN
+F 3 "" H 3800 800 60  0000 C CNN
+	1    3800 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P11
+U 1 1 56C6022B
+P 4050 800
+F 0 "P11" V 4125 775 40  0000 L CNN
+F 1 "CONN_1" H 4050 855 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 4050 800 60  0001 C CNN
+F 3 "" H 4050 800 60  0000 C CNN
+	1    4050 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P12
+U 1 1 56C60231
+P 4300 800
+F 0 "P12" V 4375 775 40  0000 L CNN
+F 1 "CONN_1" H 4300 855 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 4300 800 60  0001 C CNN
+F 3 "" H 4300 800 60  0000 C CNN
+F 4 "Value" H 4300 800 60  0001 C CNN "manf#"
+	1    4300 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P14
+U 1 1 56C6B68F
+P 675 2275
+F 0 "P14" V 750 2250 40  0000 L CNN
+F 1 "CONN_1" H 675 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 675 2275 60  0001 C CNN
+F 3 "" H 675 2275 60  0000 C CNN
+F 4 "Value" H 675 2275 60  0001 C CNN "manf#"
+	1    675  2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P15
+U 1 1 56C6B695
+P 925 2275
+F 0 "P15" V 1000 2250 40  0000 L CNN
+F 1 "CONN_1" H 925 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 925 2275 60  0001 C CNN
+F 3 "" H 925 2275 60  0000 C CNN
+F 4 "Value" H 925 2275 60  0001 C CNN "manf#"
+	1    925  2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P16
+U 1 1 56C6B69B
+P 1675 2275
+F 0 "P16" V 1750 2250 40  0000 L CNN
+F 1 "CONN_1" H 1675 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 1675 2275 60  0001 C CNN
+F 3 "" H 1675 2275 60  0000 C CNN
+F 4 "Value" H 1675 2275 60  0001 C CNN "manf#"
+	1    1675 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P17
+U 1 1 56C6B6A1
+P 1925 2275
+F 0 "P17" V 2000 2250 40  0000 L CNN
+F 1 "CONN_1" H 1925 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 1925 2275 60  0001 C CNN
+F 3 "" H 1925 2275 60  0000 C CNN
+F 4 "Value" H 1925 2275 60  0001 C CNN "manf#"
+	1    1925 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P18
+U 1 1 56C6B6A7
+P 2175 2275
+F 0 "P18" V 2250 2250 40  0000 L CNN
+F 1 "CONN_1" H 2175 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 2175 2275 60  0001 C CNN
+F 3 "" H 2175 2275 60  0000 C CNN
+F 4 "Value" H 2175 2275 60  0001 C CNN "manf#"
+	1    2175 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P19
+U 1 1 56C6B6AD
+P 2425 2275
+F 0 "P19" V 2500 2250 40  0000 L CNN
+F 1 "CONN_1" H 2425 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 2425 2275 60  0001 C CNN
+F 3 "" H 2425 2275 60  0000 C CNN
+F 4 "Value" H 2425 2275 60  0001 C CNN "manf#"
+	1    2425 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P20
+U 1 1 56C6B6BE
+P 3175 2275
+F 0 "P20" V 3250 2250 40  0000 L CNN
+F 1 "CONN_1" H 3175 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3175 2275 60  0001 C CNN
+F 3 "" H 3175 2275 60  0000 C CNN
+F 4 "Value" H 3175 2275 60  0001 C CNN "manf#"
+	1    3175 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P21
+U 1 1 56C6B6C4
+P 3425 2275
+F 0 "P21" V 3500 2250 40  0000 L CNN
+F 1 "CONN_1" H 3425 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3425 2275 60  0001 C CNN
+F 3 "" H 3425 2275 60  0000 C CNN
+F 4 "Value" H 3425 2275 60  0001 C CNN "manf#"
+	1    3425 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P22
+U 1 1 56C6B6CA
+P 3675 2275
+F 0 "P22" V 3750 2250 40  0000 L CNN
+F 1 "CONN_1" H 3675 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3675 2275 60  0001 C CNN
+F 3 "" H 3675 2275 60  0000 C CNN
+F 4 "Value" H 3675 2275 60  0001 C CNN "manf#"
+	1    3675 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P23
+U 1 1 56C6B6D0
+P 3925 2275
+F 0 "P23" V 4000 2250 40  0000 L CNN
+F 1 "CONN_1" H 3925 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3925 2275 60  0001 C CNN
+F 3 "" H 3925 2275 60  0000 C CNN
+F 4 "Value" H 3925 2275 60  0001 C CNN "manf#"
+	1    3925 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P24
+U 1 1 56C6B6D6
+P 4675 2275
+F 0 "P24" V 4750 2250 40  0000 L CNN
+F 1 "CONN_1" H 4675 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 4675 2275 60  0001 C CNN
+F 3 "" H 4675 2275 60  0000 C CNN
+F 4 "Value" H 4675 2275 60  0001 C CNN "manf#"
+	1    4675 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P25
+U 1 1 56C6B6DC
+P 4925 2275
+F 0 "P25" V 5000 2250 40  0000 L CNN
+F 1 "CONN_1" H 4925 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 4925 2275 60  0001 C CNN
+F 3 "" H 4925 2275 60  0000 C CNN
+F 4 "Value" H 4925 2275 60  0001 C CNN "manf#"
+	1    4925 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P27
+U 1 1 56C6BA98
+P 675 3675
+F 0 "P27" V 750 3650 40  0000 L CNN
+F 1 "CONN_1" H 675 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 675 3675 60  0001 C CNN
+F 3 "" H 675 3675 60  0000 C CNN
+F 4 "Value" H 675 3675 60  0001 C CNN "manf#"
+	1    675  3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P28
+U 1 1 56C6BA9E
+P 925 3675
+F 0 "P28" V 1000 3650 40  0000 L CNN
+F 1 "CONN_1" H 925 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 925 3675 60  0001 C CNN
+F 3 "" H 925 3675 60  0000 C CNN
+F 4 "Value" H 925 3675 60  0001 C CNN "manf#"
+	1    925  3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P29
+U 1 1 56C6BAA4
+P 1675 3675
+F 0 "P29" V 1750 3650 40  0000 L CNN
+F 1 "CONN_1" H 1675 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 1675 3675 60  0001 C CNN
+F 3 "" H 1675 3675 60  0000 C CNN
+F 4 "Value" H 1675 3675 60  0001 C CNN "manf#"
+	1    1675 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P30
+U 1 1 56C6BAAA
+P 1925 3675
+F 0 "P30" V 2000 3650 40  0000 L CNN
+F 1 "CONN_1" H 1925 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 1925 3675 60  0001 C CNN
+F 3 "" H 1925 3675 60  0000 C CNN
+	1    1925 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P31
+U 1 1 56C6BAB0
+P 2175 3675
+F 0 "P31" V 2250 3650 40  0000 L CNN
+F 1 "CONN_1" H 2175 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 2175 3675 60  0001 C CNN
+F 3 "" H 2175 3675 60  0000 C CNN
+	1    2175 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P32
+U 1 1 56C6BAB6
+P 2425 3675
+F 0 "P32" V 2500 3650 40  0000 L CNN
+F 1 "CONN_1" H 2425 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 2425 3675 60  0001 C CNN
+F 3 "" H 2425 3675 60  0000 C CNN
+F 4 "Value" H 2425 3675 60  0001 C CNN "manf#"
+	1    2425 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P33
+U 1 1 56C6BAC7
+P 3175 3675
+F 0 "P33" V 3250 3650 40  0000 L CNN
+F 1 "CONN_1" H 3175 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3175 3675 60  0001 C CNN
+F 3 "" H 3175 3675 60  0000 C CNN
+F 4 "Value" H 3175 3675 60  0001 C CNN "manf#"
+	1    3175 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P34
+U 1 1 56C6BACD
+P 3425 3675
+F 0 "P34" V 3500 3650 40  0000 L CNN
+F 1 "CONN_1" H 3425 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3425 3675 60  0001 C CNN
+F 3 "" H 3425 3675 60  0000 C CNN
+	1    3425 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P35
+U 1 1 56C6BAD3
+P 3675 3675
+F 0 "P35" V 3750 3650 40  0000 L CNN
+F 1 "CONN_1" H 3675 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3675 3675 60  0001 C CNN
+F 3 "" H 3675 3675 60  0000 C CNN
+	1    3675 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P36
+U 1 1 56C6BAD9
+P 3925 3675
+F 0 "P36" V 4000 3650 40  0000 L CNN
+F 1 "CONN_1" H 3925 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3925 3675 60  0001 C CNN
+F 3 "" H 3925 3675 60  0000 C CNN
+F 4 "Value" H 3925 3675 60  0001 C CNN "manf#"
+	1    3925 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P37
+U 1 1 56C6BADF
+P 4675 3675
+F 0 "P37" V 4750 3650 40  0000 L CNN
+F 1 "CONN_1" H 4675 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 4675 3675 60  0001 C CNN
+F 3 "" H 4675 3675 60  0000 C CNN
+F 4 "Value" H 4675 3675 60  0001 C CNN "manf#"
+	1    4675 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P38
+U 1 1 56C6BAE5
+P 4925 3675
+F 0 "P38" V 5000 3650 40  0000 L CNN
+F 1 "CONN_1" H 4925 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 4925 3675 60  0001 C CNN
+F 3 "" H 4925 3675 60  0000 C CNN
+	1    4925 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P40
+U 1 1 56C6ED2D
+P 1300 5150
+F 0 "P40" V 1375 5125 40  0000 L CNN
+F 1 "CONN_1" H 1300 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 1300 5150 60  0001 C CNN
+F 3 "" H 1300 5150 60  0000 C CNN
+F 4 "Value" H 1300 5150 60  0001 C CNN "manf#"
+	1    1300 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P41
+U 1 1 56C6ED33
+P 1550 5150
+F 0 "P41" V 1625 5125 40  0000 L CNN
+F 1 "CONN_1" H 1550 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 1550 5150 60  0001 C CNN
+F 3 "" H 1550 5150 60  0000 C CNN
+F 4 "Value" H 1550 5150 60  0001 C CNN "manf#"
+	1    1550 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P42
+U 1 1 56C6ED39
+P 1800 5150
+F 0 "P42" V 1875 5125 40  0000 L CNN
+F 1 "CONN_1" H 1800 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 1800 5150 60  0001 C CNN
+F 3 "" H 1800 5150 60  0000 C CNN
+F 4 "Value" H 1800 5150 60  0001 C CNN "manf#"
+	1    1800 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P43
+U 1 1 56C6ED3F
+P 2050 5150
+F 0 "P43" V 2125 5125 40  0000 L CNN
+F 1 "CONN_1" H 2050 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 2050 5150 60  0001 C CNN
+F 3 "" H 2050 5150 60  0000 C CNN
+F 4 "Value" H 2050 5150 60  0001 C CNN "manf#"
+	1    2050 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P44
+U 1 1 56C6ED45
+P 2300 5150
+F 0 "P44" V 2375 5125 40  0000 L CNN
+F 1 "CONN_1" H 2300 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 2300 5150 60  0001 C CNN
+F 3 "" H 2300 5150 60  0000 C CNN
+F 4 "Value" H 2300 5150 60  0001 C CNN "manf#"
+	1    2300 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P45
+U 1 1 56C6ED4B
+P 2550 5150
+F 0 "P45" V 2625 5125 40  0000 L CNN
+F 1 "CONN_1" H 2550 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 2550 5150 60  0001 C CNN
+F 3 "" H 2550 5150 60  0000 C CNN
+F 4 "Value" H 2550 5150 60  0001 C CNN "manf#"
+	1    2550 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P46
+U 1 1 56C6ED5C
+P 3050 5150
+F 0 "P46" V 3125 5125 40  0000 L CNN
+F 1 "CONN_1" H 3050 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3050 5150 60  0001 C CNN
+F 3 "" H 3050 5150 60  0000 C CNN
+F 4 "Value" H 3050 5150 60  0001 C CNN "manf#"
+	1    3050 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P47
+U 1 1 56C6ED62
+P 3300 5150
+F 0 "P47" V 3375 5125 40  0000 L CNN
+F 1 "CONN_1" H 3300 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3300 5150 60  0001 C CNN
+F 3 "" H 3300 5150 60  0000 C CNN
+F 4 "Value" H 3300 5150 60  0001 C CNN "manf#"
+	1    3300 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P48
+U 1 1 56C6ED68
+P 3550 5150
+F 0 "P48" V 3625 5125 40  0000 L CNN
+F 1 "CONN_1" H 3550 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 3550 5150 60  0001 C CNN
+F 3 "" H 3550 5150 60  0000 C CNN
+F 4 "Value" H 3550 5150 60  0001 C CNN "manf#"
+	1    3550 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P49
+U 1 1 56C6ED6E
+P 3800 5150
+F 0 "P49" V 3875 5125 40  0000 L CNN
+F 1 "CONN_1" H 3800 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 3800 5150 60  0001 C CNN
+F 3 "" H 3800 5150 60  0000 C CNN
+F 4 "Value" H 3800 5150 60  0001 C CNN "manf#"
+	1    3800 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P50
+U 1 1 56C6ED74
+P 4050 5150
+F 0 "P50" V 4125 5125 40  0000 L CNN
+F 1 "CONN_1" H 4050 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 4050 5150 60  0001 C CNN
+F 3 "" H 4050 5150 60  0000 C CNN
+F 4 "Value" H 4050 5150 60  0001 C CNN "manf#"
+	1    4050 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P51
+U 1 1 56C6ED7A
+P 4300 5150
+F 0 "P51" V 4375 5125 40  0000 L CNN
+F 1 "CONN_1" H 4300 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw_SqPad" H 4300 5150 60  0001 C CNN
+F 3 "" H 4300 5150 60  0000 C CNN
+F 4 "Value" H 4300 5150 60  0001 C CNN "manf#"
+	1    4300 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L1
+U 1 1 56C6FDFF
+P 7300 4900
+F 0 "L1" V 7380 4900 40  0000 C CNN
+F 1 "OSHW" V 7450 4900 30  0000 C CNN
+F 2 "ultim_bus:OSHW_6mm" H 7300 4900 60  0001 C CNN
+F 3 "" H 7300 4900 60  0000 C CNN
+F 4 "Value" H 7300 4900 60  0001 C CNN "manf#"
+	1    7300 4900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L2
+U 1 1 56C70395
+P 7550 4900
+F 0 "L2" V 7630 4900 40  0000 C CNN
+F 1 "OSHW" V 7700 4900 30  0000 C CNN
+F 2 "ultim_bus:OSHW_6mm" H 7550 4900 60  0001 C CNN
+F 3 "" H 7550 4900 60  0000 C CNN
+F 4 "Value" H 7550 4900 60  0001 C CNN "manf#"
+	1    7550 4900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L3
+U 1 1 56C707C2
+P 7300 5300
+F 0 "L3" V 7380 5300 40  0000 C CNN
+F 1 "WyoLum" V 7450 5300 30  0000 C CNN
+F 2 "ultim_bus:logo_wyo_butterfly_small" H 7300 5300 60  0001 C CNN
+F 3 "" H 7300 5300 60  0000 C CNN
+F 4 "Value" H 7300 5300 60  0001 C CNN "manf#"
+	1    7300 5300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L4
+U 1 1 56C707C9
+P 7550 5300
+F 0 "L4" V 7630 5300 40  0000 C CNN
+F 1 "WyoLum" V 7700 5300 30  0000 C CNN
+F 2 "ultim_bus:logo_wyo_butterfly_small" H 7550 5300 60  0001 C CNN
+F 3 "" H 7550 5300 60  0000 C CNN
+F 4 "Value" H 7550 5300 60  0001 C CNN "manf#"
+	1    7550 5300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L7
+U 1 1 56C70D58
+P 7300 5700
+F 0 "L7" V 7380 5700 40  0000 C CNN
+F 1 "Maniacal" V 7450 5700 30  0000 C CNN
+F 2 "ultim_bus:logo_MLlabs_small" H 7300 5700 60  0001 C CNN
+F 3 "" H 7300 5700 60  0000 C CNN
+F 4 "Value" H 7300 5700 60  0001 C CNN "manf#"
+	1    7300 5700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L8
+U 1 1 56C70D5F
+P 7550 5700
+F 0 "L8" V 7630 5700 40  0000 C CNN
+F 1 "Maniacal" V 7700 5700 30  0000 C CNN
+F 2 "ultim_bus:logo_MLlabs_small" H 7550 5700 60  0001 C CNN
+F 3 "" H 7550 5700 60  0000 C CNN
+F 4 "Value" H 7550 5700 60  0001 C CNN "manf#"
+	1    7550 5700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L11
+U 1 1 56C71690
+P 7300 6100
+F 0 "L11" V 7380 6100 40  0000 C CNN
+F 1 "ULTiM" V 7450 6100 30  0000 C CNN
+F 2 "ultim_bus:logo_ultim8x8_small" H 7300 6100 60  0001 C CNN
+F 3 "" H 7300 6100 60  0000 C CNN
+F 4 "Value" H 7300 6100 60  0001 C CNN "manf#"
+	1    7300 6100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L LOGO_1 L12
+U 1 1 56C71697
+P 7550 6100
+F 0 "L12" V 7630 6100 40  0000 C CNN
+F 1 "ULTiM" V 7700 6100 30  0000 C CNN
+F 2 "ultim_bus:logo_ultim8x8_small" H 7550 6100 60  0001 C CNN
+F 3 "" H 7550 6100 60  0000 C CNN
+F 4 "Value" H 7550 6100 60  0001 C CNN "manf#"
+	1    7550 6100
+	0    -1   -1   0   
+$EndComp
+Text Label 2700 1175 0    40   ~ 8
+5V
+Text Label 2700 5525 0    40   ~ 8
+GND
+Text Label 1675 2550 0    40   ~ 8
+CLK2
+Text Label 675  3950 0    40   ~ 8
+DAT3
+$Comp
+L CONN_1 P13
+U 1 1 56C74E79
+P 4550 800
+F 0 "P13" V 4625 775 40  0000 L CNN
+F 1 "CONN_1" H 4550 855 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 4550 800 60  0001 C CNN
+F 3 "" H 4550 800 60  0000 C CNN
+	1    4550 800 
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P26
+U 1 1 56C7530E
+P 5175 2275
+F 0 "P26" V 5250 2250 40  0000 L CNN
+F 1 "CONN_1" H 5175 2330 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 5175 2275 60  0001 C CNN
+F 3 "" H 5175 2275 60  0000 C CNN
+F 4 "Value" H 5175 2275 60  0001 C CNN "manf#"
+	1    5175 2275
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P39
+U 1 1 56C7588B
+P 5175 3675
+F 0 "P39" V 5250 3650 40  0000 L CNN
+F 1 "CONN_1" H 5175 3730 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 5175 3675 60  0001 C CNN
+F 3 "" H 5175 3675 60  0000 C CNN
+	1    5175 3675
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P52
+U 1 1 56C75D12
+P 4550 5150
+F 0 "P52" V 4625 5125 40  0000 L CNN
+F 1 "CONN_1" H 4550 5205 30  0001 C CNN
+F 2 "ultim_bus:Screw" H 4550 5150 60  0001 C CNN
+F 3 "" H 4550 5150 60  0000 C CNN
+	1    4550 5150
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 M1
+U 1 1 56C79345
+P 1900 1675
+F 0 "M1" V 1980 1675 40  0000 C CNN
+F 1 "MouseBite" V 2050 1675 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 1900 1675 60  0001 C CNN
+F 3 "" H 1900 1675 60  0000 C CNN
+F 4 "Value" H 1900 1675 60  0001 C CNN "manf#"
+	1    1900 1675
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 1900 1825
+$Comp
+L CONN_1 M2
+U 1 1 56C79A4E
+P 2450 1675
+F 0 "M2" V 2530 1675 40  0000 C CNN
+F 1 "MouseBite" V 2600 1675 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 2450 1675 60  0001 C CNN
+F 3 "" H 2450 1675 60  0000 C CNN
+F 4 "Value" H 2450 1675 60  0001 C CNN "manf#"
+	1    2450 1675
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 2450 1825
+$Comp
+L CONN_1 M5
+U 1 1 56C79CCC
+P 1300 2400
+F 0 "M5" V 1380 2400 40  0000 C CNN
+F 1 "MouseBite" V 1450 2400 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-2.54mm-slot" H 1300 2400 60  0001 C CNN
+F 3 "" H 1300 2400 60  0000 C CNN
+F 4 "Value" H 1300 2400 60  0001 C CNN "manf#"
+	1    1300 2400
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 1300 2550
+$Comp
+L CONN_1 M6
+U 1 1 56C79CD4
+P 2800 2400
+F 0 "M6" V 2880 2400 40  0000 C CNN
+F 1 "MouseBite" V 2950 2400 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-2.54mm-slot" H 2800 2400 60  0001 C CNN
+F 3 "" H 2800 2400 60  0000 C CNN
+F 4 "Value" H 2800 2400 60  0001 C CNN "manf#"
+	1    2800 2400
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 2800 2550
+$Comp
+L CONN_1 M8
+U 1 1 56C79CE4
+P 1900 3025
+F 0 "M8" V 1980 3025 40  0000 C CNN
+F 1 "MouseBite" V 2050 3025 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 1900 3025 60  0001 C CNN
+F 3 "" H 1900 3025 60  0000 C CNN
+F 4 "Value" H 1900 3025 60  0001 C CNN "manf#"
+	1    1900 3025
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 1900 3175
+$Comp
+L CONN_1 M9
+U 1 1 56C7A031
+P 2450 3025
+F 0 "M9" V 2530 3025 40  0000 C CNN
+F 1 "MouseBite" V 2600 3025 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 2450 3025 60  0001 C CNN
+F 3 "" H 2450 3025 60  0000 C CNN
+F 4 "Value" H 2450 3025 60  0001 C CNN "manf#"
+	1    2450 3025
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 2450 3175
+$Comp
+L CONN_1 M12
+U 1 1 56C7A049
+P 1300 3800
+F 0 "M12" V 1380 3800 40  0000 C CNN
+F 1 "MouseBite" V 1450 3800 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-2.54mm-slot" H 1300 3800 60  0001 C CNN
+F 3 "" H 1300 3800 60  0000 C CNN
+F 4 "Value" H 1300 3800 60  0001 C CNN "manf#"
+	1    1300 3800
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 1300 3950
+$Comp
+L CONN_1 M13
+U 1 1 56C7A051
+P 2800 3800
+F 0 "M13" V 2880 3800 40  0000 C CNN
+F 1 "MouseBite" V 2950 3800 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-2.54mm-slot" H 2800 3800 60  0001 C CNN
+F 3 "" H 2800 3800 60  0000 C CNN
+F 4 "Value" H 2800 3800 60  0001 C CNN "manf#"
+	1    2800 3800
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 2800 3950
+$Comp
+L CONN_1 M15
+U 1 1 56C7A061
+P 1900 4500
+F 0 "M15" V 1980 4500 40  0000 C CNN
+F 1 "MouseBite" V 2050 4500 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 1900 4500 60  0001 C CNN
+F 3 "" H 1900 4500 60  0000 C CNN
+F 4 "Value" H 1900 4500 60  0001 C CNN "manf#"
+	1    1900 4500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 1900 4650
+$Comp
+L CONN_1 M16
+U 1 1 56C7A069
+P 2450 4500
+F 0 "M16" V 2530 4500 40  0000 C CNN
+F 1 "MouseBite" V 2600 4500 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 2450 4500 60  0001 C CNN
+F 3 "" H 2450 4500 60  0000 C CNN
+F 4 "Value" H 2450 4500 60  0001 C CNN "manf#"
+	1    2450 4500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 2450 4650
+Text Label 675  2550 0    40   ~ 8
+CLK3
+Text Label 3175 2550 0    40   ~ 8
+CLK1
+Text Label 4675 2550 0    40   ~ 8
+CLK
+Text Label 1675 3950 0    40   ~ 8
+DAT2
+Text Label 3175 3950 0    40   ~ 8
+DAT1
+Text Label 4675 3950 0    40   ~ 8
+DAT
+NoConn ~ 6600 975 
+NoConn ~ 6600 1075
+NoConn ~ 6600 1175
+NoConn ~ 6600 1375
+NoConn ~ 6600 1475
+NoConn ~ 6600 1575
+NoConn ~ 6600 1675
+NoConn ~ 6600 1775
+NoConn ~ 6600 1875
+NoConn ~ 6600 2175
+NoConn ~ 6600 2275
+NoConn ~ 6600 2375
+NoConn ~ 6600 2475
+NoConn ~ 7775 2475
+NoConn ~ 7775 2375
+NoConn ~ 7775 2275
+NoConn ~ 7775 2175
+NoConn ~ 7775 2075
+NoConn ~ 7775 1975
+NoConn ~ 7775 1875
+NoConn ~ 7775 1775
+NoConn ~ 7775 1675
+NoConn ~ 7775 1475
+$Comp
+L JUMPER3 JP1
+U 1 1 58E11449
+P 9575 1475
+F 0 "JP1" H 9625 1375 50  0000 L CNN
+F 1 "PWR_SEL" H 9575 1575 50  0000 C BNN
+F 2 "ultim_bus:switch_spdt" H 9575 1475 50  0001 C CNN
+F 3 "" H 9575 1475 50  0000 C CNN
+	1    9575 1475
+	0    -1   1    0   
+$EndComp
+$Comp
+L Feather_M0 H1
+U 1 1 58E1144A
+P 7200 1725
+F 0 "H1" H 6800 2575 50  0000 C CNN
+F 1 "Feather_M0" V 6900 1725 50  0000 C CNN
+F 2 "ultim_bus:FEATHER_M0_2" H 6800 1725 50  0001 C CNN
+F 3 "" H 6800 1725 50  0000 C CNN
+F 4 "mfr_pn" H 7200 1725 60  0001 C CNN "manf#"
+	1    7200 1725
+	1    0    0    -1  
+$EndComp
+Text Label 10225 1475 2    50   ~ 10
+5V
+Text Label 6250 1275 0    50   ~ 10
+GND
+Text Label 6225 1975 0    50   ~ 10
+CLK
+Text Label 6225 2075 0    50   ~ 10
+DAT
+Text Label 8825 1375 0    50   ~ 10
+VBAT
+Text Label 8800 1575 0    50   ~ 10
+VUSB
+Text Notes 8450 975  0    60   ~ 12
+Solder Bridges to power ULTiM8x8 from USB or Battery
+Text Notes 6925 800  0    60   ~ 12
+Feather Header
+$Comp
+L via_0.8x9 v1
+U 1 1 58E205F2
+P 1050 7100
+F 0 "v1" H 1050 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 1025 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 1050 7175 60  0001 C CNN
+F 3 "" H 1050 7175 60  0001 C CNN
+	1    1050 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1300 950  1300 1075
+Wire Wire Line
+	1300 1075 2550 1075
+Wire Wire Line
+	2550 950  2550 1175
+Wire Wire Line
+	2300 950  2300 1075
+Connection ~ 2300 1075
+Wire Wire Line
+	2050 950  2050 1075
+Connection ~ 2050 1075
+Wire Wire Line
+	1800 950  1800 1075
+Connection ~ 1800 1075
+Wire Wire Line
+	1550 950  1550 1075
+Connection ~ 1550 1075
+Wire Wire Line
+	3050 950  3050 1175
+Wire Wire Line
+	3050 1075 4550 1075
+Wire Wire Line
+	4300 1075 4300 950 
+Wire Wire Line
+	4050 950  4050 1075
+Connection ~ 4050 1075
+Wire Wire Line
+	3800 950  3800 1075
+Connection ~ 3800 1075
+Wire Wire Line
+	3550 950  3550 1075
+Connection ~ 3550 1075
+Wire Wire Line
+	3300 950  3300 1075
+Connection ~ 3300 1075
+Wire Wire Line
+	3050 1175 2550 1175
+Connection ~ 3050 1075
+Connection ~ 2550 1075
+Wire Wire Line
+	1300 5300 1300 5425
+Wire Wire Line
+	1300 5425 2550 5425
+Wire Wire Line
+	2550 5300 2550 5525
+Wire Wire Line
+	2300 5300 2300 5425
+Connection ~ 2300 5425
+Wire Wire Line
+	2050 5300 2050 5425
+Connection ~ 2050 5425
+Wire Wire Line
+	1800 5300 1800 5425
+Connection ~ 1800 5425
+Wire Wire Line
+	1550 5300 1550 5425
+Connection ~ 1550 5425
+Wire Wire Line
+	3050 5300 3050 5525
+Wire Wire Line
+	3050 5425 4550 5425
+Wire Wire Line
+	4300 5425 4300 5300
+Wire Wire Line
+	4050 5300 4050 5425
+Connection ~ 4050 5425
+Wire Wire Line
+	3800 5300 3800 5425
+Connection ~ 3800 5425
+Wire Wire Line
+	3550 5300 3550 5425
+Connection ~ 3550 5425
+Wire Wire Line
+	3300 5300 3300 5425
+Connection ~ 3300 5425
+Wire Wire Line
+	3050 5525 2550 5525
+Connection ~ 3050 5425
+Connection ~ 2550 5425
+Wire Wire Line
+	675  2425 675  2550
+Wire Wire Line
+	675  2550 925  2550
+Wire Wire Line
+	1675 2550 2425 2550
+Wire Wire Line
+	2425 2550 2425 2425
+Wire Wire Line
+	2175 2425 2175 2550
+Connection ~ 2175 2550
+Wire Wire Line
+	1925 2425 1925 2550
+Connection ~ 1925 2550
+Wire Wire Line
+	1675 2425 1675 2550
+Wire Wire Line
+	925  2550 925  2425
+Wire Wire Line
+	3175 2425 3175 2550
+Wire Wire Line
+	3175 2550 3925 2550
+Wire Wire Line
+	4675 2550 5175 2550
+Wire Wire Line
+	4925 2550 4925 2425
+Wire Wire Line
+	4675 2425 4675 2550
+Wire Wire Line
+	3925 2550 3925 2425
+Wire Wire Line
+	3675 2425 3675 2550
+Connection ~ 3675 2550
+Wire Wire Line
+	3425 2425 3425 2550
+Connection ~ 3425 2550
+Wire Wire Line
+	675  3825 675  3950
+Wire Wire Line
+	675  3950 925  3950
+Wire Wire Line
+	1675 3950 2425 3950
+Wire Wire Line
+	2425 3950 2425 3825
+Wire Wire Line
+	2175 3825 2175 3950
+Connection ~ 2175 3950
+Wire Wire Line
+	1925 3825 1925 3950
+Connection ~ 1925 3950
+Wire Wire Line
+	1675 3825 1675 3950
+Wire Wire Line
+	925  3950 925  3825
+Wire Wire Line
+	3175 3825 3175 3950
+Wire Wire Line
+	3175 3950 3925 3950
+Wire Wire Line
+	4675 3950 5175 3950
+Wire Wire Line
+	4925 3950 4925 3825
+Wire Wire Line
+	4675 3825 4675 3950
+Wire Wire Line
+	3925 3950 3925 3825
+Wire Wire Line
+	3675 3825 3675 3950
+Connection ~ 3675 3950
+Wire Wire Line
+	3425 3825 3425 3950
+Connection ~ 3425 3950
+Wire Wire Line
+	4550 1075 4550 950 
+Connection ~ 4300 1075
+Wire Wire Line
+	4550 5425 4550 5300
+Connection ~ 4300 5425
+Wire Wire Line
+	5175 2550 5175 2425
+Connection ~ 4925 2550
+Wire Wire Line
+	5175 3950 5175 3825
+Connection ~ 4925 3950
+Wire Wire Line
+	6250 1275 6600 1275
+Wire Wire Line
+	7775 1375 9250 1375
+Wire Wire Line
+	6225 1975 6600 1975
+Wire Wire Line
+	6225 2075 6600 2075
+Wire Wire Line
+	7775 1575 9250 1575
+Wire Wire Line
+	9250 1375 9250 1125
+Wire Wire Line
+	9250 1125 9575 1125
+Wire Wire Line
+	9575 1125 9575 1225
+Wire Wire Line
+	9250 1575 9250 1850
+Wire Wire Line
+	9250 1850 9575 1850
+Wire Wire Line
+	9575 1850 9575 1725
+Wire Wire Line
+	10225 1475 9675 1475
+Wire Notes Line
+	8450 1000 10950 1000
+Wire Notes Line
+	10950 1000 10950 3000
+Wire Notes Line
+	10950 3000 8450 3000
+Wire Notes Line
+	8450 3000 8450 1000
+Wire Wire Line
+	1050 6900 975  6900
+Wire Wire Line
+	975  6900 975  7300
+Wire Wire Line
+	975  7300 1050 7300
+Wire Wire Line
+	1050 7250 975  7250
+Connection ~ 975  7250
+Wire Wire Line
+	1050 7200 975  7200
+Connection ~ 975  7200
+Wire Wire Line
+	1050 7150 975  7150
+Connection ~ 975  7150
+Wire Wire Line
+	1050 7100 975  7100
+Connection ~ 975  7100
+Wire Wire Line
+	1050 7050 975  7050
+Connection ~ 975  7050
+Wire Wire Line
+	1050 7000 975  7000
+Connection ~ 975  7000
+Wire Wire Line
+	1050 6950 975  6950
+Connection ~ 975  6950
+$Comp
+L via_0.8x9 v2
+U 1 1 58E21D7E
+P 1475 7100
+F 0 "v2" H 1475 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 1450 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 1475 7175 60  0001 C CNN
+F 3 "" H 1475 7175 60  0001 C CNN
+	1    1475 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1475 6900 1400 6900
+Wire Wire Line
+	1400 6900 1400 7300
+Wire Wire Line
+	1400 7300 1475 7300
+Wire Wire Line
+	1475 7250 1400 7250
+Connection ~ 1400 7250
+Wire Wire Line
+	1475 7200 1400 7200
+Connection ~ 1400 7200
+Wire Wire Line
+	1475 7150 1400 7150
+Connection ~ 1400 7150
+Wire Wire Line
+	1475 7100 1400 7100
+Connection ~ 1400 7100
+Wire Wire Line
+	1475 7050 1400 7050
+Connection ~ 1400 7050
+Wire Wire Line
+	1475 7000 1400 7000
+Connection ~ 1400 7000
+Wire Wire Line
+	1475 6950 1400 6950
+Connection ~ 1400 6950
+$Comp
+L via_0.8x9 v3
+U 1 1 58E21F83
+P 1900 7100
+F 0 "v3" H 1900 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 1875 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 1900 7175 60  0001 C CNN
+F 3 "" H 1900 7175 60  0001 C CNN
+	1    1900 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	1900 6900 1825 6900
+Wire Wire Line
+	1825 6900 1825 7300
+Wire Wire Line
+	1825 7300 1900 7300
+Wire Wire Line
+	1900 7250 1825 7250
+Connection ~ 1825 7250
+Wire Wire Line
+	1900 7200 1825 7200
+Connection ~ 1825 7200
+Wire Wire Line
+	1900 7150 1825 7150
+Connection ~ 1825 7150
+Wire Wire Line
+	1900 7100 1825 7100
+Connection ~ 1825 7100
+Wire Wire Line
+	1900 7050 1825 7050
+Connection ~ 1825 7050
+Wire Wire Line
+	1900 7000 1825 7000
+Connection ~ 1825 7000
+Wire Wire Line
+	1900 6950 1825 6950
+Connection ~ 1825 6950
+$Comp
+L via_0.8x9 v4
+U 1 1 58E21F9A
+P 2325 7100
+F 0 "v4" H 2325 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 2300 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 2325 7175 60  0001 C CNN
+F 3 "" H 2325 7175 60  0001 C CNN
+	1    2325 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2325 6900 2250 6900
+Wire Wire Line
+	2250 6900 2250 7300
+Wire Wire Line
+	2250 7300 2325 7300
+Wire Wire Line
+	2325 7250 2250 7250
+Connection ~ 2250 7250
+Wire Wire Line
+	2325 7200 2250 7200
+Connection ~ 2250 7200
+Wire Wire Line
+	2325 7150 2250 7150
+Connection ~ 2250 7150
+Wire Wire Line
+	2325 7100 2250 7100
+Connection ~ 2250 7100
+Wire Wire Line
+	2325 7050 2250 7050
+Connection ~ 2250 7050
+Wire Wire Line
+	2325 7000 2250 7000
+Connection ~ 2250 7000
+Wire Wire Line
+	2325 6950 2250 6950
+Connection ~ 2250 6950
+$Comp
+L via_0.8x9 v5
+U 1 1 58E223A1
+P 2750 7100
+F 0 "v5" H 2750 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 2725 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 2750 7175 60  0001 C CNN
+F 3 "" H 2750 7175 60  0001 C CNN
+	1    2750 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2750 6900 2675 6900
+Wire Wire Line
+	2675 6900 2675 7300
+Wire Wire Line
+	2675 7300 2750 7300
+Wire Wire Line
+	2750 7250 2675 7250
+Connection ~ 2675 7250
+Wire Wire Line
+	2750 7200 2675 7200
+Connection ~ 2675 7200
+Wire Wire Line
+	2750 7150 2675 7150
+Connection ~ 2675 7150
+Wire Wire Line
+	2750 7100 2675 7100
+Connection ~ 2675 7100
+Wire Wire Line
+	2750 7050 2675 7050
+Connection ~ 2675 7050
+Wire Wire Line
+	2750 7000 2675 7000
+Connection ~ 2675 7000
+Wire Wire Line
+	2750 6950 2675 6950
+Connection ~ 2675 6950
+$Comp
+L via_0.8x9 v6
+U 1 1 58E223B8
+P 3175 7100
+F 0 "v6" H 3175 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 3150 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 3175 7175 60  0001 C CNN
+F 3 "" H 3175 7175 60  0001 C CNN
+	1    3175 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3175 6900 3100 6900
+Wire Wire Line
+	3100 6900 3100 7300
+Wire Wire Line
+	3100 7300 3175 7300
+Wire Wire Line
+	3175 7250 3100 7250
+Connection ~ 3100 7250
+Wire Wire Line
+	3175 7200 3100 7200
+Connection ~ 3100 7200
+Wire Wire Line
+	3175 7150 3100 7150
+Connection ~ 3100 7150
+Wire Wire Line
+	3175 7100 3100 7100
+Connection ~ 3100 7100
+Wire Wire Line
+	3175 7050 3100 7050
+Connection ~ 3100 7050
+Wire Wire Line
+	3175 7000 3100 7000
+Connection ~ 3100 7000
+Wire Wire Line
+	3175 6950 3100 6950
+Connection ~ 3100 6950
+$Comp
+L via_0.8x9 v7
+U 1 1 58E223CF
+P 3600 7100
+F 0 "v7" H 3600 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 3575 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 3600 7175 60  0001 C CNN
+F 3 "" H 3600 7175 60  0001 C CNN
+	1    3600 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	3600 6900 3525 6900
+Wire Wire Line
+	3525 6900 3525 7300
+Wire Wire Line
+	3525 7300 3600 7300
+Wire Wire Line
+	3600 7250 3525 7250
+Connection ~ 3525 7250
+Wire Wire Line
+	3600 7200 3525 7200
+Connection ~ 3525 7200
+Wire Wire Line
+	3600 7150 3525 7150
+Connection ~ 3525 7150
+Wire Wire Line
+	3600 7100 3525 7100
+Connection ~ 3525 7100
+Wire Wire Line
+	3600 7050 3525 7050
+Connection ~ 3525 7050
+Wire Wire Line
+	3600 7000 3525 7000
+Connection ~ 3525 7000
+Wire Wire Line
+	3600 6950 3525 6950
+Connection ~ 3525 6950
+$Comp
+L via_0.8x9 v8
+U 1 1 58E223E6
+P 4025 7100
+F 0 "v8" H 4025 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 4000 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 4025 7175 60  0001 C CNN
+F 3 "" H 4025 7175 60  0001 C CNN
+	1    4025 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4025 6900 3950 6900
+Wire Wire Line
+	3950 6900 3950 7300
+Wire Wire Line
+	3950 7300 4025 7300
+Wire Wire Line
+	4025 7250 3950 7250
+Connection ~ 3950 7250
+Wire Wire Line
+	4025 7200 3950 7200
+Connection ~ 3950 7200
+Wire Wire Line
+	4025 7150 3950 7150
+Connection ~ 3950 7150
+Wire Wire Line
+	4025 7100 3950 7100
+Connection ~ 3950 7100
+Wire Wire Line
+	4025 7050 3950 7050
+Connection ~ 3950 7050
+Wire Wire Line
+	4025 7000 3950 7000
+Connection ~ 3950 7000
+Wire Wire Line
+	4025 6950 3950 6950
+Connection ~ 3950 6950
+$Comp
+L via_0.8x9 v9
+U 1 1 58E22DA9
+P 4450 7100
+F 0 "v9" H 4450 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 4425 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 4450 7175 60  0001 C CNN
+F 3 "" H 4450 7175 60  0001 C CNN
+	1    4450 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4450 6900 4375 6900
+Wire Wire Line
+	4375 6900 4375 7300
+Wire Wire Line
+	4375 7300 4450 7300
+Wire Wire Line
+	4450 7250 4375 7250
+Connection ~ 4375 7250
+Wire Wire Line
+	4450 7200 4375 7200
+Connection ~ 4375 7200
+Wire Wire Line
+	4450 7150 4375 7150
+Connection ~ 4375 7150
+Wire Wire Line
+	4450 7100 4375 7100
+Connection ~ 4375 7100
+Wire Wire Line
+	4450 7050 4375 7050
+Connection ~ 4375 7050
+Wire Wire Line
+	4450 7000 4375 7000
+Connection ~ 4375 7000
+Wire Wire Line
+	4450 6950 4375 6950
+Connection ~ 4375 6950
+$Comp
+L via_0.8x9 v10
+U 1 1 58E22DC0
+P 4875 7100
+F 0 "v10" H 4875 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 4850 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 4875 7175 60  0001 C CNN
+F 3 "" H 4875 7175 60  0001 C CNN
+	1    4875 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4875 6900 4800 6900
+Wire Wire Line
+	4800 6900 4800 7300
+Wire Wire Line
+	4800 7300 4875 7300
+Wire Wire Line
+	4875 7250 4800 7250
+Connection ~ 4800 7250
+Wire Wire Line
+	4875 7200 4800 7200
+Connection ~ 4800 7200
+Wire Wire Line
+	4875 7150 4800 7150
+Connection ~ 4800 7150
+Wire Wire Line
+	4875 7100 4800 7100
+Connection ~ 4800 7100
+Wire Wire Line
+	4875 7050 4800 7050
+Connection ~ 4800 7050
+Wire Wire Line
+	4875 7000 4800 7000
+Connection ~ 4800 7000
+Wire Wire Line
+	4875 6950 4800 6950
+Connection ~ 4800 6950
+$Comp
+L via_0.8x9 v11
+U 1 1 58E22DD7
+P 5300 7100
+F 0 "v11" H 5300 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 5275 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 5300 7175 60  0001 C CNN
+F 3 "" H 5300 7175 60  0001 C CNN
+	1    5300 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5300 6900 5225 6900
+Wire Wire Line
+	5225 6900 5225 7300
+Wire Wire Line
+	5225 7300 5300 7300
+Wire Wire Line
+	5300 7250 5225 7250
+Connection ~ 5225 7250
+Wire Wire Line
+	5300 7200 5225 7200
+Connection ~ 5225 7200
+Wire Wire Line
+	5300 7150 5225 7150
+Connection ~ 5225 7150
+Wire Wire Line
+	5300 7100 5225 7100
+Connection ~ 5225 7100
+Wire Wire Line
+	5300 7050 5225 7050
+Connection ~ 5225 7050
+Wire Wire Line
+	5300 7000 5225 7000
+Connection ~ 5225 7000
+Wire Wire Line
+	5300 6950 5225 6950
+Connection ~ 5225 6950
+$Comp
+L via_0.8x9 v12
+U 1 1 58E22DEE
+P 5725 7100
+F 0 "v12" H 5725 7400 50  0000 C CNN
+F 1 "via_0.8x9" H 5700 6825 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 5725 7175 60  0001 C CNN
+F 3 "" H 5725 7175 60  0001 C CNN
+	1    5725 7100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5725 6900 5650 6900
+Wire Wire Line
+	5650 6900 5650 7300
+Wire Wire Line
+	5650 7300 5725 7300
+Wire Wire Line
+	5725 7250 5650 7250
+Connection ~ 5650 7250
+Wire Wire Line
+	5725 7200 5650 7200
+Connection ~ 5650 7200
+Wire Wire Line
+	5725 7150 5650 7150
+Connection ~ 5650 7150
+Wire Wire Line
+	5725 7100 5650 7100
+Connection ~ 5650 7100
+Wire Wire Line
+	5725 7050 5650 7050
+Connection ~ 5650 7050
+Wire Wire Line
+	5725 7000 5650 7000
+Connection ~ 5650 7000
+Wire Wire Line
+	5725 6950 5650 6950
+Connection ~ 5650 6950
+Text Label 975  6900 2    40   ~ 8
+5V
+Text Label 1400 6900 2    40   ~ 8
+5V
+Text Label 1825 6900 2    40   ~ 8
+5V
+Text Label 2250 6900 2    40   ~ 8
+GND
+Text Label 2675 6900 2    40   ~ 8
+GND
+Text Label 3100 6900 2    40   ~ 8
+GND
+Text Label 3525 6900 2    40   ~ 8
+CLK
+Text Label 3950 6900 2    40   ~ 8
+CLK1
+Text Label 4375 6900 2    40   ~ 8
+CLK2
+Text Label 4800 6900 2    40   ~ 8
+DAT
+Text Label 5225 6900 2    40   ~ 8
+DAT1
+Text Label 5650 6900 2    40   ~ 8
+DAT2
+$Comp
+L CONN_1 M3
+U 1 1 58E2924C
+P 3175 1675
+F 0 "M3" V 3255 1675 40  0000 C CNN
+F 1 "MouseBite" V 3325 1675 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 3175 1675 60  0001 C CNN
+F 3 "" H 3175 1675 60  0000 C CNN
+F 4 "Value" H 3175 1675 60  0001 C CNN "manf#"
+	1    3175 1675
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 3175 1825
+$Comp
+L CONN_1 M4
+U 1 1 58E29254
+P 3725 1675
+F 0 "M4" V 3805 1675 40  0000 C CNN
+F 1 "MouseBite" V 3875 1675 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 3725 1675 60  0001 C CNN
+F 3 "" H 3725 1675 60  0000 C CNN
+F 4 "Value" H 3725 1675 60  0001 C CNN "manf#"
+	1    3725 1675
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 3725 1825
+$Comp
+L CONN_1 M10
+U 1 1 58E29844
+P 3175 3025
+F 0 "M10" V 3255 3025 40  0000 C CNN
+F 1 "MouseBite" V 3325 3025 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 3175 3025 60  0001 C CNN
+F 3 "" H 3175 3025 60  0000 C CNN
+F 4 "Value" H 3175 3025 60  0001 C CNN "manf#"
+	1    3175 3025
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 3175 3175
+$Comp
+L CONN_1 M11
+U 1 1 58E2984C
+P 3725 3025
+F 0 "M11" V 3805 3025 40  0000 C CNN
+F 1 "MouseBite" V 3875 3025 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 3725 3025 60  0001 C CNN
+F 3 "" H 3725 3025 60  0000 C CNN
+F 4 "Value" H 3725 3025 60  0001 C CNN "manf#"
+	1    3725 3025
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 3725 3175
+$Comp
+L CONN_1 M17
+U 1 1 58E29EEC
+P 3050 4500
+F 0 "M17" V 3130 4500 40  0000 C CNN
+F 1 "MouseBite" V 3200 4500 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 3050 4500 60  0001 C CNN
+F 3 "" H 3050 4500 60  0000 C CNN
+F 4 "Value" H 3050 4500 60  0001 C CNN "manf#"
+	1    3050 4500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 3050 4650
+$Comp
+L CONN_1 M18
+U 1 1 58E29EF4
+P 3600 4500
+F 0 "M18" V 3680 4500 40  0000 C CNN
+F 1 "MouseBite" V 3750 4500 30  0000 C CNN
+F 2 "ultim_bus:mouse-bite-5.08mm-slot" H 3600 4500 60  0001 C CNN
+F 3 "" H 3600 4500 60  0000 C CNN
+F 4 "Value" H 3600 4500 60  0001 C CNN "manf#"
+	1    3600 4500
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 3600 4650
+$EndSCHEMATC

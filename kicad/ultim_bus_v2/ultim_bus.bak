@@ -3,6 +3,7 @@ LIBS:power
 LIBS:ultim_bus
 LIBS:ultim8x8_sym
 LIBS:feather_v3
+LIBS:velokey
 LIBS:ultim_bus-cache
 EELAYER 25 0
 EELAYER END
@@ -632,30 +633,6 @@ F 4 "Value" H 7550 5300 60  0001 C CNN "manf#"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L LOGO_1 L5
-U 1 1 56C707D0
-P 7800 5300
-F 0 "L5" V 7880 5300 40  0000 C CNN
-F 1 "WyoLum" V 7950 5300 30  0000 C CNN
-F 2 "ultim_bus:logo_wyo_butterfly_small" H 7800 5300 60  0001 C CNN
-F 3 "" H 7800 5300 60  0000 C CNN
-F 4 "Value" H 7800 5300 60  0001 C CNN "manf#"
-	1    7800 5300
-	0    -1   -1   0   
-$EndComp
-$Comp
-L LOGO_1 L6
-U 1 1 56C707D7
-P 8050 5300
-F 0 "L6" V 8130 5300 40  0000 C CNN
-F 1 "WyoLum" V 8200 5300 30  0000 C CNN
-F 2 "ultim_bus:logo_wyo_butterfly_small" H 8050 5300 60  0001 C CNN
-F 3 "" H 8050 5300 60  0000 C CNN
-F 4 "Value" H 8050 5300 60  0001 C CNN "manf#"
-	1    8050 5300
-	0    -1   -1   0   
-$EndComp
-$Comp
 L LOGO_1 L7
 U 1 1 56C70D58
 P 7300 5700
@@ -677,30 +654,6 @@ F 2 "ultim_bus:logo_MLlabs_small" H 7550 5700 60  0001 C CNN
 F 3 "" H 7550 5700 60  0000 C CNN
 F 4 "Value" H 7550 5700 60  0001 C CNN "manf#"
 	1    7550 5700
-	0    -1   -1   0   
-$EndComp
-$Comp
-L LOGO_1 L9
-U 1 1 56C70D66
-P 7800 5700
-F 0 "L9" V 7880 5700 40  0000 C CNN
-F 1 "Maniacal" V 7950 5700 30  0000 C CNN
-F 2 "ultim_bus:logo_MLlabs_small" H 7800 5700 60  0001 C CNN
-F 3 "" H 7800 5700 60  0000 C CNN
-F 4 "Value" H 7800 5700 60  0001 C CNN "manf#"
-	1    7800 5700
-	0    -1   -1   0   
-$EndComp
-$Comp
-L LOGO_1 L10
-U 1 1 56C70D6D
-P 8050 5700
-F 0 "L10" V 8130 5700 40  0000 C CNN
-F 1 "Maniacal" V 8200 5700 30  0000 C CNN
-F 2 "ultim_bus:logo_MLlabs_small" H 8050 5700 60  0001 C CNN
-F 3 "" H 8050 5700 60  0000 C CNN
-F 4 "Value" H 8050 5700 60  0001 C CNN "manf#"
-	1    8050 5700
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -922,19 +875,12 @@ Text Label 3175 3950 0    40   ~ 8
 DAT1
 Text Label 4675 3950 0    40   ~ 8
 DAT
-NoConn ~ 6600 975 
-NoConn ~ 6600 1075
-NoConn ~ 6600 1175
-NoConn ~ 6600 1375
-NoConn ~ 6600 1475
-NoConn ~ 6600 1575
-NoConn ~ 6600 1675
-NoConn ~ 6600 1775
-NoConn ~ 6600 1875
-NoConn ~ 6600 2175
-NoConn ~ 6600 2275
-NoConn ~ 6600 2375
-NoConn ~ 6600 2475
+NoConn ~ 6475 975 
+NoConn ~ 6475 1075
+NoConn ~ 6475 1175
+NoConn ~ 6475 2175
+NoConn ~ 6475 2275
+NoConn ~ 6475 2375
 NoConn ~ 7775 2475
 NoConn ~ 7775 2375
 NoConn ~ 7775 2275
@@ -956,25 +902,11 @@ F 3 "" H 9575 1475 50  0000 C CNN
 	1    9575 1475
 	0    -1   1    0   
 $EndComp
-$Comp
-L Feather_M0 H1
-U 1 1 58E1144A
-P 7200 1725
-F 0 "H1" H 6800 2575 50  0000 C CNN
-F 1 "Feather_M0" V 6900 1725 50  0000 C CNN
-F 2 "ultim_bus:FEATHER_M0_2" H 6800 1725 50  0001 C CNN
-F 3 "" H 6800 1725 50  0000 C CNN
-F 4 "mfr_pn" H 7200 1725 60  0001 C CNN "manf#"
-	1    7200 1725
-	1    0    0    -1  
-$EndComp
 Text Label 10225 1475 2    50   ~ 10
 5V
-Text Label 6250 1275 0    50   ~ 10
-GND
-Text Label 6225 1975 0    50   ~ 10
+Text Label 6100 1975 0    50   ~ 10
 CLK
-Text Label 6225 2075 0    50   ~ 10
+Text Label 6100 2075 0    50   ~ 10
 DAT
 Text Label 8825 1375 0    50   ~ 10
 VBAT
@@ -982,7 +914,7 @@ Text Label 8800 1575 0    50   ~ 10
 VUSB
 Text Notes 8450 975  0    60   ~ 12
 Solder Bridges to power ULTiM8x8 from USB or Battery
-Text Notes 6925 800  0    60   ~ 12
+Text Notes 6775 725  0    60   ~ 12
 Feather Header
 $Comp
 L via_0.8x9 v1
@@ -1160,13 +1092,11 @@ Wire Wire Line
 	5175 3950 5175 3825
 Connection ~ 4925 3950
 Wire Wire Line
-	6250 1275 6600 1275
-Wire Wire Line
 	7775 1375 9250 1375
 Wire Wire Line
-	6225 1975 6600 1975
+	6100 1975 6475 1975
 Wire Wire Line
-	6225 2075 6600 2075
+	6100 2075 6475 2075
 Wire Wire Line
 	7775 1575 9250 1575
 Wire Wire Line
@@ -1185,12 +1115,6 @@ Wire Wire Line
 	10225 1475 9675 1475
 Wire Notes Line
 	8450 1000 10950 1000
-Wire Notes Line
-	10950 1000 10950 3000
-Wire Notes Line
-	10950 3000 8450 3000
-Wire Notes Line
-	8450 3000 8450 1000
 Wire Wire Line
 	1050 6900 975  6900
 Wire Wire Line
@@ -1738,4 +1662,289 @@ F 4 "Value" H 3600 4500 60  0001 C CNN "manf#"
 	0    -1   -1   0   
 $EndComp
 NoConn ~ 3600 4650
+$Comp
+L SPST-M-2 S1
+U 1 1 58E2F144
+P 9500 2550
+F 0 "S1" H 9600 2675 40  0000 C CNB
+F 1 "SPST-M-2" H 9700 2650 40  0001 C CNB
+F 2 "ultim_bus:SW_SMD" H 9500 2550 60  0001 C CNN
+F 3 "" H 9500 2550 60  0000 C CNN
+	1    9500 2550
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	8450 1900 10950 1900
+Wire Notes Line
+	8450 1900 8450 1000
+Wire Notes Line
+	10950 1900 10950 1000
+$Comp
+L FeatherM0 H1
+U 1 1 58E305D1
+P 6675 2475
+F 0 "H1" V 6800 2925 40  0000 C CNN
+F 1 "Feather_M0" V 6875 2925 40  0000 C CNN
+F 2 "ultim_bus:FEATHER_M0_2" H 6825 2475 40  0001 C CNN
+F 3 "" H 6825 2475 40  0000 C CNN
+	1    6675 2475
+	0    1    1    0   
+$EndComp
+Text Label 6100 2475 0    50   ~ 10
+GND
+Wire Wire Line
+	6100 2475 6475 2475
+$Comp
+L SPST-M-2 S2
+U 1 1 58E217C7
+P 9500 2800
+F 0 "S2" H 9600 2925 40  0000 C CNB
+F 1 "SPST-M-2" H 9700 2900 40  0001 C CNB
+F 2 "ultim_bus:SW_SMD" H 9500 2800 60  0001 C CNN
+F 3 "" H 9500 2800 60  0000 C CNN
+	1    9500 2800
+	1    0    0    -1  
+$EndComp
+$Comp
+L SPST-M-2 S3
+U 1 1 58E221A3
+P 9500 3050
+F 0 "S3" H 9600 3175 40  0000 C CNB
+F 1 "SPST-M-2" H 9700 3150 40  0001 C CNB
+F 2 "ultim_bus:SW_SMD" H 9500 3050 60  0001 C CNN
+F 3 "" H 9500 3050 60  0000 C CNN
+	1    9500 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L SPST-M-2 S4
+U 1 1 58E222DA
+P 9500 3300
+F 0 "S4" H 9600 3425 40  0000 C CNB
+F 1 "SPST-M-2" H 9700 3400 40  0001 C CNB
+F 2 "ultim_bus:SW_SMD" H 9500 3300 60  0001 C CNN
+F 3 "" H 9500 3300 60  0000 C CNN
+	1    9500 3300
+	1    0    0    -1  
+$EndComp
+$Comp
+L SPST-M-2 S5
+U 1 1 58E224D0
+P 9500 3550
+F 0 "S5" H 9600 3675 40  0000 C CNB
+F 1 "SPST-M-2" H 9700 3650 40  0001 C CNB
+F 2 "ultim_bus:SW_SMD" H 9500 3550 60  0001 C CNN
+F 3 "" H 9500 3550 60  0000 C CNN
+	1    9500 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L SPST-M-2 S6
+U 1 1 58E226CB
+P 9500 3800
+F 0 "S6" H 9600 3925 40  0000 C CNB
+F 1 "SPST-M-2" H 9700 3900 40  0001 C CNB
+F 2 "ultim_bus:SW_SMD" H 9500 3800 60  0001 C CNN
+F 3 "" H 9500 3800 60  0000 C CNN
+	1    9500 3800
+	1    0    0    -1  
+$EndComp
+$Comp
+L R_Small R1
+U 1 1 58E22B6D
+P 9125 2550
+F 0 "R1" V 9050 2525 40  0000 L CNB
+F 1 "10k" V 9125 2550 30  0000 C CNB
+F 2 "ultim_bus:R_1210_HandSoldering" H 9125 2550 50  0001 C CNN
+F 3 "" H 9125 2550 50  0000 C CNN
+	1    9125 2550
+	0    1    1    0   
+$EndComp
+$Comp
+L R_Small R2
+U 1 1 58E232A6
+P 9125 2800
+F 0 "R2" V 9050 2775 40  0000 L CNB
+F 1 "10k" V 9125 2800 30  0000 C CNB
+F 2 "ultim_bus:R_1210_HandSoldering" H 9125 2800 50  0001 C CNN
+F 3 "" H 9125 2800 50  0000 C CNN
+	1    9125 2800
+	0    1    1    0   
+$EndComp
+$Comp
+L R_Small R3
+U 1 1 58E233EC
+P 9125 3050
+F 0 "R3" V 9050 3025 40  0000 L CNB
+F 1 "10k" V 9125 3050 30  0000 C CNB
+F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3050 50  0001 C CNN
+F 3 "" H 9125 3050 50  0000 C CNN
+	1    9125 3050
+	0    1    1    0   
+$EndComp
+$Comp
+L R_Small R4
+U 1 1 58E2365E
+P 9125 3300
+F 0 "R4" V 9050 3275 40  0000 L CNB
+F 1 "10k" V 9125 3300 30  0000 C CNB
+F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3300 50  0001 C CNN
+F 3 "" H 9125 3300 50  0000 C CNN
+	1    9125 3300
+	0    1    1    0   
+$EndComp
+$Comp
+L R_Small R5
+U 1 1 58E237AA
+P 9125 3550
+F 0 "R5" V 9050 3525 40  0000 L CNB
+F 1 "10k" V 9125 3550 30  0000 C CNB
+F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3550 50  0001 C CNN
+F 3 "" H 9125 3550 50  0000 C CNN
+	1    9125 3550
+	0    1    1    0   
+$EndComp
+$Comp
+L R_Small R6
+U 1 1 58E2395E
+P 9125 3800
+F 0 "R6" V 9050 3775 40  0000 L CNB
+F 1 "10k" V 9125 3800 30  0000 C CNB
+F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3800 50  0001 C CNN
+F 3 "" H 9125 3800 50  0000 C CNN
+	1    9125 3800
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	9225 2550 9350 2550
+Wire Wire Line
+	9225 2800 9350 2800
+Wire Wire Line
+	9225 3050 9350 3050
+Wire Wire Line
+	9225 3300 9350 3300
+Wire Wire Line
+	9225 3550 9350 3550
+Wire Wire Line
+	9225 3800 9350 3800
+Wire Wire Line
+	8925 3800 9025 3800
+Wire Wire Line
+	8925 2550 8925 3800
+Wire Wire Line
+	8925 2550 9025 2550
+Wire Wire Line
+	9025 2800 8925 2800
+Connection ~ 8925 2800
+Wire Wire Line
+	9025 3050 8925 3050
+Connection ~ 8925 3050
+Wire Wire Line
+	9025 3300 8925 3300
+Connection ~ 8925 3300
+Wire Wire Line
+	9025 3550 8925 3550
+Connection ~ 8925 3550
+Wire Wire Line
+	9650 2550 9950 2550
+Wire Wire Line
+	9950 2550 9950 3800
+Wire Wire Line
+	9950 3800 9650 3800
+Wire Wire Line
+	9650 3550 9950 3550
+Connection ~ 9950 3550
+Wire Wire Line
+	9650 3300 9950 3300
+Connection ~ 9950 3300
+Wire Wire Line
+	9650 3050 9950 3050
+Connection ~ 9950 3050
+Wire Wire Line
+	9650 2800 9950 2800
+Connection ~ 9950 2800
+Text Label 9950 2550 0    50   ~ 10
+GND
+Text Label 8925 2550 2    50   ~ 10
+5V
+Wire Wire Line
+	9300 3800 9300 3675
+Wire Wire Line
+	9300 3675 8700 3675
+Connection ~ 9300 3800
+Wire Wire Line
+	9300 3550 9300 3425
+Wire Wire Line
+	9300 3425 8700 3425
+Connection ~ 9300 3550
+Wire Wire Line
+	9300 3300 9300 3175
+Wire Wire Line
+	9300 3175 8700 3175
+Connection ~ 9300 3300
+Wire Wire Line
+	9300 3050 9300 2925
+Wire Wire Line
+	9300 2925 8700 2925
+Connection ~ 9300 3050
+Wire Wire Line
+	9300 2800 9300 2675
+Wire Wire Line
+	9300 2675 8700 2675
+Connection ~ 9300 2800
+Wire Wire Line
+	6100 1875 6475 1875
+Wire Wire Line
+	6475 1775 6100 1775
+Wire Wire Line
+	6100 1675 6475 1675
+Wire Wire Line
+	6475 1575 6100 1575
+Wire Wire Line
+	6100 1475 6475 1475
+Wire Wire Line
+	6475 1375 6100 1375
+Text Label 6100 1375 0    50   ~ 10
+A0
+Text Label 6100 1475 0    50   ~ 10
+A1
+Text Label 6100 1575 0    50   ~ 10
+A2
+Text Label 6100 1675 0    50   ~ 10
+A3
+Text Label 6100 1775 0    50   ~ 10
+A4
+Text Label 6100 1875 0    50   ~ 10
+A5
+Wire Wire Line
+	9300 2550 9300 2400
+Wire Wire Line
+	9300 2400 8700 2400
+Connection ~ 9300 2550
+Text Label 8700 2400 0    50   ~ 10
+A0
+Text Label 8700 2675 0    50   ~ 10
+A1
+Text Label 8700 2925 0    50   ~ 10
+A2
+Text Label 8700 3175 0    50   ~ 10
+A3
+Text Label 8700 3425 0    50   ~ 10
+A4
+Text Label 8700 3675 0    50   ~ 10
+A5
+Wire Notes Line
+	8450 2300 10950 2300
+Wire Notes Line
+	10950 2300 10950 3950
+Wire Notes Line
+	10950 3950 8450 3950
+Wire Notes Line
+	8450 3950 8450 2300
+Text Notes 8450 2275 0    60   ~ 12
+Switches, undefined
+Text Label 6100 1275 0    50   ~ 10
+GND
+Wire Wire Line
+	6100 1275 6475 1275
 $EndSCHEMATC

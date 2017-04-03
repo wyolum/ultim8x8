@@ -1,4 +1,4 @@
-update=Mon Apr  3 00:47:24 2017
+update=Mon Apr  3 15:35:08 2017
 version=1
 last_client=kicad
 [pcbnew]
@@ -23,16 +23,6 @@ ModuleOutlineThickness=0.150000000000
 [cvpcb]
 version=1
 NetIExt=net
-[eeschema]
-version=1
-LibDir=
-[eeschema/libraries]
-LibName1=power
-LibName2=ultimbus_libs/ultim_bus
-LibName3=ultimbus_libs/ultim8x8_sym
-LibName4=ultimbus_libs/feather_v3
-[general]
-version=1
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -43,3 +33,14 @@ NetFmtName=
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=60
+[eeschema]
+version=1
+LibDir=
+[eeschema/libraries]
+LibName1=power
+LibName2=ultimbus_libs/ultim_bus
+LibName3=ultimbus_libs/ultim8x8_sym
+LibName4=ultimbus_libs/feather_v3
+LibName5=/home/anool/projects-git/VeloKey/kicad/OTS_2/velokey
+[general]
+version=1

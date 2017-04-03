@@ -187,13 +187,13 @@ Text Label 1550 2400 2    40   ~ 0
 GND
 Wire Wire Line
 	1600 2300 1350 2300
-Text Label 1800 2200 0    40   ~ 0
+Text Label 1800 2300 0    40   ~ 0
 DO_H
 Text Label 1800 2100 0    40   ~ 0
 GND
 Text Label 1550 1525 2    40   ~ 0
 DI_A
-Text Label 1800 1525 0    40   ~ 0
+Text Label 1800 1225 0    40   ~ 0
 DO_H
 Wire Wire Line
 	6450 1550 5900 1550
@@ -355,8 +355,6 @@ Text Label 1550 1425 2    40   ~ 0
 CI_A
 Text Label 1800 1425 0    40   ~ 0
 CO_H
-Wire Wire Line
-	1750 2200 2000 2200
 Text Label 1800 2400 0    40   ~ 0
 CO_H
 Text Label 1525 2100 2    40   ~ 0
@@ -1585,7 +1583,7 @@ Wire Wire Line
 Wire Wire Line
 	1600 1425 1600 1200
 Wire Wire Line
-	1750 1975 1750 2200
+	1750 1975 1750 2300
 Wire Wire Line
 	1600 1975 1600 2300
 Wire Wire Line
@@ -1598,9 +1596,9 @@ Wire Wire Line
 	1550 2400 1350 2400
 Text Label 1525 2200 2    40   ~ 0
 5V
-Text Label 1800 2300 0    40   ~ 0
+Text Label 1800 2200 0    40   ~ 0
 5V
-Text Label 1800 1225 0    40   ~ 0
+Text Label 1800 1525 0    40   ~ 0
 5V
 Text Label 1550 1225 2    40   ~ 0
 5V
@@ -1609,7 +1607,53 @@ Wire Wire Line
 Wire Wire Line
 	1525 2100 1350 2100
 Wire Wire Line
-	1800 2300 2000 2300
+	1750 2300 2000 2300
 Wire Wire Line
 	1525 2200 1350 2200
+Wire Wire Line
+	1800 2200 2000 2200
+$Comp
+L LOGO_ML #G?
+U 1 1 58E294F2
+P 10600 4800
+F 0 "#G?" H 10600 4617 60  0001 C CNN
+F 1 "LOGO_ML" H 10600 4983 60  0001 C CNN
+F 2 "" H 10600 4800 60  0001 C CNN
+F 3 "" H 10600 4800 60  0001 C CNN
+	1    10600 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L LOGO_U88 #G?
+U 1 1 58E296D9
+P 9975 4800
+F 0 "#G?" H 9975 4616 60  0001 C CNN
+F 1 "LOGO_U88" H 9975 4984 60  0001 C CNN
+F 2 "" H 9975 4800 60  0001 C CNN
+F 3 "" H 9975 4800 60  0001 C CNN
+	1    9975 4800
+	1    0    0    -1  
+$EndComp
+$Comp
+L LOGO_WL #G?
+U 1 1 58E2997E
+P 9475 4875
+F 0 "#G?" H 9475 4739 60  0001 C CNN
+F 1 "LOGO_WL" H 9475 5011 60  0001 C CNN
+F 2 "" H 9475 4875 60  0001 C CNN
+F 3 "" H 9475 4875 60  0001 C CNN
+	1    9475 4875
+	1    0    0    -1  
+$EndComp
+$Comp
+L OSHW #G?
+U 1 1 58E29CE4
+P 8825 4775
+F 0 "#G?" H 8825 4725 40  0001 C CNN
+F 1 "OSHW" H 8825 4875 40  0001 C CNN
+F 2 "" H 8825 4775 60  0000 C CNN
+F 3 "" H 8825 4775 60  0000 C CNN
+	1    8825 4775
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

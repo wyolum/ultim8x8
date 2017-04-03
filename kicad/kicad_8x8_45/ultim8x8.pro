@@ -1,4 +1,4 @@
-update=Sun Jan 15 18:53:07 2017
+update=Mon Apr  3 23:01:51 2017
 version=1
 last_client=kicad
 [cvpcb]
@@ -33,12 +33,6 @@ ModuleOutlineThickness="    0.254000"
 [pcbnew/libraries]
 LibDir=
 LibName1=TinyTiM_Libs/TinyTiM_fp
-[eeschema]
-version=1
-LibDir=
-[eeschema/libraries]
-LibName1=power
-LibName2=ultim8x8_libs/ultim8x8_sym
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -49,5 +43,11 @@ NetFmtName=Pcbnew
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=50
+[eeschema]
+version=1
+LibDir=
+[eeschema/libraries]
+LibName1=power
+LibName2=ultim8x8_libs/ultim8x8_sym
 [general]
 version=1

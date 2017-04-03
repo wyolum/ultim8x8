@@ -2,6 +2,7 @@ EESchema Schematic File Version 2
 LIBS:power
 LIBS:feather_v3
 LIBS:ultim8x8_sym
+LIBS:ultim_bus
 LIBS:feather_v3-cache
 EELAYER 25 0
 EELAYER END
@@ -10,7 +11,7 @@ encoding utf-8
 Sheet 1 1
 Title "ULTiM8x8 Feather Board"
 Date "2016-10-29"
-Rev "2.0"
+Rev "3.0"
 Comp "Maniacal Labs & WyoLum"
 Comment1 "Power to panel provided by LiPo battery or USB from Feather (toggle with jumper)"
 Comment2 "Used to mount an Adafruit Feather to the back of the ULTiM8x8"
@@ -37,28 +38,6 @@ Wire Wire Line
 	1775 1975 2150 1975
 Wire Wire Line
 	1775 2075 2150 2075
-$Comp
-L LOGO_1 L4
-U 1 1 581524CC
-P 1000 6900
-F 0 "L4" H 950 7000 40  0000 L CNN
-F 1 "Maniacal Labs" H 1000 6955 30  0001 C CNN
-F 2 "feather_v3:logo_MLlabs_small" H 1800 6900 60  0000 C CNN
-F 3 "" H 1000 6900 60  0000 C CNN
-	1    1000 6900
-	1    0    0    -1  
-$EndComp
-$Comp
-L LOGO_1 L3
-U 1 1 58152670
-P 1000 7125
-F 0 "L3" H 950 7225 40  0000 L CNN
-F 1 "WyoLum" H 1000 7180 30  0001 C CNN
-F 2 "feather_v3:logo_wyo_butterfly_small" H 1950 7125 60  0000 C CNN
-F 3 "" H 1000 7125 60  0000 C CNN
-	1    1000 7125
-	1    0    0    -1  
-$EndComp
 $Comp
 L CONN_1 P3
 U 1 1 58152AF0
@@ -244,7 +223,7 @@ Text Notes 4000 975  0    60   ~ 12
 Solder Bridges to power ULTiM8x8 from USB or Battery
 Text Notes 2475 800  0    60   ~ 12
 Feather Header
-Text Notes 950  6650 0    60   ~ 12
+Text Notes 8750 5475 0    60   ~ 12
 Logos
 $Comp
 L CONN4_S P2
@@ -263,38 +242,6 @@ Text Label 5450 5400 0    50   ~ 10
 VLED
 NoConn ~ 5725 5300
 NoConn ~ 5725 5100
-$Comp
-L CONN_1 P11
-U 1 1 58CE643B
-P 5625 3775
-F 0 "P11" H 5705 3775 40  0000 L CNN
-F 1 "5V" H 5625 3830 30  0001 C CNN
-F 2 "feather_v3:Screw" H 5625 3775 60  0001 C CNN
-F 3 "" H 5625 3775 60  0000 C CNN
-F 4 "mfr_pn" H 5625 3775 60  0001 C CNN "manf#"
-	1    5625 3775
-	-1   0    0    1   
-$EndComp
-$Comp
-L CONN_1 P12
-U 1 1 58CE6449
-P 5625 4375
-F 0 "P12" H 5705 4375 40  0000 L CNN
-F 1 "GND" H 5625 4430 30  0001 C CNN
-F 2 "feather_v3:Screw" H 5625 4375 60  0001 C CNN
-F 3 "" H 5625 4375 60  0000 C CNN
-F 4 "mfr_pn" H 5625 4375 60  0001 C CNN "manf#"
-	1    5625 4375
-	-1   0    0    1   
-$EndComp
-Wire Wire Line
-	5775 3775 6200 3775
-Wire Wire Line
-	5775 4375 6200 4375
-Text Label 6200 4375 2    50   ~ 10
-GND
-Text Label 6200 3775 2    50   ~ 10
-VLED
 $Comp
 L CONN4_S P5
 U 1 1 58CE657D
@@ -347,4 +294,52 @@ Wire Wire Line
 	5450 5400 5725 5400
 Wire Wire Line
 	5450 5700 5725 5700
+$Comp
+L OSHW L2
+U 1 1 58E271D7
+P 10650 6050
+F 0 "L2" H 10650 5625 40  0000 C CNN
+F 1 "OSHW" H 10650 6150 40  0001 C CNN
+F 2 "feather_v3:OSHW_6mm" H 10650 6050 60  0001 C CNN
+F 3 "" H 10650 6050 60  0000 C CNN
+F 4 "mfr_pn" H 10650 6050 60  0001 C CNN "manf#"
+	1    10650 6050
+	1    0    0    -1  
+$EndComp
+$Comp
+L LOGO_ML L4
+U 1 1 58E27297
+P 9975 6200
+F 0 "L4" H 9975 5925 40  0000 C CNN
+F 1 "LOGO_ML" H 9975 6383 60  0001 C CNN
+F 2 "feather_v3:logo_MLlabs_small" H 9975 6200 60  0001 C CNN
+F 3 "" H 9975 6200 60  0001 C CNN
+F 4 "mfr_pn" H 9975 6200 60  0001 C CNN "manf#"
+	1    9975 6200
+	1    0    0    -1  
+$EndComp
+$Comp
+L LOGO_WL L3
+U 1 1 58E2738F
+P 9525 6300
+F 0 "L3" H 9525 6125 40  0000 C CNN
+F 1 "LOGO_WL" H 9525 6436 60  0001 C CNN
+F 2 "feather_v3:logo_wyo_butterfly_small" H 9525 6300 60  0001 C CNN
+F 3 "" H 9525 6300 60  0001 C CNN
+F 4 "mfr_pn" H 9525 6300 60  0001 C CNN "manf#"
+	1    9525 6300
+	1    0    0    -1  
+$EndComp
+$Comp
+L LOGO_U88 L1
+U 1 1 58E2742A
+P 8950 6200
+F 0 "L1" H 8950 5925 40  0000 C CNN
+F 1 "LOGO_U88" H 8950 6384 60  0001 C CNN
+F 2 "feather_v3:logo_ultim8x8_small" H 8950 6200 60  0001 C CNN
+F 3 "" H 8950 6200 60  0001 C CNN
+F 4 "mfr_pn" H 8950 6200 60  0001 C CNN "manf#"
+	1    8950 6200
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

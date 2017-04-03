@@ -2,7 +2,9 @@
 
 A PCB "bus bar" to allow three ultim8x8 modules to be connected easily. Mouse bites allow it to be snapped off easily. With some imagination, can be used to expand to larger matrices.
 
-![ultim_bus top](ultim_bus_images/ultim_bus_8x8_45_01.png)
+![ultim_bus top](ultim_bus_images/ultim_bus_v2_01.png)
+
+![ultim_bus top](ultim_bus_images/ultim_bus_v2_02.png)
 
 License
 -------

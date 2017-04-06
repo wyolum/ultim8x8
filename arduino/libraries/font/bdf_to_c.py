@@ -3,7 +3,7 @@ from numpy import *
 from pylab import *
 import sys
 
-x = re.compile(r'BITMAP\n([0-9A-F\n]*?)\nENDCHAR', re.MULTILINE)
+x = re.compile(r'BITMAP\n([0-9a-fA-F\n]*?)\nENDCHAR', re.MULTILINE)
 
 usage = Exception("python bdf_to_c.py bdf_file.bdf")
 if len(sys.argv) < 2:
@@ -26,9 +26,10 @@ def format(bytes):
 i = 0
 out = []
 
-print 'byte font_x16[16*128] = {'
+print 'byte font_8x8[8*128] = {'
 
 for m in x.finditer(t):
+    # print m.group(0)
     bytes = m.group(1).strip()
     bytes = [int(s.strip(), 16) for s in bytes.splitlines()]
     print ', '.join(format(bytes)) + ','

@@ -18,4 +18,14 @@ DEC_BRIGHTNESS  = chr(17)
 INC_MODE        = chr(18)
 DEC_MODE        = chr(19)
 SET_TO_MIDNIGHT = chr(20)
+INC_RACE_HOUR   = chr(21)
+DEC_RACE_HOUR   = chr(22)
+INC_RACE_MIN    = chr(23)
+DEC_RACE_MIN    = chr(24)
+INC_RACE_SEC    = chr(25)
+DEC_RACE_SEC    = chr(26)
+INC_N_WAVE      = chr(27);
+DEC_N_WAVE      = chr(28);
+INC_WAVE_SEP    = chr(29);
+DEC_WAVE_SEP    = chr(30);
 

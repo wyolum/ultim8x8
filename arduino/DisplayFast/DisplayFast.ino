@@ -1,14 +1,18 @@
 #include "font8x16.h"
 #include "font4x8.h"
-//#include "font8x8.h"
+#include "pixel_font.h"
+#include "font8x8.h"
 //#include "fatty7x16.h"
 #include <FastLED.h>
 #include <SPI.h>
 
-CRGB primary_colors[3] = {
-  CRGB::Red,
-  CRGB::Green,
-  CRGB::Blue
+CRGB primary_colors[6] = {
+  CRGB(255, 0, 0),
+  CRGB(0, 255, 0),
+  CRGB(0, 0, 255),
+  CRGB(255, 255, 0),
+  CRGB(0, 255, 255),
+  CRGB(255, 0, 255),
 };
 const byte N_8x8_ROW = 2;
 const byte N_8x8_COL = 7;
@@ -109,7 +113,20 @@ uint32_t snake_orig(byte row, byte col){
 CRGB rightBuffer[BUFFER_SIZE];
 CRGB leftBuffer[BUFFER_SIZE];
 
-void setPixel(byte row, byte col, const struct CRGB & color){
+const struct CRGB Wheel(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    return CRGB(255 - WheelPos * 3, 0, WheelPos * 3);
+  }
+  if(WheelPos < 170) {
+    WheelPos -= 85;
+    return CRGB(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+  WheelPos -= 170;
+  return CRGB(WheelPos * 3, 255 - WheelPos * 3, 0);
+}
+
+void setPixel(uint8_t row, uint8_t col, const struct CRGB & color){
   if(col >= N_COL){
     int ii = (col - N_COL) * N_ROW + row;
     if(ii < BUFFER_SIZE){
@@ -122,6 +139,13 @@ void setPixel(byte row, byte col, const struct CRGB & color){
     leds[pos] = color;
   }
 }
+
+PixelFont big_font = PixelFont(8, 16, 16, font8x16,
+			       setPixel);
+PixelFont small_font = PixelFont(4, 8, 8, font4x8,
+				 setPixel);
+PixelFont fat_font = PixelFont(8, 8, 8, font8x8,
+			       setPixel);
 
 CRGB getPixel(int16_t row, int16_t col){
   CRGB out = 0;
@@ -137,7 +161,8 @@ CRGB getPixel(int16_t row, int16_t col){
   return out;
 }
 
-void displayChar8x16(uint16_t row, uint16_t col, byte ascii, const struct CRGB & color){
+void displayChar8x16(uint16_t row, uint16_t col, byte ascii,
+		     const struct CRGB & color){
   byte *data = font8x16 + ascii * FONT8x16_N_ROW;
   for(uint8_t r=0; r<FONT8x16_N_ROW; r++){
     for(uint8_t c=0; c<FONT8x16_N_COL; c++){
@@ -183,11 +208,11 @@ void fill(const struct CRGB & color) {
 }
 
 #define SerialDBG SERIAL_PORT_USBVIRTUAL
-uint8_t brightness = 1;
+uint8_t brightness = 4;
 
 void setup() {
-  SerialDBG.begin(9600);
-  SerialDBG.println("HERE!!!");
+  Serial.begin(115200);
+  Serial.println("HERE!");
   for(int ii=0; ii<BUFFER_SIZE; ii++){
     rightBuffer[ii] = 0;
     leftBuffer[ii] = 0;
@@ -195,6 +220,27 @@ void setup() {
   FastLED.setBrightness(brightness);
   FastLED.addLeds<APA102, SCK, MOSI, BGR, DATA_RATE_MHZ(25)>(leds, NUMPIXELS);
   FastLED.show(); // Turn all LEDs off ASAP
+  //fill(CRGB::White);
+  for(int ii=0; ii<4; ii++){
+    big_font.drawChar('0' + ii, 0,  ii * 8, get_blue, CRGB::Black);
+    FastLED.show();
+  }
+  for(int ii=0; ii<6; ii++){
+    small_font.drawChar('0' + ii, 0,  32 + ii * 4,
+			get_red, CRGB::Black);
+    small_font.drawChar('0' + ii + 10, 8,  32 + ii * 4,
+			get_green, CRGB::Black);
+    FastLED.show();
+  }
+  fat_font.drawChar('J', 0,  0, get_blue,  CRGB::Black);
+  fat_font.drawChar('S', 8,  0, get_red, CRGB::Black);
+  FastLED.show();
+  while(1){
+    fat_font.drawChar('S', 8,  0, get_red, CRGB::Black);
+    Serial.println("HERE!");
+    delay(1000);
+  }
+
 }
 
 void displayString8x16(char *msg, const struct CRGB & color){
@@ -227,6 +273,17 @@ void scrollChar4x8(byte c, byte row, const struct CRGB & color){
   displayChar4x8(row, 56, c, color);
   for(ii=0; ii < 4; ii++){
     shiftLeft(rightBuffer + ii * N_ROW, row, 8);
+    FastLED.show();
+  }
+}
+
+void scroll2Char4x8(byte t, byte b, const struct CRGB & color){
+  uint16_t ii;
+
+  displayChar4x8(0, 56, t, color);
+  displayChar4x8(8, 56, b, color);
+  for(ii=0; ii < 4; ii++){
+    shiftLeft(rightBuffer + ii * N_ROW, 0, 16);
     FastLED.show();
   }
 }
@@ -315,21 +372,26 @@ void displayTime(uint8_t hh, uint8_t mm, uint8_t ss, const struct CRGB & color, 
 int count = 9 * 3600 + 59*60 + 50;
 char *msg = "     Your Name In Lights!!!   ";
 
+  int xxx = 0;
 void loop() {
   uint32_t empty[16];
   uint16_t ii, row, col;
   byte hh, mm, ss;
   const struct CRGB & color = CRGB::White;
   
-  fill(CRGB::Black);
+  //fill(CRGB::Black);
   hh = (count / 3600);
   mm = (count - hh * 3600) / 60;
   ss = count % 60;
   count += 1;
   
-  displayTime(hh % 100, mm, ss, color, true);
+  for(int ii=0; ii<10; ii++){
+    xxx += 10;
+    scrollChar8x16('0' + ii, Wheel(xxx%256));
+  }
+  //displayTime(hh % 100, mm, ss, color, true);
   FastLED.show();
-  delay(500);
+  //delay(500);
   //displayTime(hh, mm, ss, color, true);
   //FastLED.show();
   //delay(500);
@@ -338,16 +400,24 @@ void loop() {
   //displayString4x8("In Lights!!!", 8, color);
   //FastLED.show();
 
-  char *top    = "    Your Name  ";
-  char *bottom = "    In Lights  ";
+  char *top    = " your name ";
+  char *bottom = " in lights ";
+  for(int ii=0; ii<strlen(top); ii++){
+    xxx += 10;
+    scroll2Char4x8(top[ii % strlen(top)],
+		   bottom[ii % strlen(bottom)],
+		   Wheel(xxx%256));
+  }
   for(int ii=0; ii<strlen(top); ii++){
     //scrollChar4x8(top[ii % strlen(top)], 0, color);
-    scrollChar4x8(top[ii % strlen(top)], 0, primary_colors[ii % 3]);
+    //scrollChar4x8(top[ii % strlen(top)], 0, primary_colors[xxx++%6]);
+    //scrollChar4x8(top[ii % strlen(top)], 0, Wheel(xxx++%3));
   }
   for(int ii=0; ii<strlen(bottom); ii++){
     //scrollChar4x8(bottom[ii % strlen(bottom)], 8, color);
-    scrollChar4x8(bottom[ii % strlen(bottom)], 8, primary_colors[ii % 3]);
+    //scrollChar4x8(bottom[ii % strlen(bottom)], 8, primary_colors[xxx++%6]);
+    //scrollChar4x8(bottom[ii % strlen(bottom)], 8, Wheel(xxx++%3));
   }
-  delay(5000);
+  //delay(500);
   count++;
 }

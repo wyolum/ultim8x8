@@ -3,19 +3,18 @@ LIBS:power
 LIBS:ultim_bus
 LIBS:ultim8x8_sym
 LIBS:feather_v3
-LIBS:velokey
 LIBS:ultim_bus-cache
 EELAYER 25 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
-Title "ULTiM8x8 Feather Board"
+Title "ULTiM8x8 Bus Board"
 Date "2016-10-29"
 Rev "2.0"
 Comp "Maniacal Labs & WyoLum"
-Comment1 "Power to panel provided by LiPo battery or USB from Feather (toggle with jumper)"
-Comment2 "Used to mount an Adafruit Feather to the back of the ULTiM8x8"
+Comment1 "connect three ULTiM8x8 panels + one Feather M0 + six switches"
+Comment2 ""
 Comment3 "www.wyolum.com"
 Comment4 "www.maniacallabs.com"
 $EndDescr
@@ -585,30 +584,6 @@ F 4 "Value" H 4300 5150 60  0001 C CNN "manf#"
 	0    -1   -1   0   
 $EndComp
 $Comp
-L LOGO_1 L1
-U 1 1 56C6FDFF
-P 7300 4900
-F 0 "L1" V 7380 4900 40  0000 C CNN
-F 1 "OSHW" V 7450 4900 30  0000 C CNN
-F 2 "ultim_bus:OSHW_6mm" H 7300 4900 60  0001 C CNN
-F 3 "" H 7300 4900 60  0000 C CNN
-F 4 "Value" H 7300 4900 60  0001 C CNN "manf#"
-	1    7300 4900
-	0    -1   -1   0   
-$EndComp
-$Comp
-L LOGO_1 L2
-U 1 1 56C70395
-P 7550 4900
-F 0 "L2" V 7630 4900 40  0000 C CNN
-F 1 "OSHW" V 7700 4900 30  0000 C CNN
-F 2 "ultim_bus:OSHW_6mm" H 7550 4900 60  0001 C CNN
-F 3 "" H 7550 4900 60  0000 C CNN
-F 4 "Value" H 7550 4900 60  0001 C CNN "manf#"
-	1    7550 4900
-	0    -1   -1   0   
-$EndComp
-$Comp
 L LOGO_1 L3
 U 1 1 56C707C2
 P 7300 5300
@@ -919,12 +894,12 @@ Feather Header
 $Comp
 L via_0.8x9 v1
 U 1 1 58E205F2
-P 1050 7100
-F 0 "v1" H 1050 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 1025 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 1050 7175 60  0001 C CNN
-F 3 "" H 1050 7175 60  0001 C CNN
-	1    1050 7100
+P 1050 6600
+F 0 "v1" H 1050 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 1025 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 1050 6675 60  0001 C CNN
+F 3 "" H 1050 6675 60  0001 C CNN
+	1    1050 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -1116,473 +1091,473 @@ Wire Wire Line
 Wire Notes Line
 	8450 1000 10950 1000
 Wire Wire Line
-	1050 6900 975  6900
+	1050 6400 975  6400
 Wire Wire Line
-	975  6900 975  7300
+	975  6400 975  6800
 Wire Wire Line
-	975  7300 1050 7300
+	975  6800 1050 6800
 Wire Wire Line
-	1050 7250 975  7250
-Connection ~ 975  7250
+	1050 6750 975  6750
+Connection ~ 975  6750
 Wire Wire Line
-	1050 7200 975  7200
-Connection ~ 975  7200
+	1050 6700 975  6700
+Connection ~ 975  6700
 Wire Wire Line
-	1050 7150 975  7150
-Connection ~ 975  7150
+	1050 6650 975  6650
+Connection ~ 975  6650
 Wire Wire Line
-	1050 7100 975  7100
-Connection ~ 975  7100
+	1050 6600 975  6600
+Connection ~ 975  6600
 Wire Wire Line
-	1050 7050 975  7050
-Connection ~ 975  7050
+	1050 6550 975  6550
+Connection ~ 975  6550
 Wire Wire Line
-	1050 7000 975  7000
-Connection ~ 975  7000
+	1050 6500 975  6500
+Connection ~ 975  6500
 Wire Wire Line
-	1050 6950 975  6950
-Connection ~ 975  6950
+	1050 6450 975  6450
+Connection ~ 975  6450
 $Comp
 L via_0.8x9 v2
 U 1 1 58E21D7E
-P 1475 7100
-F 0 "v2" H 1475 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 1450 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 1475 7175 60  0001 C CNN
-F 3 "" H 1475 7175 60  0001 C CNN
-	1    1475 7100
+P 1475 6600
+F 0 "v2" H 1475 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 1450 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 1475 6675 60  0001 C CNN
+F 3 "" H 1475 6675 60  0001 C CNN
+	1    1475 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1475 6900 1400 6900
+	1475 6400 1400 6400
 Wire Wire Line
-	1400 6900 1400 7300
+	1400 6400 1400 6800
 Wire Wire Line
-	1400 7300 1475 7300
+	1400 6800 1475 6800
 Wire Wire Line
-	1475 7250 1400 7250
-Connection ~ 1400 7250
+	1475 6750 1400 6750
+Connection ~ 1400 6750
 Wire Wire Line
-	1475 7200 1400 7200
-Connection ~ 1400 7200
+	1475 6700 1400 6700
+Connection ~ 1400 6700
 Wire Wire Line
-	1475 7150 1400 7150
-Connection ~ 1400 7150
+	1475 6650 1400 6650
+Connection ~ 1400 6650
 Wire Wire Line
-	1475 7100 1400 7100
-Connection ~ 1400 7100
+	1475 6600 1400 6600
+Connection ~ 1400 6600
 Wire Wire Line
-	1475 7050 1400 7050
-Connection ~ 1400 7050
+	1475 6550 1400 6550
+Connection ~ 1400 6550
 Wire Wire Line
-	1475 7000 1400 7000
-Connection ~ 1400 7000
+	1475 6500 1400 6500
+Connection ~ 1400 6500
 Wire Wire Line
-	1475 6950 1400 6950
-Connection ~ 1400 6950
+	1475 6450 1400 6450
+Connection ~ 1400 6450
 $Comp
 L via_0.8x9 v3
 U 1 1 58E21F83
-P 1900 7100
-F 0 "v3" H 1900 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 1875 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 1900 7175 60  0001 C CNN
-F 3 "" H 1900 7175 60  0001 C CNN
-	1    1900 7100
+P 1900 6600
+F 0 "v3" H 1900 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 1875 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 1900 6675 60  0001 C CNN
+F 3 "" H 1900 6675 60  0001 C CNN
+	1    1900 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	1900 6900 1825 6900
+	1900 6400 1825 6400
 Wire Wire Line
-	1825 6900 1825 7300
+	1825 6400 1825 6800
 Wire Wire Line
-	1825 7300 1900 7300
+	1825 6800 1900 6800
 Wire Wire Line
-	1900 7250 1825 7250
-Connection ~ 1825 7250
+	1900 6750 1825 6750
+Connection ~ 1825 6750
 Wire Wire Line
-	1900 7200 1825 7200
-Connection ~ 1825 7200
+	1900 6700 1825 6700
+Connection ~ 1825 6700
 Wire Wire Line
-	1900 7150 1825 7150
-Connection ~ 1825 7150
+	1900 6650 1825 6650
+Connection ~ 1825 6650
 Wire Wire Line
-	1900 7100 1825 7100
-Connection ~ 1825 7100
+	1900 6600 1825 6600
+Connection ~ 1825 6600
 Wire Wire Line
-	1900 7050 1825 7050
-Connection ~ 1825 7050
+	1900 6550 1825 6550
+Connection ~ 1825 6550
 Wire Wire Line
-	1900 7000 1825 7000
-Connection ~ 1825 7000
+	1900 6500 1825 6500
+Connection ~ 1825 6500
 Wire Wire Line
-	1900 6950 1825 6950
-Connection ~ 1825 6950
+	1900 6450 1825 6450
+Connection ~ 1825 6450
 $Comp
 L via_0.8x9 v4
 U 1 1 58E21F9A
-P 2325 7100
-F 0 "v4" H 2325 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 2300 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 2325 7175 60  0001 C CNN
-F 3 "" H 2325 7175 60  0001 C CNN
-	1    2325 7100
+P 2325 6600
+F 0 "v4" H 2325 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 2300 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 2325 6675 60  0001 C CNN
+F 3 "" H 2325 6675 60  0001 C CNN
+	1    2325 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2325 6900 2250 6900
+	2325 6400 2250 6400
 Wire Wire Line
-	2250 6900 2250 7300
+	2250 6400 2250 6800
 Wire Wire Line
-	2250 7300 2325 7300
+	2250 6800 2325 6800
 Wire Wire Line
-	2325 7250 2250 7250
-Connection ~ 2250 7250
+	2325 6750 2250 6750
+Connection ~ 2250 6750
 Wire Wire Line
-	2325 7200 2250 7200
-Connection ~ 2250 7200
+	2325 6700 2250 6700
+Connection ~ 2250 6700
 Wire Wire Line
-	2325 7150 2250 7150
-Connection ~ 2250 7150
+	2325 6650 2250 6650
+Connection ~ 2250 6650
 Wire Wire Line
-	2325 7100 2250 7100
-Connection ~ 2250 7100
+	2325 6600 2250 6600
+Connection ~ 2250 6600
 Wire Wire Line
-	2325 7050 2250 7050
-Connection ~ 2250 7050
+	2325 6550 2250 6550
+Connection ~ 2250 6550
 Wire Wire Line
-	2325 7000 2250 7000
-Connection ~ 2250 7000
+	2325 6500 2250 6500
+Connection ~ 2250 6500
 Wire Wire Line
-	2325 6950 2250 6950
-Connection ~ 2250 6950
+	2325 6450 2250 6450
+Connection ~ 2250 6450
 $Comp
 L via_0.8x9 v5
 U 1 1 58E223A1
-P 2750 7100
-F 0 "v5" H 2750 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 2725 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 2750 7175 60  0001 C CNN
-F 3 "" H 2750 7175 60  0001 C CNN
-	1    2750 7100
+P 2750 6600
+F 0 "v5" H 2750 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 2725 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 2750 6675 60  0001 C CNN
+F 3 "" H 2750 6675 60  0001 C CNN
+	1    2750 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	2750 6900 2675 6900
+	2750 6400 2675 6400
 Wire Wire Line
-	2675 6900 2675 7300
+	2675 6400 2675 6800
 Wire Wire Line
-	2675 7300 2750 7300
+	2675 6800 2750 6800
 Wire Wire Line
-	2750 7250 2675 7250
-Connection ~ 2675 7250
+	2750 6750 2675 6750
+Connection ~ 2675 6750
 Wire Wire Line
-	2750 7200 2675 7200
-Connection ~ 2675 7200
+	2750 6700 2675 6700
+Connection ~ 2675 6700
 Wire Wire Line
-	2750 7150 2675 7150
-Connection ~ 2675 7150
+	2750 6650 2675 6650
+Connection ~ 2675 6650
 Wire Wire Line
-	2750 7100 2675 7100
-Connection ~ 2675 7100
+	2750 6600 2675 6600
+Connection ~ 2675 6600
 Wire Wire Line
-	2750 7050 2675 7050
-Connection ~ 2675 7050
+	2750 6550 2675 6550
+Connection ~ 2675 6550
 Wire Wire Line
-	2750 7000 2675 7000
-Connection ~ 2675 7000
+	2750 6500 2675 6500
+Connection ~ 2675 6500
 Wire Wire Line
-	2750 6950 2675 6950
-Connection ~ 2675 6950
+	2750 6450 2675 6450
+Connection ~ 2675 6450
 $Comp
 L via_0.8x9 v6
 U 1 1 58E223B8
-P 3175 7100
-F 0 "v6" H 3175 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 3150 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 3175 7175 60  0001 C CNN
-F 3 "" H 3175 7175 60  0001 C CNN
-	1    3175 7100
+P 3175 6600
+F 0 "v6" H 3175 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 3150 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 3175 6675 60  0001 C CNN
+F 3 "" H 3175 6675 60  0001 C CNN
+	1    3175 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3175 6900 3100 6900
+	3175 6400 3100 6400
 Wire Wire Line
-	3100 6900 3100 7300
+	3100 6400 3100 6800
 Wire Wire Line
-	3100 7300 3175 7300
+	3100 6800 3175 6800
 Wire Wire Line
-	3175 7250 3100 7250
-Connection ~ 3100 7250
+	3175 6750 3100 6750
+Connection ~ 3100 6750
 Wire Wire Line
-	3175 7200 3100 7200
-Connection ~ 3100 7200
+	3175 6700 3100 6700
+Connection ~ 3100 6700
 Wire Wire Line
-	3175 7150 3100 7150
-Connection ~ 3100 7150
+	3175 6650 3100 6650
+Connection ~ 3100 6650
 Wire Wire Line
-	3175 7100 3100 7100
-Connection ~ 3100 7100
+	3175 6600 3100 6600
+Connection ~ 3100 6600
 Wire Wire Line
-	3175 7050 3100 7050
-Connection ~ 3100 7050
+	3175 6550 3100 6550
+Connection ~ 3100 6550
 Wire Wire Line
-	3175 7000 3100 7000
-Connection ~ 3100 7000
+	3175 6500 3100 6500
+Connection ~ 3100 6500
 Wire Wire Line
-	3175 6950 3100 6950
-Connection ~ 3100 6950
+	3175 6450 3100 6450
+Connection ~ 3100 6450
 $Comp
 L via_0.8x9 v7
 U 1 1 58E223CF
-P 3600 7100
-F 0 "v7" H 3600 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 3575 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 3600 7175 60  0001 C CNN
-F 3 "" H 3600 7175 60  0001 C CNN
-	1    3600 7100
+P 3600 6600
+F 0 "v7" H 3600 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 3575 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 3600 6675 60  0001 C CNN
+F 3 "" H 3600 6675 60  0001 C CNN
+	1    3600 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	3600 6900 3525 6900
+	3600 6400 3525 6400
 Wire Wire Line
-	3525 6900 3525 7300
+	3525 6400 3525 6800
 Wire Wire Line
-	3525 7300 3600 7300
+	3525 6800 3600 6800
 Wire Wire Line
-	3600 7250 3525 7250
-Connection ~ 3525 7250
+	3600 6750 3525 6750
+Connection ~ 3525 6750
 Wire Wire Line
-	3600 7200 3525 7200
-Connection ~ 3525 7200
+	3600 6700 3525 6700
+Connection ~ 3525 6700
 Wire Wire Line
-	3600 7150 3525 7150
-Connection ~ 3525 7150
+	3600 6650 3525 6650
+Connection ~ 3525 6650
 Wire Wire Line
-	3600 7100 3525 7100
-Connection ~ 3525 7100
+	3600 6600 3525 6600
+Connection ~ 3525 6600
 Wire Wire Line
-	3600 7050 3525 7050
-Connection ~ 3525 7050
+	3600 6550 3525 6550
+Connection ~ 3525 6550
 Wire Wire Line
-	3600 7000 3525 7000
-Connection ~ 3525 7000
+	3600 6500 3525 6500
+Connection ~ 3525 6500
 Wire Wire Line
-	3600 6950 3525 6950
-Connection ~ 3525 6950
+	3600 6450 3525 6450
+Connection ~ 3525 6450
 $Comp
 L via_0.8x9 v8
 U 1 1 58E223E6
-P 4025 7100
-F 0 "v8" H 4025 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 4000 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 4025 7175 60  0001 C CNN
-F 3 "" H 4025 7175 60  0001 C CNN
-	1    4025 7100
+P 4025 6600
+F 0 "v8" H 4025 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 4000 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 4025 6675 60  0001 C CNN
+F 3 "" H 4025 6675 60  0001 C CNN
+	1    4025 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4025 6900 3950 6900
+	4025 6400 3950 6400
 Wire Wire Line
-	3950 6900 3950 7300
+	3950 6400 3950 6800
 Wire Wire Line
-	3950 7300 4025 7300
+	3950 6800 4025 6800
 Wire Wire Line
-	4025 7250 3950 7250
-Connection ~ 3950 7250
+	4025 6750 3950 6750
+Connection ~ 3950 6750
 Wire Wire Line
-	4025 7200 3950 7200
-Connection ~ 3950 7200
+	4025 6700 3950 6700
+Connection ~ 3950 6700
 Wire Wire Line
-	4025 7150 3950 7150
-Connection ~ 3950 7150
+	4025 6650 3950 6650
+Connection ~ 3950 6650
 Wire Wire Line
-	4025 7100 3950 7100
-Connection ~ 3950 7100
+	4025 6600 3950 6600
+Connection ~ 3950 6600
 Wire Wire Line
-	4025 7050 3950 7050
-Connection ~ 3950 7050
+	4025 6550 3950 6550
+Connection ~ 3950 6550
 Wire Wire Line
-	4025 7000 3950 7000
-Connection ~ 3950 7000
+	4025 6500 3950 6500
+Connection ~ 3950 6500
 Wire Wire Line
-	4025 6950 3950 6950
-Connection ~ 3950 6950
+	4025 6450 3950 6450
+Connection ~ 3950 6450
 $Comp
 L via_0.8x9 v9
 U 1 1 58E22DA9
-P 4450 7100
-F 0 "v9" H 4450 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 4425 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 4450 7175 60  0001 C CNN
-F 3 "" H 4450 7175 60  0001 C CNN
-	1    4450 7100
+P 4450 6600
+F 0 "v9" H 4450 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 4425 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 4450 6675 60  0001 C CNN
+F 3 "" H 4450 6675 60  0001 C CNN
+	1    4450 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4450 6900 4375 6900
+	4450 6400 4375 6400
 Wire Wire Line
-	4375 6900 4375 7300
+	4375 6400 4375 6800
 Wire Wire Line
-	4375 7300 4450 7300
+	4375 6800 4450 6800
 Wire Wire Line
-	4450 7250 4375 7250
-Connection ~ 4375 7250
+	4450 6750 4375 6750
+Connection ~ 4375 6750
 Wire Wire Line
-	4450 7200 4375 7200
-Connection ~ 4375 7200
+	4450 6700 4375 6700
+Connection ~ 4375 6700
 Wire Wire Line
-	4450 7150 4375 7150
-Connection ~ 4375 7150
+	4450 6650 4375 6650
+Connection ~ 4375 6650
 Wire Wire Line
-	4450 7100 4375 7100
-Connection ~ 4375 7100
+	4450 6600 4375 6600
+Connection ~ 4375 6600
 Wire Wire Line
-	4450 7050 4375 7050
-Connection ~ 4375 7050
+	4450 6550 4375 6550
+Connection ~ 4375 6550
 Wire Wire Line
-	4450 7000 4375 7000
-Connection ~ 4375 7000
+	4450 6500 4375 6500
+Connection ~ 4375 6500
 Wire Wire Line
-	4450 6950 4375 6950
-Connection ~ 4375 6950
+	4450 6450 4375 6450
+Connection ~ 4375 6450
 $Comp
 L via_0.8x9 v10
 U 1 1 58E22DC0
-P 4875 7100
-F 0 "v10" H 4875 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 4850 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 4875 7175 60  0001 C CNN
-F 3 "" H 4875 7175 60  0001 C CNN
-	1    4875 7100
+P 4875 6600
+F 0 "v10" H 4875 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 4850 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 4875 6675 60  0001 C CNN
+F 3 "" H 4875 6675 60  0001 C CNN
+	1    4875 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4875 6900 4800 6900
+	4875 6400 4800 6400
 Wire Wire Line
-	4800 6900 4800 7300
+	4800 6400 4800 6800
 Wire Wire Line
-	4800 7300 4875 7300
+	4800 6800 4875 6800
 Wire Wire Line
-	4875 7250 4800 7250
-Connection ~ 4800 7250
+	4875 6750 4800 6750
+Connection ~ 4800 6750
 Wire Wire Line
-	4875 7200 4800 7200
-Connection ~ 4800 7200
+	4875 6700 4800 6700
+Connection ~ 4800 6700
 Wire Wire Line
-	4875 7150 4800 7150
-Connection ~ 4800 7150
+	4875 6650 4800 6650
+Connection ~ 4800 6650
 Wire Wire Line
-	4875 7100 4800 7100
-Connection ~ 4800 7100
+	4875 6600 4800 6600
+Connection ~ 4800 6600
 Wire Wire Line
-	4875 7050 4800 7050
-Connection ~ 4800 7050
+	4875 6550 4800 6550
+Connection ~ 4800 6550
 Wire Wire Line
-	4875 7000 4800 7000
-Connection ~ 4800 7000
+	4875 6500 4800 6500
+Connection ~ 4800 6500
 Wire Wire Line
-	4875 6950 4800 6950
-Connection ~ 4800 6950
+	4875 6450 4800 6450
+Connection ~ 4800 6450
 $Comp
 L via_0.8x9 v11
 U 1 1 58E22DD7
-P 5300 7100
-F 0 "v11" H 5300 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 5275 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 5300 7175 60  0001 C CNN
-F 3 "" H 5300 7175 60  0001 C CNN
-	1    5300 7100
+P 5300 6600
+F 0 "v11" H 5300 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 5275 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 5300 6675 60  0001 C CNN
+F 3 "" H 5300 6675 60  0001 C CNN
+	1    5300 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5300 6900 5225 6900
+	5300 6400 5225 6400
 Wire Wire Line
-	5225 6900 5225 7300
+	5225 6400 5225 6800
 Wire Wire Line
-	5225 7300 5300 7300
+	5225 6800 5300 6800
 Wire Wire Line
-	5300 7250 5225 7250
-Connection ~ 5225 7250
+	5300 6750 5225 6750
+Connection ~ 5225 6750
 Wire Wire Line
-	5300 7200 5225 7200
-Connection ~ 5225 7200
+	5300 6700 5225 6700
+Connection ~ 5225 6700
 Wire Wire Line
-	5300 7150 5225 7150
-Connection ~ 5225 7150
+	5300 6650 5225 6650
+Connection ~ 5225 6650
 Wire Wire Line
-	5300 7100 5225 7100
-Connection ~ 5225 7100
+	5300 6600 5225 6600
+Connection ~ 5225 6600
 Wire Wire Line
-	5300 7050 5225 7050
-Connection ~ 5225 7050
+	5300 6550 5225 6550
+Connection ~ 5225 6550
 Wire Wire Line
-	5300 7000 5225 7000
-Connection ~ 5225 7000
+	5300 6500 5225 6500
+Connection ~ 5225 6500
 Wire Wire Line
-	5300 6950 5225 6950
-Connection ~ 5225 6950
+	5300 6450 5225 6450
+Connection ~ 5225 6450
 $Comp
 L via_0.8x9 v12
 U 1 1 58E22DEE
-P 5725 7100
-F 0 "v12" H 5725 7400 50  0000 C CNN
-F 1 "via_0.8x9" H 5700 6825 50  0000 C CNN
-F 2 "ultim_bus:via_0.8x9" H 5725 7175 60  0001 C CNN
-F 3 "" H 5725 7175 60  0001 C CNN
-	1    5725 7100
+P 5725 6600
+F 0 "v12" H 5725 6900 50  0000 C CNN
+F 1 "via_0.8x9" H 5700 6325 50  0000 C CNN
+F 2 "ultim_bus:via_0.8x9" H 5725 6675 60  0001 C CNN
+F 3 "" H 5725 6675 60  0001 C CNN
+	1    5725 6600
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	5725 6900 5650 6900
+	5725 6400 5650 6400
 Wire Wire Line
-	5650 6900 5650 7300
+	5650 6400 5650 6800
 Wire Wire Line
-	5650 7300 5725 7300
+	5650 6800 5725 6800
 Wire Wire Line
-	5725 7250 5650 7250
-Connection ~ 5650 7250
+	5725 6750 5650 6750
+Connection ~ 5650 6750
 Wire Wire Line
-	5725 7200 5650 7200
-Connection ~ 5650 7200
+	5725 6700 5650 6700
+Connection ~ 5650 6700
 Wire Wire Line
-	5725 7150 5650 7150
-Connection ~ 5650 7150
+	5725 6650 5650 6650
+Connection ~ 5650 6650
 Wire Wire Line
-	5725 7100 5650 7100
-Connection ~ 5650 7100
+	5725 6600 5650 6600
+Connection ~ 5650 6600
 Wire Wire Line
-	5725 7050 5650 7050
-Connection ~ 5650 7050
+	5725 6550 5650 6550
+Connection ~ 5650 6550
 Wire Wire Line
-	5725 7000 5650 7000
-Connection ~ 5650 7000
+	5725 6500 5650 6500
+Connection ~ 5650 6500
 Wire Wire Line
-	5725 6950 5650 6950
-Connection ~ 5650 6950
-Text Label 975  6900 2    40   ~ 8
+	5725 6450 5650 6450
+Connection ~ 5650 6450
+Text Label 975  6400 2    40   ~ 8
 5V
-Text Label 1400 6900 2    40   ~ 8
+Text Label 1400 6400 2    40   ~ 8
 5V
-Text Label 1825 6900 2    40   ~ 8
+Text Label 1825 6400 2    40   ~ 8
 5V
-Text Label 2250 6900 2    40   ~ 8
+Text Label 2250 6400 2    40   ~ 8
 GND
-Text Label 2675 6900 2    40   ~ 8
+Text Label 2675 6400 2    40   ~ 8
 GND
-Text Label 3100 6900 2    40   ~ 8
+Text Label 3100 6400 2    40   ~ 8
 GND
-Text Label 3525 6900 2    40   ~ 8
+Text Label 3525 6400 2    40   ~ 8
 CLK
-Text Label 3950 6900 2    40   ~ 8
+Text Label 3950 6400 2    40   ~ 8
 CLK1
-Text Label 4375 6900 2    40   ~ 8
+Text Label 4375 6400 2    40   ~ 8
 CLK2
-Text Label 4800 6900 2    40   ~ 8
+Text Label 4800 6400 2    40   ~ 8
 DAT
-Text Label 5225 6900 2    40   ~ 8
+Text Label 5225 6400 2    40   ~ 8
 DAT1
-Text Label 5650 6900 2    40   ~ 8
+Text Label 5650 6400 2    40   ~ 8
 DAT2
 $Comp
 L CONN_1 M3
@@ -1755,7 +1730,7 @@ U 1 1 58E22B6D
 P 9125 2550
 F 0 "R1" V 9050 2525 40  0000 L CNB
 F 1 "10k" V 9125 2550 30  0000 C CNB
-F 2 "ultim_bus:R_1210_HandSoldering" H 9125 2550 50  0001 C CNN
+F 2 "ultim_bus:r_0805" H 9125 2550 50  0001 C CNN
 F 3 "" H 9125 2550 50  0000 C CNN
 	1    9125 2550
 	0    1    1    0   
@@ -1766,7 +1741,7 @@ U 1 1 58E232A6
 P 9125 2800
 F 0 "R2" V 9050 2775 40  0000 L CNB
 F 1 "10k" V 9125 2800 30  0000 C CNB
-F 2 "ultim_bus:R_1210_HandSoldering" H 9125 2800 50  0001 C CNN
+F 2 "ultim_bus:r_0805" H 9125 2800 50  0001 C CNN
 F 3 "" H 9125 2800 50  0000 C CNN
 	1    9125 2800
 	0    1    1    0   
@@ -1777,7 +1752,7 @@ U 1 1 58E233EC
 P 9125 3050
 F 0 "R3" V 9050 3025 40  0000 L CNB
 F 1 "10k" V 9125 3050 30  0000 C CNB
-F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3050 50  0001 C CNN
+F 2 "ultim_bus:r_0805" H 9125 3050 50  0001 C CNN
 F 3 "" H 9125 3050 50  0000 C CNN
 	1    9125 3050
 	0    1    1    0   
@@ -1788,7 +1763,7 @@ U 1 1 58E2365E
 P 9125 3300
 F 0 "R4" V 9050 3275 40  0000 L CNB
 F 1 "10k" V 9125 3300 30  0000 C CNB
-F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3300 50  0001 C CNN
+F 2 "ultim_bus:r_0805" H 9125 3300 50  0001 C CNN
 F 3 "" H 9125 3300 50  0000 C CNN
 	1    9125 3300
 	0    1    1    0   
@@ -1799,7 +1774,7 @@ U 1 1 58E237AA
 P 9125 3550
 F 0 "R5" V 9050 3525 40  0000 L CNB
 F 1 "10k" V 9125 3550 30  0000 C CNB
-F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3550 50  0001 C CNN
+F 2 "ultim_bus:r_0805" H 9125 3550 50  0001 C CNN
 F 3 "" H 9125 3550 50  0000 C CNN
 	1    9125 3550
 	0    1    1    0   
@@ -1810,7 +1785,7 @@ U 1 1 58E2395E
 P 9125 3800
 F 0 "R6" V 9050 3775 40  0000 L CNB
 F 1 "10k" V 9125 3800 30  0000 C CNB
-F 2 "ultim_bus:R_1210_HandSoldering" H 9125 3800 50  0001 C CNN
+F 2 "ultim_bus:r_0805" H 9125 3800 50  0001 C CNN
 F 3 "" H 9125 3800 50  0000 C CNN
 	1    9125 3800
 	0    1    1    0   
@@ -1947,4 +1922,28 @@ Text Label 6100 1275 0    50   ~ 10
 GND
 Wire Wire Line
 	6100 1275 6475 1275
+$Comp
+L OSHW L2
+U 1 1 58E2609A
+P 10725 6100
+F 0 "L2" H 10725 6050 40  0001 C CNN
+F 1 "OSHW" H 10725 6200 40  0001 C CNN
+F 2 "ultim_bus:OSHW_6mm" H 10725 6100 60  0001 C CNN
+F 3 "" H 10725 6100 60  0000 C CNN
+F 4 "mfr_pn" H 10725 6100 60  0001 C CNN "manf#"
+	1    10725 6100
+	1    0    0    -1  
+$EndComp
+$Comp
+L OSHW L1
+U 1 1 58E27240
+P 850 7400
+F 0 "L1" H 850 7350 40  0001 C CNN
+F 1 "OSHW" H 850 7500 40  0001 C CNN
+F 2 "ultim_bus:OSHW_6mm" H 850 7400 60  0001 C CNN
+F 3 "" H 850 7400 60  0000 C CNN
+F 4 "mfr_pn" H 850 7400 60  0001 C CNN "manf#"
+	1    850  7400
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

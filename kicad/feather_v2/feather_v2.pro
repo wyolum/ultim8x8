@@ -1,4 +1,4 @@
-update=Tue Jan  3 21:22:44 2017
+update=Mon Apr  3 21:20:57 2017
 version=1
 last_client=kicad
 [pcbnew]
@@ -23,13 +23,6 @@ ModuleOutlineThickness=0.150000000000
 [cvpcb]
 version=1
 NetIExt=net
-[eeschema]
-version=1
-LibDir=
-[eeschema/libraries]
-LibName1=power
-LibName2=feather_v2_libs/feather_v2
-LibName3=feather_v2_libs/ultim8x8_sym
 [schematic_editor]
 version=1
 PageLayoutDescrFile=
@@ -40,5 +33,12 @@ NetFmtName=Pcbnew
 SpiceForceRefPrefix=0
 SpiceUseNetNumbers=0
 LabSize=50
+[eeschema]
+version=1
+LibDir=
+[eeschema/libraries]
+LibName1=power
+LibName2=feather_v2_libs/feather_v2
+LibName3=feather_v2_libs/ultim8x8_sym
 [general]
 version=1

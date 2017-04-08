@@ -1,3 +1,4 @@
+import time
 from Tkinter import *
 from kandy_commands import *
 import serial
@@ -24,7 +25,24 @@ class UpDown:
         write(self.down_val)
         
 def write(v):
-    ser.write(chr(v % 256))
+    if type(v) != type(''):
+        v = chr(v % 256)
+    ser.write(v)
+    response.config(text=str(ord(ser.read())))
+
+def setTime(TZ=-4 * 3600):
+    now = time.time() + TZ
+    hh = int(now % 86400) / 3600
+    mm = int(now % 86400 - hh * 3600) / 60
+    ss = int(now % 60)
+
+    print hh, mm, ss
+    ser.write(DEC_MODE * 2)
+    ser.write(SET_TO_MIDNIGHT)
+
+    ser.write(INC_HOUR * hh)
+    ser.write(INC_MIN * mm)
+    ser.write(INC_SEC * ss)
     
 f = Frame(r)    
 def send(*args):
@@ -49,6 +67,8 @@ def start(*args):
 def noop(*args):
     pass
 
+response = Label(r, text="")
+response.pack()
 e = Entry(f, width = 20)
 e.pack(side=LEFT)
 Button(f, text="Enter", command=send).pack(side=LEFT)
@@ -69,9 +89,9 @@ standby_hhmmss.pack()
 
 race_hhmmss = Frame(r)
 Label(race_hhmmss, text="Race:").pack(side=LEFT)
-UpDown(race_hhmmss, 'HH', 10, 11)
-UpDown(race_hhmmss, 'MM', 12, 13)
-UpDown(race_hhmmss, 'SS', 14, 15)
+UpDown(race_hhmmss, 'HH', INC_RACE_HOUR, DEC_RACE_HOUR)
+UpDown(race_hhmmss, 'MM', INC_RACE_MIN, DEC_RACE_MIN)
+UpDown(race_hhmmss, 'SS', INC_RACE_SEC, DEC_RACE_SEC)
 race_hhmmss.pack()
 
 f = Frame(r)
@@ -79,7 +99,13 @@ UpDown(f, "Mode", 18, 19)
 UpDown(f, 'Bright', 16, 17, side=TOP)
 f.pack()
 
+f = Frame(r)
+UpDown(f, "N Wave", 27, 28)
+UpDown(f, 'Wave Sep', 29, 30, side=TOP)
+f.pack()
+
 Button(r, text="Start", command=start).pack()
+Button(r, text="SetTime", command=setTime).pack()
 
 r.bind('<Return>', send)
 r.mainloop()

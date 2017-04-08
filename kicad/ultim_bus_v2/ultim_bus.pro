@@ -1,4 +1,4 @@
-update=Mon Apr  3 15:35:08 2017
+update=Mon Apr  3 23:03:37 2017
 version=1
 last_client=kicad
 [pcbnew]
@@ -41,6 +41,5 @@ LibName1=power
 LibName2=ultimbus_libs/ultim_bus
 LibName3=ultimbus_libs/ultim8x8_sym
 LibName4=ultimbus_libs/feather_v3
-LibName5=/home/anool/projects-git/VeloKey/kicad/OTS_2/velokey
 [general]
 version=1

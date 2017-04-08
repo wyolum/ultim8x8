@@ -23,7 +23,7 @@ FASTLED_USING_NAMESPACE
 #define NUM_LEDS    (64 * 7 * 2 * 2)
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS          8
+#define BRIGHTNESS          30
 #define FRAMES_PER_SECOND  120
 
 void setup() {
@@ -41,8 +41,8 @@ void setup() {
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
-//SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, bpm };
-SimplePatternList gPatterns = {chase};
+SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, bpm };
+//SimplePatternList gPatterns = {chase};
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns

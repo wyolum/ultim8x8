@@ -2,6 +2,7 @@
 #include "font4x8.h"
 #include "pixel_font.h"
 #include "font8x8.h"
+#include "font5x8.h"
 //#include "fatty7x16.h"
 #include <FastLED.h>
 #include <SPI.h>
@@ -14,8 +15,8 @@ CRGB primary_colors[6] = {
   CRGB(0, 255, 255),
   CRGB(255, 0, 255),
 };
-const byte N_8x8_ROW = 2;
-const byte N_8x8_COL = 7;
+const byte N_8x8_ROW = 1;
+const byte N_8x8_COL = 3;
 const byte N_ROW = N_8x8_ROW * 8;
 const byte N_COL = N_8x8_COL * 8;
 const byte BUFFER_SIZE = N_ROW * 8;
@@ -35,7 +36,34 @@ const byte digits4x7[4*10] = {
   54,  73,  73,  54, // 8
   38,  73,  73,  62  // 9
 };
-  
+
+const byte digits5x8[8*10] = {
+  0x0e,0x11,0x11,0x11,0x11,0x11,0x11,0x0e, // 0
+  0x04,0x06,0x04,0x04,0x04,0x04,0x04,0x0e, // 1
+  0x0e,0x11,0x10,0x10,0x08,0x04,0x02,0x1f, // 2
+  0x0e,0x11,0x10,0x08,0x10,0x10,0x11,0x0e, // 3
+  0x08,0x09,0x09,0x09,0x1f,0x08,0x08,0x08, // 4
+  0x1f,0x01,0x01,0x0f,0x10,0x10,0x11,0x0e, // 5
+  0x0e,0x11,0x01,0x0f,0x11,0x11,0x11,0x0e, // 6
+  0x1f,0x10,0x10,0x08,0x04,0x02,0x01,0x01, // 7
+  0x0e,0x11,0x11,0x0e,0x11,0x11,0x11,0x0e, // 8
+  0x0e,0x11,0x11,0x11,0x1e,0x10,0x11,0x0e, // 9
+};
+
+void bigDigit(byte start, byte d, const struct CRGB & color){
+  byte row, col;
+  for(col = 0; col < 5; col++){
+    for(row = 0; row < 8; row++){
+      if((digits5x8[d * 8 + row] >> col) & 1){
+	setPixel(row, col + start, color);
+      }
+      else{
+	setPixel(row, col + start, 0);
+      }
+    }
+  }
+}
+
 //uint32_t my_display[NUMPIXELS];
 
 #define DATAPIN    23
@@ -139,17 +167,13 @@ void setPixel(uint8_t row, uint8_t col, const struct CRGB & color){
   }
   else{
     uint16_t pos = snake(row, col);
-
     leds[pos] = color;
   }
 }
 
-PixelFont big_font = PixelFont(8, 16, 16, font8x16,
-			       setPixel);
-PixelFont small_font = PixelFont(4, 8, 8, font4x8,
-				 setPixel);
-PixelFont fat_font = PixelFont(8, 8, 8, font8x8,
-			       setPixel);
+PixelFont Font4x8 = PixelFont(4, 8, 8, font4x8, setPixel);
+PixelFont Font5x8 = PixelFont(5, 8, 8, font5x8, setPixel);
+PixelFont Font8x8 = PixelFont(8, 8, 8, font8x8, setPixel);
 
 CRGB getPixel(int16_t row, int16_t col){
   CRGB out = CRGB::Black;
@@ -205,7 +229,7 @@ void setup() {
 void displayString(char *msg, uint8_t row, uint8_t col,
 		   PixelFont font, const struct CRGB & color, const struct CRGB & background){
   uint16_t ii;
-  for(ii=0; ii<min(strlen(msg), N_COL / font.width - col); ii++){
+  for(ii=0; ii<min(strlen(msg), N_COL / font.width - col + 1); ii++){
     font.drawChar(msg[ii], row, col + ii * font.width, color, background);
   }
 }
@@ -272,121 +296,53 @@ void displayTime(uint8_t hh, uint8_t mm, uint8_t ss, const struct CRGB & color, 
   fill(CRGB::Black);
 
   if(hh>10){
-    big_font.drawChar('0' + ((hh / 10) % 10), 0, 3, color, CRGB::Black);
+    Font5x8.drawChar('0' + ((hh / 10) % 10), 0, 0, color, CRGB::Black);
   }
   else{
-    big_font.drawChar(' ' + ((hh / 10) % 10), 0, 3, color, CRGB::Black);
+    Font5x8.drawChar(' ' + ((hh / 10) % 10), 0, 0, color, CRGB::Black);
   }
-  big_font.drawChar('0' + (hh % 10), 0, 3 + 8, color, CRGB::Black);
+  Font5x8.drawChar('0' + (hh % 10), 0, 5, color, CRGB::Black);
 
-  big_font.drawChar('0' + ((mm / 10) % 10), 0, 21, color, CRGB::Black);
-  big_font.drawChar('0' + (mm % 10), 0, 21 + 8, color, CRGB::Black);
+  Font5x8.drawChar('0' + ((mm / 10) % 10), 0, 13, color, CRGB::Black);
+  Font5x8.drawChar('0' + (mm % 10), 0, 18, color, CRGB::Black);
 
-  big_font.drawChar('0' + ((ss / 10) % 10), 0, 39, color, CRGB::Black);
-  big_font.drawChar('0' + (ss % 10), 0, 39 + 8, color, CRGB::Black);
   if(colen){
     setPixel(5, 19, color);
     setPixel(8, 19, color);
-    setPixel(5, 19+18, color);
-    setPixel(8, 19+18, color);
   }
 }
 
-int count = 9 * 3600 + 59*60 + 50;
+uint32_t start_time = 10 * 3600 + 26 * 60 + 0;
+uint32_t count;
 char *msg = "     Your Name In Lights!!!   ";
 
   int xxx = 0;
 void loop() {
   byte hh, mm, ss;
   const struct CRGB & color = CRGB::White;
+
+  uint32_t tm = millis() / 1000 + start_time;
+  
+  hh = (tm / 3600) % 12;
+  mm = (tm / 60) % 60;
+  ss = (tm / 1) % 60;
   
   fill(CRGB::Black);
-  char *top    = "              Hello        ";
-  char *bottom = "              World!       ";
-  for(int ii=0; ii < min(strlen(top), strlen(bottom)); ii++){
-    small_font.drawChar(top[ii],                     0, N_COL, Wheel(      2 * ii), CRGB::Black);
-    small_font.drawChar(bottom[ii], small_font.height, N_COL, Wheel(128 + 2 * ii), CRGB::Black);
-    FastLED.show();
-    for(int ii = 0; ii<small_font.width; ii++){
-      shiftLeft(0, 16);
-      FastLED.show();
-    }
+  if(hh > 9){
+    bigDigit( 0, hh/10, color);
   }
+  bigDigit( 5, hh%10, color);
+  bigDigit(13, mm/10, color);
+  bigDigit(19, mm%10, color);
+  setPixel(2, 11, color);
+  setPixel(3, 11, color);
+  setPixel(5, 11, color);
+  setPixel(6, 11, color);
+  FastLED.show();
   delay(1000);
-  for(int ii=65; ii<65+26; ii+=2){
-    small_font.drawChar(ii,                     0, N_COL, Wheel(      2 * ii), CRGB::Black);
-    small_font.drawChar(ii + 1, small_font.height, N_COL, Wheel(128 + 2 * ii), CRGB::Black);
-    FastLED.show();
-    for(int ii = 0; ii<4; ii++){
-      shiftLeft(0, 16);
-      FastLED.show();
-    }
-  }
-  delay(1000);
-  hh = (count / 3600);
-  mm = (count - hh * 3600) / 60;
-  ss = count % 60;
-  count += 1;
+  //displayTime(11, 59, ss, color, true);
 
-  displayTime(hh, mm, ss, color, true);
-  FastLED.show();
-  delay(1000);
-  fill(CRGB::Black);
+  //Font5x8.drawChar('0', 0, 0, color, CRGB::Black);
 
-  displayString("Hello", 0, 8, big_font, color, CRGB::Black);
-  FastLED.show();
-  delay(1000);
-  displayString("World", 0, 8, big_font, color, CRGB::Black);
-  FastLED.show();
-  delay(1000);
-  fill(CRGB::Black);
-  displayString("Hello", 0, 8, fat_font, color, CRGB::Black);
-  FastLED.show();
-  delay(1000);
-  displayString("World!!", 8, 8, fat_font, color, CRGB::Black);
-  FastLED.show();
-  delay(1000);
-  scrollMsg(" Hello World!!!        ", 0, big_font, CRGB::Blue, CRGB::Black);
-  displayString("9:59 AM", 8, 0, fat_font, CRGB::White, CRGB::Black);
-  scrollMsg(" Hello World!!!          ", 0, fat_font, CRGB::Blue, CRGB::Black);
-  scrollMsg(" Hello ", 0, fat_font, CRGB::Blue, CRGB::Black);
-  scrollMsg(" World!", fat_font.height, fat_font, CRGB::Blue, CRGB::Black);
-  delay(1000);
-  scrollMsg("     Hello    ", 0, small_font, CRGB::Blue, CRGB::Black);
-  scrollMsg("     World!!! ", small_font.height, small_font, CRGB::Blue, CRGB::Black);
-  delay(1000);
-  scrollMsg("          ", 0, big_font, CRGB::Blue, CRGB::Black);
-  for(char ii='A'; ii<='Z'; ii++){
-    scrollChar(ii, 0, big_font, Wheel((ii * 10) %256), CRGB::Black);
-  }
-  for(char ii='a'; ii<='z'; ii++){
-    scrollChar(ii, 0, big_font, Wheel((ii * 10) %256), CRGB::Black);
-  }
-  scrollMsg("          ", 0, big_font, CRGB::Blue, CRGB::Black);
-  /*
-  */
-  for(int ii=0; ii<8; ii++){
-    big_font.drawChar('0' + ii, 0,  ii * 8, primary_colors[ii%6], CRGB::Black);
-    FastLED.show();
-    delay(100);
-  }
-  for(int ii=0; ii<6; ii++){
-    small_font.drawChar('0' + ii, 0,  32 + ii * 4,
-			primary_colors[(ii + 1)%6], CRGB::Black);
-    FastLED.show();
-    delay(100);
-    small_font.drawChar('0' + ii + 10, 8,  32 + ii * 4,
-			primary_colors[ii%6], CRGB::Black);
-    FastLED.show();
-    delay(100);
-  }
-  fat_font.drawChar('J', 0,  0, primary_colors[0],  CRGB::Black);
-  FastLED.show();
-  delay(100);
-  fat_font.drawChar('S', 8,  0, primary_colors[1], CRGB::Black);
-  FastLED.show();
-  delay(1000);
-  fill(CRGB::Black);
-
-  count++;
+  tm++;
 }

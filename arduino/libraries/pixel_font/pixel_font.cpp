@@ -12,14 +12,28 @@ PixelFont::PixelFont(uint8_t _width, uint8_t _height, uint8_t _bytes_per_char,
 }
 
 void PixelFont::drawChar(uint8_t ascii, uint8_t row, uint8_t col,
-			 //const struct CRGB & color,
+			 const struct CRGB & color,
+			 const struct CRGB & background){
+  byte *data = font + ascii * bytes_per_char;
+  for(uint8_t r=0; r<height; r++){
+    for(uint8_t c=0; c<width; c++){
+      if((data[r] >> (8 - 1 - c)) & 1){
+	setter_fp(row + r, col + c, color);
+      }
+      else{
+	setter_fp(row + r, col + c, background);
+      }
+    }
+  }
+}
+
+void PixelFont::drawChar(uint8_t ascii, uint8_t row, uint8_t col,
 			 const struct CRGB & (*color_fp)(uint8_t row, uint8_t col),
 			 const struct CRGB & background){
   byte *data = font + ascii * bytes_per_char;
   for(uint8_t r=0; r<height; r++){
     for(uint8_t c=0; c<width; c++){
       if((data[r] >> (8 - 1 - c)) & 1){
-	//color_fp(row + r, col + c)
 	setter_fp(row + r, col + c, color_fp(row + r, col + c));
       }
       else{

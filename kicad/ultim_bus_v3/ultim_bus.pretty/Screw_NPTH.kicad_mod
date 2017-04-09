@@ -1,0 +1,14 @@
+(module Screw_NPTH (layer F.Cu) (tedit 552120AC)
+  (fp_text reference S103 (at 0 -1.5875) (layer F.SilkS) hide
+    (effects (font (size 1.016 1.016) (thickness 0.1524)))
+  )
+  (fp_text value CONN_1 (at 0 1.778) (layer F.SilkS) hide
+    (effects (font (size 1.016 1.016) (thickness 0.1524)))
+  )
+  (pad "" np_thru_hole circle (at 0 0) (size 3.048 3.048) (drill 3.048) (layers *.Cu *.Mask F.SilkS))
+  (model TinyTiM_3D/vite_2mm5.wrl
+    (at (xyz 0 0 0))
+    (scale (xyz 1.2 1.2 1.2))
+    (rotate (xyz 0 0 0))
+  )
+)

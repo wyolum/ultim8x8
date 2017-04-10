@@ -17,6 +17,9 @@ class PixelFont{
 	    void (*_setter_fp)(uint8_t row, uint8_t col,
 			      const struct CRGB & color));
   void drawChar(uint8_t ascii, uint8_t row, uint8_t col,
+		const struct CRGB & color,
+		const struct CRGB & background);
+  void drawChar(uint8_t ascii, uint8_t row, uint8_t col,
 		const struct CRGB & (*color_fp)(uint8_t row, uint8_t col),
 		const struct CRGB & background);
 };

@@ -5,11 +5,13 @@ import sys
 
 x = re.compile(r'BITMAP\n([0-9a-fA-F\n]*?)\nENDCHAR', re.MULTILINE)
 
-usage = Exception("python bdf_to_c.py bdf_file.bdf")
-if len(sys.argv) < 2:
+usage = Exception("python bdf_to_c.py width height bdf_file.bdf")
+if len(sys.argv) < 4:
     raise usage
 
-fn = sys.argv[1]
+width = int(sys.argv[1])
+height = int(sys.argv[2])
+fn = sys.argv[3]
 t = open(fn).read()
 
 def tobits(b):
@@ -26,7 +28,11 @@ def format(bytes):
 i = 0
 out = []
 
-print 'byte font_8x8[8*128] = {'
+print 'const byte FONT%dx%d_N_ROW = 16;' % (width, height)
+print 'const byte FONT%dx%d_N_COL = 8;' % (width, height)
+print 'const byte FONT%dx%d_N_CHAR = 128;'% (width, height)
+
+print 'byte font_%dx%d[FONT%dx%s_N_COL*FONT%dx%d_N_CHAR] = {' % (width, height, width, height)
 
 for m in x.finditer(t):
     # print m.group(0)

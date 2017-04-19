@@ -419,7 +419,7 @@ class Box(Tool):
         for row in range(y_start, y_stop + 1):
             for col in range(x_start, x_stop + 1):
                 self.draw_pixel(row, col, layer=1)
-            
+
 class PixelPainter:
     '''
     RGB bit map editor.  TODO: separate classes for rgb_bitmap and GUI

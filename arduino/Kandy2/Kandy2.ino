@@ -8,7 +8,7 @@
 #include "kandy_commands.h"
 
 RTC_DS3231 rtc;
-const bool USE_12_HOUR_FORMAT = false;
+const bool USE_12_HOUR_FORMAT = true;
 const int DS3231_ADDR = 104;
 const int DS3231_ALARM1_OFFSET = 0x7;
 const int DS3231_ALARM2_OFFSET = 0xB;
@@ -653,7 +653,7 @@ void do_command(uint8_t command){
     break;
   case KANDY_DEC_CD_HOUR:
     if(mode == STANDBY_MODE){
-      if(countdown_duration.hours() > 0){
+      if(countdown_duration.totalseconds() > 3600){
 	countdown_duration = countdown_duration - HOUR;
       }
     }
@@ -665,7 +665,7 @@ void do_command(uint8_t command){
     break;
   case KANDY_DEC_CD_MIN:
     if(mode == STANDBY_MODE){
-      if(countdown_duration.minutes() > 0){
+      if(countdown_duration.totalseconds() > 60){
 	countdown_duration = countdown_duration - MINUTE;
       }
     }
@@ -677,7 +677,7 @@ void do_command(uint8_t command){
     break;
   case KANDY_DEC_CD_SEC:
     if(mode == STANDBY_MODE){
-      if(countdown_duration.seconds() > 0){
+      if(countdown_duration.totalseconds() > 0){
 	countdown_duration = countdown_duration - SECOND;
       }
     }
@@ -826,15 +826,19 @@ void write_stopwatch_start_time(time_t start_time){
   */
   
   time_bytes_p = (uint8_t*)(&start_time);
+  uint16_t countdown = countdown_duration.totalseconds();
   rtc_raw_write(DS3231_ALARM1_OFFSET, 4, false, time_bytes_p);
   rtc_raw_write(DS3231_ALARM2_OFFSET, 1, false, ((uint8_t*)&racing)); // race on?
   rtc_raw_write(DS3231_ALARM2_OFFSET + 1, 1, false, ((uint8_t*)&n_wave)); // n waves?
   rtc_raw_write(DS3231_ALARM2_OFFSET + 2, 2, false, ((uint8_t*)&wave_sep)); // wave separation?
+  //rtc_raw_write(DS3231_ALARM2_OFFSET + 4, 2, false, ((uint8_t*)&countdown));
 }
 
 time_t read_stopwatch_start_time(){
   uint8_t *time_bytes_p;
   time_t out;
+  uint16_t countdown;
+  
   /*
     set to:
         0 in clock mode
@@ -846,6 +850,7 @@ time_t read_stopwatch_start_time(){
   rtc_raw_read(DS3231_ALARM2_OFFSET, 1, false, ((uint8_t*)&racing)); // race on?
   rtc_raw_read(DS3231_ALARM2_OFFSET + 1, 1, false, ((uint8_t*)&n_wave)); // n waves?
   rtc_raw_read(DS3231_ALARM2_OFFSET + 2, 2, false, ((uint8_t*)&wave_sep)); // n separation?
+  rtc_raw_read(DS3231_ALARM2_OFFSET + 4, 2, false, ((uint8_t*)&countdown)); // countdown?
   return out;
 }
 

@@ -11,11 +11,11 @@
 #include <SPI.h>
 
 CRGB primary_colors[6] = {
-  CRGB(255, 0, 0),
+  CRGB(0, 255, 255),
   CRGB(0, 255, 0),
   CRGB(0, 0, 255),
   CRGB(255, 255, 0),
-  CRGB(0, 255, 255),
+  CRGB(255, 0, 0),
   CRGB(255, 0, 255),
 };
 

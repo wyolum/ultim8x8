@@ -198,9 +198,15 @@ long DateTime::secondstime(void) const {
 DateTime DateTime::operator+(const TimeSpan& span) {
   return DateTime(unixtime()+span.totalseconds());
 }
+DateTime DateTime::operator+(long long seconds) {
+  return DateTime(unixtime() + seconds);
+}
 
 DateTime DateTime::operator-(const TimeSpan& span) {
   return DateTime(unixtime()-span.totalseconds());
+}
+DateTime DateTime::operator-(long long seconds) {
+  return DateTime(unixtime()-seconds);
 }
 
 TimeSpan DateTime::operator-(const DateTime& right) {

@@ -17,11 +17,11 @@ CRGB primary_colors[6] = {
 uint8_t   one[8] = {0x00,0x00,0x00,0x18,0x18,0x00,0x00,0x00}; // 1
 uint8_t   two[8] = {0x00,0x06,0x06,0x00,0x00,0x60,0x60,0x00}; // 2
 uint8_t three[8] = {0x03,0x03,0x00,0x18,0x18,0x00,0xc0,0xc0}; // 3
-uint8_t  four[8] = {0x00,0x66,0x66,0x00,0x00,0x66,0x66,0x00}; // 5
+uint8_t  four[8] = {0x00,0x66,0x66,0x00,0x00,0x66,0x66,0x00}; // 4
 uint8_t  five[8] = {0xc3,0xc3,0x00,0x18,0x18,0x00,0xc3,0xc3}; // 5
 uint8_t   six[8] = {0xc3,0xc3,0x00,0xc3,0xc3,0x00,0xc3,0xc3}; // 6
 
-uint8_t *numbers[6] = {one, two, three, four, five, six};
+uint8_t *numbers[6] = {one, two, six, three, five, four};
 
 void draw_face(uint16_t col, uint8_t *number, const struct CRGB & color){
   for(byte ii=0; ii<8; ii++){
@@ -116,7 +116,8 @@ void setup() {
   for(int ii=0; ii<BUFFER_SIZE; ii++){
   }
   FastLED.setBrightness(brightness);
-  FastLED.addLeds<APA102, SCK, MOSI, BGR, DATA_RATE_MHZ(25)>(leds, NUMPIXELS);
+//  FastLED.addLeds<APA102, MOSI, SCK, BGR, DATA_RATE_MHZ(25)>(leds, NUMPIXELS);
+  FastLED.addLeds<APA102>(leds, NUMPIXELS);
   show(); // Turn all LEDs off ASAP
   delay(1000);
 }
@@ -141,5 +142,5 @@ void loop() {
     show();
     delay(10 + jj * 6);
   }
-  delay(3000);
+  delay(6000);
 }

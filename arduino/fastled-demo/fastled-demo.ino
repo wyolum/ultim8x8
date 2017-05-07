@@ -46,7 +46,7 @@ uint8_t brightnessIndex = 0;
 
 // ten seconds per color palette makes a good demo
 // 20-120 is better for deployment
-uint8_t secondsPerPalette = 10;
+uint8_t secondsPerPalette = 1;
 
 // COOLING: How much does the air cool as it rises?
 // Less cooling = taller flames.  More cooling = shorter flames.
@@ -77,7 +77,7 @@ CRGBPalette16 IceColors_p = CRGBPalette16(CRGB::Black, CRGB::Blue, CRGB::Aqua, C
 uint8_t currentPatternIndex = 0; // Index number of which pattern is current
 uint8_t autoplay = 1;
 
-uint8_t autoplayDuration = 3;
+uint8_t autoplayDuration = 5;
 unsigned long autoPlayTimeout = 0;
 
 uint8_t currentPaletteIndex = 0;
@@ -281,10 +281,18 @@ void loop() {
   }
 
   // change to a new cpt-city gradient palette
+  // causing lockup after 12 changes TJS
   EVERY_N_SECONDS( secondsPerPalette ) {
-    gCurrentPaletteNumber = addmod8( gCurrentPaletteNumber, 1, gGradientPaletteCount);
-    gTargetPalette = gGradientPalettes[ gCurrentPaletteNumber ];
+    gCurrentPaletteNumber++;
+    gCurrentPaletteNumber %= gGradientPaletteCount;
+    //gCurrentPaletteNumber = addmod8( gCurrentPaletteNumber, 1, gGradientPaletteCount);
+    //gTargetPalette = gGradientPalettes[ gCurrentPaletteNumber ];
+    Serial.print(gGradientPaletteCount);
+    Serial.print(" ");
+    Serial.println(gCurrentPaletteNumber);
+    gTargetPalette = gGradientPalettes[ 0 ];
   }
+  
 
   EVERY_N_MILLISECONDS(40) {
     // slowly blend the current palette to the next
@@ -347,6 +355,8 @@ void adjustPattern(bool up)
     currentPatternIndex = patternCount - 1;
   if (currentPatternIndex >= patternCount)
     currentPatternIndex = 0;
+  Serial.print(millis());
+  Serial.print(" ");
   Serial.println(patterns[currentPatternIndex].name);
   if (autoplay == 0) {
   }

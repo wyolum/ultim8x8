@@ -77,7 +77,7 @@ CRGBPalette16 IceColors_p = CRGBPalette16(CRGB::Black, CRGB::Blue, CRGB::Aqua, C
 uint8_t currentPatternIndex = 0; // Index number of which pattern is current
 uint8_t autoplay = 1;
 
-uint8_t autoplayDuration = 1;
+uint8_t autoplayDuration = 3;
 unsigned long autoPlayTimeout = 0;
 
 uint8_t currentPaletteIndex = 0;

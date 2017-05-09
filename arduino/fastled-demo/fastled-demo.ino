@@ -1,5 +1,5 @@
 /*
- * USB anbimation server based on
+ * USB animation server based on
  *   ESP8266 + FastLED + IR Remote: https://github.com/jasoncoon/esp8266-fastled-webserver
  *   Copyright (C) 2015-2016 Jason Coon
  * Ported by Justin Shaw
@@ -40,13 +40,9 @@ const bool MatrixSerpentineLayout = true;
 
 CRGB leds[NUM_LEDS];
 
-const uint8_t brightnessCount = 5;
-uint8_t brightnessMap[brightnessCount] = { 16, 32, 64, 128, 255 };
-uint8_t brightnessIndex = 0;
-
 // ten seconds per color palette makes a good demo
 // 20-120 is better for deployment
-uint8_t secondsPerPalette = 1;
+uint8_t secondsPerPalette = 10;
 
 // COOLING: How much does the air cool as it rises?
 // Less cooling = taller flames.  More cooling = shorter flames.
@@ -74,10 +70,9 @@ CRGBPalette16 gTargetPalette( gGradientPalettes[0] );
 
 CRGBPalette16 IceColors_p = CRGBPalette16(CRGB::Black, CRGB::Blue, CRGB::Aqua, CRGB::White);
 
-uint8_t currentPatternIndex = 0; // Index number of which pattern is current
-uint8_t autoplay = 1;
+bool autoplay = true;
 
-uint8_t autoplayDuration = 5;
+uint8_t autoplayDuration = 10;
 unsigned long autoPlayTimeout = 0;
 
 uint8_t currentPaletteIndex = 0;
@@ -95,28 +90,27 @@ uint16_t XY( uint8_t x, uint8_t y)
   }
 
   if ( MatrixSerpentineLayout == true) {
-    if(y >= 8){
+    if (y >= 8) {
       // x=0, y=8 ==> 56 * 8 + XY(55, 0)
       i = XY(111 - x,  15 - y);
     }
-    else{
+    else {
+      //      if ( x & 0x01) {
+      //	// odd rows run forwards
+      //	i = (x * 8) + y;
+      //      } else {
+      //	// even columns run backwards
+      //	uint8_t reverseY = (8 - 1) - y;
+      //	i = (x * 8) + reverseY;
+      //      }
       if ( x & 0x01) {
-	// odd rows run forwards
-	i = (x * 8) + y;
+        // Odd columns run backwards
+        uint8_t reverseY = (MatrixHeight - 1) - y;
+        i = (x * MatrixHeight) + reverseY;
       } else {
-	// even columns run backwards
-	uint8_t reverseY = (8 - 1) - y;
-	i = (x * 8) + reverseY;
+        // Even rows run forwards
+        i = (x * MatrixHeight) + y;
       }
-      /*      if ( x & 0x01) {
-      // Odd columns run backwards
-      uint8_t reverseY = (MatrixHeight - 1) - y;
-      i = (x * MatrixHeight) + reverseY;
-      } else {
-      // Even rows run forwards
-      i = (x * MatrixHeight) + y;
-      }
-      */
     }
   }
 
@@ -143,8 +137,8 @@ typedef PatternAndName PatternAndNameList[];
 #include "TwinkleFOX.h"
 #include "Noise.h"
 
-uint8_t brightness = 4;
-uint8_t power = 1;
+uint8_t brightness = 32;
+
 // List of patterns to cycle through.  Each is defined as a separate function below.
 PatternAndNameList patterns = {
   { pride,                  "Pride" },
@@ -152,12 +146,12 @@ PatternAndNameList patterns = {
   { colorWaves,             "Color Waves" },
   { colorWaves2,            "Color Waves 2" },
 
-  //{ xyMatrixTest,           "Matrix Test" },
+  { xyMatrixTest,           "Matrix Test" },
 
   { verticalPalette,           "Vertical Palette" },
   { diagonalPalette,           "Diagonal Palette" },
   { horizontalPalette,         "Horizontal Palette" },
-  
+
   { verticalGradientPalette,   "Vertical Gradient Palette" },
   { diagonalGradientPalette,   "Diagonal Gradient Palette" },
   { horizontalGradientPalette, "Horizontal Gradient Palette" },
@@ -196,9 +190,7 @@ PatternAndNameList patterns = {
   { fireTwinkles,           "Fire Twinkles" },
   { cloud2Twinkles,         "Cloud 2 Twinkles" },
   { oceanTwinkles,          "Ocean Twinkles" },
-  /*
-  */
-  
+
   { rainbow,                "Rainbow" },
   { rainbowWithGlitter,     "Rainbow With Glitter" },
   { rainbowSolid,           "Solid Rainbow" },
@@ -209,15 +201,17 @@ PatternAndNameList patterns = {
   { fire,                   "Fire" },
   { water,                  "Water" },
 
-  { showSolidColor,         "Solid Color" }
+  //  { showSolidColor,         "Solid Color" }
 };
 
 const uint8_t patternCount = ARRAY_SIZE(patterns);
 
+uint8_t currentPatternIndex = 0; // Index number of which pattern is current
+
 typedef struct {
   CRGBPalette16 palette;
-   String name;
- } PaletteAndName;
+  String name;
+} PaletteAndName;
 typedef PaletteAndName PaletteAndNameList[];
 
 const CRGBPalette16 palettes[] = {
@@ -242,8 +236,7 @@ const String paletteNames[paletteCount] = {
   "Forest",
   "Party",
   "Heat",
- };
-
+};
 
 
 void setup() {
@@ -259,40 +252,20 @@ void setup() {
   FastLED.show();
 }
 
-void sendInt(uint8_t value)
-{
-  sendString(String(value));
-}
-
-void sendString(String value)
-{
-  Serial.print("text/plain:");
-  Serial.println(value);
-}
-
 void loop() {
   // Add entropy to random number generator; we use a lot of it.
   random16_add_entropy(random(65535));
 
-  if (power == 0) {
-    fill_solid(leds, NUM_LEDS, CRGB::Black);
-    FastLED.show();
-    return;
-  }
-
   // change to a new cpt-city gradient palette
   // causing lockup after 12 changes TJS
   EVERY_N_SECONDS( secondsPerPalette ) {
-    gCurrentPaletteNumber++;
-    gCurrentPaletteNumber %= gGradientPaletteCount;
-    //gCurrentPaletteNumber = addmod8( gCurrentPaletteNumber, 1, gGradientPaletteCount);
-    //gTargetPalette = gGradientPalettes[ gCurrentPaletteNumber ];
+    gCurrentPaletteNumber = addmod8( gCurrentPaletteNumber, 1, gGradientPaletteCount);
+    gTargetPalette = gGradientPalettes[ gCurrentPaletteNumber ];
     Serial.print(gGradientPaletteCount);
     Serial.print(" ");
     Serial.println(gCurrentPaletteNumber);
-    gTargetPalette = gGradientPalettes[ 0 ];
   }
-  
+
 
   EVERY_N_MILLISECONDS(40) {
     // slowly blend the current palette to the next
@@ -314,34 +287,6 @@ void loop() {
   // FastLED.delay(1000 / FRAMES_PER_SECOND);
 }
 
-void setPower(uint8_t value)
-{
-  power = value == 0 ? 0 : 1;
-}
-
-void setAutoplay(uint8_t value)
-  {
-  autoplay = value == 0 ? 0 : 1;
-
-}
-
-void setAutoplayDuration(uint8_t value)
-{
-  autoplayDuration = value;
-  autoPlayTimeout = millis() + (autoplayDuration * 1000);
-}
-
-void setSolidColor(CRGB color)
-{
-  setSolidColor(color.r, color.g, color.b);
-}
-
-void setSolidColor(uint8_t r, uint8_t g, uint8_t b)
-{
-  solidColor = CRGB(r, g, b);
-  setPattern(patternCount - 1);
-}
-
 // increase or decrease the current pattern number, and wrap around at the ends
 void adjustPattern(bool up)
 {
@@ -360,71 +305,6 @@ void adjustPattern(bool up)
   Serial.println(patterns[currentPatternIndex].name);
   if (autoplay == 0) {
   }
-}
-
-void setPattern(uint8_t value)
-{
-  if (value >= patternCount)
-    value = patternCount - 1;
-
-  currentPatternIndex = value;
-
-  if (autoplay == 0) {
-  }
-
-}
-
-void setPatternName(String name)
-{
-  for(uint8_t i = 0; i < patternCount; i++) {
-    if(patterns[i].name == name) {
-      setPattern(i);
-      break;
-    }
-  }
-}
-
-void setPalette(uint8_t value)
-{
-  if (value >= paletteCount)
-    value = paletteCount - 1;
-
-  currentPaletteIndex = value;
-}
-
-void setPaletteName(String name)
-{
-  for(uint8_t i = 0; i < paletteCount; i++) {
-    if(paletteNames[i] == name) {
-      setPalette(i);
-      break;
-    }
-  }
-}
-
-void adjustBrightness(bool up)
-{
-  if (up && brightnessIndex < brightnessCount - 1)
-    brightnessIndex++;
-  else if (!up && brightnessIndex > 0)
-    brightnessIndex--;
-
-  brightness = brightnessMap[brightnessIndex];
-
-  FastLED.setBrightness(brightness);
-
-}
-
-void setBrightness(uint8_t value)
-{
-  if (value > 255)
-    value = 255;
-  else if (value < 0) value = 0;
-
-  brightness = value;
-
-  FastLED.setBrightness(brightness);
-
 }
 
 void strandTest()
@@ -467,10 +347,10 @@ void xyMatrixTest()
 
   EVERY_N_MILLIS(30) {
     x++;
-    if(x >= MatrixWidth) {
+    if (x >= MatrixWidth) {
       x = 0;
       y++;
-      if(y >= MatrixHeight) {
+      if (y >= MatrixHeight) {
         y = 0;
       }
     }
@@ -480,10 +360,10 @@ void xyMatrixTest()
 void verticalPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
     CRGB color = ColorFromPalette(palettes[currentPaletteIndex], beat8(speed) + (y * verticalHues));
-    
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -492,8 +372,8 @@ void verticalPalette() {
 void diagonalPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       CRGB color = ColorFromPalette(palettes[currentPaletteIndex], beat8(speed) - ((x - y) * verticalHues));
       leds[XY(x, y)] = color;
     }
@@ -502,11 +382,11 @@ void diagonalPalette() {
 
 void horizontalPalette() {
   uint8_t horizontalHues = 256 / MatrixWidth;
-  
-  for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+  for (uint8_t x = 0; x < MatrixWidth; x++) {
     CRGB color = ColorFromPalette(palettes[currentPaletteIndex], beat8(speed) - (x * horizontalHues));
-    
-    for(uint8_t y = 0; y < MatrixHeight; y++) {
+
+    for (uint8_t y = 0; y < MatrixHeight; y++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -515,10 +395,10 @@ void horizontalPalette() {
 void verticalGradientPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
     CRGB color = ColorFromPalette(gCurrentPalette, beat8(speed) + (y * verticalHues));
-    
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -527,8 +407,8 @@ void verticalGradientPalette() {
 void diagonalGradientPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       CRGB color = ColorFromPalette(gCurrentPalette, beat8(speed) - ((x - y) * verticalHues));
       leds[XY(x, y)] = color;
     }
@@ -537,11 +417,11 @@ void diagonalGradientPalette() {
 
 void horizontalGradientPalette() {
   uint8_t horizontalHues = 256 / MatrixWidth;
-  
-  for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+  for (uint8_t x = 0; x < MatrixWidth; x++) {
     CRGB color = ColorFromPalette(gCurrentPalette, beat8(speed) - (x * horizontalHues));
-    
-    for(uint8_t y = 0; y < MatrixHeight; y++) {
+
+    for (uint8_t y = 0; y < MatrixHeight; y++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -575,10 +455,10 @@ void sinelon()
   int pos = beatsin16(speed, 0, NUM_LEDS);
   static int prevpos = 0;
   CRGB color = ColorFromPalette(palettes[currentPaletteIndex], gHue, 255);
-  if( pos < prevpos ) {
-    fill_solid( leds+pos, (prevpos-pos)+1, color);
+  if ( pos < prevpos ) {
+    fill_solid( leds + pos, (prevpos - pos) + 1, color);
   } else {
-    fill_solid( leds+prevpos, (pos-prevpos)+1, color);
+    fill_solid( leds + prevpos, (pos - prevpos) + 1, color);
   }
   prevpos = pos;
 }
@@ -730,47 +610,50 @@ void radialPaletteShift()
 }
 
 // based on FastLED example Fire2012WithPalette: https://github.com/FastLED/FastLED/blob/master/examples/Fire2012WithPalette/Fire2012WithPalette.ino
-void heatMap(CRGBPalette16 palette, bool up)
+void heatMap(CRGBPalette16 palette, bool invert)
 {
-  fill_solid(leds, NUM_LEDS, CRGB::Black);
+  EVERY_N_MILLIS(30) {
+    fill_solid(leds, NUM_LEDS, CRGB::Black);
 
-  // Add entropy to random number generator; we use a lot of it.
-  random16_add_entropy(random(256));
+    // Add entropy to random number generator; we use a lot of it.
+    random16_add_entropy(random(256));
 
-  // Array of temperature readings at each simulation cell
-  static byte heat[256];
+    // Array of temperature readings at each simulation cell
+    static byte heat[MatrixWidth][MatrixHeight];
 
-  byte colorindex;
+    byte colorindex;
 
-  // Step 1.  Cool down every cell a little
-  for ( uint16_t i = 0; i < NUM_LEDS; i++) {
-    heat[i] = qsub8( heat[i],  random8(0, ((cooling * 10) / NUM_LEDS) + 2));
-  }
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
+      // Step 1.  Cool down every cell a little
+      for ( uint8_t i = 0; i < MatrixHeight; i++) {
+        heat[x][i] = qsub8( heat[x][i],  random8(0, ((cooling * 10) / MatrixHeight) + 2));
+      }
 
-  // Step 2.  Heat from each cell drifts 'up' and diffuses a little
-  for ( uint16_t k = NUM_LEDS - 1; k >= 2; k--) {
-    heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2] ) / 3;
-  }
+      // Step 2.  Heat from each cell drifts 'up' and diffuses a little
+      for ( uint8_t k = MatrixHeight - 1; k >= 2; k--) {
+        heat[x][k] = (heat[x][k - 1] + heat[x][k - 2] + heat[x][k - 2] ) / 3;
+      }
 
-  // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
-  if ( random8() < sparking ) {
-    int y = random8(7);
-    heat[y] = qadd8( heat[y], random8(160, 255) );
-  }
+      // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
+      if ( random8() < sparking ) {
+        heat[x][1] = qadd8( heat[x][1], random8(160, 255) );
+      }
 
-  // Step 4.  Map from heat cells to LED colors
-  for ( uint16_t j = 0; j < NUM_LEDS; j++) {
-    // Scale the heat value from 0-255 down to 0-240
-    // for best results with color palettes.
-    colorindex = scale8(heat[j], 190);
+      // Step 4.  Map from heat cells to LED colors
+      for ( uint8_t j = 0; j < MatrixHeight; j++) {
+        // Scale the heat value from 0-255 down to 0-240
+        // for best results with color palettes.
+        colorindex = scale8(heat[x][j], 190);
 
-    CRGB color = ColorFromPalette(palette, colorindex);
+        CRGB color = ColorFromPalette(palette, colorindex);
 
-    if (up) {
-      leds[j] = color;
-    }
-    else {
-      leds[(NUM_LEDS - 1) - j] = color;
+        if (invert) {
+          leds[XY(x, j)] = color;
+        }
+        else {
+          leds[XY(x, (MatrixHeight - 1) - j)] = color;
+        }
+      }
     }
   }
 }

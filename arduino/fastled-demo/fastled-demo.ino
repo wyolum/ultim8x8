@@ -257,13 +257,9 @@ void loop() {
   random16_add_entropy(random(65535));
 
   // change to a new cpt-city gradient palette
-  // causing lockup after 12 changes TJS
   EVERY_N_SECONDS( secondsPerPalette ) {
     gCurrentPaletteNumber = addmod8( gCurrentPaletteNumber, 1, gGradientPaletteCount);
     gTargetPalette = gGradientPalettes[ gCurrentPaletteNumber ];
-    Serial.print(gGradientPaletteCount);
-    Serial.print(" ");
-    Serial.println(gCurrentPaletteNumber);
   }
 
 

@@ -1,20 +1,20 @@
 /*
- * ESP8266 + FastLED + IR Remote: https://github.com/jasoncoon/esp8266-fastled-webserver
- * Copyright (C) 2015-2016 Jason Coon
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+   ESP8266 + FastLED + IR Remote: https://github.com/jasoncoon/esp8266-fastled-webserver
+   Copyright (C) 2015-2016 Jason Coon
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <FastLED.h>
 FASTLED_USING_NAMESPACE
@@ -22,7 +22,10 @@ FASTLED_USING_NAMESPACE
 extern "C" {
 #include "user_interface.h"
 }
-#include "map.h"
+
+#define ULTIM24x24
+#include "MatrixMaps.h"
+
 #include <ESP8266WiFi.h>
 //#include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
@@ -133,6 +136,36 @@ void dimAll(byte value)
   }
 }
 
+typedef struct {
+  CRGBPalette16 palette;
+  String name;
+} PaletteAndName;
+typedef PaletteAndName PaletteAndNameList[];
+
+const CRGBPalette16 palettes[] = {
+  RainbowColors_p,
+  RainbowStripeColors_p,
+  CloudColors_p,
+  LavaColors_p,
+  OceanColors_p,
+  ForestColors_p,
+  PartyColors_p,
+  HeatColors_p
+};
+
+const uint8_t paletteCount = ARRAY_SIZE(palettes);
+
+const String paletteNames[paletteCount] = {
+  "Rainbow",
+  "Rainbow Stripe",
+  "Cloud",
+  "Lava",
+  "Ocean",
+  "Forest",
+  "Party",
+  "Heat",
+};
+
 typedef void (*Pattern)();
 typedef Pattern PatternList[];
 typedef struct {
@@ -143,6 +176,7 @@ typedef PatternAndName PatternAndNameList[];
 
 #include "Twinkles.h"
 #include "TwinkleFOX.h"
+#include "Map.h"
 #include "Noise.h"
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
@@ -153,12 +187,45 @@ PatternAndNameList patterns = {
   { colorWaves,             "Color Waves" },
   { colorWaves2,            "Color Waves 2" },
 
+  { cubeTest,       "Cube XYZ Test" },
+  
+  { cubeXPalette,   "Cube X Palette" },
+  { cubeYPalette,   "Cube Y Palette" },
+  { cubeZPalette,   "Cube Z Palette" },
+  
+  { cubeXYPalette,  "Cube XY Palette" },
+  { cubeXZPalette,  "Cube XZ Palette" },
+  { cubeYZPalette,  "Cube YZ Palette" },
+  { cubeXYZPalette, "Cube XYZ Palette" },
+
+  { cubeXGradientPalette,   "Cube X Gradient Palette" },
+  { cubeYGradientPalette,   "Cube Y Gradient Palette" },
+  { cubeZGradientPalette,   "Cube Z Gradient Palette" },
+  
+  { cubeXYGradientPalette,  "Cube XY Gradient Palette" },
+  { cubeXZGradientPalette,  "Cube XZ Gradient Palette" },
+  { cubeYZGradientPalette,  "Cube YZ Gradient Palette" },
+  { cubeXYZGradientPalette, "Cube XYZ Gradient Palette" },
+
+  // 3d noise patterns
+  { fireNoise3d, "Fire Noise 3D" },
+  { fireNoise23d, "Fire Noise 2 3D" },
+  { lavaNoise3d, "Lava Noise 3D" },
+  { rainbowNoise3d, "Rainbow Noise 3D" },
+  { rainbowStripeNoise3d, "Rainbow Stripe Noise 3D" },
+  { partyNoise3d, "Party Noise 3D" },
+  { forestNoise3d, "Forest Noise 3D" },
+  { cloudNoise3d, "Cloud Noise 3D" },
+  { oceanNoise3d, "Ocean Noise 3D" },
+  { blackAndWhiteNoise3d, "Black & White Noise 3D" },
+  { blackAndBlueNoise3d, "Black & Blue Noise 3D" },
+  
   { xyMatrixTest,           "Matrix Test" },
 
   { verticalPalette,           "Vertical Palette" },
   { diagonalPalette,           "Diagonal Palette" },
   { horizontalPalette,         "Horizontal Palette" },
-  
+
   { verticalGradientPalette,   "Vertical Gradient Palette" },
   { diagonalGradientPalette,   "Diagonal Gradient Palette" },
   { horizontalGradientPalette, "Horizontal Gradient Palette" },
@@ -213,36 +280,6 @@ PatternAndNameList patterns = {
 
 const uint8_t patternCount = ARRAY_SIZE(patterns);
 
-typedef struct {
-  CRGBPalette16 palette;
-   String name;
- } PaletteAndName;
-typedef PaletteAndName PaletteAndNameList[];
-
-const CRGBPalette16 palettes[] = {
-  RainbowColors_p,
-  RainbowStripeColors_p,
-  CloudColors_p,
-  LavaColors_p,
-  OceanColors_p,
-  ForestColors_p,
-  PartyColors_p,
-  HeatColors_p
-};
-
-const uint8_t paletteCount = ARRAY_SIZE(palettes);
-
-const String paletteNames[paletteCount] = {
-  "Rainbow",
-  "Rainbow Stripe",
-  "Cloud",
-  "Lava",
-  "Ocean",
-   "Forest",
-  "Party",
-   "Heat",
- };
-
 #include "Fields.h"
 
 void setup() {
@@ -252,7 +289,7 @@ void setup() {
 
   //FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);     // for WS2812 (Neopixel)
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
-  FastLED.setDither(false);
+  FastLED.setDither(true);
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(brightness);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
@@ -339,7 +376,7 @@ void setup() {
     if (String(WiFi.SSID()) != String(ssid)) {
       WiFi.begin(ssid, password);
     }
-    }
+  }
 
   httpUpdateServer.setup(&webServer);
 
@@ -383,7 +420,7 @@ void setup() {
 
   webServer.on("/speed", HTTP_POST, []() {
     String value = webServer.arg("value");
-    speed = value.toInt();
+    setSpeed(value.toInt());
     broadcastInt("speed", speed);
     sendInt(speed);
   });
@@ -391,7 +428,7 @@ void setup() {
   webServer.on("/twinkleSpeed", HTTP_POST, []() {
     String value = webServer.arg("value");
     twinkleSpeed = value.toInt();
-    if(twinkleSpeed < 0) twinkleSpeed = 0;
+    if (twinkleSpeed < 0) twinkleSpeed = 0;
     else if (twinkleSpeed > 8) twinkleSpeed = 8;
     broadcastInt("twinkleSpeed", twinkleSpeed);
     sendInt(twinkleSpeed);
@@ -400,7 +437,7 @@ void setup() {
   webServer.on("/twinkleDensity", HTTP_POST, []() {
     String value = webServer.arg("value");
     twinkleDensity = value.toInt();
-    if(twinkleDensity < 0) twinkleDensity = 0;
+    if (twinkleDensity < 0) twinkleDensity = 0;
     else if (twinkleDensity > 8) twinkleDensity = 8;
     broadcastInt("twinkleDensity", twinkleDensity);
     sendInt(twinkleDensity);
@@ -549,7 +586,7 @@ void loop() {
   FastLED.show();
 
   // insert a delay to keep the framerate modest
-  // FastLED.delay(1000 / FRAMES_PER_SECOND);
+  FastLED.delay(1000 / FRAMES_PER_SECOND);
 }
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
@@ -828,6 +865,8 @@ void loadSettings()
     currentPaletteIndex = 0;
   else if (currentPaletteIndex >= paletteCount)
     currentPaletteIndex = paletteCount - 1;
+
+  speed = EEPROM.read(9);
 }
 
 void setPower(uint8_t value)
@@ -841,7 +880,7 @@ void setPower(uint8_t value)
 }
 
 void setAutoplay(uint8_t value)
-  {
+{
   autoplay = value == 0 ? 0 : 1;
 
   EEPROM.write(6, autoplay);
@@ -920,8 +959,8 @@ void setPattern(uint8_t value)
 
 void setPatternName(String name)
 {
-  for(uint8_t i = 0; i < patternCount; i++) {
-    if(patterns[i].name == name) {
+  for (uint8_t i = 0; i < patternCount; i++) {
+    if (patterns[i].name == name) {
       setPattern(i);
       break;
     }
@@ -943,12 +982,22 @@ void setPalette(uint8_t value)
 
 void setPaletteName(String name)
 {
-  for(uint8_t i = 0; i < paletteCount; i++) {
-    if(paletteNames[i] == name) {
+  for (uint8_t i = 0; i < paletteCount; i++) {
+    if (paletteNames[i] == name) {
       setPalette(i);
       break;
     }
   }
+}
+
+void setSpeed(uint8_t value)
+{
+  speed = value;
+
+  EEPROM.write(9, value);
+  EEPROM.commit();
+
+  broadcastInt("speed", speed);
 }
 
 void adjustBrightness(bool up)
@@ -1024,10 +1073,10 @@ void xyMatrixTest()
 
   EVERY_N_MILLIS(30) {
     x++;
-    if(x >= MatrixWidth) {
+    if (x >= MatrixWidth) {
       x = 0;
       y++;
-      if(y >= MatrixHeight) {
+      if (y >= MatrixHeight) {
         y = 0;
       }
     }
@@ -1037,10 +1086,10 @@ void xyMatrixTest()
 void verticalPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
     CRGB color = ColorFromPalette(palettes[currentPaletteIndex], beat8(speed) + (y * verticalHues));
-    
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -1049,8 +1098,8 @@ void verticalPalette() {
 void diagonalPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       CRGB color = ColorFromPalette(palettes[currentPaletteIndex], beat8(speed) - ((x - y) * verticalHues));
       leds[XY(x, y)] = color;
     }
@@ -1059,11 +1108,11 @@ void diagonalPalette() {
 
 void horizontalPalette() {
   uint8_t horizontalHues = 256 / MatrixWidth;
-  
-  for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+  for (uint8_t x = 0; x < MatrixWidth; x++) {
     CRGB color = ColorFromPalette(palettes[currentPaletteIndex], beat8(speed) - (x * horizontalHues));
-    
-    for(uint8_t y = 0; y < MatrixHeight; y++) {
+
+    for (uint8_t y = 0; y < MatrixHeight; y++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -1072,10 +1121,10 @@ void horizontalPalette() {
 void verticalGradientPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
     CRGB color = ColorFromPalette(gCurrentPalette, beat8(speed) + (y * verticalHues));
-    
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -1084,8 +1133,8 @@ void verticalGradientPalette() {
 void diagonalGradientPalette() {
   uint8_t verticalHues = 256 / MatrixHeight;
 
-  for(uint8_t y = 0; y < MatrixHeight; y++) {
-    for(uint8_t x = 0; x < MatrixWidth; x++) {
+  for (uint8_t y = 0; y < MatrixHeight; y++) {
+    for (uint8_t x = 0; x < MatrixWidth; x++) {
       CRGB color = ColorFromPalette(gCurrentPalette, beat8(speed) - ((x - y) * verticalHues));
       leds[XY(x, y)] = color;
     }
@@ -1094,11 +1143,11 @@ void diagonalGradientPalette() {
 
 void horizontalGradientPalette() {
   uint8_t horizontalHues = 256 / MatrixWidth;
-  
-  for(uint8_t x = 0; x < MatrixWidth; x++) {
+
+  for (uint8_t x = 0; x < MatrixWidth; x++) {
     CRGB color = ColorFromPalette(gCurrentPalette, beat8(speed) - (x * horizontalHues));
-    
-    for(uint8_t y = 0; y < MatrixHeight; y++) {
+
+    for (uint8_t y = 0; y < MatrixHeight; y++) {
       leds[XY(x, y)] = color;
     }
   }
@@ -1132,10 +1181,10 @@ void sinelon()
   int pos = beatsin16(speed, 0, NUM_LEDS);
   static int prevpos = 0;
   CRGB color = ColorFromPalette(palettes[currentPaletteIndex], gHue, 255);
-  if( pos < prevpos ) {
-    fill_solid( leds+pos, (prevpos-pos)+1, color);
+  if ( pos < prevpos ) {
+    fill_solid( leds + pos, (prevpos - pos) + 1, color);
   } else {
-    fill_solid( leds+prevpos, (pos-prevpos)+1, color);
+    fill_solid( leds + prevpos, (pos - prevpos) + 1, color);
   }
   prevpos = pos;
 }

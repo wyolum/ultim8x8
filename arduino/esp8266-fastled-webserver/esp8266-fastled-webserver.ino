@@ -176,7 +176,6 @@ typedef PatternAndName PatternAndNameList[];
 
 #include "Twinkles.h"
 #include "TwinkleFOX.h"
-#include "Map.h"
 #include "Noise.h"
 
 // List of patterns to cycle through.  Each is defined as a separate function below.

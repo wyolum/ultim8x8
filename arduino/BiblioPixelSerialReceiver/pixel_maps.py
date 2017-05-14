@@ -1,4 +1,5 @@
 from bibliopixel.led import mapGen, MultiMapBuilder, MatrixRotation
+import textwrap
 
 
 ## build 8x8 map
@@ -46,14 +47,15 @@ def map2h(m, name):
     h = len(m)
     out = ['uint16_t %s[MatrixHeight][MatrixWidth] = {' % name]
     for row in m:
-        line = '    {' + ','.join(map(str, row)) + '},'
-        out.append(line)
+        line = '{' + ','.join(map(str, row)) + '},'
+        lines = ['    ' + l for l in textwrap.wrap(line, 80)]
+        out.extend(lines)
     out.append('};')
     return '\n'.join(out)
 
 def create_map_h():
-    f = open('maps.h', 'w')
-    for mmb in [ultim8x8, ultim8x24, ultim8x72, ultim16x56]:
+    f = open('MatrixMaps.h', 'w')
+    for mmb in [ultim8x8, ultim8x24, ultim24x24, ultim8x72, ultim16x56]:
         m = mmb.map
         w = len(m[0])
         h = len(m)

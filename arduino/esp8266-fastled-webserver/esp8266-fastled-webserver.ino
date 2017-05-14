@@ -54,8 +54,8 @@ const bool apMode = false;
 const char WiFiAPPSK[] = "";
 
 // Wi-Fi network to connect to (if not in AP mode)
-const char* ssid = "BP6DF";
-const char* password = "ABBAABBA00";
+const char* ssid = "";
+const char* password = "";
 
 ESP8266WebServer webServer(80);
 WebSocketsServer webSocketsServer = WebSocketsServer(81);

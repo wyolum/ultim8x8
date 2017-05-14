@@ -22,7 +22,7 @@ FASTLED_USING_NAMESPACE
 extern "C" {
 #include "user_interface.h"
 }
-
+#include "map.h"
 #include <ESP8266WiFi.h>
 //#include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
@@ -32,6 +32,7 @@ extern "C" {
 #include <EEPROM.h>
 //#include <IRremoteESP8266.h>
 #include "GradientPalettes.h"
+
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
@@ -63,8 +64,6 @@ ESP8266HTTPUpdateServer httpUpdateServer;
 #define CLK_PIN       14
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
-#define MatrixWidth   56
-#define MatrixHeight  16
 #define NUM_LEDS      MatrixWidth * MatrixHeight
 
 const bool MatrixSerpentineLayout = true;
@@ -122,39 +121,8 @@ CRGB solidColor = CRGB::Blue;
 
 uint16_t XY( uint8_t x, uint8_t y)
 {
-  uint16_t i;
-
-  if ( MatrixSerpentineLayout == false) {
-    i = (y * MatrixWidth) + x;
-  }
-
-  if ( MatrixSerpentineLayout == true) {
-    if(y >= 8){
-      // x=0, y=8 ==> 56 * 8 + XY(55, 0)
-      i = XY(111 - x,  15 - y);
-    }
-    else{
-      if ( x & 0x01) {
-	// odd rows run forwards
-	i = (x * 8) + y;
-      } else {
-	// even columns run backwards
-	uint8_t reverseY = (8 - 1) - y;
-	i = (x * 8) + reverseY;
-      }
-      /*      if ( x & 0x01) {
-      // Odd columns run backwards
-      uint8_t reverseY = (MatrixHeight - 1) - y;
-      i = (x * MatrixHeight) + reverseY;
-      } else {
-      // Even rows run forwards
-      i = (x * MatrixHeight) + y;
-      }
-      */
-    }
-  }
-
-  return i;
+  
+  return MatrixMap[y][x];
 }
 
 // scale the brightness of all pixels down

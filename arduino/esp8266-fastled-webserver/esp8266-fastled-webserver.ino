@@ -23,7 +23,8 @@ extern "C" {
 #include "user_interface.h"
 }
 
-#define ULTIM24x24
+//#define ULTIM24x24
+#define ULTIM16x56
 #include <MatrixMaps.h>
 
 #include <ESP8266WiFi.h>
@@ -54,8 +55,8 @@ const bool apMode = false;
 const char WiFiAPPSK[] = "";
 
 // Wi-Fi network to connect to (if not in AP mode)
-const char* ssid = "";
-const char* password = "";
+const char* ssid = "YOUR_WIFI_SSID";
+const char* password = "YOUR_PASSWORD";
 
 ESP8266WebServer webServer(80);
 WebSocketsServer webSocketsServer = WebSocketsServer(81);
@@ -124,8 +125,11 @@ CRGB solidColor = CRGB::Blue;
 
 uint16_t XY( uint8_t x, uint8_t y)
 {
-  
-  return MatrixMap[y][x];
+  uint16_t out = 0;
+  if(x < MatrixWidth && y < MatrixHeight){
+    out = MatrixMap[y][x];
+  }
+  return out;
 }
 
 // scale the brightness of all pixels down
@@ -187,6 +191,7 @@ PatternAndNameList patterns = {
   { colorWaves,             "Color Waves" },
   { colorWaves2,            "Color Waves 2" },
 
+  /*
   { cubeTest,       "Cube XYZ Test" },
   
   { cubeXPalette,   "Cube X Palette" },
@@ -206,8 +211,6 @@ PatternAndNameList patterns = {
   { cubeXZGradientPalette,  "Cube XZ Gradient Palette" },
   { cubeYZGradientPalette,  "Cube YZ Gradient Palette" },
   { cubeXYZGradientPalette, "Cube XYZ Gradient Palette" },
-
-  // 3d noise patterns
   { fireNoise3d, "Fire Noise 3D" },
   { fireNoise23d, "Fire Noise 2 3D" },
   { lavaNoise3d, "Lava Noise 3D" },
@@ -219,7 +222,9 @@ PatternAndNameList patterns = {
   { oceanNoise3d, "Ocean Noise 3D" },
   { blackAndWhiteNoise3d, "Black & White Noise 3D" },
   { blackAndBlueNoise3d, "Black & Blue Noise 3D" },
+  */
   
+  // 3d noise patterns
   { xyMatrixTest,           "Matrix Test" },
 
   { verticalPalette,           "Vertical Palette" },
@@ -264,7 +269,7 @@ PatternAndNameList patterns = {
   { fireTwinkles,           "Fire Twinkles" },
   { cloud2Twinkles,         "Cloud 2 Twinkles" },
   { oceanTwinkles,          "Ocean Twinkles" },
-  
+
   { rainbow,                "Rainbow" },
   { rainbowWithGlitter,     "Rainbow With Glitter" },
   { rainbowSolid,           "Solid Rainbow" },
@@ -582,7 +587,7 @@ void loop() {
 
   // Call the current pattern function once, updating the 'leds' array
   patterns[currentPatternIndex].pattern();
-
+  //patterns[0].pattern();
   FastLED.show();
 
   // insert a delay to keep the framerate modest

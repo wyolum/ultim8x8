@@ -48,8 +48,9 @@ def map2h(m, name):
     out = ['uint16_t %s[MatrixHeight][MatrixWidth] = {' % name]
     for row in m:
         line = '{' + ','.join(map(str, row)) + '},'
-        lines = ['    ' + l for l in textwrap.wrap(line, 80)]
-        out.extend(lines)
+        #lines = ['    ' + l for l in textwrap.wrap(line, 80)]
+        # out.extend(lines)
+        out.append(line)
     out.append('};')
     return '\n'.join(out)
 

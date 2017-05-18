@@ -19,7 +19,7 @@ All Firmware options go here!
 #endif
 
 // How many leds in your strip?
-#define NUM_LEDS 8 * 8 
+#define NUM_LEDS 24 * 24 
 
 #define DATA_PIN MOSI
 #define CLOCK_PIN SCK

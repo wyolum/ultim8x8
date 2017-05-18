@@ -13,16 +13,15 @@ rotation=ROTATE_180
 vert_flip=False
 
 ## change this line as appropropriate for your array
-led = ULTiM16x56(dev, rotation=rotation, vert_flip=vert_flip)
-led.setMasterBrightness(16) ## use low brightness (<5) for running off of USB
-
+led = ULTiM24x24(dev, rotation=rotation, vert_flip=vert_flip)
+led.setMasterBrightness(32) ## use low brightness (<5) for running off of USB
 try:
     ## define screen grab region
-    scale = 8  ## screen pixels per array pixel
+    scale = 10  ## screen pixels per array pixel
     xoff = 200 ## left
-    yoff = 300 ## top
+    yoff = 200 ## top
     
-    anim = ScreenGrab(led, bbox=(xoff, xoff,
+    anim = ScreenGrab(led, bbox=(xoff, yoff,
                                  xoff + led.width * scale,
                                  yoff + led.height * scale), mirror=False)
     anim.run(fps=10)

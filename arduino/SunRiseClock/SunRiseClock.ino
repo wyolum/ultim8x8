@@ -30,11 +30,18 @@ DateTime now;
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
+#define CLOCK_MODE 1
+#define SLEEP_MODE 2
+#define ALARM_MODE 3
+#define DAZZLE_MODE 4
+uint8_t mode = CLOCK_MODE;
+
+
 #define DATA_PIN      SCK
 #define CLK_PIN       MOSI
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
-#define MatrixWidth   24
+#define MatrixWidth   24 * 2
 #define MatrixHeight  8
 #define NUM_LEDS      MatrixWidth * MatrixHeight
 
@@ -74,6 +81,14 @@ void digit(byte start, byte d){
   }
 }
 
+void displayNum(uint32_t n){
+  digit( 0, (n / 10000) % 10);
+  digit( 5, (n / 1000) % 10);
+  digit(10, (n / 100) % 10);
+  digit(15, (n / 10) % 10);
+  digit(20, (n / 1) % 10);
+}
+
 void displayTime(uint32_t tm){
   uint8_t hh = (tm / 3600) % 12;
   uint8_t mm = (tm / 60) % 60;
@@ -88,6 +103,17 @@ void displayTime(uint32_t tm){
   setPixelMask(6, 11, true);
   digit(13, mm / 10);
   digit(18, mm % 10);
+
+  if(hh > 9){
+    digit( 1 + 24, hh/10);
+  }
+  digit( 6 + 24, hh%10);
+  setPixelMask(2, 11 + 24, true);
+  setPixelMask(3, 11 + 24, true);
+  setPixelMask(5, 11 + 24, true);
+  setPixelMask(6, 11 + 24, true);
+  digit(13 + 24, mm / 10);
+  digit(18 + 24, mm % 10);
 }
 
 // ten seconds per color palette makes a good demo
@@ -133,7 +159,8 @@ CRGB solidColor = CRGB::Blue;
 
 uint16_t XY( uint8_t x, uint8_t y)
 {
-  //y = 7 - y;
+  y = 7 - y;
+  x = 47 - x;
   uint16_t i;
   
   if ( MatrixSerpentineLayout == false) {
@@ -188,7 +215,7 @@ typedef PatternAndName PatternAndNameList[];
 #include "TwinkleFOX.h"
 #include "Noise.h"
 
-uint8_t brightness = 4;
+uint8_t brightness = 8;
 
 // List of patterns to cycle through.  Each is defined as a separate function below.
 PatternAndNameList clockPatterns = {
@@ -298,6 +325,8 @@ const String paletteNames[paletteCount] = {
 };
 
 
+uint32_t alarm_tod = 5 * 3600 + 0 * 60;
+
 void setup() {
   Serial.begin(115200);
   delay(100);
@@ -310,6 +339,7 @@ void setup() {
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   FastLED.show();
+  //rtc.adjust(DateTime(2017, 5, 21, 18, 41, 0));
 }
 
 // set mask to all masked (b=false) or all unmasked (b = true)
@@ -348,17 +378,35 @@ void setPixelMask(uint8_t row, uint8_t col, bool b){
 }
 
 void loop(){
-  // wake up --------------------------
+  uint32_t tm, tod;
+  
+  tm = rtc.now().unixtime();
+  tod = tm % 86400;
+    
   autoplay = false;
-  setPatternName("Fire Noise 2");
-  // wake up --------------------------
-  // show the time---------------------
-  // mask out the time
-  uint32_t tm = rtc.now().unixtime();
   fillMask(false);
-  displayTime(tm);
+  if(mode == CLOCK_MODE){
+    setPatternName("Cloud Noise");
+    displayTime(tm);
+  }
+  if(mode == SLEEP_MODE){
+    setPatternName("Fire Noise 2");    
+    // displayTime(tm);
+    //displayNum(alarm_tod - tod);
+    if((alarm_tod < tod) && (tod < alarm_tod + 3600)){
+      mode = ALARM_MODE;
+    }
+  }
+  if(mode == ALARM_MODE){
+    setPatternName("Incandescent Twinkles");
+    //setPatternName("Retro C9 Twinkles");
+    fillMask(true);
+    if(density < 255){
+      density++;
+    }
+    //displayTime(tm);
+  }
   fastled_loop();
-  // show the time---------------------
 }
 
 void fastled_loop() {
@@ -386,6 +434,10 @@ void fastled_loop() {
   // Call the current pattern function once, updating the 'leds' array
   patterns[currentPatternIndex].pattern();
   apply_mask();
+
+  // turn off dead pixels
+  leds[64 * 6 - 1] = CRGB::Black;
+
   FastLED.show();
 
   // insert a delay to keep the framerate modest

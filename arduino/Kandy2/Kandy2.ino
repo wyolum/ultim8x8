@@ -231,6 +231,7 @@ void setup() {
   Serial.begin(115200);
   Serial1.begin(57600);
   FastLED.addLeds<APA102, SCK, MOSI, BGR, DATA_RATE_MHZ(25)>(leds, N_PIXEL);
+  FastLED.setMaxPowerInVoltsAndMilliamps(5, 20000);
   //FastLED.addLeds<APA102>(leds, N_PIXEL);//.setCorrection(TypicalSMD5050);
   fill(CRGB::Black);
   FastLED.setBrightness(brightness);

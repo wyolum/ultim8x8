@@ -51,6 +51,8 @@ public:
     DateTime operator+(const TimeSpan& span);
     DateTime operator-(const TimeSpan& span);
     TimeSpan operator-(const DateTime& right);
+    DateTime operator+(long long seconds);
+    DateTime operator-(long long seconds);
 
 protected:
     uint8_t yOff, m, d, hh, mm, ss;

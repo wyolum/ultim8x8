@@ -4,9 +4,9 @@ A PCB "bus bar" to allow three ultim8x8 modules to be connected easily. Mouse bi
 
 The first panel can be populated with a Feather M0. There are six SMD switches connected to A0 through A5 on the Feather M0, with pull up resistors (SMD 0805). Switch functions can be arbitrarily assigned in code.
 
-![ultim_bus top](ultim_bus_images/ultim_bus_v2_01.png)
+![ultim_bus top](ultim_bus_images/ultim_bus_v3_01.png)
 
-![ultim_bus top](ultim_bus_images/ultim_bus_v2_02.png)
+![ultim_bus top](ultim_bus_images/ultim_bus_v3_02.png)
 
 License
 -------

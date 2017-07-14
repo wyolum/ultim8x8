@@ -17,6 +17,7 @@
 */
 
 #include <FastLED.h>
+#include "credentials.h"
 FASTLED_USING_NAMESPACE
 
 extern "C" {
@@ -51,12 +52,12 @@ extern "C" {
 
 const bool apMode = false;
 
-// AP mode password
+// AP mode pass
 const char WiFiAPPSK[] = "";
 
 // Wi-Fi network to connect to (if not in AP mode)
-const char* ssid = "YOUR";
-const char* password = "YOUR_PASSWORD";
+//const char* ssid = "YOUR"; // in credentials.h
+//const char* pass = "YOUR_PASSWORD"; // in credintials.h
 
 ESP8266WebServer webServer(80);
 WebSocketsServer webSocketsServer = WebSocketsServer(81);
@@ -377,9 +378,9 @@ void setup() {
   {
     WiFi.mode(WIFI_STA);
     Serial.printf("Connecting to %s\n", ssid);
-    WiFi.begin(ssid, password);
+    WiFi.begin(ssid, pass);
     if (String(WiFi.SSID()) != String(ssid)) {
-      WiFi.begin(ssid, password);
+      WiFi.begin(ssid, pass);
     }
   }
 

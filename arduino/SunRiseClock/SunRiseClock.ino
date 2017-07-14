@@ -1,120 +1,86 @@
 /*
- * USB animation server based on
- *   ESP8266 + FastLED + IR Remote: https://github.com/jasoncoon/esp8266-fastled-webserver
- *   Copyright (C) 2015-2016 Jason Coon
- * Ported by Justin Shaw
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
- */
+   ESP8266 + FastLED + IR Remote: https://github.com/jasoncoon/esp8266-fastled-webserver
+   Copyright (C) 2015-2016 Jason Coon
+
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
 
 #include <FastLED.h>
-#include <Wire.h>
-#include <RTClib.h>
+#include <credentials.h>
+/* ---- credentials.h ----
+char ssid[] = "XXXXXXXXXX";  // your network SSID (name)
+char pass[] = "YYYYYYYYYY";  // your network password
+*/
 FASTLED_USING_NAMESPACE
 
+extern "C" {
+#include "user_interface.h"
+}
+
+//#define ULTIM24x24
+#define ULTIM16x56
+#include <MatrixMaps.h>
+
+#include <ESP8266WiFi.h>
+//#include <ESP8266mDNS.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266HTTPUpdateServer.h>
+#include <WebSocketsServer.h>
+#include <FS.h>
+#include <EEPROM.h>
+//#include <IRremoteESP8266.h>
 #include "GradientPalettes.h"
 
-RTC_DS3231 rtc;
-DateTime now;
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
-#define CLOCK_MODE 1
-#define SLEEP_MODE 2
-#define ALARM_MODE 3
-#define DAZZLE_MODE 4
-uint8_t mode = CLOCK_MODE;
+#include "Field.h"
 
+#define HOSTNAME "ESP8266-Feather-" ///< Hostname. The setup function adds the Chip ID at the end.
 
-#define DATA_PIN      SCK
-#define CLK_PIN       MOSI
+//#define RECV_PIN D4
+//IRrecv irReceiver(RECV_PIN);
+
+//#include "Commands.h"
+
+const bool apMode = false;
+
+// AP mode pass
+const char WiFiAPPSK[] = "";
+
+ESP8266WebServer webServer(80);
+WebSocketsServer webSocketsServer = WebSocketsServer(81);
+ESP8266HTTPUpdateServer httpUpdateServer;
+
+#include "FSBrowser.h"
+
+#define DATA_PIN      13
+#define CLK_PIN       14
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
-#define MatrixWidth   24 * 2
-#define MatrixHeight  8
 #define NUM_LEDS      MatrixWidth * MatrixHeight
 
 const bool MatrixSerpentineLayout = true;
 
-#define MILLI_AMPS         2000     // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
+#define MILLI_AMPS         1000     // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 #define FRAMES_PER_SECOND  120 // here you can control the speed. With the Access Point / Web Server the animations run a bit slower.
 
 CRGB leds[NUM_LEDS];
-bool mask[NUM_LEDS];
 
-const byte digits4x8[8*10] = {
-  0x06,0x09,0x09,0x09,0x09,0x09,0x09,0x06, // 0
-  0x04,0x06,0x04,0x04,0x04,0x04,0x04,0x0e, // 1
-  0x06,0x09,0x08,0x08,0x04,0x02,0x01,0x0f, // 2
-  0x06,0x09,0x08,0x04,0x08,0x08,0x09,0x06, // 3
-  0x04,0x05,0x05,0x05,0x0f,0x04,0x04,0x04, // 4
-  0x0f,0x01,0x01,0x07,0x08,0x08,0x09,0x06, // 5
-  0x06,0x09,0x01,0x07,0x09,0x09,0x09,0x06, // 6
-  0x0f,0x08,0x08,0x04,0x02,0x01,0x01,0x01, // 7
-  0x06,0x09,0x09,0x06,0x09,0x09,0x09,0x06, // 8
-  0x06,0x09,0x09,0x09,0x0e,0x08,0x09,0x06, // 9
-};
-
-// preceed with a call to fillMask(false);
-// set mask to true where digit should light
-void digit(byte start, byte d){
-  byte row, col;
-  for(col = 0; col < 4; col++){
-    for(row = 0; row < 8; row++){
-      if((digits4x8[d * 8 + row] >> col) & 1){
-	togglePixelMask(row, col + start, true);
-      }
-      else{
-      }
-    }
-  }
-}
-
-void displayNum(uint32_t n){
-  digit( 0, (n / 10000) % 10);
-  digit( 5, (n / 1000) % 10);
-  digit(10, (n / 100) % 10);
-  digit(15, (n / 10) % 10);
-  digit(20, (n / 1) % 10);
-}
-
-void displayTime(uint32_t tm){
-  uint8_t hh = (tm / 3600) % 12;
-  uint8_t mm = (tm / 60) % 60;
-  uint8_t ss = (tm) % 60;
-  if(hh > 9){
-    digit( 1, hh/10);
-  }
-  digit( 6, hh%10);
-  setPixelMask(2, 11, true);
-  setPixelMask(3, 11, true);
-  setPixelMask(5, 11, true);
-  setPixelMask(6, 11, true);
-  digit(13, mm / 10);
-  digit(18, mm % 10);
-
-  if(hh > 9){
-    digit( 1 + 24, hh/10);
-  }
-  digit( 6 + 24, hh%10);
-  setPixelMask(2, 11 + 24, true);
-  setPixelMask(3, 11 + 24, true);
-  setPixelMask(5, 11 + 24, true);
-  setPixelMask(6, 11 + 24, true);
-  digit(13 + 24, mm / 10);
-  digit(18 + 24, mm % 10);
-}
+const uint8_t brightnessCount = 5;
+uint8_t brightnessMap[brightnessCount] = { 16, 32, 64, 128, 255 };
+uint8_t brightnessIndex = 0;
 
 // ten seconds per color palette makes a good demo
 // 20-120 is better for deployment
@@ -146,7 +112,8 @@ CRGBPalette16 gTargetPalette( gGradientPalettes[0] );
 
 CRGBPalette16 IceColors_p = CRGBPalette16(CRGB::Black, CRGB::Blue, CRGB::Aqua, CRGB::White);
 
-bool autoplay = true;
+uint8_t currentPatternIndex = 0; // Index number of which pattern is current
+uint8_t autoplay = 0;
 
 uint8_t autoplayDuration = 10;
 unsigned long autoPlayTimeout = 0;
@@ -159,40 +126,11 @@ CRGB solidColor = CRGB::Blue;
 
 uint16_t XY( uint8_t x, uint8_t y)
 {
-  y = 7 - y;
-  x = 47 - x;
-  uint16_t i;
-  
-  if ( MatrixSerpentineLayout == false) {
-    i = (y * MatrixWidth) + x;
+  uint16_t out = 0;
+  if(x < MatrixWidth && y < MatrixHeight){
+    out = MatrixMap[y][x];
   }
-
-  if ( MatrixSerpentineLayout == true) {
-    if (y >= 8) {
-      // x=0, y=8 ==> 56 * 8 + XY(55, 0)
-      i = XY(111 - x,  15 - y);
-    }
-    else {
-      //      if ( x & 0x01) {
-      //	// odd rows run forwards
-      //	i = (x * 8) + y;
-      //      } else {
-      //	// even columns run backwards
-      //	uint8_t reverseY = (8 - 1) - y;
-      //	i = (x * 8) + reverseY;
-      //      }
-      if ( x & 0x01) {
-        // Odd columns run backwards
-        uint8_t reverseY = (MatrixHeight - 1) - y;
-        i = (x * MatrixHeight) + reverseY;
-      } else {
-        // Even rows run forwards
-        i = (x * MatrixHeight) + y;
-      }
-    }
-  }
-
-  return i;
+  return out;
 }
 
 // scale the brightness of all pixels down
@@ -202,97 +140,6 @@ void dimAll(byte value)
     leds[i].nscale8(value);
   }
 }
-
-typedef void (*Pattern)();
-typedef Pattern PatternList[];
-typedef struct {
-  Pattern pattern;
-  String name;
-} PatternAndName;
-typedef PatternAndName PatternAndNameList[];
-
-#include "Twinkles.h"
-#include "TwinkleFOX.h"
-#include "Noise.h"
-
-uint8_t brightness = 8;
-
-// List of patterns to cycle through.  Each is defined as a separate function below.
-PatternAndNameList clockPatterns = {
-  { fireNoise, "Fire Noise" },
-  { fireNoise2, "Fire Noise 2" },
-  { lavaNoise, "Lava Noise" },
-  { rainbowNoise, "Rainbow Noise" },
-  { partyNoise, "Party Noise" },
-  { cloudNoise, "Cloud Noise" },
-  { showSolidColor,         "Solid Color" },
-};
-
-PatternAndNameList patterns = {
-  { pride,                  "Pride" },
-  { pride2,                 "Pride 2" },
-  { colorWaves,             "Color Waves" },
-  { colorWaves2,            "Color Waves 2" },
-
-  { xyMatrixTest,           "Matrix Test" },
-
-  { verticalPalette,           "Vertical Palette" },
-  { diagonalPalette,           "Diagonal Palette" },
-  { horizontalPalette,         "Horizontal Palette" },
-
-  { verticalGradientPalette,   "Vertical Gradient Palette" },
-  { diagonalGradientPalette,   "Diagonal Gradient Palette" },
-  { horizontalGradientPalette, "Horizontal Gradient Palette" },
-  // noise patterns
-  { fireNoise, "Fire Noise" },
-  { fireNoise2, "Fire Noise 2" },
-  { lavaNoise, "Lava Noise" },
-  { rainbowNoise, "Rainbow Noise" },
-  { rainbowStripeNoise, "Rainbow Stripe Noise" },
-  { partyNoise, "Party Noise" },
-  { forestNoise, "Forest Noise" },
-  { cloudNoise, "Cloud Noise" },
-  { oceanNoise, "Ocean Noise" },
-  { blackAndWhiteNoise, "Black & White Noise" },
-  { blackAndBlueNoise, "Black & Blue Noise" },
-  // twinkle patterns
-  { rainbowTwinkles,        "Rainbow Twinkles" },
-  { snowTwinkles,           "Snow Twinkles" },
-  { cloudTwinkles,          "Cloud Twinkles" },
-  { incandescentTwinkles,   "Incandescent Twinkles" },
-
-  // TwinkleFOX patterns
-  { retroC9Twinkles,        "Retro C9 Twinkles" },
-  { redWhiteTwinkles,       "Red & White Twinkles" },
-  { blueWhiteTwinkles,      "Blue & White Twinkles" },
-  { redGreenWhiteTwinkles,  "Red, Green & White Twinkles" },
-  { fairyLightTwinkles,     "Fairy Light Twinkles" },
-  { snow2Twinkles,          "Snow 2 Twinkles" },
-  { hollyTwinkles,          "Holly Twinkles" },
-  { iceTwinkles,            "Ice Twinkles" },
-  { partyTwinkles,          "Party Twinkles" },
-  { forestTwinkles,         "Forest Twinkles" },
-  { lavaTwinkles,           "Lava Twinkles" },
-  { fireTwinkles,           "Fire Twinkles" },
-  { cloud2Twinkles,         "Cloud 2 Twinkles" },
-  { oceanTwinkles,          "Ocean Twinkles" },
-
-  { rainbow,                "Rainbow" },
-  { rainbowWithGlitter,     "Rainbow With Glitter" },
-  { rainbowSolid,           "Solid Rainbow" },
-  { confetti,               "Confetti" },
-  { sinelon,                "Sinelon" },
-  { bpm,                    "Beat" },
-  { juggle,                 "Juggle" },
-  { fire,                   "Fire" },
-  { water,                  "Water" },
-  { showSolidColor,         "Solid Color" }
-};
-
-const uint8_t patternCount = ARRAY_SIZE(patterns);
-const uint8_t clockPatternCount = ARRAY_SIZE(clockPatterns);
-
-uint8_t currentPatternIndex = 0; // Index number of which pattern is current
 
 typedef struct {
   CRGBPalette16 palette;
@@ -324,101 +171,443 @@ const String paletteNames[paletteCount] = {
   "Heat",
 };
 
+typedef void (*Pattern)();
+typedef Pattern PatternList[];
+typedef struct {
+  Pattern pattern;
+  String name;
+} PatternAndName;
+typedef PatternAndName PatternAndNameList[];
 
-uint32_t alarm_tod = 5 * 3600 + 0 * 60;
+#include "Twinkles.h"
+#include "TwinkleFOX.h"
+#include "Map.h"
+#include "Noise.h"
+
+void sunrise() {
+  //dimAll(240);
+
+  CRGBPalette16 palette = HeatColors_p;
+
+  const uint8_t centerX = MatrixWidth / 2;
+
+  static uint8_t currentLevel = 0;
+
+  static uint8_t inc = 4;
+
+  EVERY_N_MILLIS(250) {
+    if (currentLevel < 240) {
+      currentLevel++;
+      Serial.print("Current level: "); Serial.println(currentLevel);
+    }
+    else if (inc > 0) {
+      inc--;      
+    }
+  }
+
+  for (uint8_t x = 0; x < MatrixWidth; x++) {
+    int16_t d = currentLevel - inc;
+
+    for (uint8_t y = 0; y < MatrixHeight; y++) {
+      if (d >= 0) {
+        leds[XY(x, y)] += ColorFromPalette(palette, random(0, d), random8(d, 255));
+      }
+      d -= inc;
+    }
+  }
+}
+
+// List of patterns to cycle through.  Each is defined as a separate function below.
+
+PatternAndNameList patterns = {
+  { sunrise,                "Sun Rise"},
+  { pride,                  "Pride" },
+  { pride2,                 "Pride 2" },
+  { colorWaves,             "Color Waves" },
+  { colorWaves2,            "Color Waves 2" },
+
+  /*
+  { cubeTest,       "Cube XYZ Test" },
+  
+  { cubeXPalette,   "Cube X Palette" },
+  { cubeYPalette,   "Cube Y Palette" },
+  { cubeZPalette,   "Cube Z Palette" },
+  
+  { cubeXYPalette,  "Cube XY Palette" },
+  { cubeXZPalette,  "Cube XZ Palette" },
+  { cubeYZPalette,  "Cube YZ Palette" },
+  { cubeXYZPalette, "Cube XYZ Palette" },
+
+  { cubeXGradientPalette,   "Cube X Gradient Palette" },
+  { cubeYGradientPalette,   "Cube Y Gradient Palette" },
+  { cubeZGradientPalette,   "Cube Z Gradient Palette" },
+  
+  { cubeXYGradientPalette,  "Cube XY Gradient Palette" },
+  { cubeXZGradientPalette,  "Cube XZ Gradient Palette" },
+  { cubeYZGradientPalette,  "Cube YZ Gradient Palette" },
+  { cubeXYZGradientPalette, "Cube XYZ Gradient Palette" },
+  { fireNoise3d, "Fire Noise 3D" },
+  { fireNoise23d, "Fire Noise 2 3D" },
+  { lavaNoise3d, "Lava Noise 3D" },
+  { rainbowNoise3d, "Rainbow Noise 3D" },
+  { rainbowStripeNoise3d, "Rainbow Stripe Noise 3D" },
+  { partyNoise3d, "Party Noise 3D" },
+  { forestNoise3d, "Forest Noise 3D" },
+  { cloudNoise3d, "Cloud Noise 3D" },
+  { oceanNoise3d, "Ocean Noise 3D" },
+  { blackAndWhiteNoise3d, "Black & White Noise 3D" },
+  { blackAndBlueNoise3d, "Black & Blue Noise 3D" },
+  */
+  
+  // 3d noise patterns
+  { xyMatrixTest,           "Matrix Test" },
+
+  { verticalPalette,           "Vertical Palette" },
+  { diagonalPalette,           "Diagonal Palette" },
+  { horizontalPalette,         "Horizontal Palette" },
+
+  { verticalGradientPalette,   "Vertical Gradient Palette" },
+  { diagonalGradientPalette,   "Diagonal Gradient Palette" },
+  { horizontalGradientPalette, "Horizontal Gradient Palette" },
+
+  // noise patterns
+  { fireNoise, "Fire Noise" },
+  { fireNoise2, "Fire Noise 2" },
+  { lavaNoise, "Lava Noise" },
+  { rainbowNoise, "Rainbow Noise" },
+  { rainbowStripeNoise, "Rainbow Stripe Noise" },
+  { partyNoise, "Party Noise" },
+  { forestNoise, "Forest Noise" },
+  { cloudNoise, "Cloud Noise" },
+  { oceanNoise, "Ocean Noise" },
+  { blackAndWhiteNoise, "Black & White Noise" },
+  { blackAndBlueNoise, "Black & Blue Noise" },
+
+  // twinkle patterns
+  { rainbowTwinkles,        "Rainbow Twinkles" },
+  { snowTwinkles,           "Snow Twinkles" },
+  { cloudTwinkles,          "Cloud Twinkles" },
+  { incandescentTwinkles,   "Incandescent Twinkles" },
+
+  // TwinkleFOX patterns
+  { retroC9Twinkles,        "Retro C9 Twinkles" },
+  { redWhiteTwinkles,       "Red & White Twinkles" },
+  { blueWhiteTwinkles,      "Blue & White Twinkles" },
+  { redGreenWhiteTwinkles,  "Red, Green & White Twinkles" },
+  { fairyLightTwinkles,     "Fairy Light Twinkles" },
+  { snow2Twinkles,          "Snow 2 Twinkles" },
+  { hollyTwinkles,          "Holly Twinkles" },
+  { iceTwinkles,            "Ice Twinkles" },
+  { partyTwinkles,          "Party Twinkles" },
+  { forestTwinkles,         "Forest Twinkles" },
+  { lavaTwinkles,           "Lava Twinkles" },
+  { fireTwinkles,           "Fire Twinkles" },
+  { cloud2Twinkles,         "Cloud 2 Twinkles" },
+  { oceanTwinkles,          "Ocean Twinkles" },
+
+  { rainbow,                "Rainbow" },
+  { rainbowWithGlitter,     "Rainbow With Glitter" },
+  { rainbowSolid,           "Solid Rainbow" },
+  { confetti,               "Confetti" },
+  { sinelon,                "Sinelon" },
+  { bpm,                    "Beat" },
+  { juggle,                 "Juggle" },
+  //{ fire,                   "Fire" },
+  //{ water,                  "Water" },
+
+  { showSolidColor,         "Solid Color" }
+};
+
+const uint8_t patternCount = ARRAY_SIZE(patterns);
+
+#include "Fields.h"
 
 void setup() {
   Serial.begin(115200);
   delay(100);
-  Wire.begin();
-  fillMask(true);
+  Serial.setDebugOutput(true);
+
+  //FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);     // for WS2812 (Neopixel)
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
-  FastLED.setDither(false);
+  FastLED.setDither(true);
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(brightness);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   FastLED.show();
-  //rtc.adjust(DateTime(2017, 5, 21, 18, 41, 0));
-}
 
-// set mask to all masked (b=false) or all unmasked (b = true)
-void fillMask(bool b){
-  for(int i = 0; i < NUM_LEDS; i++){
-    mask[i] = b;
+  EEPROM.begin(512);
+  loadSettings();
+
+  FastLED.setBrightness(brightness);
+
+  //  irReceiver.enableIRIn(); // Start the receiver
+
+  Serial.println();
+  Serial.print( F("Heap: ") ); Serial.println(system_get_free_heap_size());
+  Serial.print( F("Boot Vers: ") ); Serial.println(system_get_boot_version());
+  Serial.print( F("CPU: ") ); Serial.println(system_get_cpu_freq());
+  Serial.print( F("SDK: ") ); Serial.println(system_get_sdk_version());
+  Serial.print( F("Chip ID: ") ); Serial.println(system_get_chip_id());
+  Serial.print( F("Flash ID: ") ); Serial.println(spi_flash_get_id());
+  Serial.print( F("Flash Size: ") ); Serial.println(ESP.getFlashChipRealSize());
+  Serial.print( F("Vcc: ") ); Serial.println(ESP.getVcc());
+  Serial.println();
+
+  SPIFFS.begin();
+  {
+    Dir dir = SPIFFS.openDir("/");
+    while (dir.next()) {
+      String fileName = dir.fileName();
+      size_t fileSize = dir.fileSize();
+      Serial.printf("FS File: %s, size: %s\n", fileName.c_str(), String(fileSize).c_str());
+    }
+    Serial.printf("\n");
   }
-}
 
-// turn off leds where mask[i] = false
-void apply_mask(){
-  uint16_t b, k;
-  for(uint16_t i=0; i < NUM_LEDS; i++){
-    if(!mask[i]){
-      leds[i] = CRGB::Black;
+  // Set Hostname.
+  String hostname(HOSTNAME);
+  hostname += String(ESP.getChipId(), HEX);
+  WiFi.hostname(hostname);
+
+  char hostnameChar[hostname.length() + 1];
+  memset(hostnameChar, 0, hostname.length() + 1);
+
+  for (uint8_t i = 0; i < hostname.length(); i++)
+    hostnameChar[i] = hostname.charAt(i);
+
+  //  MDNS.begin(hostnameChar);
+
+  // Add service to MDNS-SD
+  //  MDNS.addService("http", "tcp", 80);
+
+  // Print hostname.
+  Serial.println("Hostname: " + hostname);
+
+  if (apMode)
+  {
+    WiFi.mode(WIFI_AP);
+
+    // Do a little work to get a unique-ish name. Append the
+    // last two bytes of the MAC (HEX'd) to "Thing-":
+    uint8_t mac[WL_MAC_ADDR_LENGTH];
+    WiFi.softAPmacAddress(mac);
+    String macID = String(mac[WL_MAC_ADDR_LENGTH - 2], HEX) +
+                   String(mac[WL_MAC_ADDR_LENGTH - 1], HEX);
+    macID.toUpperCase();
+    String AP_NameString = "ESP8266-" + macID;
+
+    char AP_NameChar[AP_NameString.length() + 1];
+    memset(AP_NameChar, 0, AP_NameString.length() + 1);
+
+    for (int i = 0; i < AP_NameString.length(); i++)
+      AP_NameChar[i] = AP_NameString.charAt(i);
+
+    WiFi.softAP(AP_NameChar, WiFiAPPSK);
+
+    Serial.printf("Connect to Wi-Fi access point: %s\n", AP_NameChar);
+    Serial.println("and open http://192.168.4.1 in your browser");
+  }
+  else
+  {
+    WiFi.mode(WIFI_STA);
+    Serial.printf("Connecting to %s\n", ssid);
+    WiFi.begin(ssid, pass);
+    if (String(WiFi.SSID()) != String(ssid)) {
+      WiFi.begin(ssid, pass);
     }
   }
+
+  httpUpdateServer.setup(&webServer);
+
+  webServer.on("/all", HTTP_GET, []() {
+    String json = getFieldsJson(fields, fieldCount);
+    webServer.send(200, "text/json", json);
+  });
+
+  webServer.on("/fieldValue", HTTP_GET, []() {
+    String name = webServer.arg("name");
+    String value = getFieldValue(name, fields, fieldCount);
+    webServer.send(200, "text/json", value);
+  });
+
+  webServer.on("/fieldValue", HTTP_POST, []() {
+    String name = webServer.arg("name");
+    String value = webServer.arg("value");
+    String newValue = setFieldValue(name, value, fields, fieldCount);
+    webServer.send(200, "text/json", newValue);
+  });
+
+  webServer.on("/power", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setPower(value.toInt());
+    sendInt(power);
+  });
+
+  webServer.on("/cooling", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    cooling = value.toInt();
+    broadcastInt("cooling", cooling);
+    sendInt(cooling);
+  });
+
+  webServer.on("/sparking", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    sparking = value.toInt();
+    broadcastInt("sparking", sparking);
+    sendInt(sparking);
+  });
+
+  webServer.on("/speed", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setSpeed(value.toInt());
+    broadcastInt("speed", speed);
+    sendInt(speed);
+  });
+
+  webServer.on("/twinkleSpeed", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    twinkleSpeed = value.toInt();
+    if (twinkleSpeed < 0) twinkleSpeed = 0;
+    else if (twinkleSpeed > 8) twinkleSpeed = 8;
+    broadcastInt("twinkleSpeed", twinkleSpeed);
+    sendInt(twinkleSpeed);
+  });
+
+  webServer.on("/twinkleDensity", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    twinkleDensity = value.toInt();
+    if (twinkleDensity < 0) twinkleDensity = 0;
+    else if (twinkleDensity > 8) twinkleDensity = 8;
+    broadcastInt("twinkleDensity", twinkleDensity);
+    sendInt(twinkleDensity);
+  });
+
+  webServer.on("/solidColor", HTTP_POST, []() {
+    String r = webServer.arg("r");
+    String g = webServer.arg("g");
+    String b = webServer.arg("b");
+    setSolidColor(r.toInt(), g.toInt(), b.toInt());
+    sendString(String(solidColor.r) + "," + String(solidColor.g) + "," + String(solidColor.b));
+  });
+
+  webServer.on("/pattern", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setPattern(value.toInt());
+    sendInt(currentPatternIndex);
+  });
+
+  webServer.on("/patternName", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setPatternName(value);
+    sendInt(currentPatternIndex);
+  });
+
+  webServer.on("/palette", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setPalette(value.toInt());
+    sendInt(currentPaletteIndex);
+  });
+
+  webServer.on("/paletteName", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setPaletteName(value);
+    sendInt(currentPaletteIndex);
+  });
+
+  webServer.on("/brightness", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setBrightness(value.toInt());
+    sendInt(brightness);
+  });
+
+  webServer.on("/autoplay", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAutoplay(value.toInt());
+    sendInt(autoplay);
+  });
+
+  webServer.on("/autoplayDuration", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAutoplayDuration(value.toInt());
+    sendInt(autoplayDuration);
+  });
+
+  //list directory
+  webServer.on("/list", HTTP_GET, handleFileList);
+  //load editor
+  webServer.on("/edit", HTTP_GET, []() {
+    if (!handleFileRead("/edit.htm")) webServer.send(404, "text/plain", "FileNotFound");
+  });
+  //create file
+  webServer.on("/edit", HTTP_PUT, handleFileCreate);
+  //delete file
+  webServer.on("/edit", HTTP_DELETE, handleFileDelete);
+  //first callback is called after the request has ended with all parsed arguments
+  //second callback handles file uploads at that location
+  webServer.on("/edit", HTTP_POST, []() {
+    webServer.send(200, "text/plain", "");
+  }, handleFileUpload);
+
+  webServer.serveStatic("/", SPIFFS, "/", "max-age=86400");
+
+  webServer.begin();
+  Serial.println("HTTP web server started");
+
+  webSocketsServer.begin();
+  webSocketsServer.onEvent(webSocketEvent);
+  Serial.println("Web socket server started");
+
+  autoPlayTimeout = millis() + (autoplayDuration * 1000);
 }
 
-// b = true -- unmask, b = false mask
-void togglePixelMask(uint8_t row, uint8_t col, bool b){
-  uint16_t pos = XY(col, (7 - row));
-  mask[pos] = ! mask[pos];
-}
-void setPixelMask(uint8_t row, uint8_t col, bool b){
-  if(row >= MatrixHeight){
-  }
-  else if(col >= MatrixWidth){
-  }
-  else{
-    uint16_t pos = XY(col, (7 - row));
-    if(pos < NUM_LEDS){
-      mask[pos] = b;
-    }
-  }
+void sendInt(uint8_t value)
+{
+  sendString(String(value));
 }
 
-void loop(){
-  uint32_t tm, tod;
-  
-  tm = rtc.now().unixtime();
-  tod = tm % 86400;
-    
-  autoplay = false;
-  fillMask(false);
-  if(mode == CLOCK_MODE){
-    setPatternName("Cloud Noise");
-    displayTime(tm);
-  }
-  if(mode == SLEEP_MODE){
-    setPatternName("Fire Noise 2");    
-    // displayTime(tm);
-    //displayNum(alarm_tod - tod);
-    if((alarm_tod < tod) && (tod < alarm_tod + 3600)){
-      mode = ALARM_MODE;
-    }
-  }
-  if(mode == ALARM_MODE){
-    setPatternName("Incandescent Twinkles");
-    //setPatternName("Retro C9 Twinkles");
-    fillMask(true);
-    if(density < 255){
-      density++;
-    }
-    //displayTime(tm);
-  }
-  fastled_loop();
+void sendString(String value)
+{
+  webServer.send(200, "text/plain", value);
 }
 
-void fastled_loop() {
+void broadcastInt(String name, uint8_t value)
+{
+  String json = "{\"name\":\"" + name + "\",\"value\":" + String(value) + "}";
+  webSocketsServer.broadcastTXT(json);
+}
 
+void broadcastString(String name, String value)
+{
+  String json = "{\"name\":\"" + name + "\",\"value\":\"" + String(value) + "\"}";
+  webSocketsServer.broadcastTXT(json);
+}
+
+void loop() {
   // Add entropy to random number generator; we use a lot of it.
   random16_add_entropy(random(65535));
+
+  webSocketsServer.loop();
+  webServer.handleClient();
+
+  //  handleIrInput();
+
+  if (power == 0) {
+    fill_solid(leds, NUM_LEDS, CRGB::Black);
+    FastLED.show();
+    // FastLED.delay(15);
+    return;
+  }
+
+  // EVERY_N_SECONDS(10) {
+  //   Serial.print( F("Heap: ") ); Serial.println(system_get_free_heap_size());
+  // }
+
   // change to a new cpt-city gradient palette
   EVERY_N_SECONDS( secondsPerPalette ) {
     gCurrentPaletteNumber = addmod8( gCurrentPaletteNumber, 1, gGradientPaletteCount);
     gTargetPalette = gGradientPalettes[ gCurrentPaletteNumber ];
   }
-
 
   EVERY_N_MILLISECONDS(40) {
     // slowly blend the current palette to the next
@@ -433,15 +622,342 @@ void fastled_loop() {
 
   // Call the current pattern function once, updating the 'leds' array
   patterns[currentPatternIndex].pattern();
-  apply_mask();
-
-  // turn off dead pixels
-  leds[64 * 6 - 1] = CRGB::Black;
-
+  //patterns[0].pattern();
   FastLED.show();
 
   // insert a delay to keep the framerate modest
-  //FastLED.delay(1000 / FRAMES_PER_SECOND);
+  FastLED.delay(1000 / FRAMES_PER_SECOND);
+}
+
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
+
+  switch (type) {
+    case WStype_DISCONNECTED:
+      Serial.printf("[%u] Disconnected!\n", num);
+      break;
+
+    case WStype_CONNECTED:
+      {
+        IPAddress ip = webSocketsServer.remoteIP(num);
+        Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], payload);
+
+        // send message to client
+        // webSocketsServer.sendTXT(num, "Connected");
+      }
+      break;
+
+    case WStype_TEXT:
+      Serial.printf("[%u] get Text: %s\n", num, payload);
+
+      // send message to client
+      // webSocketsServer.sendTXT(num, "message here");
+
+      // send data to all connected clients
+      // webSocketsServer.broadcastTXT("message here");
+      break;
+
+    case WStype_BIN:
+      Serial.printf("[%u] get binary length: %u\n", num, length);
+      hexdump(payload, length);
+
+      // send message to client
+      // webSocketsServer.sendBIN(num, payload, lenght);
+      break;
+  }
+}
+
+//void handleIrInput()
+//{
+//  InputCommand command = readCommand();
+//
+//  if (command != InputCommand::None) {
+//    Serial.print("command: ");
+//    Serial.println((int) command);
+//  }
+//
+//  switch (command) {
+//    case InputCommand::Up: {
+//        adjustPattern(true);
+//        break;
+//      }
+//    case InputCommand::Down: {
+//        adjustPattern(false);
+//        break;
+//      }
+//    case InputCommand::Power: {
+//        setPower(power == 0 ? 1 : 0);
+//        break;
+//      }
+//    case InputCommand::BrightnessUp: {
+//        adjustBrightness(true);
+//        break;
+//      }
+//    case InputCommand::BrightnessDown: {
+//        adjustBrightness(false);
+//        break;
+//      }
+//    case InputCommand::PlayMode: { // toggle pause/play
+//        setAutoplay(!autoplay);
+//        break;
+//      }
+//
+//    // pattern buttons
+//
+//    case InputCommand::Pattern1: {
+//        setPattern(0);
+//        break;
+//      }
+//    case InputCommand::Pattern2: {
+//        setPattern(1);
+//        break;
+//      }
+//    case InputCommand::Pattern3: {
+//        setPattern(2);
+//        break;
+//      }
+//    case InputCommand::Pattern4: {
+//        setPattern(3);
+//        break;
+//      }
+//    case InputCommand::Pattern5: {
+//        setPattern(4);
+//        break;
+//      }
+//    case InputCommand::Pattern6: {
+//        setPattern(5);
+//        break;
+//      }
+//    case InputCommand::Pattern7: {
+//        setPattern(6);
+//        break;
+//      }
+//    case InputCommand::Pattern8: {
+//        setPattern(7);
+//        break;
+//      }
+//    case InputCommand::Pattern9: {
+//        setPattern(8);
+//        break;
+//      }
+//    case InputCommand::Pattern10: {
+//        setPattern(9);
+//        break;
+//      }
+//    case InputCommand::Pattern11: {
+//        setPattern(10);
+//        break;
+//      }
+//    case InputCommand::Pattern12: {
+//        setPattern(11);
+//        break;
+//      }
+//
+//    // custom color adjustment buttons
+//
+//    case InputCommand::RedUp: {
+//        solidColor.red += 8;
+//        setSolidColor(solidColor);
+//        break;
+//      }
+//    case InputCommand::RedDown: {
+//        solidColor.red -= 8;
+//        setSolidColor(solidColor);
+//        break;
+//      }
+//    case InputCommand::GreenUp: {
+//        solidColor.green += 8;
+//        setSolidColor(solidColor);
+//        break;
+//      }
+//    case InputCommand::GreenDown: {
+//        solidColor.green -= 8;
+//        setSolidColor(solidColor);
+//        break;
+//      }
+//    case InputCommand::BlueUp: {
+//        solidColor.blue += 8;
+//        setSolidColor(solidColor);
+//        break;
+//      }
+//    case InputCommand::BlueDown: {
+//        solidColor.blue -= 8;
+//        setSolidColor(solidColor);
+//        break;
+//      }
+//
+//    // color buttons
+//
+//    case InputCommand::Red: {
+//        setSolidColor(CRGB::Red);
+//        break;
+//      }
+//    case InputCommand::RedOrange: {
+//        setSolidColor(CRGB::OrangeRed);
+//        break;
+//      }
+//    case InputCommand::Orange: {
+//        setSolidColor(CRGB::Orange);
+//        break;
+//      }
+//    case InputCommand::YellowOrange: {
+//        setSolidColor(CRGB::Goldenrod);
+//        break;
+//      }
+//    case InputCommand::Yellow: {
+//        setSolidColor(CRGB::Yellow);
+//        break;
+//      }
+//
+//    case InputCommand::Green: {
+//        setSolidColor(CRGB::Green);
+//        break;
+//      }
+//    case InputCommand::Lime: {
+//        setSolidColor(CRGB::Lime);
+//        break;
+//      }
+//    case InputCommand::Aqua: {
+//        setSolidColor(CRGB::Aqua);
+//        break;
+//      }
+//    case InputCommand::Teal: {
+//        setSolidColor(CRGB::Teal);
+//        break;
+//      }
+//    case InputCommand::Navy: {
+//        setSolidColor(CRGB::Navy);
+//        break;
+//      }
+//
+//    case InputCommand::Blue: {
+//        setSolidColor(CRGB::Blue);
+//        break;
+//      }
+//    case InputCommand::RoyalBlue: {
+//        setSolidColor(CRGB::RoyalBlue);
+//        break;
+//      }
+//    case InputCommand::Purple: {
+//        setSolidColor(CRGB::Purple);
+//        break;
+//      }
+//    case InputCommand::Indigo: {
+//        setSolidColor(CRGB::Indigo);
+//        break;
+//      }
+//    case InputCommand::Magenta: {
+//        setSolidColor(CRGB::Magenta);
+//        break;
+//      }
+//
+//    case InputCommand::White: {
+//        setSolidColor(CRGB::White);
+//        break;
+//      }
+//    case InputCommand::Pink: {
+//        setSolidColor(CRGB::Pink);
+//        break;
+//      }
+//    case InputCommand::LightPink: {
+//        setSolidColor(CRGB::LightPink);
+//        break;
+//      }
+//    case InputCommand::BabyBlue: {
+//        setSolidColor(CRGB::CornflowerBlue);
+//        break;
+//      }
+//    case InputCommand::LightBlue: {
+//        setSolidColor(CRGB::LightBlue);
+//        break;
+//      }
+//  }
+//}
+
+void loadSettings()
+{
+  brightness = EEPROM.read(0);
+
+  currentPatternIndex = EEPROM.read(1);
+  if (currentPatternIndex < 0)
+    currentPatternIndex = 0;
+  else if (currentPatternIndex >= patternCount)
+    currentPatternIndex = patternCount - 1;
+
+  byte r = EEPROM.read(2);
+  byte g = EEPROM.read(3);
+  byte b = EEPROM.read(4);
+
+  if (r == 0 && g == 0 && b == 0)
+  {
+  }
+  else
+  {
+    solidColor = CRGB(r, g, b);
+  }
+
+  power = EEPROM.read(5);
+
+  autoplay = EEPROM.read(6);
+  autoplayDuration = EEPROM.read(7);
+
+  currentPaletteIndex = EEPROM.read(8);
+  if (currentPaletteIndex < 0)
+    currentPaletteIndex = 0;
+  else if (currentPaletteIndex >= paletteCount)
+    currentPaletteIndex = paletteCount - 1;
+
+  speed = EEPROM.read(9);
+}
+
+void setPower(uint8_t value)
+{
+  power = value == 0 ? 0 : 1;
+
+  EEPROM.write(5, power);
+  EEPROM.commit();
+
+  broadcastInt("power", power);
+}
+
+void setAutoplay(uint8_t value)
+{
+  autoplay = value == 0 ? 0 : 1;
+
+  EEPROM.write(6, autoplay);
+  EEPROM.commit();
+
+  broadcastInt("autoplay", autoplay);
+}
+
+void setAutoplayDuration(uint8_t value)
+{
+  autoplayDuration = value;
+
+  EEPROM.write(7, autoplayDuration);
+  EEPROM.commit();
+
+  autoPlayTimeout = millis() + (autoplayDuration * 1000);
+
+  broadcastInt("autoplayDuration", autoplayDuration);
+}
+
+void setSolidColor(CRGB color)
+{
+  setSolidColor(color.r, color.g, color.b);
+}
+
+void setSolidColor(uint8_t r, uint8_t g, uint8_t b)
+{
+  solidColor = CRGB(r, g, b);
+
+  EEPROM.write(2, r);
+  EEPROM.write(3, g);
+  EEPROM.write(4, b);
+  EEPROM.commit();
+
+  setPattern(patternCount - 1);
+
+  broadcastString("color", String(solidColor.r) + "," + String(solidColor.g) + "," + String(solidColor.b));
 }
 
 // increase or decrease the current pattern number, and wrap around at the ends
@@ -457,28 +973,104 @@ void adjustPattern(bool up)
     currentPatternIndex = patternCount - 1;
   if (currentPatternIndex >= patternCount)
     currentPatternIndex = 0;
-  Serial.print(millis());
-  Serial.print(" ");
-  Serial.println(patterns[currentPatternIndex].name);
+
   if (autoplay == 0) {
+    EEPROM.write(1, currentPatternIndex);
+    EEPROM.commit();
   }
+
+  broadcastInt("pattern", currentPatternIndex);
 }
 
 void setPattern(uint8_t value)
 {
   if (value >= patternCount)
     value = patternCount - 1;
+
   currentPatternIndex = value;
+
+  if (autoplay == 0) {
+    EEPROM.write(1, currentPatternIndex);
+    EEPROM.commit();
+  }
+
+  broadcastInt("pattern", currentPatternIndex);
 }
 
 void setPatternName(String name)
 {
-  for(uint8_t i = 0; i < patternCount; i++) {
-    if(patterns[i].name == name) {
+  for (uint8_t i = 0; i < patternCount; i++) {
+    if (patterns[i].name == name) {
       setPattern(i);
       break;
     }
   }
+}
+
+void setPalette(uint8_t value)
+{
+  if (value >= paletteCount)
+    value = paletteCount - 1;
+
+  currentPaletteIndex = value;
+
+  EEPROM.write(8, currentPaletteIndex);
+  EEPROM.commit();
+
+  broadcastInt("palette", currentPaletteIndex);
+}
+
+void setPaletteName(String name)
+{
+  for (uint8_t i = 0; i < paletteCount; i++) {
+    if (paletteNames[i] == name) {
+      setPalette(i);
+      break;
+    }
+  }
+}
+
+void setSpeed(uint8_t value)
+{
+  speed = value;
+
+  EEPROM.write(9, value);
+  EEPROM.commit();
+
+  broadcastInt("speed", speed);
+}
+
+void adjustBrightness(bool up)
+{
+  if (up && brightnessIndex < brightnessCount - 1)
+    brightnessIndex++;
+  else if (!up && brightnessIndex > 0)
+    brightnessIndex--;
+
+  brightness = brightnessMap[brightnessIndex];
+
+  FastLED.setBrightness(brightness);
+
+  EEPROM.write(0, brightness);
+  EEPROM.commit();
+
+  broadcastInt("brightness", brightness);
+}
+
+void setBrightness(uint8_t value)
+{
+  if (value > 255)
+    value = 255;
+  else if (value < 0) value = 0;
+
+  brightness = value;
+
+  FastLED.setBrightness(brightness);
+
+  EEPROM.write(0, brightness);
+  EEPROM.commit();
+
+  broadcastInt("brightness", brightness);
 }
 
 void strandTest()
@@ -784,50 +1376,47 @@ void radialPaletteShift()
 }
 
 // based on FastLED example Fire2012WithPalette: https://github.com/FastLED/FastLED/blob/master/examples/Fire2012WithPalette/Fire2012WithPalette.ino
-void heatMap(CRGBPalette16 palette, bool invert)
+void heatMap(CRGBPalette16 palette, bool up)
 {
-  EVERY_N_MILLIS(30) {
-    fill_solid(leds, NUM_LEDS, CRGB::Black);
+  fill_solid(leds, NUM_LEDS, CRGB::Black);
 
-    // Add entropy to random number generator; we use a lot of it.
-    random16_add_entropy(random(256));
+  // Add entropy to random number generator; we use a lot of it.
+  random16_add_entropy(random(256));
 
-    // Array of temperature readings at each simulation cell
-    static byte heat[MatrixWidth][MatrixHeight];
+  // Array of temperature readings at each simulation cell
+  static byte heat[256];
 
-    byte colorindex;
+  byte colorindex;
 
-    for (uint8_t x = 0; x < MatrixWidth; x++) {
-      // Step 1.  Cool down every cell a little
-      for ( uint8_t i = 0; i < MatrixHeight; i++) {
-        heat[x][i] = qsub8( heat[x][i],  random8(0, ((cooling * 10) / MatrixHeight) + 2));
-      }
+  // Step 1.  Cool down every cell a little
+  for ( uint16_t i = 0; i < NUM_LEDS; i++) {
+    heat[i] = qsub8( heat[i],  random8(0, ((cooling * 10) / NUM_LEDS) + 2));
+  }
 
-      // Step 2.  Heat from each cell drifts 'up' and diffuses a little
-      for ( uint8_t k = MatrixHeight - 1; k >= 2; k--) {
-        heat[x][k] = (heat[x][k - 1] + heat[x][k - 2] + heat[x][k - 2] ) / 3;
-      }
+  // Step 2.  Heat from each cell drifts 'up' and diffuses a little
+  for ( uint16_t k = NUM_LEDS - 1; k >= 2; k--) {
+    heat[k] = (heat[k - 1] + heat[k - 2] + heat[k - 2] ) / 3;
+  }
 
-      // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
-      if ( random8() < sparking ) {
-        heat[x][1] = qadd8( heat[x][1], random8(160, 255) );
-      }
+  // Step 3.  Randomly ignite new 'sparks' of heat near the bottom
+  if ( random8() < sparking ) {
+    int y = random8(7);
+    heat[y] = qadd8( heat[y], random8(160, 255) );
+  }
 
-      // Step 4.  Map from heat cells to LED colors
-      for ( uint8_t j = 0; j < MatrixHeight; j++) {
-        // Scale the heat value from 0-255 down to 0-240
-        // for best results with color palettes.
-        colorindex = scale8(heat[x][j], 190);
+  // Step 4.  Map from heat cells to LED colors
+  for ( uint16_t j = 0; j < NUM_LEDS; j++) {
+    // Scale the heat value from 0-255 down to 0-240
+    // for best results with color palettes.
+    colorindex = scale8(heat[j], 190);
 
-        CRGB color = ColorFromPalette(palette, colorindex);
+    CRGB color = ColorFromPalette(palette, colorindex);
 
-        if (invert) {
-          leds[XY(x, j)] = color;
-        }
-        else {
-          leds[XY(x, (MatrixHeight - 1) - j)] = color;
-        }
-      }
+    if (up) {
+      leds[j] = color;
+    }
+    else {
+      leds[(NUM_LEDS - 1) - j] = color;
     }
   }
 }

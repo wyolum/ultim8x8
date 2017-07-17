@@ -1564,3 +1564,151 @@ void palettetest( CRGB* ledarray, uint16_t numleds, const CRGBPalette16& gCurren
   startindex--;
   fill_palette( ledarray, numleds, startindex, (256 / NUM_LEDS) + 1, gCurrentPalette, 255, LINEARBLEND);
 }
+
+//################################################################### NTP Client
+//  NTP Client
+//################################################################### NTP Client
+
+#include <WiFiUdp.h>
+
+const char* ntpServerName = "time.nist.gov";
+bool ntp_pending = false;
+uint32_t ntp_request_sent_ms = 0;
+WiFiUDP udp;
+const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of the message
+byte packetBuffer[UDP_TX_PACKET_MAX_SIZE]; //buffer to hold incoming and outgoing packets
+const double LSB = 1./4294967296.;
+const unsigned long seventyYears = 2208988800UL;
+const int16_t timezone = -4 * 3600;
+const uint32_t TOLLERANCE_MS = 100;
+const unsigned int localPort = 123;      // local port to listen for UDP packets
+
+const uint32_t MEASURED_BIAS_ms = +400;
+int32_t last_lag_ms = 0;
+uint32_t local_hack = 0;
+uint32_t local_hack_ms = 0;
+uint32_t local_hack_us = 0;
+uint16_t ms_per_second = 1000;   // may change to correct clock drift
+uint32_t current_time;
+uint32_t last_update_time;
+
+void requestNTP(){
+  //get a random server from the pool
+  IPAddress nist_timeServerIP; // time.nist.gov NTP server address
+  WiFi.hostByName(ntpServerName, nist_timeServerIP); 
+
+  if(!ntp_pending){ // request
+    Serial.println(nist_timeServerIP);
+    sendNTPpacket(nist_timeServerIP); // send an NTP packet to a time server
+    Serial.println("NTP request sent");
+    ntp_request_sent_ms = millis();
+    ntp_pending = true;
+  }
+  if(millis() - ntp_request_sent_ms > 1){ // receive and parse
+    ntp_pending = false;
+    Serial.println("check for NTP data");
+    int n_byte = udp.parsePacket();
+    if(n_byte >= NTP_PACKET_SIZE) { // we have received ntp packet back!
+      uint32_t receive_ms = millis();
+      int32_t lag_ms = receive_ms - ntp_request_sent_ms;
+      Serial.print("Lag (ms):");
+      Serial.println(lag_ms);
+
+      // We've received a packet, read the data from it
+      udp.read(packetBuffer, NTP_PACKET_SIZE); // read the packet into the buffer
+
+      //the timestamp starts at byte 40 of the received packet and is four bytes,
+      // or two words, long. First, esxtract the two words:
+      // inspect header
+      for(int ii=0; ii<4; ii++){
+	Serial.println(packetBuffer[ii], BIN);
+      }
+      
+      // this is NTP time (seconds since Jan 1 1900):
+      unsigned long secsSince1900 = bytes2long(packetBuffer + 40);
+      unsigned long hack_us = bytes2long(packetBuffer + 44) * 1e6 * LSB;
+      unsigned long origin_stamp = bytes2long(packetBuffer + 24);
+      unsigned long receipt_stamp = bytes2long(packetBuffer + 32);
+      unsigned long transmit_stamp = bytes2long(packetBuffer + 40);
+
+      // now convert NTP time into everyday time:
+      // subtract seventy years:
+      unsigned long epoch = secsSince1900 - seventyYears;
+      uint32_t hack = epoch + timezone;
+      double expect = local_hack + (local_hack_us / 1000. + receive_ms - local_hack_ms) / 1000.;
+      //correction =  -lag_ms + last_lag_ms - dLag
+      // expect += lag_ms/2000.;
+      double got = hack + hack_us / 1e6;
+      int diff_ms = (int)((got - expect) * 1000);                        /// say diff_ms = 300 ==> refernce is 300 ms ahead of local
+      Serial.print("got - expect(ms): ");
+      Serial.println((int)(diff_ms));
+      last_update_time = current_time;
+      
+      uint32_t hack_ms = millis();
+
+      local_hack = hack;
+      local_hack_ms = hack_ms;
+      local_hack_us = hack_us;
+      last_lag_ms = lag_ms;
+    }
+    else{
+      if(millis() - ntp_request_sent_ms > 1000){
+	ntp_pending = false; // give up on this packet and request a new one
+      }
+      else{
+	ntp_pending = true; // check back later
+      }
+    }
+  }
+}
+
+// send an NTP request to the time server at the given address
+unsigned long sendNTPpacket(IPAddress& address)
+{
+  Serial.println("sending NTP packet...");
+  // set all bytes in the buffer to 0
+  memset(packetBuffer, 0, NTP_PACKET_SIZE);
+  // Initialize values needed to form NTP request
+  // (see URL above for details on the packets)
+  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
+  packetBuffer[1] = 0;     // Stratum, or type of clock
+  packetBuffer[2] = 6;     // Polling Interval
+  packetBuffer[3] = 0xEC;  // Peer Clock Precision
+  // 8 bytes of zero for Root Delay & Root Dispersion
+  packetBuffer[12]  = 49;
+  packetBuffer[13]  = 0x4E;
+  packetBuffer[14]  = 49;
+  packetBuffer[15]  = 52;
+  // 8 bytes of origin timestamp
+  packetBuffer[24] = 1;
+  packetBuffer[25] = 2;
+  packetBuffer[26] = 3;
+  packetBuffer[27] = 4;
+  packetBuffer[28] = 5;
+  packetBuffer[29] = 6;
+  packetBuffer[30] = 7;
+  packetBuffer[31] = 8;
+
+  // all NTP fields have been given values, now
+  // you can send a packet requesting a timestamp:
+  udp.beginPacket(address, 123); //NTP requests are to port 123
+  udp.write(packetBuffer, NTP_PACKET_SIZE);
+  udp.endPacket();
+}
+
+uint32_t bytes2long(byte *bytes){
+  uint32_t out = 0;
+  out = 0;
+  for(int ii=0; ii<4; ii++){
+    out |= (bytes[ii] << ((3 - ii) * 8));
+  }
+  return out;
+}
+
+void long2bytes(uint32_t l, byte *bytes){
+  for(int ii=0; ii<4; ii++){
+    bytes[ii] = (byte)(l >> (3 - ii) * 8);
+  }  
+}
+
+

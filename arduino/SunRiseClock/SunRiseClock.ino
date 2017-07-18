@@ -124,8 +124,13 @@ uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
 CRGB solidColor = CRGB::Blue;
 
+const boolean FLIP_DISPLAY = true;
 uint16_t XY( uint8_t x, uint8_t y)
 {
+  if(FLIP_DISPLAY){
+    x = 48 - x - 1;
+    y = 8 - y - 1;
+  }
   uint16_t out = 0;
   if(x < MatrixWidth && y < MatrixHeight){
     out = MatrixMap[y][x];
@@ -184,6 +189,7 @@ typedef PatternAndName PatternAndNameList[];
 #include "Map.h"
 #include "Noise.h"
 
+void clock();
 void sunrise() {
   //dimAll(240);
 
@@ -220,6 +226,7 @@ void sunrise() {
 // List of patterns to cycle through.  Each is defined as a separate function below.
 
 PatternAndNameList patterns = {
+  { clock,                  "Clock"},
   { sunrise,                "Sun Rise"},
   { pride,                  "Pride" },
   { pride2,                 "Pride 2" },
@@ -1565,6 +1572,104 @@ void palettetest( CRGB* ledarray, uint16_t numleds, const CRGBPalette16& gCurren
   fill_palette( ledarray, numleds, startindex, (256 / NUM_LEDS) + 1, gCurrentPalette, 255, LINEARBLEND);
 }
 
+
+//################################################################### 
+//  Clock Display
+//################################################################### 
+const byte digits4x8[8*10] = {
+  0x06,0x09,0x09,0x09,0x09,0x09,0x09,0x06, // 0
+  0x04,0x06,0x04,0x04,0x04,0x04,0x04,0x0e, // 1
+  0x06,0x09,0x08,0x08,0x04,0x02,0x01,0x0f, // 2
+  0x06,0x09,0x08,0x04,0x08,0x08,0x09,0x06, // 3
+  0x04,0x05,0x05,0x05,0x0f,0x04,0x04,0x04, // 4
+  0x0f,0x01,0x01,0x07,0x08,0x08,0x09,0x06, // 5
+  0x06,0x09,0x01,0x07,0x09,0x09,0x09,0x06, // 6
+  0x0f,0x08,0x08,0x04,0x02,0x01,0x01,0x01, // 7
+  0x06,0x09,0x09,0x06,0x09,0x09,0x09,0x06, // 8
+  0x06,0x09,0x09,0x09,0x0e,0x08,0x09,0x06, // 9
+};
+
+bool mask[NUM_LEDS];
+
+void togglePixelMask(uint8_t row, uint8_t col, bool b){
+  mask[XY(col, row)] = ! mask[XY(col, row)];
+}
+void setPixelMask(uint8_t row, uint8_t col, bool b){
+  if(row >= MatrixHeight){
+  }
+  else if(col >= MatrixWidth){
+  }
+  else{
+    uint16_t pos = XY(col, row);
+    if(pos < NUM_LEDS){
+      mask[pos] = b;
+    }
+  }
+}
+
+// preceed with a call to fillMask(false);
+// set mask to true where digit should light
+void digit(byte start, byte d){
+  byte row, col;
+  for(col = 0; col < 4; col++){
+    for(row = 0; row < 8; row++){
+      if((digits4x8[d * 8 + row] >> col) & 1){
+	setPixelMask(row, col + start, true);
+	setPixelMask(row, col + start + 24, true);
+      }
+      else{
+      }
+    }
+  }
+}
+
+void colen(byte col){
+  setPixelMask(2, col, true);
+  setPixelMask(3, col, true);
+  setPixelMask(5, col, true);
+  setPixelMask(6, col, true);
+  setPixelMask(2, col + 24, true);
+  setPixelMask(3, col + 24, true);
+  setPixelMask(5, col + 24, true);
+  setPixelMask(6, col + 24, true);
+}
+void displayTime(uint32_t tm){
+  uint8_t hh = (tm / 3600) % 12;
+  uint8_t mm = (tm / 60) % 60;
+  uint8_t ss = (tm) % 60;
+  if(hh > 9){
+    digit( 1, hh/10);
+  }
+  digit( 6, hh%10);
+  digit(13, mm / 10);
+  digit(18, mm % 10);
+  colen(11);
+}
+
+// set mask to all masked (b=false) or all unmasked (b = true)
+void fillMask(bool b){
+  for(int i = 0; i < NUM_LEDS; i++){
+    mask[i] = b;
+  }
+}
+
+// turn off leds where mask[i] = false
+void apply_mask(){
+  uint16_t b, k;
+  for(uint16_t i=0; i < NUM_LEDS; i++){
+    if(!mask[i]){
+      leds[i] = CRGB::Black;
+    }
+  }
+}
+
+void clock(){
+  uint32_t tm = millis() / 1000 * 60;
+  fill_solid(leds, NUM_LEDS, CRGB::White);
+  fillMask(false);
+  displayTime(tm);
+  apply_mask();
+}
 //################################################################### NTP Client
 //  NTP Client
 //################################################################### NTP Client

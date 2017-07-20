@@ -78,6 +78,10 @@ const bool MatrixSerpentineLayout = true;
 
 CRGB leds[NUM_LEDS];
 
+uint32_t current_time;
+uint32_t last_update_time = 1;
+const uint32_t NTP_UPDATE_INTERVAL = 100; // Seconds
+
 const uint8_t brightnessCount = 5;
 uint8_t brightnessMap[brightnessCount] = { 16, 32, 64, 128, 255 };
 uint8_t brightnessIndex = 0;
@@ -634,6 +638,9 @@ void loop() {
 
   // insert a delay to keep the framerate modest
   FastLED.delay(1000 / FRAMES_PER_SECOND);
+  if(current_time - last_update_time > NTP_UPDATE_INTERVAL){
+    requestNTP();
+  }
 }
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
@@ -1576,6 +1583,7 @@ void palettetest( CRGB* ledarray, uint16_t numleds, const CRGBPalette16& gCurren
 //################################################################### 
 //  Clock Display
 //################################################################### 
+
 const byte digits4x8[8*10] = {
   0x06,0x09,0x09,0x09,0x09,0x09,0x09,0x06, // 0
   0x04,0x06,0x04,0x04,0x04,0x04,0x04,0x0e, // 1
@@ -1694,8 +1702,8 @@ uint32_t local_hack = 0;
 uint32_t local_hack_ms = 0;
 uint32_t local_hack_us = 0;
 uint16_t ms_per_second = 1000;   // may change to correct clock drift
-uint32_t current_time;
-uint32_t last_update_time;
+// uint32_t current_time;     // moved to top
+// uint32_t last_update_time; // moved to top
 
 void requestNTP(){
   //get a random server from the pool
@@ -1708,12 +1716,18 @@ void requestNTP(){
     Serial.println("NTP request sent");
     ntp_request_sent_ms = millis();
     ntp_pending = true;
+    
+    int n_byte;
+    while(udp.parsePacket() == 0) delay(1000);
+    Serial.println("RECEIVED!!!");
+    while(1) delay(100);
   }
   if(millis() - ntp_request_sent_ms > 1){ // receive and parse
     ntp_pending = false;
     Serial.println("check for NTP data");
     int n_byte = udp.parsePacket();
     if(n_byte >= NTP_PACKET_SIZE) { // we have received ntp packet back!
+      Serial.println("RECEIVED!!!");
       uint32_t receive_ms = millis();
       int32_t lag_ms = receive_ms - ntp_request_sent_ms;
       Serial.print("Lag (ms):");

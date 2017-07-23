@@ -88,8 +88,9 @@ uint32_t local_hack_ms = 0;
 uint32_t local_hack_us = 0;
 uint16_t ms_per_second = 1000;   // may change to correct clock drift
 uint32_t current_time;
-uint32_t last_update_time = 1000;// larger than initialization time
-const uint32_t NTP_UPDATE_INTERVAL = 10; // Seconds
+uint32_t last_update_time = 0;// larger than initialization time
+bool clock_initialized = false;
+const uint32_t NTP_UPDATE_INTERVAL = 100; // Seconds
 
 const uint8_t brightnessCount = 5;
 uint8_t brightnessMap[brightnessCount] = { 16, 32, 64, 128, 255 };
@@ -628,7 +629,8 @@ void loop() {
   FastLED.delay(1000 / FRAMES_PER_SECOND);
 
   current_time = last_update_time + (millis() - local_hack_ms)/ms_per_second;
-  if(current_time - last_update_time > NTP_UPDATE_INTERVAL){
+  if(clock_initialized == false ||
+     (current_time - last_update_time > NTP_UPDATE_INTERVAL)){
     requestNTP();
   }
 }
@@ -1741,6 +1743,7 @@ void requestNTP(){
       Serial.println((int)(diff_ms));
       last_update_time = hack;
       current_time = last_update_time;
+      clock_initialized = true;
       
       uint32_t hack_ms = millis();
 

@@ -9,6 +9,8 @@ uint8_t sunriseLevel;
 const CRGBPalette16 sunrisePalette = HeatColors_p;
 const uint8_t centerX = MatrixWidth / 2;
 
+bool resetPattern = false;
+
 void updateSunrise() {
   EVERY_N_MILLIS(sunriseInterval) {
     if (sunriseLevel < 240) {
@@ -20,7 +22,7 @@ void updateSunrise() {
     }
   }
 
-  if (false){ // && resetPattern) {
+  if (resetPattern) {
     sunriseLevel = 0;
     sunriseIncrement = 4;
     FastLED.clear();

@@ -16,6 +16,7 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include <WiFiUdp.h>
 #include <FastLED.h>
 #include <credentials.h>
 /* ---- credentials.h ----
@@ -63,6 +64,9 @@ ESP8266WebServer webServer(80);
 WebSocketsServer webSocketsServer = WebSocketsServer(81);
 ESP8266HTTPUpdateServer httpUpdateServer;
 
+const unsigned int localPort = 2390;     // local port to listen for UDP packets
+WiFiUDP udp;
+
 #include "FSBrowser.h"
 
 #define DATA_PIN      13
@@ -78,9 +82,14 @@ const bool MatrixSerpentineLayout = true;
 
 CRGB leds[NUM_LEDS];
 
+int32_t last_lag_ms = 0;
+uint32_t local_hack = 0;
+uint32_t local_hack_ms = 0;
+uint32_t local_hack_us = 0;
+uint16_t ms_per_second = 1000;   // may change to correct clock drift
 uint32_t current_time;
-uint32_t last_update_time = 1;
-const uint32_t NTP_UPDATE_INTERVAL = 100; // Seconds
+uint32_t last_update_time = 1000;// larger than initialization time
+const uint32_t NTP_UPDATE_INTERVAL = 10; // Seconds
 
 const uint8_t brightnessCount = 5;
 uint8_t brightnessMap[brightnessCount] = { 16, 32, 64, 128, 255 };
@@ -199,7 +208,12 @@ void clock();
 
 PatternAndNameList patterns = {
   { clock,                  "Clock"},
-  { sunriseStatic,          "Sun Rise"},
+  { sunriseStatic,          "Sunrise"},
+  { sunriseFlicker,         "Sunrise Flicker"},
+  { sunriseWavesDiagonal,   "Sunrise Diagonal"},
+  { sunriseWavesVertical,   "Sunrise Waves Vertical"},
+  { sunriseWavesHorizontal, "Sunrise Waves Horizontal"},
+  { sunriseWavesRotating,   "Sunrise Waves Rotating"},
   { pride,                  "Pride" },
   { pride2,                 "Pride 2" },
   { colorWaves,             "Color Waves" },
@@ -538,6 +552,12 @@ void setup() {
   Serial.println("Web socket server started");
 
   autoPlayTimeout = millis() + (autoplayDuration * 1000);
+
+
+  Serial.println("Starting UDP");
+  udp.begin(localPort);
+  Serial.print("Local port: ");
+  Serial.println(udp.localPort());  
 }
 
 void sendInt(uint8_t value)
@@ -565,7 +585,7 @@ void broadcastString(String name, String value)
 void loop() {
   // Add entropy to random number generator; we use a lot of it.
   random16_add_entropy(random(65535));
-
+  
   webSocketsServer.loop();
   webServer.handleClient();
 
@@ -606,8 +626,10 @@ void loop() {
 
   // insert a delay to keep the framerate modest
   FastLED.delay(1000 / FRAMES_PER_SECOND);
+
+  current_time = last_update_time + (millis() - local_hack_ms)/ms_per_second;
   if(current_time - last_update_time > NTP_UPDATE_INTERVAL){
-    //requestNTP();
+    requestNTP();
   }
 }
 
@@ -1640,7 +1662,7 @@ void apply_mask(){
 }
 
 void clock(){
-  uint32_t tm = millis() / 1000 * 60;
+  uint32_t tm = current_time;
   fill_solid(leds, NUM_LEDS, CRGB::White);
   fillMask(false);
   displayTime(tm);
@@ -1650,52 +1672,40 @@ void clock(){
 //  NTP Client
 //################################################################### NTP Client
 
-#include <WiFiUdp.h>
 
 const char* ntpServerName = "time.nist.gov";
 bool ntp_pending = false;
 uint32_t ntp_request_sent_ms = 0;
-WiFiUDP udp;
 const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of the message
 byte packetBuffer[UDP_TX_PACKET_MAX_SIZE]; //buffer to hold incoming and outgoing packets
 const double LSB = 1./4294967296.;
 const unsigned long seventyYears = 2208988800UL;
 const int16_t timezone = -4 * 3600;
 const uint32_t TOLLERANCE_MS = 100;
-const unsigned int localPort = 123;      // local port to listen for UDP packets
+//const unsigned int localPort = 123;    // local port to listen for UDP packets
 
 const uint32_t MEASURED_BIAS_ms = +400;
-int32_t last_lag_ms = 0;
-uint32_t local_hack = 0;
-uint32_t local_hack_ms = 0;
-uint32_t local_hack_us = 0;
-uint16_t ms_per_second = 1000;   // may change to correct clock drift
 // uint32_t current_time;     // moved to top
 // uint32_t last_update_time; // moved to top
 
 void requestNTP(){
   //get a random server from the pool
   IPAddress nist_timeServerIP; // time.nist.gov NTP server address
-  WiFi.hostByName(ntpServerName, nist_timeServerIP); 
 
   if(!ntp_pending){ // request
+    WiFi.hostByName(ntpServerName, nist_timeServerIP); 
+    Serial.print("nist_timeServerIP:");
     Serial.println(nist_timeServerIP);
     sendNTPpacket(nist_timeServerIP); // send an NTP packet to a time server
     Serial.println("NTP request sent");
     ntp_request_sent_ms = millis();
     ntp_pending = true;
-    
-    int n_byte;
-    while(udp.parsePacket() == 0) delay(1000);
-    Serial.println("RECEIVED!!!");
-    while(1) delay(100);
   }
   if(millis() - ntp_request_sent_ms > 1){ // receive and parse
     ntp_pending = false;
     Serial.println("check for NTP data");
     int n_byte = udp.parsePacket();
     if(n_byte >= NTP_PACKET_SIZE) { // we have received ntp packet back!
-      Serial.println("RECEIVED!!!");
       uint32_t receive_ms = millis();
       int32_t lag_ms = receive_ms - ntp_request_sent_ms;
       Serial.print("Lag (ms):");
@@ -1729,7 +1739,8 @@ void requestNTP(){
       int diff_ms = (int)((got - expect) * 1000);                        /// say diff_ms = 300 ==> refernce is 300 ms ahead of local
       Serial.print("got - expect(ms): ");
       Serial.println((int)(diff_ms));
-      last_update_time = current_time;
+      last_update_time = hack;
+      current_time = last_update_time;
       
       uint32_t hack_ms = millis();
 
@@ -1740,7 +1751,7 @@ void requestNTP(){
     }
     else{
       if(millis() - ntp_request_sent_ms > 1000){
-	ntp_pending = false; // give up on this packet and request a new one
+	ntp_pending = false; // give up on this packet and requesta  new one
       }
       else{
 	ntp_pending = true; // check back later

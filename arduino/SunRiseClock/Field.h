@@ -29,8 +29,8 @@ typedef struct Field {
   String name;
   String label;
   String type;
-  uint8_t min;
-  uint8_t max;
+  int16_t min;  // tjs: changed from unt8_t to allow negative timezones
+  int16_t max;  // tjs: changed from unt8_t to allow negative timezones
   FieldGetter getValue;
   FieldGetter getOptions;
   FieldSetter setValue;
@@ -107,6 +107,7 @@ String getFieldsJson(FieldList fields, uint8_t count) {
   String json = "[";
 
   json += "{\"name\":\"power\",\"label\":\"Power\",\"type\":\"Boolean\",\"value\":" + String(power) + "},";
+  json += "{\"name\":\"timezone\",  \"label\":\"TimeZone\",  \"type\":\"Number\",\"value\":" + String(timezone) + "},";
   json += "{\"name\":\"brightness\",\"label\":\"Brightness\",\"type\":\"Number\",\"value\":" + String(brightness) + "},";
 
   json += "{\"name\":\"pattern\",\"label\":\"Pattern\",\"type\":\"Select\",\"value\":" + String(currentPatternIndex) + ",\"options\":[";

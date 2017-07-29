@@ -18,6 +18,7 @@
 
 uint8_t power = 1;
 uint8_t brightness = brightnessMap[brightnessIndex];
+int8_t timezone = -5;
 
 //String setPower(String value) {
 //  power = value.toInt();
@@ -36,6 +37,10 @@ String getPower() {
 //  else if (brightness > 255) brightness = 255;
 //  return String(brightness);
 //}
+
+String getTimeZone() {
+  return String(timezone);
+}
 
 String getBrightness() {
   return String(brightness);
@@ -107,6 +112,7 @@ String getTwinkleDensity() {
 
 FieldList fields = {
   { "power", "Power", BooleanFieldType, 0, 1, getPower },
+  { "timezone", "TimeZone", NumberFieldType, -12, 12, getTimeZone },
   { "brightness", "Brightness", NumberFieldType, 1, 255, getBrightness },
   { "pattern", "Pattern", SelectFieldType, 0, patternCount, getPattern, getPatterns },
   { "palette", "Palette", SelectFieldType, 0, paletteCount, getPalette, getPalettes },

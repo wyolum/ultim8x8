@@ -515,6 +515,12 @@ void setup() {
     sendInt(brightness);
   });
 
+  webServer.on("/timezone", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setTimeZone(value.toInt());
+    sendInt(timezone);
+  });
+
   webServer.on("/autoplay", HTTP_POST, []() {
     String value = webServer.arg("value");
     setAutoplay(value.toInt());
@@ -913,6 +919,20 @@ void loadSettings()
     currentPaletteIndex = paletteCount - 1;
 
   speed = EEPROM.read(9);
+  timezone = (int8_t)EEPROM.read(10);
+  if(-12 >= timezone){
+    timezone = 0;
+  }
+  if(12 <= timezone){
+    timezone = 0;
+  }
+  //while(1)delay(100);
+}
+
+void setTimeZone(int8_t value){
+  timezone = value;
+  EEPROM.write(10, timezone);
+  EEPROM.commit();
 }
 
 void setPower(uint8_t value)
@@ -1664,7 +1684,7 @@ void apply_mask(){
 }
 
 void clock(){
-  uint32_t tm = current_time;
+  uint32_t tm = current_time + timezone * 3600;
   fill_solid(leds, NUM_LEDS, CRGB::White);
   fillMask(false);
   displayTime(tm);
@@ -1682,7 +1702,6 @@ const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of th
 byte packetBuffer[UDP_TX_PACKET_MAX_SIZE]; //buffer to hold incoming and outgoing packets
 const double LSB = 1./4294967296.;
 const unsigned long seventyYears = 2208988800UL;
-const int16_t timezone = -4 * 3600;
 const uint32_t TOLLERANCE_MS = 100;
 //const unsigned int localPort = 123;    // local port to listen for UDP packets
 
@@ -1733,7 +1752,7 @@ void requestNTP(){
       // now convert NTP time into everyday time:
       // subtract seventy years:
       unsigned long epoch = secsSince1900 - seventyYears;
-      uint32_t hack = epoch + timezone;
+      uint32_t hack = epoch;
       double expect = local_hack + (local_hack_us / 1000. + receive_ms - local_hack_ms) / 1000.;
       //correction =  -lag_ms + last_lag_ms - dLag
       // expect += lag_ms/2000.;

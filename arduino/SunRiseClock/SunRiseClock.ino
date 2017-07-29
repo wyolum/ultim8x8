@@ -438,6 +438,12 @@ void setup() {
     sendInt(power);
   });
 
+  webServer.on("/alarm", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAlarm(value.toInt());
+    sendInt(alarm);
+  });
+
   webServer.on("/cooling", HTTP_POST, []() {
     String value = webServer.arg("value");
     cooling = value.toInt();
@@ -908,6 +914,7 @@ void loadSettings()
   }
 
   power = EEPROM.read(5);
+  alarm = EEPROM.read(11);
 
   autoplay = EEPROM.read(6);
   autoplayDuration = EEPROM.read(7);
@@ -943,6 +950,16 @@ void setPower(uint8_t value)
   EEPROM.commit();
 
   broadcastInt("power", power);
+}
+
+void setAlarm(uint8_t value)
+{
+  alarm = value == 0 ? 0 : 1;
+
+  EEPROM.write(11, alarm);
+  EEPROM.commit();
+
+  broadcastInt("alarm", alarm);
 }
 
 void setAutoplay(uint8_t value)

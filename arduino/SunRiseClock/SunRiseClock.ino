@@ -527,6 +527,18 @@ void setup() {
     sendInt(timezone);
   });
 
+  webServer.on("/alarm_minute", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAlarmMinute(value.toInt());
+    sendInt(alarm_minute);
+  });
+
+  webServer.on("/alarm_hour", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAlarmHour(value.toInt());
+    sendInt(alarm_hour);
+  });
+
   webServer.on("/autoplay", HTTP_POST, []() {
     String value = webServer.arg("value");
     setAutoplay(value.toInt());
@@ -933,12 +945,33 @@ void loadSettings()
   if(12 <= timezone){
     timezone = 0;
   }
+  alarm_hour = EEPROM.read(11);
+  if(alarm_hour > 24){
+    alarm_hour = 0;
+  }
+    
+  alarm_minute = EEPROM.read(12);
+  if(alarm_minute > 59){
+    alarm_minute = 0;
+  }
   //while(1)delay(100);
 }
 
 void setTimeZone(int8_t value){
   timezone = value;
   EEPROM.write(10, timezone);
+  EEPROM.commit();
+}
+
+void setAlarmHour(int8_t value){
+  alarm_hour = value;
+  EEPROM.write(11, alarm_hour);
+  EEPROM.commit();
+}
+
+void setAlarmMinute(int8_t value){
+  alarm_minute = value;
+  EEPROM.write(12, alarm_minute);
   EEPROM.commit();
 }
 

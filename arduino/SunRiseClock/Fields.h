@@ -20,6 +20,7 @@ uint8_t power = 1;
 uint8_t alarm = 1;
 uint8_t brightness = brightnessMap[brightnessIndex];
 int8_t timezone = -5;
+uint8_t alarm_hour, alarm_minute;
 
 //String setPower(String value) {
 //  power = value.toInt();
@@ -45,6 +46,13 @@ String getAlarm() {
 
 String getTimeZone() {
   return String(timezone);
+}
+
+String getAlarmHour() {
+  return String(alarm_hour);
+}
+String getAlarmMinute() {
+  return String(alarm_minute);
 }
 
 String getBrightness() {
@@ -119,6 +127,8 @@ FieldList fields = {
   { "power", "Power", BooleanFieldType, 0, 1, getPower },
   { "alarm", "Alarm", BooleanFieldType, 0, 1, getAlarm },
   { "timezone", "TimeZone", NumberFieldType, -12, 12, getTimeZone },
+  { "alarm_hour", "AlarmHour", NumberFieldType, 0, 24, getAlarmHour },
+  { "alarm_minute", "AlarmMinute", NumberFieldType, 0, 60, getAlarmMinute },
   { "brightness", "Brightness", NumberFieldType, 1, 255, getBrightness },
   { "pattern", "Pattern", SelectFieldType, 0, patternCount, getPattern, getPatterns },
   { "palette", "Palette", SelectFieldType, 0, paletteCount, getPalette, getPalettes },

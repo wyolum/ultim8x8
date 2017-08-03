@@ -644,6 +644,20 @@ void loop() {
     autoPlayTimeout = millis() + (autoplayDuration * 1000);
   }
 
+  if(alarm){
+    uint8_t hhmmss[3];
+    uint32_t tm = current_time + timezone * 3600;
+    uint32_t time_of_day = tm % 86400;
+    uint32_t alarm_time = alarm_hour * 3600 + alarm_minute * 60;
+    if(alarm_time == time_of_day){
+      setPatternName("Sunrise");
+      setBrightness(100);
+      Serial.println("Alarm!!");
+    }
+    if(alarm_time + 5 * 60 == time_of_day){
+      alarmOff();
+    }
+  }
   // Call the current pattern function once, updating the 'leds' array
   patterns[currentPatternIndex].pattern();
   //patterns[0].pattern();
@@ -985,10 +999,18 @@ void setPower(uint8_t value)
   broadcastInt("power", power);
 }
 
+bool alarmOff(){
+  setPatternName("Clock");
+  setBrightness(8);
+}
+
 void setAlarm(uint8_t value)
 {
+  bool orig = alarm;
   alarm = value == 0 ? 0 : 1;
-
+  if(alarm == false && orig == true){
+    alarmOff();
+  }
   EEPROM.write(11, alarm);
   EEPROM.commit();
 
@@ -1073,14 +1095,26 @@ void setPattern(uint8_t value)
   broadcastInt("pattern", currentPatternIndex);
 }
 
-void setPatternName(String name)
+bool setPatternName(String name)
 {
+  bool found = false;
   for (uint8_t i = 0; i < patternCount; i++) {
+    Serial.print(i);
+    Serial.print(" ");
+    Serial.print(patterns[i].name);
+    Serial.print(" ");
+    Serial.println(patterns[i].name == name);
     if (patterns[i].name == name) {
       setPattern(i);
+      found = true;
       break;
     }
   }
+  if(!found){
+    Serial.print("Pattern not found:");
+    Serial.println(name);
+  }
+  return found;
 }
 
 void setPalette(uint8_t value)
@@ -1703,16 +1737,20 @@ void colen(byte col){
   setPixelMask(5, col + 24, true);
   setPixelMask(6, col + 24, true);
 }
+void getHHMMSS(uint32_t tm, uint8_t *hhmmss){
+  hhmmss[0] = (tm / 3600) % 12;
+  hhmmss[1] = (tm / 60) % 60;
+  hhmmss[2] = (tm) % 60;
+}
 void displayTime(uint32_t tm){
-  uint8_t hh = (tm / 3600) % 12;
-  uint8_t mm = (tm / 60) % 60;
-  uint8_t ss = (tm) % 60;
-  if(hh > 9){
-    digit( 1, hh/10);
+  uint8_t hhmmss[3];
+  getHHMMSS(tm, hhmmss);
+  if(hhmmss[0] > 9){
+    digit( 1, hhmmss[0]/10);
   }
-  digit( 6, hh%10);
-  digit(13, mm / 10);
-  digit(18, mm % 10);
+  digit( 6, hhmmss[0]%10);
+  digit(13, hhmmss[1] / 10);
+  digit(18, hhmmss[1] % 10);
   colen(11);
 }
 

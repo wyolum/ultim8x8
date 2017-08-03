@@ -17,7 +17,10 @@
 */
 
 uint8_t power = 1;
+uint8_t alarm = 1;
 uint8_t brightness = brightnessMap[brightnessIndex];
+int8_t timezone = -5;
+uint8_t alarm_hour, alarm_minute;
 
 //String setPower(String value) {
 //  power = value.toInt();
@@ -30,12 +33,27 @@ String getPower() {
   return String(power);
 }
 
+String getAlarm() {
+  return String(alarm);
+}
+
 //String setBrightness(String value) {
 //  brightness = value.toInt();
 //  if(brightness < 0) brightness = 0;
 //  else if (brightness > 255) brightness = 255;
 //  return String(brightness);
 //}
+
+String getTimeZone() {
+  return String(timezone);
+}
+
+String getAlarmHour() {
+  return String(alarm_hour);
+}
+String getAlarmMinute() {
+  return String(alarm_minute);
+}
 
 String getBrightness() {
   return String(brightness);
@@ -107,6 +125,10 @@ String getTwinkleDensity() {
 
 FieldList fields = {
   { "power", "Power", BooleanFieldType, 0, 1, getPower },
+  { "alarm", "Alarm", BooleanFieldType, 0, 1, getAlarm },
+  { "timezone", "TimeZone", NumberFieldType, -12, 12, getTimeZone },
+  { "alarm_hour", "AlarmHour", NumberFieldType, 0, 23, getAlarmHour },
+  { "alarm_minute", "AlarmMinute", NumberFieldType, 0, 59, getAlarmMinute },
   { "brightness", "Brightness", NumberFieldType, 1, 255, getBrightness },
   { "pattern", "Pattern", SelectFieldType, 0, patternCount, getPattern, getPatterns },
   { "palette", "Palette", SelectFieldType, 0, paletteCount, getPalette, getPalettes },

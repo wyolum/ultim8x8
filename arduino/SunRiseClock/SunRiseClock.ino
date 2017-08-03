@@ -438,6 +438,12 @@ void setup() {
     sendInt(power);
   });
 
+  webServer.on("/alarm", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAlarm(value.toInt());
+    sendInt(alarm);
+  });
+
   webServer.on("/cooling", HTTP_POST, []() {
     String value = webServer.arg("value");
     cooling = value.toInt();
@@ -513,6 +519,24 @@ void setup() {
     String value = webServer.arg("value");
     setBrightness(value.toInt());
     sendInt(brightness);
+  });
+
+  webServer.on("/timezone", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setTimeZone(value.toInt());
+    sendInt(timezone);
+  });
+
+  webServer.on("/alarm_minute", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAlarmMinute(value.toInt());
+    sendInt(alarm_minute);
+  });
+
+  webServer.on("/alarm_hour", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setAlarmHour(value.toInt());
+    sendInt(alarm_hour);
   });
 
   webServer.on("/autoplay", HTTP_POST, []() {
@@ -592,6 +616,21 @@ void loop() {
 
   //  handleIrInput();
 
+  current_time = last_update_time + (millis() - local_hack_ms)/ms_per_second;
+  if(alarm){
+    uint32_t tm = current_time + timezone * 3600;
+    uint32_t time_of_day = tm % 86400;
+    uint32_t alarm_time = alarm_hour * 3600 + alarm_minute * 60;
+    //Serial.print(alarm_time);
+    //Serial.print(":");
+    //Serial.println(time_of_day);
+    if(alarm_time == time_of_day){
+      activate_alarm();
+    }
+    if(alarm_time + 5 * 60 == time_of_day){
+      deactivate_alarm();
+    }
+  }
   if (power == 0) {
     fill_solid(leds, NUM_LEDS, CRGB::Black);
     FastLED.show();
@@ -628,7 +667,6 @@ void loop() {
   // insert a delay to keep the framerate modest
   FastLED.delay(1000 / FRAMES_PER_SECOND);
 
-  current_time = last_update_time + (millis() - local_hack_ms)/ms_per_second;
   if(clock_initialized == false ||
      (current_time - last_update_time > NTP_UPDATE_INTERVAL)){
     requestNTP();
@@ -902,6 +940,7 @@ void loadSettings()
   }
 
   power = EEPROM.read(5);
+  alarm = EEPROM.read(11);
 
   autoplay = EEPROM.read(6);
   autoplayDuration = EEPROM.read(7);
@@ -913,6 +952,41 @@ void loadSettings()
     currentPaletteIndex = paletteCount - 1;
 
   speed = EEPROM.read(9);
+  timezone = (int8_t)EEPROM.read(10);
+  if(-12 >= timezone){
+    timezone = 0;
+  }
+  if(12 <= timezone){
+    timezone = 0;
+  }
+  alarm_hour = EEPROM.read(11);
+  if(alarm_hour > 24){
+    alarm_hour = 0;
+  }
+    
+  alarm_minute = EEPROM.read(12);
+  if(alarm_minute > 59){
+    alarm_minute = 0;
+  }
+  //while(1)delay(100);
+}
+
+void setTimeZone(int8_t value){
+  timezone = value;
+  EEPROM.write(10, timezone);
+  EEPROM.commit();
+}
+
+void setAlarmHour(int8_t value){
+  alarm_hour = value;
+  EEPROM.write(11, alarm_hour);
+  EEPROM.commit();
+}
+
+void setAlarmMinute(int8_t value){
+  alarm_minute = value;
+  EEPROM.write(12, alarm_minute);
+  EEPROM.commit();
 }
 
 void setPower(uint8_t value)
@@ -923,6 +997,32 @@ void setPower(uint8_t value)
   EEPROM.commit();
 
   broadcastInt("power", power);
+}
+
+void activate_alarm(){
+  setPower(true);
+  fill_solid(leds, NUM_LEDS, CRGB::Black);
+  setPatternName("Sunrise");
+  setBrightness(100);
+  Serial.println("Alarm!!");
+}
+bool deactivate_alarm(){
+  setPatternName("Clock");
+  Serial.println("Alarm!!");
+  setBrightness(8);
+}
+
+void setAlarm(uint8_t value)
+{
+  bool orig = alarm;
+  alarm = value == 0 ? 0 : 1;
+  if(alarm == false && orig == true){
+    deactivate_alarm();
+  }
+  EEPROM.write(11, alarm);
+  EEPROM.commit();
+
+  broadcastInt("alarm", alarm);
 }
 
 void setAutoplay(uint8_t value)
@@ -1003,14 +1103,26 @@ void setPattern(uint8_t value)
   broadcastInt("pattern", currentPatternIndex);
 }
 
-void setPatternName(String name)
+bool setPatternName(String name)
 {
+  bool found = false;
   for (uint8_t i = 0; i < patternCount; i++) {
+    Serial.print(i);
+    Serial.print(" ");
+    Serial.print(patterns[i].name);
+    Serial.print(" ");
+    Serial.println(patterns[i].name == name);
     if (patterns[i].name == name) {
       setPattern(i);
+      found = true;
       break;
     }
   }
+  if(!found){
+    Serial.print("Pattern not found:");
+    Serial.println(name);
+  }
+  return found;
 }
 
 void setPalette(uint8_t value)
@@ -1633,16 +1745,20 @@ void colen(byte col){
   setPixelMask(5, col + 24, true);
   setPixelMask(6, col + 24, true);
 }
+void getHHMMSS(uint32_t tm, uint8_t *hhmmss){
+  hhmmss[0] = (tm / 3600) % 24;
+  hhmmss[1] = (tm / 60) % 60;
+  hhmmss[2] = (tm) % 60;
+}
 void displayTime(uint32_t tm){
-  uint8_t hh = (tm / 3600) % 12;
-  uint8_t mm = (tm / 60) % 60;
-  uint8_t ss = (tm) % 60;
-  if(hh > 9){
-    digit( 1, hh/10);
+  uint8_t hhmmss[3];
+  getHHMMSS(tm, hhmmss);
+  if(hhmmss[0] > 9){
+    digit( 1, hhmmss[0]/10);
   }
-  digit( 6, hh%10);
-  digit(13, mm / 10);
-  digit(18, mm % 10);
+  digit( 6, hhmmss[0]%10);
+  digit(13, hhmmss[1] / 10);
+  digit(18, hhmmss[1] % 10);
   colen(11);
 }
 
@@ -1664,7 +1780,7 @@ void apply_mask(){
 }
 
 void clock(){
-  uint32_t tm = current_time;
+  uint32_t tm = current_time + timezone * 3600;
   fill_solid(leds, NUM_LEDS, CRGB::White);
   fillMask(false);
   displayTime(tm);
@@ -1682,7 +1798,6 @@ const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of th
 byte packetBuffer[UDP_TX_PACKET_MAX_SIZE]; //buffer to hold incoming and outgoing packets
 const double LSB = 1./4294967296.;
 const unsigned long seventyYears = 2208988800UL;
-const int16_t timezone = -4 * 3600;
 const uint32_t TOLLERANCE_MS = 100;
 //const unsigned int localPort = 123;    // local port to listen for UDP packets
 
@@ -1733,7 +1848,7 @@ void requestNTP(){
       // now convert NTP time into everyday time:
       // subtract seventy years:
       unsigned long epoch = secsSince1900 - seventyYears;
-      uint32_t hack = epoch + timezone;
+      uint32_t hack = epoch;
       double expect = local_hack + (local_hack_us / 1000. + receive_ms - local_hack_ms) / 1000.;
       //correction =  -lag_ms + last_lag_ms - dLag
       // expect += lag_ms/2000.;

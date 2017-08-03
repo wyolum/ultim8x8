@@ -650,6 +650,7 @@ void loop() {
     uint32_t time_of_day = tm % 86400;
     uint32_t alarm_time = alarm_hour * 3600 + alarm_minute * 60;
     if(alarm_time == time_of_day){
+      setPower(true);
       setPatternName("Sunrise");
       setBrightness(100);
       Serial.println("Alarm!!");

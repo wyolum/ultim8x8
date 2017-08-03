@@ -616,6 +616,21 @@ void loop() {
 
   //  handleIrInput();
 
+  current_time = last_update_time + (millis() - local_hack_ms)/ms_per_second;
+  if(alarm){
+    uint32_t tm = current_time + timezone * 3600;
+    uint32_t time_of_day = tm % 86400;
+    uint32_t alarm_time = alarm_hour * 3600 + alarm_minute * 60;
+    //Serial.print(alarm_time);
+    //Serial.print(":");
+    //Serial.println(time_of_day);
+    if(alarm_time == time_of_day){
+      activate_alarm();
+    }
+    if(alarm_time + 5 * 60 == time_of_day){
+      deactivate_alarm();
+    }
+  }
   if (power == 0) {
     fill_solid(leds, NUM_LEDS, CRGB::Black);
     FastLED.show();
@@ -644,21 +659,6 @@ void loop() {
     autoPlayTimeout = millis() + (autoplayDuration * 1000);
   }
 
-  if(alarm){
-    uint8_t hhmmss[3];
-    uint32_t tm = current_time + timezone * 3600;
-    uint32_t time_of_day = tm % 86400;
-    uint32_t alarm_time = alarm_hour * 3600 + alarm_minute * 60;
-    if(alarm_time == time_of_day){
-      setPower(true);
-      setPatternName("Sunrise");
-      setBrightness(100);
-      Serial.println("Alarm!!");
-    }
-    if(alarm_time + 5 * 60 == time_of_day){
-      alarmOff();
-    }
-  }
   // Call the current pattern function once, updating the 'leds' array
   patterns[currentPatternIndex].pattern();
   //patterns[0].pattern();
@@ -667,7 +667,6 @@ void loop() {
   // insert a delay to keep the framerate modest
   FastLED.delay(1000 / FRAMES_PER_SECOND);
 
-  current_time = last_update_time + (millis() - local_hack_ms)/ms_per_second;
   if(clock_initialized == false ||
      (current_time - last_update_time > NTP_UPDATE_INTERVAL)){
     requestNTP();
@@ -1000,8 +999,16 @@ void setPower(uint8_t value)
   broadcastInt("power", power);
 }
 
-bool alarmOff(){
+void activate_alarm(){
+  setPower(true);
+  fill_solid(leds, NUM_LEDS, CRGB::Black);
+  setPatternName("Sunrise");
+  setBrightness(100);
+  Serial.println("Alarm!!");
+}
+bool deactivate_alarm(){
   setPatternName("Clock");
+  Serial.println("Alarm!!");
   setBrightness(8);
 }
 
@@ -1010,7 +1017,7 @@ void setAlarm(uint8_t value)
   bool orig = alarm;
   alarm = value == 0 ? 0 : 1;
   if(alarm == false && orig == true){
-    alarmOff();
+    deactivate_alarm();
   }
   EEPROM.write(11, alarm);
   EEPROM.commit();
@@ -1739,7 +1746,7 @@ void colen(byte col){
   setPixelMask(6, col + 24, true);
 }
 void getHHMMSS(uint32_t tm, uint8_t *hhmmss){
-  hhmmss[0] = (tm / 3600) % 12;
+  hhmmss[0] = (tm / 3600) % 24;
   hhmmss[1] = (tm / 60) % 60;
   hhmmss[2] = (tm) % 60;
 }

@@ -815,6 +815,7 @@ void setDisplayClock(uint8_t value)
 void activate_alarm(){
   setPower(true);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
+  setDisplayClock(false);
   sunriseLevel = 0;
   setPatternName("Sunrise");
   setBrightness(100);

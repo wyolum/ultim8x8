@@ -12,6 +12,11 @@ ultim8x24 = MultiMapBuilder()
 ultim8x24.addRow(mapGen(8, 24, serpentine=True,
                       rotation=MatrixRotation.ROTATE_90,
                       vert_flip=False))
+## build 8x48 map
+ultim8x48 = MultiMapBuilder()
+ultim8x48.addRow(mapGen(8, 48, serpentine=True,
+                      rotation=MatrixRotation.ROTATE_90,
+                      vert_flip=False))
 
 
 ## build 8x72 map

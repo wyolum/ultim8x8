@@ -812,7 +812,15 @@ void setDisplayClock(uint8_t value)
   broadcastInt("display_clock", display_clock);
 }
 
+uint8_t saved_pattern_index;
+uint8_t saved_brightness;
+bool alarm_active = false;
 void activate_alarm(){
+  if(!alarm_active){
+    saved_pattern_index = currentPatternIndex;
+    saved_brightness = brightness;
+  }
+  alarm_active = true;
   setPower(true);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   setDisplayClock(false);
@@ -822,9 +830,13 @@ void activate_alarm(){
   Serial.println("Alarm!!");
 }
 bool deactivate_alarm(){
-  setPatternName("Solid Color");
-  setDisplayClock(true);
-  setBrightness(8);
+  if(alarm_active){
+    alarm_active = false;
+    setPattern(saved_pattern_index);
+    //setPatternName("Solid Color");
+    setDisplayClock(true);
+    setBrightness(saved_brightness);
+  }
 }
 
 void setAlarm(uint8_t value)

@@ -127,6 +127,7 @@ CRGBPalette16 gTargetPalette( gGradientPalettes[0] );
 CRGBPalette16 IceColors_p = CRGBPalette16(CRGB::Black, CRGB::Blue, CRGB::Aqua, CRGB::White);
 
 uint8_t currentPatternIndex = 0; // Index number of which pattern is current
+uint8_t clockPatternIndex = 0; // Index number of which pattern to use to dislay the clock
 uint8_t autoplay = 0;
 
 uint8_t autoplayDuration = 10;
@@ -1061,7 +1062,7 @@ void setSolidColor(uint8_t r, uint8_t g, uint8_t b)
   EEPROM.write(4, b);
   EEPROM.commit();
 
-  setPattern(patternCount - 1);
+  //setPattern(patternCount - 1);
 
   broadcastString("color", String(solidColor.r) + "," + String(solidColor.g) + "," + String(solidColor.b));
 }
@@ -1090,6 +1091,9 @@ void adjustPattern(bool up)
 
 void setPattern(uint8_t value)
 {
+  if(value == 0){
+    clockPatternIndex = currentPatternIndex;
+  }
   if (value >= patternCount)
     value = patternCount - 1;
 
@@ -1781,7 +1785,12 @@ void apply_mask(){
 
 void clock(){
   uint32_t tm = current_time + timezone * 3600;
-  fill_solid(leds, NUM_LEDS, CRGB::White);
+  if(clockPatternIndex == 0){
+    fill_solid(leds, NUM_LEDS, solidColor);
+  }
+  else{
+    patterns[clockPatternIndex].pattern();
+  }
   fillMask(false);
   displayTime(tm);
   apply_mask();

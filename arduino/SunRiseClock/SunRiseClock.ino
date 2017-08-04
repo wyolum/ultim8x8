@@ -143,8 +143,8 @@ const boolean FLIP_DISPLAY = true;
 uint16_t XY( uint8_t x, uint8_t y)
 {
   if(FLIP_DISPLAY){
-    x = 48 - x - 1;
-    y = 8 - y - 1;
+    x = MatrixWidth - x - 1;
+    y = MatrixHeight - y - 1;
   }
   uint16_t out = 0;
   if(x < MatrixWidth && y < MatrixHeight){
@@ -1003,6 +1003,7 @@ void setPower(uint8_t value)
 void activate_alarm(){
   setPower(true);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
+  sunriseLevel = 0;
   setPatternName("Sunrise");
   setBrightness(100);
   Serial.println("Alarm!!");

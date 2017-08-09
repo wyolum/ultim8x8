@@ -674,10 +674,6 @@ NoConn ~ 7775 2275
 NoConn ~ 7775 2175
 NoConn ~ 7775 2075
 NoConn ~ 7775 1975
-NoConn ~ 7775 1875
-NoConn ~ 7775 1775
-NoConn ~ 7775 1675
-NoConn ~ 7775 1575
 NoConn ~ 7775 1375
 $Comp
 L JUMPER3 JP1
@@ -1448,7 +1444,7 @@ Wire Notes Line
 Wire Notes Line
 	10950 1800 10950 900 
 $Comp
-L FeatherM0 H1
+L FeatherHuzzah H1
 U 1 1 58E305D1
 P 6675 2375
 F 0 "H1" V 6800 2825 40  0000 C CNN
@@ -1668,18 +1664,6 @@ Wire Wire Line
 	6100 1375 6475 1375
 Wire Wire Line
 	6475 1275 6100 1275
-Text Label 6100 1275 0    50   ~ 10
-A0
-Text Label 6100 1375 0    50   ~ 10
-A1
-Text Label 6100 1475 0    50   ~ 10
-A2
-Text Label 6100 1575 0    50   ~ 10
-A3
-Text Label 6100 1675 0    50   ~ 10
-A4
-Text Label 6100 1775 0    50   ~ 10
-A5
 Wire Wire Line
 	9300 2250 9300 2100
 Wire Wire Line
@@ -1687,16 +1671,6 @@ Wire Wire Line
 Connection ~ 9300 2250
 Text Label 8700 2100 0    50   ~ 10
 A0
-Text Label 8700 2375 0    50   ~ 10
-A1
-Text Label 8700 2625 0    50   ~ 10
-A2
-Text Label 8700 2875 0    50   ~ 10
-A3
-Text Label 8700 3125 0    50   ~ 10
-A4
-Text Label 8700 3375 0    50   ~ 10
-A5
 Wire Notes Line
 	8450 2000 10950 2000
 Wire Notes Line
@@ -2013,4 +1987,10 @@ Wire Wire Line
 	8550 3950 8800 3950
 Wire Wire Line
 	8550 4575 8800 4575
+NoConn ~ 6100 1275
+NoConn ~ 6100 1375
+NoConn ~ 6100 1475
+NoConn ~ 6100 1575
+NoConn ~ 6100 1675
+NoConn ~ 6100 1775
 $EndSCHEMATC

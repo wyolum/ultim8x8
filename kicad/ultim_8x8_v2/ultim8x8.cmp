@@ -1,0 +1,675 @@
+Cmp-Mod V01 Created by PcbNew   date = Sat Dec 31 13:24:13 2016
+
+BeginCmp
+TimeStamp = 552126AE
+Path = /5117961B/51168961
+Reference = C3;
+ValeurCmp = 100nF;
+IdModule  = ultim8x8_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 5521260A
+Path = /511688A7/5118AB57
+Reference = C1;
+ValeurCmp = 100nF;
+IdModule  = ultim8x8_libs:c_0805;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EB94F0
+Path = /56C5F837
+Reference = L1;
+ValeurCmp = ULTiM8x8;
+IdModule  = ultim8x8_libs:logo_ultim8x8;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EB94F6
+Path = /511CD9F8
+Reference = L2;
+ValeurCmp = OSHW;
+IdModule  = ultim8x8_libs:OSHW_6mm;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EB94FD
+Path = /511CD9F5
+Reference = L3;
+ValeurCmp = Wyolum;
+IdModule  = ultim8x8_libs:logo_wyo_butterfly;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EB9502
+Path = /56C3209A
+Reference = L4;
+ValeurCmp = Maniacal Labs;
+IdModule  = ultim8x8_libs:logo_MLlabs;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD2F7
+Path = /56EBA269
+Reference = P12;
+ValeurCmp = GND;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD2FE
+Path = /56EBA0FA
+Reference = P11;
+ValeurCmp = 5V;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD311
+Path = /56EBB43A
+Reference = P10;
+ValeurCmp = DO_H;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD312
+Path = /56EBB428
+Reference = P9;
+ValeurCmp = DI_A;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD314
+Path = /56C23A5D
+Reference = P3;
+ValeurCmp = 5V;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD315
+Path = /56C2406F
+Reference = P4;
+ValeurCmp = GND;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD316
+Path = /56EBB433
+Reference = P7;
+ValeurCmp = CI_A;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EAD317
+Path = /56EBB421
+Reference = P8;
+ValeurCmp = CO_H;
+IdModule  = ultim8x8_libs:Screw;
+EndCmp
+
+BeginCmp
+TimeStamp = 552125ED
+Path = /511688A7/5118AB5E
+Reference = C2;
+ValeurCmp = 47uF 20V;
+IdModule  = ultim8x8_libs:C_1210_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 55212691
+Path = /5117961B/5118AB61
+Reference = C4;
+ValeurCmp = 47uF 20V;
+IdModule  = ultim8x8_libs:C_1210_HandSoldering;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A7C9
+Path = /51179283/56C296F3
+Reference = U23;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE9C
+Path = /5117961B/56C06F1D
+Reference = U60;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE92
+Path = /5117961B/56C06E52
+Reference = U59;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE88
+Path = /5117954B/56C1D3BD
+Reference = U54;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE7E
+Path = /5117954B/56C1D3B5
+Reference = U53;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE6A
+Path = /51179413/56C24FF5
+Reference = U38;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE60
+Path = /51179283/56C296D3
+Reference = U19;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE56
+Path = /51178F3E/56C2B7BF
+Reference = U12;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE4C
+Path = /51178F3E/56C2B7B7
+Reference = U11;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE42
+Path = /511688A7/56C2E20C
+Reference = U06;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE38
+Path = /511688A7/56C2E204
+Reference = U05;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1AA12
+Path = /5117961B/56C07772
+Reference = U62;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1AA03
+Path = /5117961B/56C06FBB
+Reference = U61;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A9D6
+Path = /5117961B/56C06E0E
+Reference = U58;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A9C7
+Path = /5117961B/5118ABBB
+Reference = U57;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A9B8
+Path = /5117954B/56C1D3CD
+Reference = U56;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A9A9
+Path = /5117954B/56C1D3C5
+Reference = U55;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A97C
+Path = /5117954B/56C1D3AD
+Reference = U52;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A96D
+Path = /5117954B/56C1D3A5
+Reference = U51;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A95E
+Path = /5117954B/56C1D39D
+Reference = U50;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A931
+Path = /511794A8/56C21EAF
+Reference = U47;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A922
+Path = /511794A8/56C21EA7
+Reference = U46;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A913
+Path = /511794A8/56C21E9F
+Reference = U45;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A904
+Path = /511794A8/56C21E97
+Reference = U44;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A8E6
+Path = /511794A8/56C21E87
+Reference = U42;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A8D7
+Path = /511794A8/56C21E5C
+Reference = U41;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A8C8
+Path = /51179413/56C25005
+Reference = U40;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A8B9
+Path = /51179413/56C24FFD
+Reference = U39;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A89B
+Path = /51179413/56C24FED
+Reference = U37;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A88C
+Path = /51179413/56C24FE5
+Reference = U36;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A87D
+Path = /51179413/56C24FDD
+Reference = U35;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A86E
+Path = /51179413/56C24FD5
+Reference = U34;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A841
+Path = /51179344/56C2749F
+Reference = U31;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A832
+Path = /51179344/56C27497
+Reference = U30;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A823
+Path = /51179344/56C2748F
+Reference = U29;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A814
+Path = /51179344/56C27487
+Reference = U28;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A805
+Path = /51179344/56C2747F
+Reference = U27;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A7F6
+Path = /51179344/56C27477
+Reference = U26;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A7E7
+Path = /51179344/56C2744C
+Reference = U25;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A7D8
+Path = /51179283/56C296FB
+Reference = U24;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A7BA
+Path = /51179283/56C296EB
+Reference = U22;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A7AB
+Path = /51179283/56C296E3
+Reference = U21;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A79C
+Path = /51179283/56C296DB
+Reference = U20;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A77E
+Path = /51179283/56C296CB
+Reference = U18;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A751
+Path = /51178F3E/56C2B7D7
+Reference = U15;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A742
+Path = /51178F3E/56C2B7CF
+Reference = U14;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A733
+Path = /51178F3E/56C2B7C7
+Reference = U13;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A706
+Path = /51178F3E/56C2B7AF
+Reference = U10;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A6F7
+Path = /51178F3E/56C2B784
+Reference = U09;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A6E8
+Path = /511688A7/56C2E21C
+Reference = U08;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A6D9
+Path = /511688A7/56C2E214
+Reference = U07;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A69D
+Path = /511688A7/56C2E1F4
+Reference = U03;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A68E
+Path = /511688A7/56C2E1EC
+Reference = U02;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A6AC
+Path = /511688A7/56C2E1FC
+Reference = U04;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A67F
+Path = /511688A7/56C2E1C1
+Reference = U01;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A760
+Path = /51178F3E/56C2B7DF
+Reference = U16;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A76F
+Path = /51179283/56C296A0
+Reference = U17;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A850
+Path = /51179344/56C274A7
+Reference = U32;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A85F
+Path = /51179413/56C24FAA
+Reference = U33;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A940
+Path = /511794A8/56C21EB7
+Reference = U48;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1A94F
+Path = /5117954B/56C1D372
+Reference = U49;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1AA30
+Path = /5117961B/56C07914
+Reference = U64;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EACE74
+Path = /511794A8/56C21E8F
+Reference = U43;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56C1AA21
+Path = /5117961B/56C077C2
+Reference = U63;
+ValeurCmp = APA102;
+IdModule  = ultim8x8_libs:APA102;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EBAD9E
+Path = /56C0E218
+Reference = P1;
+ValeurCmp = Input1;
+IdModule  = ultim8x8_libs:header_2x2pos_th_male;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EBADC1
+Path = /56C0F3D8
+Reference = P2;
+ValeurCmp = Output1;
+IdModule  = ultim8x8_libs:header_2x2pos_th_male;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EBADE4
+Path = /56C10A4A
+Reference = P5;
+ValeurCmp = Input2;
+IdModule  = ultim8x8_libs:header_2x2pos_th_male;
+EndCmp
+
+BeginCmp
+TimeStamp = 56EBAE07
+Path = /56C121A8
+Reference = P6;
+ValeurCmp = Output2;
+IdModule  = ultim8x8_libs:header_2x2pos_th_male;
+EndCmp
+
+EndListe

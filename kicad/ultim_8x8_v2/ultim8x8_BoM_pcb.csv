@@ -1,0 +1,18 @@
+"Id";"Designator";"Package";"Quantity";"Designation";"Supplier and ref";
+1;"C3,C1";"c_0805";2;"100nF";;;
+2;"C2,C4";"c_2917";2;"47uF 20V";;;
+3;"L1";"logo_ultim8x8";1;"ULTiM8x8";;;
+4;"L2";"OSHW_6mm";1;"OSHW";;;
+5;"L3";"logo_wyo_butterfly";1;"Wyolum";;;
+6;"L4";"logo_MLlabs";1;"Maniacal Labs";;;
+7;"U63,U43,U64,U49,U48,U33,U32,U17,U16,U01,U04,U02,U03,U07,U08,U09,U10,U13,U14,U15,U18,U20,U21,U22,U24,U25,U26,U27,U28,U29,U30,U31,U34,U35,U36,U37,U39,U40,U41,U42,U44,U45,U46,U47,U50,U51,U52,U55,U56,U57,U58,U61,U62,U05,U06,U11,U12,U19,U38,U53,U54,U59,U60,U23";"APA102";64;"APA102";;;
+8;"P12,P4";"Screw";2;"GND";;;
+9;"P11,P3";"Screw";2;"5V";;;
+10;"P10";"Screw";1;"DO_H";;;
+11;"P9";"Screw";1;"DI_A";;;
+12;"P7";"Screw";1;"CI_A";;;
+13;"P8";"Screw";1;"CO_H";;;
+14;"P1";"header_3pos_th_male";1;"Input1";;;
+15;"P2";"header_3pos_th_male";1;"Output1";;;
+16;"P5";"header_3pos_th_male";1;"Input2";;;
+17;"P6";"header_3pos_th_male";1;"Output2";;;

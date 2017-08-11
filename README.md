@@ -10,9 +10,9 @@ When running at low Amps or driving a single board, the 4 pin 0.1" pitch header 
 
 ## kicad
 
-* [ultim8x8_v0](/kicad/kicad_8x8_v0) - first version, Main hardware design files. Schematic, Layout etc. (deprecated)
-* [ultim8x8_v1](/kicad/kicad_8x8_v1) - second version, Main hardware design files. Schematic, Layout etc. (deprecated)
-* [ultim8x8_v2](/kicad/kicad_8x8_v2) - third version, Main hardware design files. Schematic, Layout etc. (current)
+* [ultim8x8_v0](/kicad/ultim_8x8_v0) - first version, Main hardware design files. Schematic, Layout etc. (deprecated)
+* [ultim8x8_v1](/kicad/ultim_8x8_v1) - second version, Main hardware design files. Schematic, Layout etc. (deprecated)
+* [ultim8x8_v2](/kicad/ultim_8x8_v2) - third version, Main hardware design files. Schematic, Layout etc. (current)
 
 * [ultim_bus_v1](/kicad/ultim_bus_v1) - first version, Hardware design files for a bus bar to inter-connect ultim8x8's (deprecated)
 * [ultim_bus_v2](/kicad/ultim_bus_v2) - second version, Hardware design files for a bus bar to inter-connect ultim8x8's (deprecated)
@@ -36,9 +36,9 @@ When running at low Amps or driving a single board, the 4 pin 0.1" pitch header 
 * [featherboard_case](/fabricate/featherboard_case) - 3D CAD files for a "wireless" ultim8x8 brick
 
 
-![ultim8 top](/kicad/kicad_8x8_v2/ultim8x8_images/ultim8x8_01.png)
+![ultim8 top](/kicad/ultim_8x8_v2/ultim8x8_images/ultim8x8_01.png)
 
-![ultim8 bottom](/kicad/kicad_8x8_v2/ultim8x8_images/ultim8x8_02.png)
+![ultim8 bottom](/kicad/ultim_8x8_v2/ultim8x8_images/ultim8x8_02.png)
 
 License
 -------

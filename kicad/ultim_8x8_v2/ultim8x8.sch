@@ -54,7 +54,7 @@ U 1 1 511CD9F5
 P 10525 6250
 F 0 "L3" H 10525 6100 40  0000 C CNN
 F 1 "Wyolum" H 10425 6250 30  0001 C CNN
-F 2 "ultim8x8_libs:logo_wyo_butterfly" H 10450 6325 30  0001 C CNN
+F 2 "ultim8x8_libs:logo_wyo_butterfly_5mm" H 10450 6325 30  0001 C CNN
 F 3 "" H 10525 6250 60  0001 C CNN
 F 4 "mfr_pn" H 10525 6250 60  0001 C CNN "manf#"
 	1    10525 6250
@@ -520,7 +520,7 @@ U 1 1 56C3209A
 P 10875 6125
 F 0 "L4" H 10875 5875 40  0000 C CNN
 F 1 "Maniacal Labs" H 10775 6125 30  0001 C CNN
-F 2 "ultim8x8_libs:logo_MLlabs" H 10800 6200 30  0001 C CNN
+F 2 "ultim8x8_libs:logo_MLlabs_5mm" H 10800 6200 30  0001 C CNN
 F 3 "" H 10875 6125 60  0001 C CNN
 F 4 "mfr_pn" H 10875 6125 60  0001 C CNN "manf#"
 	1    10875 6125
@@ -560,7 +560,7 @@ U 1 1 56C5F837
 P 9325 6125
 F 0 "L1" H 9325 5850 40  0000 C CNN
 F 1 "ULTiM8x8" H 9225 6125 30  0001 C CNN
-F 2 "ultim8x8_libs:logo_ultim8x8" H 9325 6280 30  0001 C CNN
+F 2 "ultim8x8_libs:logo_ultim8x8_7mm" H 9325 6280 30  0001 C CNN
 F 3 "" H 9325 6125 60  0001 C CNN
 F 4 "mfr_pn" H 9325 6125 60  0001 C CNN "manf#"
 	1    9325 6125

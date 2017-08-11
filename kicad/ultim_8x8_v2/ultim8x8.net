@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /home/samata/projects-git/ultim8x8/kicad/ultim_8x8_v2/ultim8x8.sch)
-    (date "Thu Aug 10 21:51:49 2017")
-    (tool "Eeschema 4.0.6-e0-6349~53~ubuntu16.04.1")
+    (date "Fri Aug 11 21:36:40 2017")
+    (tool "Eeschema 4.0.7-e1-6374~58~ubuntu16.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title "ULTiM8x8 - Ultimate LED panel, using APA102")
@@ -113,7 +113,7 @@
       (tstamp 511CD9F8))
     (comp (ref L3)
       (value Wyolum)
-      (footprint ultim8x8_libs:logo_wyo_butterfly)
+      (footprint ultim8x8_libs:logo_wyo_butterfly_5mm)
       (fields
         (field (name manf#) mfr_pn))
       (libsource (lib ultim8x8_sym) (part LOGO_WL))
@@ -181,7 +181,7 @@
       (tstamp 56C2406F))
     (comp (ref L4)
       (value "Maniacal Labs")
-      (footprint ultim8x8_libs:logo_MLlabs)
+      (footprint ultim8x8_libs:logo_MLlabs_5mm)
       (fields
         (field (name manf#) mfr_pn))
       (libsource (lib ultim8x8_sym) (part LOGO_ML))
@@ -189,7 +189,7 @@
       (tstamp 56C3209A))
     (comp (ref L1)
       (value ULTiM8x8)
-      (footprint ultim8x8_libs:logo_ultim8x8)
+      (footprint ultim8x8_libs:logo_ultim8x8_7mm)
       (fields
         (field (name manf#) mfr_pn))
       (libsource (lib ultim8x8_sym) (part LOGO_U88))

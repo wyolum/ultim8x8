@@ -17,6 +17,7 @@
 */
 
 uint8_t power = 1;
+uint8_t display_clock = 1;
 uint8_t alarm = 1;
 uint8_t brightness = brightnessMap[brightnessIndex];
 int8_t timezone = -5;
@@ -31,6 +32,10 @@ uint8_t alarm_hour, alarm_minute;
 
 String getPower() {
   return String(power);
+}
+
+String getDisplayClock() {
+  return String(display_clock);
 }
 
 String getAlarm() {
@@ -125,6 +130,7 @@ String getTwinkleDensity() {
 
 FieldList fields = {
   { "power", "Power", BooleanFieldType, 0, 1, getPower },
+  { "display_clock", "Clock", BooleanFieldType, 0, 1, getDisplayClock },
   { "alarm", "Alarm", BooleanFieldType, 0, 1, getAlarm },
   { "timezone", "TimeZone", NumberFieldType, -12, 12, getTimeZone },
   { "alarm_hour", "AlarmHour", NumberFieldType, 0, 23, getAlarmHour },

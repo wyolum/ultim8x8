@@ -30,7 +30,8 @@ extern "C" {
 }
 
 //#define ULTIM24x24
-#define ULTIM16x56
+//#define ULTIM16x56
+#define ULTIM8x48
 #include <MatrixMaps.h>
 
 #include <ESP8266WiFi.h>
@@ -127,7 +128,6 @@ CRGBPalette16 gTargetPalette( gGradientPalettes[0] );
 CRGBPalette16 IceColors_p = CRGBPalette16(CRGB::Black, CRGB::Blue, CRGB::Aqua, CRGB::White);
 
 uint8_t currentPatternIndex = 0; // Index number of which pattern is current
-uint8_t clockPatternIndex = 0; // Index number of which pattern to use to dislay the clock
 uint8_t autoplay = 0;
 
 uint8_t autoplayDuration = 10;
@@ -209,7 +209,6 @@ void clock();
 // List of patterns to cycle through.  Each is defined as a separate function below.
 
 PatternAndNameList patterns = {
-  { clock,                  "Clock"},
   { sunriseStatic,          "Sunrise"},
   { sunriseFlicker,         "Sunrise Flicker"},
   { sunriseWavesDiagonal,   "Sunrise Diagonal"},
@@ -439,6 +438,12 @@ void setup() {
     sendInt(power);
   });
 
+  webServer.on("/display_clock", HTTP_POST, []() {
+    String value = webServer.arg("value");
+    setDisplayClock(value.toInt());
+    sendInt(display_clock);
+  });
+
   webServer.on("/alarm", HTTP_POST, []() {
     String value = webServer.arg("value");
     setAlarm(value.toInt());
@@ -663,6 +668,9 @@ void loop() {
   // Call the current pattern function once, updating the 'leds' array
   patterns[currentPatternIndex].pattern();
   //patterns[0].pattern();
+  if(display_clock){
+    clock();
+  }
   FastLED.show();
 
   // insert a delay to keep the framerate modest
@@ -711,213 +719,6 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length
   }
 }
 
-//void handleIrInput()
-//{
-//  InputCommand command = readCommand();
-//
-//  if (command != InputCommand::None) {
-//    Serial.print("command: ");
-//    Serial.println((int) command);
-//  }
-//
-//  switch (command) {
-//    case InputCommand::Up: {
-//        adjustPattern(true);
-//        break;
-//      }
-//    case InputCommand::Down: {
-//        adjustPattern(false);
-//        break;
-//      }
-//    case InputCommand::Power: {
-//        setPower(power == 0 ? 1 : 0);
-//        break;
-//      }
-//    case InputCommand::BrightnessUp: {
-//        adjustBrightness(true);
-//        break;
-//      }
-//    case InputCommand::BrightnessDown: {
-//        adjustBrightness(false);
-//        break;
-//      }
-//    case InputCommand::PlayMode: { // toggle pause/play
-//        setAutoplay(!autoplay);
-//        break;
-//      }
-//
-//    // pattern buttons
-//
-//    case InputCommand::Pattern1: {
-//        setPattern(0);
-//        break;
-//      }
-//    case InputCommand::Pattern2: {
-//        setPattern(1);
-//        break;
-//      }
-//    case InputCommand::Pattern3: {
-//        setPattern(2);
-//        break;
-//      }
-//    case InputCommand::Pattern4: {
-//        setPattern(3);
-//        break;
-//      }
-//    case InputCommand::Pattern5: {
-//        setPattern(4);
-//        break;
-//      }
-//    case InputCommand::Pattern6: {
-//        setPattern(5);
-//        break;
-//      }
-//    case InputCommand::Pattern7: {
-//        setPattern(6);
-//        break;
-//      }
-//    case InputCommand::Pattern8: {
-//        setPattern(7);
-//        break;
-//      }
-//    case InputCommand::Pattern9: {
-//        setPattern(8);
-//        break;
-//      }
-//    case InputCommand::Pattern10: {
-//        setPattern(9);
-//        break;
-//      }
-//    case InputCommand::Pattern11: {
-//        setPattern(10);
-//        break;
-//      }
-//    case InputCommand::Pattern12: {
-//        setPattern(11);
-//        break;
-//      }
-//
-//    // custom color adjustment buttons
-//
-//    case InputCommand::RedUp: {
-//        solidColor.red += 8;
-//        setSolidColor(solidColor);
-//        break;
-//      }
-//    case InputCommand::RedDown: {
-//        solidColor.red -= 8;
-//        setSolidColor(solidColor);
-//        break;
-//      }
-//    case InputCommand::GreenUp: {
-//        solidColor.green += 8;
-//        setSolidColor(solidColor);
-//        break;
-//      }
-//    case InputCommand::GreenDown: {
-//        solidColor.green -= 8;
-//        setSolidColor(solidColor);
-//        break;
-//      }
-//    case InputCommand::BlueUp: {
-//        solidColor.blue += 8;
-//        setSolidColor(solidColor);
-//        break;
-//      }
-//    case InputCommand::BlueDown: {
-//        solidColor.blue -= 8;
-//        setSolidColor(solidColor);
-//        break;
-//      }
-//
-//    // color buttons
-//
-//    case InputCommand::Red: {
-//        setSolidColor(CRGB::Red);
-//        break;
-//      }
-//    case InputCommand::RedOrange: {
-//        setSolidColor(CRGB::OrangeRed);
-//        break;
-//      }
-//    case InputCommand::Orange: {
-//        setSolidColor(CRGB::Orange);
-//        break;
-//      }
-//    case InputCommand::YellowOrange: {
-//        setSolidColor(CRGB::Goldenrod);
-//        break;
-//      }
-//    case InputCommand::Yellow: {
-//        setSolidColor(CRGB::Yellow);
-//        break;
-//      }
-//
-//    case InputCommand::Green: {
-//        setSolidColor(CRGB::Green);
-//        break;
-//      }
-//    case InputCommand::Lime: {
-//        setSolidColor(CRGB::Lime);
-//        break;
-//      }
-//    case InputCommand::Aqua: {
-//        setSolidColor(CRGB::Aqua);
-//        break;
-//      }
-//    case InputCommand::Teal: {
-//        setSolidColor(CRGB::Teal);
-//        break;
-//      }
-//    case InputCommand::Navy: {
-//        setSolidColor(CRGB::Navy);
-//        break;
-//      }
-//
-//    case InputCommand::Blue: {
-//        setSolidColor(CRGB::Blue);
-//        break;
-//      }
-//    case InputCommand::RoyalBlue: {
-//        setSolidColor(CRGB::RoyalBlue);
-//        break;
-//      }
-//    case InputCommand::Purple: {
-//        setSolidColor(CRGB::Purple);
-//        break;
-//      }
-//    case InputCommand::Indigo: {
-//        setSolidColor(CRGB::Indigo);
-//        break;
-//      }
-//    case InputCommand::Magenta: {
-//        setSolidColor(CRGB::Magenta);
-//        break;
-//      }
-//
-//    case InputCommand::White: {
-//        setSolidColor(CRGB::White);
-//        break;
-//      }
-//    case InputCommand::Pink: {
-//        setSolidColor(CRGB::Pink);
-//        break;
-//      }
-//    case InputCommand::LightPink: {
-//        setSolidColor(CRGB::LightPink);
-//        break;
-//      }
-//    case InputCommand::BabyBlue: {
-//        setSolidColor(CRGB::CornflowerBlue);
-//        break;
-//      }
-//    case InputCommand::LightBlue: {
-//        setSolidColor(CRGB::LightBlue);
-//        break;
-//      }
-//  }
-//}
-
 void loadSettings()
 {
   brightness = EEPROM.read(0);
@@ -941,6 +742,7 @@ void loadSettings()
   }
 
   power = EEPROM.read(5);
+  display_clock = EEPROM.read(12);
   alarm = EEPROM.read(11);
 
   autoplay = EEPROM.read(6);
@@ -1000,18 +802,41 @@ void setPower(uint8_t value)
   broadcastInt("power", power);
 }
 
+void setDisplayClock(uint8_t value)
+{
+  display_clock = value == 0 ? 0 : 1;
+
+  EEPROM.write(12, display_clock);
+  EEPROM.commit();
+
+  broadcastInt("display_clock", display_clock);
+}
+
+uint8_t saved_pattern_index;
+uint8_t saved_brightness;
+bool alarm_active = false;
 void activate_alarm(){
+  if(!alarm_active){
+    saved_pattern_index = currentPatternIndex;
+    saved_brightness = brightness;
+  }
+  alarm_active = true;
   setPower(true);
   fill_solid(leds, NUM_LEDS, CRGB::Black);
+  setDisplayClock(false);
   sunriseLevel = 0;
   setPatternName("Sunrise");
   setBrightness(100);
   Serial.println("Alarm!!");
 }
 bool deactivate_alarm(){
-  setPatternName("Clock");
-  Serial.println("Alarm!!");
-  setBrightness(8);
+  if(alarm_active){
+    alarm_active = false;
+    setPattern(saved_pattern_index);
+    //setPatternName("Solid Color");
+    setDisplayClock(true);
+    setBrightness(saved_brightness);
+  }
 }
 
 void setAlarm(uint8_t value)
@@ -1063,7 +888,7 @@ void setSolidColor(uint8_t r, uint8_t g, uint8_t b)
   EEPROM.write(4, b);
   EEPROM.commit();
 
-  //setPattern(patternCount - 1);
+  setPattern(patternCount - 1);
 
   broadcastString("color", String(solidColor.r) + "," + String(solidColor.g) + "," + String(solidColor.b));
 }
@@ -1092,9 +917,6 @@ void adjustPattern(bool up)
 
 void setPattern(uint8_t value)
 {
-  if(value == 0){
-    clockPatternIndex = currentPatternIndex;
-  }
   if (value >= patternCount)
     value = patternCount - 1;
 
@@ -1786,12 +1608,6 @@ void apply_mask(){
 
 void clock(){
   uint32_t tm = current_time + timezone * 3600;
-  if(clockPatternIndex == 0){
-    fill_solid(leds, NUM_LEDS, solidColor);
-  }
-  else{
-    patterns[clockPatternIndex].pattern();
-  }
   fillMask(false);
   displayTime(tm);
   apply_mask();

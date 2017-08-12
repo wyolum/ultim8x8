@@ -1,0 +1,685 @@
+EESchema Schematic File Version 2
+LIBS:power
+LIBS:ultim8x8_sym
+LIBS:ultim8x8-cache
+EELAYER 25 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 9
+Title "ULTiM8x8 - Ultimate LED panel, using APA102"
+Date "2016-02-18"
+Rev "rev1"
+Comp "WyoLum + Maniacal Labs"
+Comment1 "www.wyolum.com : www.maniacallabs.com"
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	1800 1325 2000 1325
+Wire Wire Line
+	1800 1525 2000 1525
+Wire Wire Line
+	1350 1525 1550 1525
+Wire Wire Line
+	3850 1550 3200 1550
+Wire Wire Line
+	3850 1250 3200 1250
+Wire Wire Line
+	3200 1400 3850 1400
+Wire Wire Line
+	5900 1250 6450 1250
+Wire Wire Line
+	975  4750 2225 4750
+Wire Wire Line
+	975  4600 975  4750
+Wire Wire Line
+	1350 1325 1550 1325
+$Comp
+L OSHW L2
+U 1 1 511CD9F8
+P 9950 5975
+F 0 "L2" H 9950 5550 40  0000 C CNN
+F 1 "OSHW" H 9850 5975 30  0001 C CNN
+F 2 "ultim8x8_libs:OSHW_6mm" H 9950 6130 30  0001 C CNN
+F 3 "" H 9950 5975 60  0001 C CNN
+F 4 "mfr_pn" H 9950 5975 60  0001 C CNN "manf#"
+	1    9950 5975
+	1    0    0    -1  
+$EndComp
+$Comp
+L LOGO_WL L3
+U 1 1 511CD9F5
+P 10525 6250
+F 0 "L3" H 10525 6100 40  0000 C CNN
+F 1 "Wyolum" H 10425 6250 30  0001 C CNN
+F 2 "ultim8x8_libs:logo_wyo_butterfly" H 10450 6325 30  0001 C CNN
+F 3 "" H 10525 6250 60  0001 C CNN
+F 4 "mfr_pn" H 10525 6250 60  0001 C CNN "manf#"
+	1    10525 6250
+	1    0    0    -1  
+$EndComp
+Text Notes 700  900  0    60   ~ 12
+Stacking Expansion Connectors\nfor creating UlTiM8 matrices
+Text Label 1800 1325 0    40   ~ 0
+GND
+Text Label 1550 1325 2    40   ~ 0
+GND
+$Sheet
+S 3850 1150 2050 500 
+U 5117961B
+F0 "Row_H" 40
+F1 "Row_H.sch" 40
+F2 "GND" I L 3850 1550 60 
+F3 "5V" I R 5900 1550 60 
+F4 "DO_H" O R 5900 1250 60 
+F5 "DI_H" I L 3850 1250 60 
+F6 "CO_H" O R 5900 1400 50 
+F7 "CI_H" I L 3850 1400 50 
+$EndSheet
+Text Label 6450 1550 2    60   ~ 0
+5V
+Text Label 3200 1250 0    60   ~ 0
+DI_H
+Text Label 3200 1550 0    60   ~ 0
+GND
+Text Label 6450 1250 2    60   ~ 0
+DO_H
+$Sheet
+S 3850 1900 2050 500 
+U 5117954B
+F0 "Row_G" 40
+F1 "Row_G.sch" 40
+F2 "GND" I L 3850 2300 60 
+F3 "5V" I R 5900 2300 60 
+F4 "DI_H" O R 5900 2000 60 
+F5 "DI_G" I L 3850 2000 60 
+F6 "CI_H" O R 5900 2150 60 
+F7 "CI_G" I L 3850 2150 60 
+$EndSheet
+$Sheet
+S 3850 2650 2050 500 
+U 511794A8
+F0 "Row_F" 40
+F1 "Row_F.sch" 40
+F2 "GND" I L 3850 3050 60 
+F3 "5V" I R 5900 3050 60 
+F4 "DI_G" O R 5900 2750 60 
+F5 "DI_F" I L 3850 2750 60 
+F6 "CI_G" O R 5900 2900 60 
+F7 "CI_F" I L 3850 2900 60 
+$EndSheet
+$Sheet
+S 3850 3400 2050 500 
+U 51179413
+F0 "Row_E" 40
+F1 "Row_E.sch" 40
+F2 "GND" I L 3850 3800 60 
+F3 "5V" I R 5900 3800 60 
+F4 "DI_F" O R 5900 3500 60 
+F5 "DI_E" I L 3850 3500 60 
+F6 "CI_F" O R 5900 3650 60 
+F7 "CI_E" I L 3850 3650 60 
+$EndSheet
+$Sheet
+S 3850 4150 2050 500 
+U 51179344
+F0 "Row_D" 40
+F1 "Row_D.sch" 40
+F2 "GND" I L 3850 4550 60 
+F3 "5V" I R 5900 4550 60 
+F4 "DI_D" I L 3850 4250 60 
+F5 "CI_D" I L 3850 4400 60 
+F6 "CI_E" O R 5900 4400 60 
+F7 "DI_E" O R 5900 4250 60 
+$EndSheet
+$Sheet
+S 3850 4900 2050 500 
+U 51179283
+F0 "Row_C" 40
+F1 "Row_C.sch" 40
+F2 "GND" I L 3850 5300 60 
+F3 "5V" I R 5900 5300 60 
+F4 "DI_C" I L 3850 5000 60 
+F5 "CI_C" I L 3850 5150 60 
+F6 "CI_D" O R 5900 5150 60 
+F7 "DI_D" O R 5900 5000 60 
+$EndSheet
+$Sheet
+S 3850 5650 2050 500 
+U 51178F3E
+F0 "Row_B" 40
+F1 "Row_B.sch" 40
+F2 "GND" I L 3850 6050 60 
+F3 "5V" I R 5900 6050 60 
+F4 "DI_B" I L 3850 5750 60 
+F5 "CI_B" I L 3850 5900 60 
+F6 "CI_C" O R 5900 5900 60 
+F7 "DI_C" O R 5900 5750 60 
+$EndSheet
+$Sheet
+S 3850 6400 2050 500 
+U 511688A7
+F0 "Row_A" 40
+F1 "Row_A.sch" 40
+F2 "GND" I L 3850 6800 60 
+F3 "DI_A" I L 3850 6500 60 
+F4 "5V" I R 5900 6800 60 
+F5 "CI_A" I L 3850 6650 60 
+F6 "CI_B" O R 5900 6650 60 
+F7 "DI_B" O R 5900 6500 60 
+$EndSheet
+$Comp
+L PWR_FLAG #FLG01
+U 1 1 50E7FAAF
+P 975 4600
+F 0 "#FLG01" H 975 4695 30  0001 C CNN
+F 1 "PWR_FLAG" H 975 4780 30  0000 C CNN
+F 2 "" H 975 4600 60  0001 C CNN
+F 3 "" H 975 4600 60  0001 C CNN
+	1    975  4600
+	1    0    0    -1  
+$EndComp
+Text Label 2225 4750 0    60   ~ 0
+5V
+Text Label 1550 2300 2    40   ~ 0
+DI_A
+Text Label 1550 2400 2    40   ~ 0
+GND
+Wire Wire Line
+	1600 2300 1350 2300
+Text Label 1800 2300 0    40   ~ 0
+DO_H
+Text Label 1800 2100 0    40   ~ 0
+GND
+Text Label 1550 1525 2    40   ~ 0
+DI_A
+Text Label 1800 1225 0    40   ~ 0
+DO_H
+Wire Wire Line
+	6450 1550 5900 1550
+Wire Wire Line
+	6450 1400 5900 1400
+Text Label 3200 1400 0    60   ~ 0
+CI_H
+Text Label 6450 1400 2    60   ~ 0
+CO_H
+Wire Wire Line
+	3850 2300 3200 2300
+Wire Wire Line
+	3850 2000 3200 2000
+Wire Wire Line
+	3200 2150 3850 2150
+Text Label 3200 2000 0    60   ~ 0
+DI_G
+Text Label 3200 2300 0    60   ~ 0
+GND
+Text Label 3200 2150 0    60   ~ 0
+CI_G
+Wire Wire Line
+	3850 3050 3200 3050
+Wire Wire Line
+	3850 2750 3200 2750
+Wire Wire Line
+	3200 2900 3850 2900
+Text Label 3200 2750 0    60   ~ 0
+DI_F
+Text Label 3200 3050 0    60   ~ 0
+GND
+Text Label 3200 2900 0    60   ~ 0
+CI_F
+Wire Wire Line
+	3850 3800 3200 3800
+Wire Wire Line
+	3850 3500 3200 3500
+Wire Wire Line
+	3200 3650 3850 3650
+Text Label 3200 3500 0    60   ~ 0
+DI_E
+Text Label 3200 3800 0    60   ~ 0
+GND
+Text Label 3200 3650 0    60   ~ 0
+CI_E
+Wire Wire Line
+	3850 4550 3200 4550
+Wire Wire Line
+	3850 4250 3200 4250
+Wire Wire Line
+	3200 4400 3850 4400
+Text Label 3200 4250 0    60   ~ 0
+DI_D
+Text Label 3200 4550 0    60   ~ 0
+GND
+Text Label 3200 4400 0    60   ~ 0
+CI_D
+Wire Wire Line
+	3850 5300 3200 5300
+Wire Wire Line
+	3850 5000 3200 5000
+Wire Wire Line
+	3200 5150 3850 5150
+Text Label 3200 5000 0    60   ~ 0
+DI_C
+Text Label 3200 5300 0    60   ~ 0
+GND
+Text Label 3200 5150 0    60   ~ 0
+CI_C
+Wire Wire Line
+	3850 6050 3200 6050
+Wire Wire Line
+	3850 5750 3200 5750
+Wire Wire Line
+	3200 5900 3850 5900
+Text Label 3200 5750 0    60   ~ 0
+DI_B
+Text Label 3200 6050 0    60   ~ 0
+GND
+Text Label 3200 5900 0    60   ~ 0
+CI_B
+Wire Wire Line
+	3850 6800 3200 6800
+Wire Wire Line
+	3850 6500 3200 6500
+Wire Wire Line
+	3200 6650 3850 6650
+Text Label 3200 6500 0    60   ~ 0
+DI_A
+Text Label 3200 6800 0    60   ~ 0
+GND
+Text Label 3200 6650 0    60   ~ 0
+CI_A
+Wire Wire Line
+	5900 2000 6450 2000
+Text Label 6450 2300 2    60   ~ 0
+5V
+Wire Wire Line
+	6450 2300 5900 2300
+Wire Wire Line
+	6450 2150 5900 2150
+Wire Wire Line
+	5900 2750 6450 2750
+Text Label 6450 3050 2    60   ~ 0
+5V
+Wire Wire Line
+	6450 3050 5900 3050
+Wire Wire Line
+	6450 2900 5900 2900
+Wire Wire Line
+	5900 3500 6450 3500
+Text Label 6450 3800 2    60   ~ 0
+5V
+Wire Wire Line
+	6450 3800 5900 3800
+Wire Wire Line
+	6450 3650 5900 3650
+Wire Wire Line
+	5900 4250 6450 4250
+Text Label 6450 4550 2    60   ~ 0
+5V
+Wire Wire Line
+	6450 4550 5900 4550
+Wire Wire Line
+	6450 4400 5900 4400
+Wire Wire Line
+	5900 5000 6450 5000
+Text Label 6450 5300 2    60   ~ 0
+5V
+Wire Wire Line
+	6450 5300 5900 5300
+Wire Wire Line
+	6450 5150 5900 5150
+Wire Wire Line
+	5900 5750 6450 5750
+Text Label 6450 6050 2    60   ~ 0
+5V
+Text Label 6450 5750 2    60   ~ 0
+DI_C
+Wire Wire Line
+	6450 6050 5900 6050
+Wire Wire Line
+	6450 5900 5900 5900
+Text Label 6450 5900 2    60   ~ 0
+CI_C
+Wire Wire Line
+	5900 6500 6450 6500
+Text Label 6450 6800 2    60   ~ 0
+5V
+Wire Wire Line
+	6450 6800 5900 6800
+Wire Wire Line
+	6450 6650 5900 6650
+Wire Wire Line
+	1750 1425 2000 1425
+Wire Wire Line
+	1350 1425 1600 1425
+Text Label 1550 1425 2    40   ~ 0
+CI_A
+Text Label 1800 1425 0    40   ~ 0
+CO_H
+Text Label 1800 2400 0    40   ~ 0
+CO_H
+Text Label 1525 2100 2    40   ~ 0
+CI_A
+Wire Wire Line
+	975  5250 2225 5250
+Wire Wire Line
+	975  5100 975  5350
+$Comp
+L GND #PWR02
+U 1 1 56C3FF09
+P 975 5350
+F 0 "#PWR02" H 975 5100 50  0001 C CNN
+F 1 "GND" H 975 5200 50  0000 C CNN
+F 2 "" H 975 5350 50  0000 C CNN
+F 3 "" H 975 5350 50  0000 C CNN
+	1    975  5350
+	1    0    0    -1  
+$EndComp
+Text Label 2225 5250 0    60   ~ 0
+GND
+$Comp
+L PWR_FLAG #FLG03
+U 1 1 56C40925
+P 975 5100
+F 0 "#FLG03" H 975 5195 30  0001 C CNN
+F 1 "PWR_FLAG" H 975 5280 30  0000 C CNN
+F 2 "" H 975 5100 60  0001 C CNN
+F 3 "" H 975 5100 60  0001 C CNN
+	1    975  5100
+	1    0    0    -1  
+$EndComp
+Connection ~ 975  5250
+$Comp
+L CONN4_S P1
+U 1 1 56C0E218
+P 1000 1375
+F 0 "P1" H 1000 1125 40  0000 C CNB
+F 1 "Input1" H 1000 1625 40  0000 C CNN
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 1000 1325 60  0001 C CNN
+F 3 "" H 1000 1325 60  0000 C CNN
+F 4 "Value" H 1000 1375 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 1000 1425 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 1000 1525 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 1000 1625 60  0001 L CNN "Field6"
+	1    1000 1375
+	-1   0    0    1   
+$EndComp
+$Comp
+L CONN4_S P2
+U 1 1 56C0F3D8
+P 2350 1375
+F 0 "P2" H 2350 1125 40  0000 C CNB
+F 1 "Output1" H 2350 1625 40  0000 C CNN
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 2350 1325 60  0001 C CNN
+F 3 "" H 2350 1325 60  0000 C CNN
+F 4 "Value" H 2350 1375 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 2350 1425 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 2350 1525 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 2350 1625 60  0001 L CNN "Field6"
+	1    2350 1375
+	1    0    0    1   
+$EndComp
+$Comp
+L CONN4_S P5
+U 1 1 56C10A4A
+P 1000 2250
+F 0 "P5" H 1000 2000 40  0000 C CNB
+F 1 "Input2" H 1000 2500 40  0000 C CNN
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 1000 2200 60  0001 C CNN
+F 3 "" H 1000 2200 60  0000 C CNN
+F 4 "Value" H 1000 2250 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 1000 2300 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 1000 2400 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 1000 2500 60  0001 L CNN "Field6"
+	1    1000 2250
+	-1   0    0    -1  
+$EndComp
+$Comp
+L CONN4_S P6
+U 1 1 56C121A8
+P 2350 2250
+F 0 "P6" H 2350 2000 40  0000 C CNB
+F 1 "Output2" H 2350 2500 40  0000 C CNN
+F 2 "ultim8x8_libs:header_2x2pos_th_male" H 2350 2200 60  0001 C CNN
+F 3 "" H 2350 2200 60  0000 C CNN
+F 4 "Value" H 2350 2250 60  0001 C CNN "manf#"
+F 5 "CONN HEADER 50POS .100\" SGL GOLD" H 2350 2300 60  0001 L CNN "Field4"
+F 6 "Header, Unshrouded, Male pin," H 2350 2400 60  0001 L CNN "Field5"
+F 7 "0.1\"" H 2350 2500 60  0001 L CNN "Field6"
+	1    2350 2250
+	1    0    0    -1  
+$EndComp
+Text Label 6450 6500 2    60   ~ 0
+DI_B
+Text Label 6450 6650 2    60   ~ 0
+CI_B
+Text Label 6450 5000 2    60   ~ 0
+DI_D
+Text Label 6450 5150 2    60   ~ 0
+CI_D
+Text Label 6450 4250 2    60   ~ 0
+DI_E
+Text Label 6450 4400 2    60   ~ 0
+CI_E
+Text Label 6450 3500 2    60   ~ 0
+DI_F
+Text Label 6450 3650 2    60   ~ 0
+CI_F
+Text Label 6450 2750 2    60   ~ 0
+DI_G
+Text Label 6450 2900 2    60   ~ 0
+CI_G
+Text Label 6450 2000 2    60   ~ 0
+DI_H
+Text Label 6450 2150 2    60   ~ 0
+CI_H
+$Comp
+L CONN_1 P3
+U 1 1 56C23A5D
+P 1300 4475
+F 0 "P3" V 1375 4400 40  0000 L CNB
+F 1 "5V" H 1300 4530 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1300 4475 60  0001 C CNN
+F 3 "" H 1300 4475 60  0000 C CNN
+F 4 "mfr_pn" H 1300 4475 60  0001 C CNN "manf#"
+	1    1300 4475
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P4
+U 1 1 56C2406F
+P 1300 4975
+F 0 "P4" V 1375 4900 40  0000 L CNB
+F 1 "GND" H 1300 5030 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1300 4975 60  0001 C CNN
+F 3 "" H 1300 4975 60  0000 C CNN
+F 4 "mfr_pn" H 1300 4975 60  0001 C CNN "manf#"
+	1    1300 4975
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1300 4625 1300 4750
+Connection ~ 1300 4750
+Wire Wire Line
+	1300 5125 1300 5250
+Connection ~ 1300 5250
+Text Notes 9075 5475 0    60   ~ 12
+LOGOS
+Text Notes 700  3950 0    60   ~ 12
+POWER INPUT POSTS
+Text Notes 2000 2875 0    60   ~ 12
+DATA/CLK\nOUTPUTS
+Text Notes 900  2875 0    60   ~ 12
+DATA/CLK\nINPUTS
+Text Notes 2850 900  0    60   ~ 12
+8 strips of 8 LEDs each (8x8)
+$Comp
+L LOGO_ML L4
+U 1 1 56C3209A
+P 10875 6125
+F 0 "L4" H 10875 5875 40  0000 C CNN
+F 1 "Maniacal Labs" H 10775 6125 30  0001 C CNN
+F 2 "ultim8x8_libs:logo_MLlabs" H 10800 6200 30  0001 C CNN
+F 3 "" H 10875 6125 60  0001 C CNN
+F 4 "mfr_pn" H 10875 6125 60  0001 C CNN "manf#"
+	1    10875 6125
+	1    0    0    -1  
+$EndComp
+Wire Notes Line
+	700  900  2700 900 
+Wire Notes Line
+	2700 900  2700 2900
+Wire Notes Line
+	2700 2900 700  2900
+Wire Notes Line
+	700  2900 700  900 
+Wire Notes Line
+	700  3950 2700 3950
+Wire Notes Line
+	2700 3950 2700 5950
+Wire Notes Line
+	2700 5950 700  5950
+Wire Notes Line
+	700  5950 700  3950
+Wire Notes Line
+	9075 5475 11075 5475
+Wire Notes Line
+	11075 5475 11075 6475
+Wire Notes Line
+	11075 6475 9075 6475
+Wire Notes Line
+	9075 6475 9075 5475
+Wire Notes Line
+	2850 900  6850 900 
+Wire Notes Line
+	6850 900  6850 7100
+Wire Notes Line
+	6850 7100 2850 7100
+Wire Notes Line
+	2850 7100 2850 900 
+$Comp
+L LOGO_U88 L1
+U 1 1 56C5F837
+P 9325 6125
+F 0 "L1" H 9325 5850 40  0000 C CNN
+F 1 "ULTiM8x8" H 9225 6125 30  0001 C CNN
+F 2 "ultim8x8_libs:logo_ultim8x8" H 9325 6280 30  0001 C CNN
+F 3 "" H 9325 6125 60  0001 C CNN
+F 4 "mfr_pn" H 9325 6125 60  0001 C CNN "manf#"
+	1    9325 6125
+	1    0    0    -1  
+$EndComp
+$Comp
+L CONN_1 P11
+U 1 1 56EBA0FA
+P 1700 4475
+F 0 "P11" V 1775 4400 40  0000 L CNB
+F 1 "5V" H 1700 4530 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1700 4475 60  0001 C CNN
+F 3 "" H 1700 4475 60  0000 C CNN
+F 4 "mfr_pn" H 1700 4475 60  0001 C CNN "manf#"
+	1    1700 4475
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P12
+U 1 1 56EBA269
+P 1700 4975
+F 0 "P12" V 1775 4900 40  0000 L CNB
+F 1 "GND" H 1700 5030 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1700 4975 60  0001 C CNN
+F 3 "" H 1700 4975 60  0000 C CNN
+F 4 "mfr_pn" H 1700 4975 60  0001 C CNN "manf#"
+	1    1700 4975
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1700 4625 1700 4750
+Connection ~ 1700 4750
+Wire Wire Line
+	1700 5125 1700 5250
+Connection ~ 1700 5250
+$Comp
+L CONN_1 P8
+U 1 1 56EBB421
+P 1750 1050
+F 0 "P8" V 1825 975 40  0000 L CNB
+F 1 "CO_H" H 1750 1105 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1750 1050 60  0001 C CNN
+F 3 "" H 1750 1050 60  0000 C CNN
+F 4 "mfr_pn" H 1750 1050 60  0001 C CNN "manf#"
+	1    1750 1050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P9
+U 1 1 56EBB428
+P 1600 1825
+F 0 "P9" V 1675 1750 40  0000 L CNB
+F 1 "DI_A" H 1600 1880 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1600 1825 60  0001 C CNN
+F 3 "" H 1600 1825 60  0000 C CNN
+F 4 "mfr_pn" H 1600 1825 60  0001 C CNN "manf#"
+	1    1600 1825
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P7
+U 1 1 56EBB433
+P 1600 1050
+F 0 "P7" V 1675 975 40  0000 L CNB
+F 1 "CI_A" H 1600 1105 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1600 1050 60  0001 C CNN
+F 3 "" H 1600 1050 60  0000 C CNN
+F 4 "mfr_pn" H 1600 1050 60  0001 C CNN "manf#"
+	1    1600 1050
+	0    -1   -1   0   
+$EndComp
+$Comp
+L CONN_1 P10
+U 1 1 56EBB43A
+P 1750 1825
+F 0 "P10" V 1825 1750 40  0000 L CNB
+F 1 "DO_H" H 1750 1880 30  0001 C CNN
+F 2 "ultim8x8_libs:Screw" H 1750 1825 60  0001 C CNN
+F 3 "" H 1750 1825 60  0000 C CNN
+F 4 "mfr_pn" H 1750 1825 60  0001 C CNN "manf#"
+	1    1750 1825
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	1750 1200 1750 1425
+Wire Wire Line
+	1600 1425 1600 1200
+Wire Wire Line
+	1750 1975 1750 2300
+Wire Wire Line
+	1600 1975 1600 2300
+Wire Wire Line
+	1550 1225 1350 1225
+Wire Wire Line
+	1800 1225 2000 1225
+Wire Wire Line
+	1800 2400 2000 2400
+Wire Wire Line
+	1550 2400 1350 2400
+Text Label 1525 2200 2    40   ~ 0
+5V
+Text Label 1800 2200 0    40   ~ 0
+5V
+Text Label 1800 1525 0    40   ~ 0
+5V
+Text Label 1550 1225 2    40   ~ 0
+5V
+Wire Wire Line
+	1800 2100 2000 2100
+Wire Wire Line
+	1525 2100 1350 2100
+Wire Wire Line
+	1750 2300 2000 2300
+Wire Wire Line
+	1525 2200 1350 2200
+Wire Wire Line
+	1800 2200 2000 2200
+$EndSCHEMATC

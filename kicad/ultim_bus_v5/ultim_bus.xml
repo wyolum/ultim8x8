@@ -1,0 +1,1343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="D">
+  <design>
+    <source>/home/anool/projects-git/ultim8x8/kicad/ultim_bus_v3/ultim_bus.sch</source>
+    <date>Sat May  6 16:38:32 2017</date>
+    <tool>Eeschema 4.0.6-e0-6349~53~ubuntu16.04.1</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>ULTiM8x8 Bus Board</title>
+        <company>Maniacal Labs &amp; WyoLum</company>
+        <rev>2.0</rev>
+        <date>2016-10-29</date>
+        <source>ultim_bus.sch</source>
+        <comment number="1" value="connect three ULTiM8x8 panels + one Feather M0 + six switches"/>
+        <comment number="2" value=""/>
+        <comment number="3" value="www.wyolum.com"/>
+        <comment number="4" value="www.maniacallabs.com"/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="P1">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C5F93F</tstamp>
+    </comp>
+    <comp ref="P2">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C5FA4D</tstamp>
+    </comp>
+    <comp ref="P3">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C5FA73</tstamp>
+    </comp>
+    <comp ref="P4">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C5FA9C</tstamp>
+    </comp>
+    <comp ref="P5">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C5FAC8</tstamp>
+    </comp>
+    <comp ref="P6">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C5FAF7</tstamp>
+    </comp>
+    <comp ref="P7">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C60213</tstamp>
+    </comp>
+    <comp ref="P8">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C60219</tstamp>
+    </comp>
+    <comp ref="P9">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6021F</tstamp>
+    </comp>
+    <comp ref="P10">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C60225</tstamp>
+    </comp>
+    <comp ref="P11">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6022B</tstamp>
+    </comp>
+    <comp ref="P12">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C60231</tstamp>
+    </comp>
+    <comp ref="P14">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B68F</tstamp>
+    </comp>
+    <comp ref="P15">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B695</tstamp>
+    </comp>
+    <comp ref="P16">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B69B</tstamp>
+    </comp>
+    <comp ref="P17">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6A1</tstamp>
+    </comp>
+    <comp ref="P18">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6A7</tstamp>
+    </comp>
+    <comp ref="P19">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6AD</tstamp>
+    </comp>
+    <comp ref="P20">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6BE</tstamp>
+    </comp>
+    <comp ref="P21">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6C4</tstamp>
+    </comp>
+    <comp ref="P22">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6CA</tstamp>
+    </comp>
+    <comp ref="P23">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6D0</tstamp>
+    </comp>
+    <comp ref="P24">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6D6</tstamp>
+    </comp>
+    <comp ref="P25">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6B6DC</tstamp>
+    </comp>
+    <comp ref="P27">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BA98</tstamp>
+    </comp>
+    <comp ref="P28">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BA9E</tstamp>
+    </comp>
+    <comp ref="P29">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAA4</tstamp>
+    </comp>
+    <comp ref="P30">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAAA</tstamp>
+    </comp>
+    <comp ref="P31">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAB0</tstamp>
+    </comp>
+    <comp ref="P32">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAB6</tstamp>
+    </comp>
+    <comp ref="P33">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAC7</tstamp>
+    </comp>
+    <comp ref="P34">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BACD</tstamp>
+    </comp>
+    <comp ref="P35">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAD3</tstamp>
+    </comp>
+    <comp ref="P36">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAD9</tstamp>
+    </comp>
+    <comp ref="P37">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BADF</tstamp>
+    </comp>
+    <comp ref="P38">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6BAE5</tstamp>
+    </comp>
+    <comp ref="P40">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED2D</tstamp>
+    </comp>
+    <comp ref="P41">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED33</tstamp>
+    </comp>
+    <comp ref="P42">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED39</tstamp>
+    </comp>
+    <comp ref="P43">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED3F</tstamp>
+    </comp>
+    <comp ref="P44">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED45</tstamp>
+    </comp>
+    <comp ref="P45">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED4B</tstamp>
+    </comp>
+    <comp ref="P46">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED5C</tstamp>
+    </comp>
+    <comp ref="P47">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED62</tstamp>
+    </comp>
+    <comp ref="P48">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED68</tstamp>
+    </comp>
+    <comp ref="P49">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED6E</tstamp>
+    </comp>
+    <comp ref="P50">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED74</tstamp>
+    </comp>
+    <comp ref="P51">
+      <value>CONN_1</value>
+      <footprint>ultim_bus:Screw_SqPad</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="CONN_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C6ED7A</tstamp>
+    </comp>
+    <comp ref="M2">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C79A4E</tstamp>
+    </comp>
+    <comp ref="M6">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-2.54mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C79CD4</tstamp>
+    </comp>
+    <comp ref="M9">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C7A031</tstamp>
+    </comp>
+    <comp ref="M13">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-2.54mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C7A051</tstamp>
+    </comp>
+    <comp ref="M16">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>56C7A069</tstamp>
+    </comp>
+    <comp ref="JP1">
+      <value>PWR_SEL</value>
+      <footprint>ultim_bus:switch_spdt</footprint>
+      <libsource lib="ultim_bus" part="JUMPER3"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E11449</tstamp>
+    </comp>
+    <comp ref="v1">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E205F2</tstamp>
+    </comp>
+    <comp ref="v2">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E21D7E</tstamp>
+    </comp>
+    <comp ref="v3">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E21F83</tstamp>
+    </comp>
+    <comp ref="v4">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E21F9A</tstamp>
+    </comp>
+    <comp ref="v5">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E223A1</tstamp>
+    </comp>
+    <comp ref="v6">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E223B8</tstamp>
+    </comp>
+    <comp ref="v7">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E223CF</tstamp>
+    </comp>
+    <comp ref="v8">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E223E6</tstamp>
+    </comp>
+    <comp ref="v9">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E22DA9</tstamp>
+    </comp>
+    <comp ref="v10">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E22DC0</tstamp>
+    </comp>
+    <comp ref="v11">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E22DD7</tstamp>
+    </comp>
+    <comp ref="v12">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E22DEE</tstamp>
+    </comp>
+    <comp ref="M3">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2924C</tstamp>
+    </comp>
+    <comp ref="M4">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E29254</tstamp>
+    </comp>
+    <comp ref="M10">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E29844</tstamp>
+    </comp>
+    <comp ref="M11">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2984C</tstamp>
+    </comp>
+    <comp ref="M17">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E29EEC</tstamp>
+    </comp>
+    <comp ref="M18">
+      <value>MouseBite</value>
+      <footprint>ultim_bus:mouse-bite-5.08mm-slot</footprint>
+      <fields>
+        <field name="manf#">Value</field>
+      </fields>
+      <libsource lib="ultim_bus" part="Mouse_Bite"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E29EF4</tstamp>
+    </comp>
+    <comp ref="S1">
+      <value>SPST-M-2</value>
+      <footprint>ultim_bus:SW_SMD</footprint>
+      <libsource lib="ultim_bus" part="SPST-M-2"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2F144</tstamp>
+    </comp>
+    <comp ref="H1">
+      <value>Feather_M0</value>
+      <footprint>ultim_bus:FEATHER_M0_2</footprint>
+      <libsource lib="ultim_bus" part="FeatherM0"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E305D1</tstamp>
+    </comp>
+    <comp ref="S2">
+      <value>SPST-M-2</value>
+      <footprint>ultim_bus:SW_SMD</footprint>
+      <libsource lib="ultim_bus" part="SPST-M-2"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E217C7</tstamp>
+    </comp>
+    <comp ref="S3">
+      <value>SPST-M-2</value>
+      <footprint>ultim_bus:SW_SMD</footprint>
+      <libsource lib="ultim_bus" part="SPST-M-2"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E221A3</tstamp>
+    </comp>
+    <comp ref="S4">
+      <value>SPST-M-2</value>
+      <footprint>ultim_bus:SW_SMD</footprint>
+      <libsource lib="ultim_bus" part="SPST-M-2"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E222DA</tstamp>
+    </comp>
+    <comp ref="S5">
+      <value>SPST-M-2</value>
+      <footprint>ultim_bus:SW_SMD</footprint>
+      <libsource lib="ultim_bus" part="SPST-M-2"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E224D0</tstamp>
+    </comp>
+    <comp ref="S6">
+      <value>SPST-M-2</value>
+      <footprint>ultim_bus:SW_SMD</footprint>
+      <libsource lib="ultim_bus" part="SPST-M-2"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E226CB</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>10k</value>
+      <footprint>ultim_bus:r_0805</footprint>
+      <libsource lib="ultim_bus" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E22B6D</tstamp>
+    </comp>
+    <comp ref="R2">
+      <value>10k</value>
+      <footprint>ultim_bus:r_0805</footprint>
+      <libsource lib="ultim_bus" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E232A6</tstamp>
+    </comp>
+    <comp ref="R3">
+      <value>10k</value>
+      <footprint>ultim_bus:r_0805</footprint>
+      <libsource lib="ultim_bus" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E233EC</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>10k</value>
+      <footprint>ultim_bus:r_0805</footprint>
+      <libsource lib="ultim_bus" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2365E</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>10k</value>
+      <footprint>ultim_bus:r_0805</footprint>
+      <libsource lib="ultim_bus" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E237AA</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>10k</value>
+      <footprint>ultim_bus:r_0805</footprint>
+      <libsource lib="ultim_bus" part="R_Small"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2395E</tstamp>
+    </comp>
+    <comp ref="L2">
+      <value>OSHW</value>
+      <footprint>ultim_bus:OSHW_6mm</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="OSHW"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2609A</tstamp>
+    </comp>
+    <comp ref="L1">
+      <value>OSHW</value>
+      <footprint>ultim_bus:OSHW_6mm</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="OSHW"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E27240</tstamp>
+    </comp>
+    <comp ref="L8">
+      <value>LOGO_ML</value>
+      <footprint>ultim_bus:logo_MLlabs_small</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="LOGO_ML"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2BEC1</tstamp>
+    </comp>
+    <comp ref="L7">
+      <value>LOGO_ML</value>
+      <footprint>ultim_bus:logo_MLlabs_small</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="LOGO_ML"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2C259</tstamp>
+    </comp>
+    <comp ref="L3">
+      <value>LOGO_WL</value>
+      <footprint>ultim_bus:logo_wyo_butterfly_small</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="LOGO_WL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2C9FB</tstamp>
+    </comp>
+    <comp ref="L4">
+      <value>LOGO_WL</value>
+      <footprint>ultim_bus:logo_wyo_butterfly_small</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="LOGO_WL"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2CAD7</tstamp>
+    </comp>
+    <comp ref="L12">
+      <value>LOGO_U88</value>
+      <footprint>ultim_bus:logo_ultim8x8_small</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="LOGO_U88"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2CBB3</tstamp>
+    </comp>
+    <comp ref="L11">
+      <value>LOGO_U88</value>
+      <footprint>ultim_bus:logo_ultim8x8_small</footprint>
+      <fields>
+        <field name="manf#">mfr_pn</field>
+      </fields>
+      <libsource lib="ultim_bus" part="LOGO_U88"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58E2CC8F</tstamp>
+    </comp>
+    <comp ref="v13">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58EA7A8E</tstamp>
+    </comp>
+    <comp ref="v14">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58EA7BF5</tstamp>
+    </comp>
+    <comp ref="v15">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58EA7DB8</tstamp>
+    </comp>
+    <comp ref="v16">
+      <value>via_0.8x9</value>
+      <footprint>ultim_bus:via_0.8x9</footprint>
+      <libsource lib="ultim_bus" part="via_0.8x9"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>58EA7F21</tstamp>
+    </comp>
+    <comp ref="C1">
+      <value>470uF 10V</value>
+      <footprint>ultim_bus:cap_pol_rad3</footprint>
+      <libsource lib="ultim_bus" part="C_POL_1"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>590E51F0</tstamp>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="ultim_bus" part="CONN_1">
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">CONN_1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ultim_bus" part="C_POL_1">
+      <footprints>
+        <fp>SM*</fp>
+        <fp>C?</fp>
+        <fp>C1-1</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">C_POL_1</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+" type="passive"/>
+        <pin num="2" name="-" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ultim_bus" part="FeatherM0">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">FeatherM0</field>
+      </fields>
+      <pins>
+        <pin num="1" name="SDA" type="passive"/>
+        <pin num="2" name="SCL" type="passive"/>
+        <pin num="3" name="5~~" type="passive"/>
+        <pin num="4" name="6" type="passive"/>
+        <pin num="5" name="9~~" type="passive"/>
+        <pin num="6" name="10~~" type="passive"/>
+        <pin num="7" name="11~~" type="passive"/>
+        <pin num="8" name="12" type="passive"/>
+        <pin num="9" name="13" type="passive"/>
+        <pin num="10" name="USB" type="passive"/>
+        <pin num="11" name="En" type="passive"/>
+        <pin num="12" name="BAT" type="passive"/>
+        <pin num="13" name="RST" type="passive"/>
+        <pin num="14" name="3V" type="passive"/>
+        <pin num="15" name="Aref" type="passive"/>
+        <pin num="16" name="GND" type="passive"/>
+        <pin num="17" name="A0" type="passive"/>
+        <pin num="18" name="A1" type="passive"/>
+        <pin num="19" name="A2" type="passive"/>
+        <pin num="20" name="A3" type="passive"/>
+        <pin num="21" name="A4" type="passive"/>
+        <pin num="22" name="A5" type="passive"/>
+        <pin num="23" name="SCK" type="passive"/>
+        <pin num="24" name="MOSI" type="passive"/>
+        <pin num="25" name="MISO" type="passive"/>
+        <pin num="26" name="RX0" type="passive"/>
+        <pin num="27" name="TX1" type="passive"/>
+        <pin num="28" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ultim_bus" part="JUMPER3">
+      <fields>
+        <field name="Reference">JP</field>
+        <field name="Value">JUMPER3</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="passive"/>
+        <pin num="2" name="2" type="passive"/>
+        <pin num="3" name="3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ultim_bus" part="LOGO_ML">
+      <fields>
+        <field name="Reference">#G</field>
+        <field name="Value">LOGO_ML</field>
+      </fields>
+    </libpart>
+    <libpart lib="ultim_bus" part="LOGO_U88">
+      <fields>
+        <field name="Reference">#G</field>
+        <field name="Value">LOGO_U88</field>
+      </fields>
+    </libpart>
+    <libpart lib="ultim_bus" part="LOGO_WL">
+      <fields>
+        <field name="Reference">#G</field>
+        <field name="Value">LOGO_WL</field>
+      </fields>
+    </libpart>
+    <libpart lib="ultim_bus" part="Mouse_Bite">
+      <fields>
+        <field name="Reference">P</field>
+        <field name="Value">Mouse_Bite</field>
+      </fields>
+    </libpart>
+    <libpart lib="ultim_bus" part="OSHW">
+      <fields>
+        <field name="Reference">#G</field>
+        <field name="Value">OSHW</field>
+      </fields>
+    </libpart>
+    <libpart lib="ultim_bus" part="R_Small">
+      <footprints>
+        <fp>Resistor_*</fp>
+        <fp>R_*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">R_Small</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ultim_bus" part="SPST-M-2">
+      <fields>
+        <field name="Reference">S</field>
+        <field name="Value">SPST-M-2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="passive"/>
+        <pin num="2" name="~" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="ultim_bus" part="via_0.8x9">
+      <fields>
+        <field name="Reference">v</field>
+        <field name="Value">via_0.8x9</field>
+      </fields>
+      <pins>
+        <pin num="1" name="1" type="input"/>
+        <pin num="2" name="2" type="input"/>
+        <pin num="3" name="3" type="input"/>
+        <pin num="4" name="4" type="input"/>
+        <pin num="5" name="5" type="input"/>
+        <pin num="6" name="6" type="input"/>
+        <pin num="7" name="7" type="input"/>
+        <pin num="8" name="8" type="input"/>
+        <pin num="9" name="9" type="input"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries>
+    <library logical="ultim_bus">
+      <uri>/home/anool/projects-git/ultim8x8/kicad/ultim_bus_v3/ultimbus_libs/ultim_bus.lib</uri>
+    </library>
+  </libraries>
+  <nets>
+    <net code="1" name="Net-(H1-Pad1)">
+      <node ref="H1" pin="1"/>
+    </net>
+    <net code="2" name="Net-(H1-Pad2)">
+      <node ref="H1" pin="2"/>
+    </net>
+    <net code="3" name="Net-(H1-Pad3)">
+      <node ref="H1" pin="3"/>
+    </net>
+    <net code="4" name="Net-(H1-Pad4)">
+      <node ref="H1" pin="4"/>
+    </net>
+    <net code="5" name="/DAT2">
+      <node ref="v12" pin="5"/>
+      <node ref="v12" pin="6"/>
+      <node ref="v12" pin="7"/>
+      <node ref="v12" pin="8"/>
+      <node ref="v12" pin="9"/>
+      <node ref="P29" pin="1"/>
+      <node ref="P30" pin="1"/>
+      <node ref="P31" pin="1"/>
+      <node ref="P32" pin="1"/>
+      <node ref="v12" pin="3"/>
+      <node ref="v12" pin="4"/>
+      <node ref="v12" pin="1"/>
+      <node ref="v12" pin="2"/>
+    </net>
+    <net code="6" name="Net-(H1-Pad5)">
+      <node ref="H1" pin="5"/>
+    </net>
+    <net code="7" name="/A2">
+      <node ref="R3" pin="1"/>
+      <node ref="H1" pin="19"/>
+      <node ref="S3" pin="1"/>
+    </net>
+    <net code="8" name="Net-(H1-Pad6)">
+      <node ref="H1" pin="6"/>
+    </net>
+    <net code="9" name="Net-(H1-Pad7)">
+      <node ref="H1" pin="7"/>
+    </net>
+    <net code="10" name="Net-(H1-Pad8)">
+      <node ref="H1" pin="8"/>
+    </net>
+    <net code="11" name="Net-(H1-Pad9)">
+      <node ref="H1" pin="9"/>
+    </net>
+    <net code="12" name="/A3">
+      <node ref="H1" pin="20"/>
+      <node ref="R4" pin="1"/>
+      <node ref="S4" pin="1"/>
+    </net>
+    <net code="13" name="Net-(H1-Pad11)">
+      <node ref="H1" pin="11"/>
+    </net>
+    <net code="14" name="/A4">
+      <node ref="S5" pin="1"/>
+      <node ref="H1" pin="21"/>
+      <node ref="R5" pin="1"/>
+    </net>
+    <net code="15" name="/A5">
+      <node ref="R6" pin="1"/>
+      <node ref="S6" pin="1"/>
+      <node ref="H1" pin="22"/>
+    </net>
+    <net code="16" name="Net-(H1-Pad13)">
+      <node ref="H1" pin="13"/>
+    </net>
+    <net code="17" name="Net-(H1-Pad14)">
+      <node ref="H1" pin="14"/>
+    </net>
+    <net code="18" name="Net-(H1-Pad15)">
+      <node ref="H1" pin="15"/>
+    </net>
+    <net code="19" name="Net-(H1-Pad25)">
+      <node ref="H1" pin="25"/>
+    </net>
+    <net code="20" name="Net-(H1-Pad26)">
+      <node ref="H1" pin="26"/>
+    </net>
+    <net code="21" name="/A0">
+      <node ref="S1" pin="1"/>
+      <node ref="R1" pin="1"/>
+      <node ref="H1" pin="17"/>
+    </net>
+    <net code="22" name="Net-(H1-Pad27)">
+      <node ref="H1" pin="27"/>
+    </net>
+    <net code="23" name="/A1">
+      <node ref="S2" pin="1"/>
+      <node ref="H1" pin="18"/>
+      <node ref="R2" pin="1"/>
+    </net>
+    <net code="24" name="Net-(H1-Pad28)">
+      <node ref="H1" pin="28"/>
+    </net>
+    <net code="25" name="/CLK2">
+      <node ref="v9" pin="5"/>
+      <node ref="v9" pin="4"/>
+      <node ref="v9" pin="7"/>
+      <node ref="v9" pin="9"/>
+      <node ref="v9" pin="8"/>
+      <node ref="v9" pin="2"/>
+      <node ref="v9" pin="6"/>
+      <node ref="v9" pin="3"/>
+      <node ref="v9" pin="1"/>
+      <node ref="P19" pin="1"/>
+      <node ref="P18" pin="1"/>
+      <node ref="P17" pin="1"/>
+      <node ref="P16" pin="1"/>
+    </net>
+    <net code="26" name="/DAT">
+      <node ref="v16" pin="2"/>
+      <node ref="v16" pin="1"/>
+      <node ref="v16" pin="3"/>
+      <node ref="P37" pin="1"/>
+      <node ref="P28" pin="1"/>
+      <node ref="P27" pin="1"/>
+      <node ref="P38" pin="1"/>
+      <node ref="v16" pin="9"/>
+      <node ref="v16" pin="8"/>
+      <node ref="v16" pin="7"/>
+      <node ref="v16" pin="6"/>
+      <node ref="v16" pin="5"/>
+      <node ref="v16" pin="4"/>
+      <node ref="v10" pin="9"/>
+      <node ref="v10" pin="8"/>
+      <node ref="v10" pin="7"/>
+      <node ref="v10" pin="6"/>
+      <node ref="v10" pin="5"/>
+      <node ref="H1" pin="24"/>
+      <node ref="v10" pin="1"/>
+      <node ref="v10" pin="4"/>
+      <node ref="v10" pin="3"/>
+      <node ref="v10" pin="2"/>
+    </net>
+    <net code="27" name="/CLK1">
+      <node ref="v8" pin="1"/>
+      <node ref="P23" pin="1"/>
+      <node ref="P22" pin="1"/>
+      <node ref="P21" pin="1"/>
+      <node ref="P20" pin="1"/>
+      <node ref="v8" pin="3"/>
+      <node ref="v8" pin="9"/>
+      <node ref="v8" pin="8"/>
+      <node ref="v8" pin="7"/>
+      <node ref="v8" pin="6"/>
+      <node ref="v8" pin="5"/>
+      <node ref="v8" pin="2"/>
+      <node ref="v8" pin="4"/>
+    </net>
+    <net code="28" name="/DAT1">
+      <node ref="v11" pin="3"/>
+      <node ref="v11" pin="1"/>
+      <node ref="v11" pin="9"/>
+      <node ref="v11" pin="8"/>
+      <node ref="v11" pin="7"/>
+      <node ref="P36" pin="1"/>
+      <node ref="v11" pin="6"/>
+      <node ref="v11" pin="5"/>
+      <node ref="v11" pin="4"/>
+      <node ref="v11" pin="2"/>
+      <node ref="P35" pin="1"/>
+      <node ref="P34" pin="1"/>
+      <node ref="P33" pin="1"/>
+    </net>
+    <net code="29" name="/VBAT">
+      <node ref="H1" pin="12"/>
+      <node ref="JP1" pin="1"/>
+    </net>
+    <net code="30" name="/VUSB">
+      <node ref="H1" pin="10"/>
+      <node ref="JP1" pin="3"/>
+    </net>
+    <net code="31" name="/5V">
+      <node ref="v3" pin="2"/>
+      <node ref="P1" pin="1"/>
+      <node ref="v3" pin="9"/>
+      <node ref="v3" pin="8"/>
+      <node ref="v3" pin="7"/>
+      <node ref="v3" pin="6"/>
+      <node ref="v3" pin="5"/>
+      <node ref="v3" pin="4"/>
+      <node ref="v3" pin="3"/>
+      <node ref="v1" pin="8"/>
+      <node ref="P11" pin="1"/>
+      <node ref="P2" pin="1"/>
+      <node ref="P3" pin="1"/>
+      <node ref="P4" pin="1"/>
+      <node ref="P5" pin="1"/>
+      <node ref="P6" pin="1"/>
+      <node ref="P7" pin="1"/>
+      <node ref="P8" pin="1"/>
+      <node ref="P9" pin="1"/>
+      <node ref="P10" pin="1"/>
+      <node ref="v2" pin="8"/>
+      <node ref="v2" pin="9"/>
+      <node ref="v2" pin="2"/>
+      <node ref="v1" pin="1"/>
+      <node ref="JP1" pin="2"/>
+      <node ref="v1" pin="2"/>
+      <node ref="v1" pin="3"/>
+      <node ref="v1" pin="4"/>
+      <node ref="v1" pin="5"/>
+      <node ref="v1" pin="6"/>
+      <node ref="v1" pin="7"/>
+      <node ref="v1" pin="9"/>
+      <node ref="v3" pin="1"/>
+      <node ref="P12" pin="1"/>
+      <node ref="v2" pin="1"/>
+      <node ref="v2" pin="3"/>
+      <node ref="v2" pin="4"/>
+      <node ref="v2" pin="5"/>
+      <node ref="v2" pin="6"/>
+      <node ref="v2" pin="7"/>
+      <node ref="v13" pin="3"/>
+      <node ref="v13" pin="1"/>
+      <node ref="v13" pin="4"/>
+      <node ref="C1" pin="1"/>
+      <node ref="v13" pin="7"/>
+      <node ref="v13" pin="6"/>
+      <node ref="v13" pin="8"/>
+      <node ref="v13" pin="9"/>
+      <node ref="v13" pin="2"/>
+      <node ref="v13" pin="5"/>
+      <node ref="R1" pin="2"/>
+      <node ref="R3" pin="2"/>
+      <node ref="R2" pin="2"/>
+      <node ref="R4" pin="2"/>
+      <node ref="R5" pin="2"/>
+      <node ref="R6" pin="2"/>
+    </net>
+    <net code="32" name="/CLK">
+      <node ref="v15" pin="8"/>
+      <node ref="v15" pin="9"/>
+      <node ref="v15" pin="7"/>
+      <node ref="v15" pin="5"/>
+      <node ref="v15" pin="4"/>
+      <node ref="v15" pin="3"/>
+      <node ref="v15" pin="2"/>
+      <node ref="v15" pin="1"/>
+      <node ref="v15" pin="6"/>
+      <node ref="H1" pin="23"/>
+      <node ref="v7" pin="5"/>
+      <node ref="v7" pin="1"/>
+      <node ref="v7" pin="2"/>
+      <node ref="v7" pin="3"/>
+      <node ref="v7" pin="4"/>
+      <node ref="v7" pin="6"/>
+      <node ref="v7" pin="7"/>
+      <node ref="v7" pin="8"/>
+      <node ref="v7" pin="9"/>
+      <node ref="P25" pin="1"/>
+      <node ref="P14" pin="1"/>
+      <node ref="P15" pin="1"/>
+      <node ref="P24" pin="1"/>
+    </net>
+    <net code="33" name="/GND">
+      <node ref="P40" pin="1"/>
+      <node ref="P42" pin="1"/>
+      <node ref="P41" pin="1"/>
+      <node ref="v14" pin="6"/>
+      <node ref="C1" pin="2"/>
+      <node ref="P44" pin="1"/>
+      <node ref="v14" pin="1"/>
+      <node ref="P43" pin="1"/>
+      <node ref="v14" pin="9"/>
+      <node ref="v14" pin="8"/>
+      <node ref="v14" pin="7"/>
+      <node ref="v14" pin="5"/>
+      <node ref="v14" pin="4"/>
+      <node ref="v14" pin="3"/>
+      <node ref="v14" pin="2"/>
+      <node ref="H1" pin="16"/>
+      <node ref="S6" pin="2"/>
+      <node ref="S5" pin="2"/>
+      <node ref="S4" pin="2"/>
+      <node ref="S3" pin="2"/>
+      <node ref="S2" pin="2"/>
+      <node ref="S1" pin="2"/>
+      <node ref="v4" pin="2"/>
+      <node ref="P47" pin="1"/>
+      <node ref="v4" pin="9"/>
+      <node ref="v4" pin="1"/>
+      <node ref="v4" pin="3"/>
+      <node ref="v4" pin="4"/>
+      <node ref="v4" pin="5"/>
+      <node ref="v4" pin="6"/>
+      <node ref="v4" pin="7"/>
+      <node ref="v4" pin="8"/>
+      <node ref="v5" pin="3"/>
+      <node ref="v5" pin="6"/>
+      <node ref="v5" pin="1"/>
+      <node ref="v5" pin="2"/>
+      <node ref="v5" pin="4"/>
+      <node ref="v5" pin="5"/>
+      <node ref="v5" pin="7"/>
+      <node ref="v5" pin="8"/>
+      <node ref="v5" pin="9"/>
+      <node ref="v6" pin="1"/>
+      <node ref="v6" pin="3"/>
+      <node ref="v6" pin="2"/>
+      <node ref="v6" pin="4"/>
+      <node ref="v6" pin="5"/>
+      <node ref="v6" pin="6"/>
+      <node ref="v6" pin="7"/>
+      <node ref="v6" pin="8"/>
+      <node ref="v6" pin="9"/>
+      <node ref="P50" pin="1"/>
+      <node ref="P49" pin="1"/>
+      <node ref="P48" pin="1"/>
+      <node ref="P46" pin="1"/>
+      <node ref="P45" pin="1"/>
+      <node ref="P51" pin="1"/>
+    </net>
+  </nets>
+</export>

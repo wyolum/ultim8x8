@@ -107,6 +107,7 @@ String getFieldsJson(FieldList fields, uint8_t count) {
   String json = "[";
 
   json += "{\"name\":\"power\",\"label\":\"Power\",\"type\":\"Boolean\",\"value\":" + String(power) + "},";
+  json += "{\"name\":\"display_clock\",\"label\":\"Clock\",\"type\":\"Boolean\",\"value\":" + String(display_clock) + "},";
   json += "{\"name\":\"timezone\",  \"label\":\"TimeZone\",  \"type\":\"Number\",\"value\":" + String(timezone) + "},";
   json += "{\"name\":\"alarm_hour\",  \"label\":\"AlarmHour\",  \"type\":\"Number\",\"value\":" + String(alarm_hour) + "},";
   json += "{\"name\":\"alarm_minute\",  \"label\":\"AlarmMinute\",  \"type\":\"Number\",\"value\":" + String(alarm_minute) + "},";

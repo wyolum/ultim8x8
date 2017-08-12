@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name ultim8x8_libs)(type KiCad)(uri "$(KIPRJMOD)/ultim8x8_libs.pretty")(options "")(descr ""))
-)

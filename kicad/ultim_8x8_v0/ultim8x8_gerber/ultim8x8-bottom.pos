@@ -1,0 +1,18 @@
+### Module positions - created on Wed Feb 24 14:55:16 2016 ###
+### Printed by Pcbnew version kicad 4.0.2-4+6225~38~ubuntu15.04.1-stable
+## Unit = mm, Angle = deg.
+## Side : bottom
+# Ref     Val            Package                    PosX       PosY       Rot  Side
+C1        100nF          c_0805                  27.9400    30.4800   90.0000  bottom
+C2        47uF 20V       c_2917                  16.5100    30.4800  270.0000  bottom
+C3        100nF          c_0805                  33.0200    30.4800   90.0000  bottom
+C4        47uF 20V       c_2917                  44.4500    30.4800  270.0000  bottom
+L1        ULTiM8x8       logo_ultim8x8           30.4800    38.1000  180.0000  bottom
+L2        OSHW           OSHW_6mm                30.4800    25.4000  180.0000  bottom
+L3        Wyolum         logo_wyo_butterfly      46.9900    15.2400  180.0000  bottom
+L4        Maniacal Labs  logo_MLlabs             15.4940    53.7210  180.0000  bottom
+P1        Input1         header_3pos_smd_male     7.6200    38.1000  180.0000  bottom
+P2        Output1        header_3pos_smd_male    53.3400    38.1000  180.0000  bottom
+P5        Input2         header_3pos_smd_male    30.4800     7.6200  270.0000  bottom
+P6        Output2        header_3pos_smd_male    30.4800    53.3400  270.0000  bottom
+## End

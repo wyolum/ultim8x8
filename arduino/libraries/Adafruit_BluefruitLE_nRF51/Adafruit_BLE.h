@@ -67,10 +67,10 @@ class Adafruit_BLE : public Adafruit_ATParser
       BLUEFRUIT_TRANSPORT_SWSPI,
     };
 
-
 //    uint8_t  _mode;
 //    uint16_t _timeout;
     uint8_t  _physical_transport;
+    uint32_t _reset_started_timestamp;
 
   public:
     typedef void (*midiRxCallback_t) (uint16_t timestamp, uint8_t status, uint8_t byte1, uint8_t byte2);
@@ -78,18 +78,11 @@ class Adafruit_BLE : public Adafruit_ATParser
     // Constructor
     Adafruit_BLE(void);
 
-    // Physical transportation checking
-    bool isTransportHwUart (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_HWUART; }
-    bool isTransportSwUart (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_SWUART; }
-    bool isTransportUart   (void) { return isTransportHwUart() || isTransportSwUart();        }
-
-    bool isTransportHwSpi  (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_HWSPI;  }
-    bool isTransportSwSpi  (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_SWSPI;  }
-    bool isTransportSpi    (void) { return isTransportHwSpi() || isTransportSwSpi();          }
-
     // Functions implemented in this base class
-    bool reset(void);
-    bool factoryReset(void);
+    bool reset(boolean blocking = true);
+    bool factoryReset(boolean blocking = true);
+    bool resetCompleted(void);
+
     void info(void);
     bool echo(bool enable);
 
@@ -107,6 +100,12 @@ class Adafruit_BLE : public Adafruit_ATParser
     bool readNVM(uint16_t offset, char  * str   , uint16_t size);
     bool readNVM(uint16_t offset, int32_t* number);
 
+    // helper with bleuart
+    int writeBLEUart(uint8_t const * buffer, int size);
+    int writeBLEUart(char const * str) { return writeBLEUart( (uint8_t const*) str, strlen(str)); }
+
+    int readBLEUart(uint8_t* buffer, int size);
+
 
     // No parameters
     bool sendCommandCheckOK(const __FlashStringHelper *cmd) { return this->atcommand(cmd); }
@@ -115,10 +114,23 @@ class Adafruit_BLE : public Adafruit_ATParser
     bool sendCommandWithIntReply(const __FlashStringHelper *cmd, int32_t *reply) { return this->atcommandIntReply(cmd, reply); }
     bool sendCommandWithIntReply(const char cmd[]              , int32_t *reply) { return this->atcommandIntReply(cmd, reply); }
 
+    // Physical transportation checking
+    bool isTransportHwUart (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_HWUART; }
+    bool isTransportSwUart (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_SWUART; }
+    bool isTransportUart   (void) { return isTransportHwUart() || isTransportSwUart();        }
+
+    bool isTransportHwSpi  (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_HWSPI;  }
+    bool isTransportSwSpi  (void) { return _physical_transport == BLUEFRUIT_TRANSPORT_SWSPI;  }
+    bool isTransportSpi    (void) { return isTransportHwSpi() || isTransportSwSpi();          }
+
     /////////////////////
     // callback functions
     /////////////////////
     void update(uint32_t period_ms = 200);
+    void handleDfuIrq(void)
+    {
+      this->update(0);
+    }
 
     void setDisconnectCallback( void (*fp) (void) );
     void setConnectCallback   ( void (*fp) (void) );
@@ -139,5 +151,26 @@ class Adafruit_BLE : public Adafruit_ATParser
 
     void (*_ble_gatt_rx_callback) (int32_t chars_id, uint8_t data[], uint16_t len);
 };
+
+//--------------------------------------------------------------------+
+// DEBUG HELPER
+//--------------------------------------------------------------------+
+#ifndef DBG_ENABLE
+#define DBG_ENABLE      0
+#endif
+
+#if DBG_ENABLE
+  #define DBG_LOCATION()  Serial.printf("%s: %d: \r\n", __PRETTY_FUNCTION__, __LINE__)
+  #define DBG_INT(x)      do { Serial.print(#x " = "); Serial.println(x); } while(0)
+  #define DBG_HEX(x)      do { Serial.print(#x " = "); Serial.println(x, HEX); } while(0)
+  #define DBG_STR(x)      Serial.printf(#x " = %s\r\n", (char*)(x) )
+  #define DBG_BUFFER(buf, n) \
+    do {\
+      uint8_t* p8 = (uint8_t*) (buf);\
+      Serial.print(#buf ": ");\
+      for(uint32_t i=0; i<(n); i++) Serial.printf("%02x ", p8[i]);\
+      Serial.print("\r\n");\
+    }while(0)
+#endif
 
 #endif /* _Adafruit_BLE_H_ */

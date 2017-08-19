@@ -1,10 +1,10 @@
-%TF.GenerationSoftware,KiCad,Pcbnew,4.0.6-e0-6349~53~ubuntu16.04.1*%
-%TF.CreationDate,2017-05-18T16:40:30+05:30*%
+%TF.GenerationSoftware,KiCad,Pcbnew,4.0.7-e0-6372~58~ubuntu16.04.1*%
+%TF.CreationDate,2017-08-19T17:26:02+05:30*%
 %TF.ProjectId,ultim_bus_conn,756C74696D5F6275735F636F6E6E2E6B,rev?*%
 %TF.FileFunction,Soldermask,Top*%
 %FSLAX46Y46*%
 G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
-G04 Created by KiCad (PCBNEW 4.0.6-e0-6349~53~ubuntu16.04.1) date Thu May 18 16:40:30 2017*
+G04 Created by KiCad (PCBNEW 4.0.7-e0-6372~58~ubuntu16.04.1) date Sat Aug 19 17:26:02 2017*
 %MOMM*%
 %LPD*%
 G01*

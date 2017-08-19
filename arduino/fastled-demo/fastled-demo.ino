@@ -25,8 +25,8 @@ FASTLED_USING_NAMESPACE
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
-#define DATA_PIN      SCK
-#define CLK_PIN       MOSI
+#define DATA_PIN      11
+#define CLK_PIN       13
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
 #define MatrixWidth   24

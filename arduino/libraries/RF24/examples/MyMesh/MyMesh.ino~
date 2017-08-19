@@ -1,6 +1,0 @@
-#include <SPI.h>
-#include "RF24.h"
-
-/****************** User Config ***************************/
-bool radioNumber = 0; // 0, 1, 2, 3, 4, 5, 6, or 7
-

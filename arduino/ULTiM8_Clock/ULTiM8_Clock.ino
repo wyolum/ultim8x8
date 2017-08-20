@@ -1,9 +1,9 @@
 #include <Wire.h>
 #include "RTClib.h"
 #include "font8x16.h"
-#include "font4x8.h"
+// #include "font4x8.h"
 #include "pixel_font.h"
-#include "font8x8.h"
+// #include "font8x8.h"
 #include "font5x8.h"
 //#include "fatty7x16.h"
 #include <FastLED.h>
@@ -159,9 +159,9 @@ void setPixel(uint8_t row, uint8_t col, const struct CRGB & color){
   }
 }
 
-PixelFont Font4x8 = PixelFont(4, 8, 8, font4x8, setPixel);
+// PixelFont Font5x8 = PixelFont(5, 8, 8, font5x8, setPixel);
 PixelFont Font5x8 = PixelFont(5, 8, 8, font5x8, setPixel);
-PixelFont Font8x8 = PixelFont(8, 8, 8, font8x8, setPixel);
+// PixelFont Font8x8 = PixelFont(8, 8, 8, font8x8, setPixel);
 
 CRGB getPixel(int16_t row, int16_t col){
   CRGB out = CRGB::Black;

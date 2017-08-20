@@ -59,7 +59,7 @@
     #define FACTORYRESET_ENABLE     1
 
     #define PIN                     5
-    #define NUMPIXELS               16
+    #define NUMPIXELS               1
 /*=========================================================================*/
 
 Adafruit_NeoPixel pixel = Adafruit_NeoPixel(NUMPIXELS, PIN);

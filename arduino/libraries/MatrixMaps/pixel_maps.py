@@ -52,13 +52,13 @@ ultim48x24.addRow(mapGen(8, 24, serpentine=True,
                   rotation=MatrixRotation.ROTATE_90,
                   y_flip=False))
 ultim48x24.addRow(mapGen(8, 24, serpentine=True,
-                  rotation=MatrixRotation.ROTATE_90,
-                  y_flip=False))
-ultim48x24.addRow(mapGen(8, 24, serpentine=True,
                   rotation=MatrixRotation.ROTATE_270,
                   y_flip=False))
 ultim48x24.addRow(mapGen(8, 24, serpentine=True,
                   rotation=MatrixRotation.ROTATE_90,
+                  y_flip=False))
+ultim48x24.addRow(mapGen(8, 24, serpentine=True,
+                  rotation=MatrixRotation.ROTATE_270,
                   y_flip=False))
 
 ## build 16x56 array map

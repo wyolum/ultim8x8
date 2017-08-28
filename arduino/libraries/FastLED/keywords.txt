@@ -109,7 +109,6 @@ triwave8	KEYWORD2
 quadwave8	KEYWORD2
 cubicwave8	KEYWORD2
 sqrt16	KEYWORD2
-blend8	KEYWORD2
 
 # Color util methods
 blend	KEYWORD2

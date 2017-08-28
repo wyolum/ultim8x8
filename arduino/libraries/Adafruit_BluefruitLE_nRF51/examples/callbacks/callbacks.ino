@@ -92,7 +92,7 @@ Adafruit_BluefruitLE_SPI ble(BLUEFRUIT_SPI_CS, BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_
 //                             BLUEFRUIT_SPI_IRQ, BLUEFRUIT_SPI_RST);
 
 int32_t charid_string;
-int32_t charid_dec;
+int32_t charid_number;
 
 // A small helper
 void error(const __FlashStringHelper*err) {
@@ -127,11 +127,11 @@ void BleGattRX(int32_t chars_id, uint8_t data[], uint16_t len)
   {  
     Serial.write(data, len);
     Serial.println();
-  }else if (chars_id == charid_dec)
+  }else if (chars_id == charid_number)
   {
     int32_t val;
     memcpy(&val, data, len);
-    Serial.print(val);
+    Serial.println(val);
   }
 }
 
@@ -147,7 +147,7 @@ void setup(void)
   delay(500);
 
   Serial.begin(115200);
-  Serial.println(F("Adafruit Bluefruit AT Command Example"));
+  Serial.println(F("Adafruit Bluefruit Callbacks Example"));
   Serial.println(F("-------------------------------------"));
 
   /* Initialise the module */
@@ -172,10 +172,11 @@ void setup(void)
   {
     error( F("Callback requires at least 0.7.0") );
   }
-  
+
+  Serial.println( F("Adding Service 0x1234 with 2 chars 0x2345 & 0x6789") );
   ble.sendCommandCheckOK( F("AT+GATTADDSERVICE=uuid=0x1234") );
-  ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x2345,PROPERTIES=0x08,MIN_LEN=1,MAX_LEN=6,DATATYPE=string,VALUE=abc"), &charid_string);
-  ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x3456,PROPERTIES=0x08,MIN_LEN=4,MAX_LEN=4,DATATYPE=INTEGER,VALUE=0"), &charid_dec);
+  ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x2345,PROPERTIES=0x08,MIN_LEN=1,MAX_LEN=6,DATATYPE=string,DESCRIPTION=string,VALUE=abc"), &charid_string);
+  ble.sendCommandWithIntReply( F("AT+GATTADDCHAR=UUID=0x6789,PROPERTIES=0x08,MIN_LEN=4,MAX_LEN=4,DATATYPE=INTEGER,DESCRIPTION=number,VALUE=0"), &charid_number);
 
   ble.reset();
 
@@ -194,7 +195,7 @@ void setup(void)
   /* Only one BLE GATT function should be set, it is possible to set it 
   multiple times for multiple Chars ID  */
   ble.setBleGattRxCallback(charid_string, BleGattRX);
-  ble.setBleGattRxCallback(charid_dec, BleGattRX);
+  ble.setBleGattRxCallback(charid_number, BleGattRX);
 }
 
 

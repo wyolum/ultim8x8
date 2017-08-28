@@ -28,8 +28,7 @@
 
 // Set up nRF24L01 radio on SPI bus plus pins 7 & 8
 
-//RF24 radio(7,8);
-RF24 radio(9, 10);
+RF24 radio(7,8);
 
 //
 // Channel info
@@ -62,6 +61,8 @@ void setup(void)
   // Get into standby mode
   radio.startListening();
   radio.stopListening();
+
+  radio.printDetails();
 
   // Print out header, high then low digit
   int i = 0;
@@ -103,14 +104,13 @@ void loop(void)
 
       // Listen for a little
       radio.startListening();
-      delayMicroseconds(225);
-      
+      delayMicroseconds(128);
+      radio.stopListening();
 
       // Did we get a carrier?
       if ( radio.testCarrier() ){
         ++values[i];
       }
-      radio.stopListening();
     }
   }
 
@@ -118,7 +118,7 @@ void loop(void)
   int i = 0;
   while ( i < num_channels )
   {
-    printf("%x",min(0xf,values[i]&0xf));
+    printf("%x",min(0xf,values[i]));
     ++i;
   }
   Serial.println();

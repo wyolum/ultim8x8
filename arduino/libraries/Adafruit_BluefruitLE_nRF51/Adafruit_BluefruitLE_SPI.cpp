@@ -116,7 +116,7 @@ Adafruit_BluefruitLE_SPI::Adafruit_BluefruitLE_SPI(int8_t clkPin, int8_t misoPin
             'irqPin' is not a HW interrupt pin false will be returned.
 */
 /******************************************************************************/
-bool Adafruit_BluefruitLE_SPI::begin(boolean v)
+bool Adafruit_BluefruitLE_SPI::begin(boolean v, boolean blocking)
 {
   _verbose = v;
 
@@ -155,8 +155,13 @@ bool Adafruit_BluefruitLE_SPI::begin(boolean v)
     isOK= true;
   }
 
+  _reset_started_timestamp = millis();
+
   // Bluefruit takes 1 second to reboot
-  delay(1000);
+  if (blocking)
+  {
+    delay(1000);
+  }
 
   return isOK;
 }
@@ -588,7 +593,6 @@ bool Adafruit_BluefruitLE_SPI::getPacket(sdepMsgResponse_t* p_response)
   {
     // Look for the header
     // note that we should always get the right header at this point, and not doing so will really mess up things.
-    // This whole loop isn't needed with my fix above..
     while ( p_header->msg_type != SDEP_MSGTYPE_RESPONSE && p_header->msg_type != SDEP_MSGTYPE_ERROR && !tt.expired() )
     {
       p_header->msg_type = spixfer(0xff);

@@ -64,6 +64,8 @@ Adafruit_BLE::Adafruit_BLE(void)
 {
   _timeout = BLE_DEFAULT_TIMEOUT;
 
+  _reset_started_timestamp = 0;
+
   _disconnect_callback  = NULL;
   _connect_callback     = NULL;
   _ble_uart_rx_callback = NULL;
@@ -109,9 +111,10 @@ void Adafruit_BLE::install_callback(bool enable, int8_t system_id, int8_t gatts_
 /******************************************************************************/
 /*!
     @brief  Performs a system reset using AT command
+    @param blocking blocking until bluefruit is ready, will take 1 second mostly
 */
 /******************************************************************************/
-bool Adafruit_BLE::reset(void)
+bool Adafruit_BLE::reset(boolean blocking)
 {
   bool isOK;
   // println();
@@ -136,8 +139,13 @@ bool Adafruit_BLE::reset(void)
     if (!isOK) return false;
   }
 
+  _reset_started_timestamp = millis();
+
   // Bluefruit need 1 second to reboot
-  delay(1000);
+  if (blocking)
+  {
+    delay(1000);
+  }
 
   // flush all left over
   flush();
@@ -150,18 +158,34 @@ bool Adafruit_BLE::reset(void)
     @brief  Performs a factory reset
 */
 /******************************************************************************/
-bool Adafruit_BLE::factoryReset(void)
+bool Adafruit_BLE::factoryReset(boolean blocking)
 {
   println( F("AT+FACTORYRESET") );
   bool isOK = waitForOK();
 
+  _reset_started_timestamp = millis();
+
   // Bluefruit need 1 second to reboot
-  delay(1000);
+  if (blocking)
+  {
+    delay(1000);
+  }
 
   // flush all left over
   flush();
 
   return isOK;
+}
+
+/******************************************************************************/
+/*!
+    @brief  Check if the reset process is completed, should be used if user
+    reset Bluefruit with non-blocking aka reset(false)
+*/
+/******************************************************************************/
+bool Adafruit_BLE::resetCompleted(void)
+{
+  return millis() > (_reset_started_timestamp + 1000);
 }
 
 /******************************************************************************/
@@ -381,7 +405,7 @@ bool Adafruit_BLE::writeNVM(uint16_t offset, uint8_t const data[], uint16_t size
 {
   VERIFY_(offset + size <= NVM_USERDATA_SIZE );
 
-  uint16_t type[] = { AT_ARGTYPE_UINT16, AT_ARGTYPE_UINT8, AT_ARGTYPE_BYTEARRAY + size };
+  uint16_t type[] = { AT_ARGTYPE_UINT16, AT_ARGTYPE_UINT8, (uint16_t) (AT_ARGTYPE_BYTEARRAY + size) };
   uint32_t args[] = { offset, BLE_DATATYPE_BYTEARRAY, (uint32_t) data };
 
   return this->atcommand_full(F("AT+NVMWRITE"), NULL, 3, type, args);
@@ -444,13 +468,15 @@ bool Adafruit_BLE::readNVM(uint16_t offset, uint8_t data[], uint16_t size)
   print(',');
   println(size);
 
-  uint16_t len = readraw(); // readraw swallow OK/ERROR already
+  readraw(); // readraw swallow OK/ERROR already
 
   // skip if NULL is entered
   if (data) memcpy(data, this->buffer, min(size, BLE_BUFSIZE));
 
   // switch back if necessary
   if ( current_mode == BLUEFRUIT_MODE_DATA ) setMode(BLUEFRUIT_MODE_DATA);
+
+  return true;
 }
 
 /******************************************************************************/
@@ -483,6 +509,48 @@ bool Adafruit_BLE::readNVM(uint16_t offset, char* str, uint16_t size)
 bool Adafruit_BLE::readNVM(uint16_t offset, int32_t* number)
 {
   return this->readNVM(offset, (uint8_t*)number, 4);
+}
+
+/**
+ *
+ * @param buffer
+ * @param size
+ * @return
+ */
+int Adafruit_BLE::writeBLEUart(uint8_t const * buffer, int size)
+{
+  uint8_t current_mode = _mode;
+
+  // switch mode if necessary to execute command
+  if ( current_mode == BLUEFRUIT_MODE_COMMAND ) setMode(BLUEFRUIT_MODE_DATA);
+
+  size_t n = write(buffer, size);
+
+  // switch back if necessary
+  if ( current_mode == BLUEFRUIT_MODE_COMMAND ) setMode(BLUEFRUIT_MODE_COMMAND);
+
+  return n;
+}
+
+/**
+ *
+ * @param buffer
+ * @param size
+ * @return
+ */
+int  Adafruit_BLE::readBLEUart(uint8_t* buffer, int size)
+{
+  uint8_t current_mode = _mode;
+
+  // switch mode if necessary to execute command
+  if ( current_mode == BLUEFRUIT_MODE_COMMAND ) setMode(BLUEFRUIT_MODE_DATA);
+
+  size_t n = readBytes(buffer, size);
+
+  // switch back if necessary
+  if ( current_mode == BLUEFRUIT_MODE_COMMAND ) setMode(BLUEFRUIT_MODE_COMMAND);
+
+  return n;
 }
 
 /******************************************************************************/

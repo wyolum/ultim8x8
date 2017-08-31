@@ -30,12 +30,13 @@ extern "C" {
 }
 
 //#define ULTIM24x24
+#define ULTIM48x24
 //#define ULTIM16x56
-#define ULTIM8x48
+//#define ULTIM8x48
 #include <MatrixMaps.h>
 
 #include <ESP8266WiFi.h>
-//#include <ESP8266mDNS.h>
+#include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPUpdateServer.h>
 #include <WebSocketsServer.h>
@@ -49,7 +50,7 @@ extern "C" {
 
 #include "Field.h"
 
-#define HOSTNAME "ESP8266-Feather-" ///< Hostname. The setup function adds the Chip ID at the end.
+#define HOSTNAME "Sunrise" ///< Hostname. The setup function adds the Chip ID at the end.
 
 //#define RECV_PIN D4
 //IRrecv irReceiver(RECV_PIN);
@@ -361,8 +362,14 @@ void setup() {
 
   // Set Hostname.
   String hostname(HOSTNAME);
-  hostname += String(ESP.getChipId(), HEX);
+  //hostname += String(ESP.getChipId(), HEX);
   WiFi.hostname(hostname);
+
+  IPAddress ServerIP; // time.nist.gov NTP server address
+  //WiFi.hostByName("Justins-MacBook-Pro.local", ServerIP);
+  //Serial.print("Justins-MacBook-Pro.local :: ");
+  //Serial.println(ServerIP);
+
 
   char hostnameChar[hostname.length() + 1];
   memset(hostnameChar, 0, hostname.length() + 1);
@@ -370,10 +377,10 @@ void setup() {
   for (uint8_t i = 0; i < hostname.length(); i++)
     hostnameChar[i] = hostname.charAt(i);
 
-  //  MDNS.begin(hostnameChar);
+  MDNS.begin(hostnameChar);
 
   // Add service to MDNS-SD
-  //  MDNS.addService("http", "tcp", 80);
+  MDNS.addService("http", "tcp", 80);
 
   // Print hostname.
   Serial.println("Hostname: " + hostname);
@@ -1555,6 +1562,8 @@ void digit(byte start, byte d){
       if((digits4x8[d * 8 + row] >> col) & 1){
 	setPixelMask(row, col + start, true);
 	setPixelMask(row, col + start + 24, true);
+	//setPixelMask(row + 8, col + start, true);
+	setPixelMask(row + 16, col + start, true);
       }
       else{
       }
@@ -1571,7 +1580,12 @@ void colen(byte col){
   setPixelMask(3, col + 24, true);
   setPixelMask(5, col + 24, true);
   setPixelMask(6, col + 24, true);
+  setPixelMask(2 + 16, col, true);
+  setPixelMask(3 + 16, col, true);
+  setPixelMask(5 + 16, col, true);
+  setPixelMask(6 + 16, col, true);
 }
+
 void getHHMMSS(uint32_t tm, uint8_t *hhmmss){
   hhmmss[0] = (tm / 3600) % 24;
   hhmmss[1] = (tm / 60) % 60;
@@ -1591,7 +1605,11 @@ void displayTime(uint32_t tm){
 
 // set mask to all masked (b=false) or all unmasked (b = true)
 void fillMask(bool b){
-  for(int i = 0; i < NUM_LEDS; i++){
+  fillMask(b, 0, NUM_LEDS);
+}
+
+void fillMask(bool b, int start, int stop){
+  for(int i = start; i < stop && i < NUM_LEDS; i++){
     mask[i] = b;
   }
 }

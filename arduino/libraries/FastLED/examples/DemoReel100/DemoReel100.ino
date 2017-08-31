@@ -17,21 +17,19 @@ FASTLED_USING_NAMESPACE
 
 #define DATA_PIN    3
 //#define CLK_PIN   4
-//#define LED_TYPE    WS2811
-#define LED_TYPE    APA102
+#define LED_TYPE    WS2811
 #define COLOR_ORDER GRB
-#define NUM_LEDS    (64 * 9)
+#define NUM_LEDS    64
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS          30
+#define BRIGHTNESS          96
 #define FRAMES_PER_SECOND  120
 
 void setup() {
   delay(3000); // 3 second delay for recovery
   
   // tell FastLED about the LED strip configuration
-  // FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.addLeds<APA102>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   //FastLED.addLeds<LED_TYPE,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
 
   // set master brightness control
@@ -42,7 +40,6 @@ void setup() {
 // List of patterns to cycle through.  Each is defined as a separate function below.
 typedef void (*SimplePatternList[])();
 SimplePatternList gPatterns = { rainbow, rainbowWithGlitter, confetti, sinelon, juggle, bpm };
-//SimplePatternList gPatterns = {chase};
 
 uint8_t gCurrentPatternNumber = 0; // Index number of which pattern is current
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -102,7 +99,7 @@ void sinelon()
 {
   // a colored dot sweeping back and forth, with fading trails
   fadeToBlackBy( leds, NUM_LEDS, 20);
-  int pos = beatsin16( 13, 0, NUM_LEDS-1 );
+  int pos = beatsin16(13,0,NUM_LEDS);
   leds[pos] += CHSV( gHue, 255, 192);
 }
 
@@ -122,18 +119,8 @@ void juggle() {
   fadeToBlackBy( leds, NUM_LEDS, 20);
   byte dothue = 0;
   for( int i = 0; i < 8; i++) {
-    leds[beatsin16( i+7, 0, NUM_LEDS-1 )] |= CHSV(dothue, 200, 255);
+    leds[beatsin16(i+7,0,NUM_LEDS)] |= CHSV(dothue, 200, 255);
     dothue += 32;
   }
 }
 
-void chase(){
-  fadeToBlackBy( leds, NUM_LEDS, 20);
-  byte dothue = 0;
-  for(int i = 0; i < NUM_LEDS; i++) {
-    leds[i] = CHSV(dothue, 200, 255);
-    FastLED.show();
-    dothue += 32;
-    leds[i] = 0;
-  }
-}

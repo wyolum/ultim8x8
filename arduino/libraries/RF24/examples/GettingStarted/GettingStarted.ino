@@ -13,8 +13,7 @@
 bool radioNumber = 0;
 
 /* Hardware configuration: Set up nRF24L01 radio on SPI bus plus pins 7 & 8 */
-// RF24 radio(7,8);
-RF24 radio(9, 10);
+RF24 radio(7,8);
 /**********************************************************/
 
 byte addresses[][6] = {"1Node","2Node"};
@@ -41,6 +40,7 @@ void setup() {
     radio.openWritingPipe(addresses[0]);
     radio.openReadingPipe(1,addresses[1]);
   }
+  
   // Start the radio listening for data
   radio.startListening();
 }
@@ -62,13 +62,12 @@ if (role == 1)  {
      }
         
     radio.startListening();                                    // Now, continue listening
-    Serial.println(radio.get_status());
     
     unsigned long started_waiting_at = micros();               // Set up a timeout period, get the current microseconds
     boolean timeout = false;                                   // Set up a variable to indicate if a response was received or not
-    uint32_t timeout_period = 200000;                 // us
+    
     while ( ! radio.available() ){                             // While nothing is received
-      if (micros() - started_waiting_at > timeout_period ){            // If waited longer than timeout_period, indicate timeout and exit while loop
+      if (micros() - started_waiting_at > 200000 ){            // If waited longer than 200ms, indicate timeout and exit while loop
           timeout = true;
           break;
       }      

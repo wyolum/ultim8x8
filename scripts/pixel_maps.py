@@ -62,7 +62,7 @@ test()
 def create_map_h():
     f = open('MatrixMaps.h', 'w')
     # maps = [ultim8x8, ultim8x24, ultim24x24, ultim48x24, ultim8x72, ultim16x56]
-    sizes = ((1, 1), (1, 3), (3, 3), (6, 3), (1, 9), (2, 7))
+    sizes = ((1, 1), (1, 3), (1, 6), (3, 3), (6, 3), (1, 9), (2, 7))
     for n_8x8_row, n_8x8_col in sizes:
         mmb = ULTiMap(n_8x8_row, n_8x8_col)
         mmb.toH(f)

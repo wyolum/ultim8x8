@@ -16,7 +16,10 @@
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <WiFiUdp.h>
+#include "font8x16.h"
+#include "font4x8.h"
+#include "font8x8.h"
+#include "pixel_font.h"
 #include <FastLED.h>
 #include <credentials.h>
 /* ---- credentials.h ----
@@ -31,8 +34,9 @@ extern "C" {
 
 //#define ULTIM24x24
 //#define ULTIM48x24
+#define ULTIM8x72
 //#define ULTIM16x56
-#define ULTIM8x48
+//#define ULTIM8x48
 #include <MatrixMaps.h>
 
 #include <ESP8266WiFi.h>
@@ -50,7 +54,7 @@ extern "C" {
 
 #include "Field.h"
 
-#define HOSTNAME "Sunrise" ///< Hostname. The setup function adds the Chip ID at the end.
+#define HOSTNAME "STFU" ///< Hostname. The setup function adds the Chip ID at the end.
 
 //#define RECV_PIN D4
 //IRrecv irReceiver(RECV_PIN);
@@ -66,16 +70,22 @@ ESP8266WebServer webServer(80);
 WebSocketsServer webSocketsServer = WebSocketsServer(81);
 ESP8266HTTPUpdateServer httpUpdateServer;
 
-const unsigned int localPort = 2390;     // local port to listen for UDP packets
-WiFiUDP udp;
-
 #include "FSBrowser.h"
 
 #define DATA_PIN      13
 #define CLK_PIN       14
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
-#define NUM_LEDS      MatrixWidth * MatrixHeight
+#define NUM_LEDS      (MatrixWidth * MatrixHeight)
+
+void setPixel(uint8_t row, uint8_t col, const struct CRGB & color);
+
+PixelFont font_8x16 = PixelFont(8, 16, 16, font8x16,
+			       setPixel);
+PixelFont font_4x8 = PixelFont(4, 8, 8, font4x8,
+				 setPixel);
+PixelFont font_8x8 = PixelFont(8, 8, 8, font8x8,
+			       setPixel);
 
 const bool MatrixSerpentineLayout = true;
 
@@ -92,7 +102,6 @@ uint16_t ms_per_second = 1000;   // may change to correct clock drift
 uint32_t current_time;
 uint32_t last_update_time = 0;// larger than initialization time
 bool clock_initialized = false;
-const uint32_t NTP_UPDATE_INTERVAL = 100; // Seconds
 
 const uint8_t brightnessCount = 5;
 uint8_t brightnessMap[brightnessCount] = { 16, 32, 64, 128, 255 };
@@ -140,7 +149,7 @@ uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
 CRGB solidColor = CRGB::Blue;
 
-const boolean FLIP_DISPLAY = true;
+const boolean FLIP_DISPLAY = false;
 uint16_t XY( uint8_t x, uint8_t y)
 {
   if(FLIP_DISPLAY){
@@ -152,6 +161,24 @@ uint16_t XY( uint8_t x, uint8_t y)
     out = MatrixMap[y][x];
   }
   return out;
+}
+
+//bool mask[NUM_LEDS];
+uint8_t mask[NUM_LEDS / 8 + 1];
+
+bool getPixel(uint8_t row, uint8_t col){
+  int pos = XY(col, row);
+  return (mask[pos / 8] >> (pos % 8)) & 1;
+}
+
+void setPixel(uint8_t row, uint8_t col, const struct CRGB & color){
+  uint16_t pos = XY(col, row);
+  if((int)color){
+    mask[pos / 8] |= (1 << (pos % 8));
+  }
+  else{
+    mask[pos / 8] &= (0xFF - (1 << (pos % 8)));
+  }
 }
 
 // scale the brightness of all pixels down
@@ -204,55 +231,15 @@ typedef PatternAndName PatternAndNameList[];
 #include "TwinkleFOX.h"
 #include "Map.h"
 #include "Noise.h"
-#include "sunrise.h"
 
 void clock();
 // List of patterns to cycle through.  Each is defined as a separate function below.
 
 PatternAndNameList patterns = {
-  { sunriseStatic,          "Sunrise"},
-  { sunriseFlicker,         "Sunrise Flicker"},
-  { sunriseWavesDiagonal,   "Sunrise Diagonal"},
-  { sunriseWavesVertical,   "Sunrise Waves Vertical"},
-  { sunriseWavesHorizontal, "Sunrise Waves Horizontal"},
-  { sunriseWavesRotating,   "Sunrise Waves Rotating"},
   { pride,                  "Pride" },
   { pride2,                 "Pride 2" },
   { colorWaves,             "Color Waves" },
   { colorWaves2,            "Color Waves 2" },
-
-  /*
-  { cubeTest,       "Cube XYZ Test" },
-  
-  { cubeXPalette,   "Cube X Palette" },
-  { cubeYPalette,   "Cube Y Palette" },
-  { cubeZPalette,   "Cube Z Palette" },
-  
-  { cubeXYPalette,  "Cube XY Palette" },
-  { cubeXZPalette,  "Cube XZ Palette" },
-  { cubeYZPalette,  "Cube YZ Palette" },
-  { cubeXYZPalette, "Cube XYZ Palette" },
-
-  { cubeXGradientPalette,   "Cube X Gradient Palette" },
-  { cubeYGradientPalette,   "Cube Y Gradient Palette" },
-  { cubeZGradientPalette,   "Cube Z Gradient Palette" },
-  
-  { cubeXYGradientPalette,  "Cube XY Gradient Palette" },
-  { cubeXZGradientPalette,  "Cube XZ Gradient Palette" },
-  { cubeYZGradientPalette,  "Cube YZ Gradient Palette" },
-  { cubeXYZGradientPalette, "Cube XYZ Gradient Palette" },
-  { fireNoise3d, "Fire Noise 3D" },
-  { fireNoise23d, "Fire Noise 2 3D" },
-  { lavaNoise3d, "Lava Noise 3D" },
-  { rainbowNoise3d, "Rainbow Noise 3D" },
-  { rainbowStripeNoise3d, "Rainbow Stripe Noise 3D" },
-  { partyNoise3d, "Party Noise 3D" },
-  { forestNoise3d, "Forest Noise 3D" },
-  { cloudNoise3d, "Cloud Noise 3D" },
-  { oceanNoise3d, "Ocean Noise 3D" },
-  { blackAndWhiteNoise3d, "Black & White Noise 3D" },
-  { blackAndBlueNoise3d, "Black & Blue Noise 3D" },
-  */
   
   // 3d noise patterns
   { xyMatrixTest,           "Matrix Test" },
@@ -279,27 +266,28 @@ PatternAndNameList patterns = {
   { blackAndBlueNoise, "Black & Blue Noise" },
 
   // twinkle patterns
-  { rainbowTwinkles,        "Rainbow Twinkles" },
-  { snowTwinkles,           "Snow Twinkles" },
-  { cloudTwinkles,          "Cloud Twinkles" },
-  { incandescentTwinkles,   "Incandescent Twinkles" },
-
-  // TwinkleFOX patterns
-  { retroC9Twinkles,        "Retro C9 Twinkles" },
-  { redWhiteTwinkles,       "Red & White Twinkles" },
-  { blueWhiteTwinkles,      "Blue & White Twinkles" },
-  { redGreenWhiteTwinkles,  "Red, Green & White Twinkles" },
-  { fairyLightTwinkles,     "Fairy Light Twinkles" },
-  { snow2Twinkles,          "Snow 2 Twinkles" },
-  { hollyTwinkles,          "Holly Twinkles" },
-  { iceTwinkles,            "Ice Twinkles" },
-  { partyTwinkles,          "Party Twinkles" },
-  { forestTwinkles,         "Forest Twinkles" },
-  { lavaTwinkles,           "Lava Twinkles" },
-  { fireTwinkles,           "Fire Twinkles" },
-  { cloud2Twinkles,         "Cloud 2 Twinkles" },
-  { oceanTwinkles,          "Ocean Twinkles" },
-
+  /*
+    { rainbowTwinkles,        "Rainbow Twinkles" },
+    { snowTwinkles,           "Snow Twinkles" },
+    { cloudTwinkles,          "Cloud Twinkles" },
+    { incandescentTwinkles,   "Incandescent Twinkles" },
+    
+    // TwinkleFOX patterns
+    { retroC9Twinkles,        "Retro C9 Twinkles" },
+    { redWhiteTwinkles,       "Red & White Twinkles" },
+    { blueWhiteTwinkles,      "Blue & White Twinkles" },
+    { redGreenWhiteTwinkles,  "Red, Green & White Twinkles" },
+    { fairyLightTwinkles,     "Fairy Light Twinkles" },
+    { snow2Twinkles,          "Snow 2 Twinkles" },
+    { hollyTwinkles,          "Holly Twinkles" },
+    { iceTwinkles,            "Ice Twinkles" },
+    { partyTwinkles,          "Party Twinkles" },
+    { forestTwinkles,         "Forest Twinkles" },
+    { lavaTwinkles,           "Lava Twinkles" },
+    { fireTwinkles,           "Fire Twinkles" },
+    { cloud2Twinkles,         "Cloud 2 Twinkles" },
+    { oceanTwinkles,          "Ocean Twinkles" },
+  */
   { rainbow,                "Rainbow" },
   { rainbowWithGlitter,     "Rainbow With Glitter" },
   { rainbowSolid,           "Solid Rainbow" },
@@ -364,12 +352,6 @@ void setup() {
   String hostname(HOSTNAME);
   //hostname += String(ESP.getChipId(), HEX);
   WiFi.hostname(hostname);
-
-  IPAddress ServerIP; // time.nist.gov NTP server address
-  //WiFi.hostByName("Justins-MacBook-Pro.local", ServerIP);
-  //Serial.print("Justins-MacBook-Pro.local :: ");
-  //Serial.println(ServerIP);
-
 
   char hostnameChar[hostname.length() + 1];
   memset(hostnameChar, 0, hostname.length() + 1);
@@ -451,12 +433,6 @@ void setup() {
     sendInt(display_clock);
   });
 
-  webServer.on("/alarm", HTTP_POST, []() {
-    String value = webServer.arg("value");
-    setAlarm(value.toInt());
-    sendInt(alarm);
-  });
-
   webServer.on("/cooling", HTTP_POST, []() {
     String value = webServer.arg("value");
     cooling = value.toInt();
@@ -534,24 +510,6 @@ void setup() {
     sendInt(brightness);
   });
 
-  webServer.on("/timezone", HTTP_POST, []() {
-    String value = webServer.arg("value");
-    setTimeZone(value.toInt());
-    sendInt(timezone);
-  });
-
-  webServer.on("/alarm_minute", HTTP_POST, []() {
-    String value = webServer.arg("value");
-    setAlarmMinute(value.toInt());
-    sendInt(alarm_minute);
-  });
-
-  webServer.on("/alarm_hour", HTTP_POST, []() {
-    String value = webServer.arg("value");
-    setAlarmHour(value.toInt());
-    sendInt(alarm_hour);
-  });
-
   webServer.on("/autoplay", HTTP_POST, []() {
     String value = webServer.arg("value");
     setAutoplay(value.toInt());
@@ -592,10 +550,6 @@ void setup() {
   autoPlayTimeout = millis() + (autoplayDuration * 1000);
 
 
-  Serial.println("Starting UDP");
-  udp.begin(localPort);
-  Serial.print("Local port: ");
-  Serial.println(udp.localPort());  
 }
 
 void sendInt(uint8_t value)
@@ -621,6 +575,7 @@ void broadcastString(String name, String value)
 }
 
 void loop() {
+  
   // Add entropy to random number generator; we use a lot of it.
   random16_add_entropy(random(65535));
   
@@ -629,31 +584,12 @@ void loop() {
 
   //  handleIrInput();
 
-  current_time = last_update_time + (millis() - local_hack_ms)/ms_per_second;
-  if(alarm){
-    uint32_t tm = current_time + timezone * 3600;
-    uint32_t time_of_day = tm % 86400;
-    uint32_t alarm_time = alarm_hour * 3600 + alarm_minute * 60;
-    //Serial.print(alarm_time);
-    //Serial.print(":");
-    //Serial.println(time_of_day);
-    if(alarm_time == time_of_day){
-      activate_alarm();
-    }
-    if(alarm_time + 5 * 60 == time_of_day){
-      deactivate_alarm();
-    }
-  }
   if (power == 0) {
     fill_solid(leds, NUM_LEDS, CRGB::Black);
     FastLED.show();
     // FastLED.delay(15);
     return;
   }
-
-  // EVERY_N_SECONDS(10) {
-  //   Serial.print( F("Heap: ") ); Serial.println(system_get_free_heap_size());
-  // }
 
   // change to a new cpt-city gradient palette
   EVERY_N_SECONDS( secondsPerPalette ) {
@@ -683,10 +619,6 @@ void loop() {
   // insert a delay to keep the framerate modest
   FastLED.delay(1000 / FRAMES_PER_SECOND);
 
-  if(clock_initialized == false ||
-     (current_time - last_update_time > NTP_UPDATE_INTERVAL)){
-    requestNTP();
-  }
 }
 
 void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t length) {
@@ -731,6 +663,9 @@ void loadSettings()
   brightness = EEPROM.read(0);
 
   currentPatternIndex = EEPROM.read(1);
+  Serial.print("currentPatternIndex");
+  Serial.print(" ");
+  Serial.println(currentPatternIndex);
   if (currentPatternIndex < 0)
     currentPatternIndex = 0;
   else if (currentPatternIndex >= patternCount)
@@ -750,7 +685,6 @@ void loadSettings()
 
   power = EEPROM.read(5);
   display_clock = EEPROM.read(12);
-  alarm = EEPROM.read(11);
 
   autoplay = EEPROM.read(6);
   autoplayDuration = EEPROM.read(7);
@@ -762,41 +696,6 @@ void loadSettings()
     currentPaletteIndex = paletteCount - 1;
 
   speed = EEPROM.read(9);
-  timezone = (int8_t)EEPROM.read(10);
-  if(-12 >= timezone){
-    timezone = 0;
-  }
-  if(12 <= timezone){
-    timezone = 0;
-  }
-  alarm_hour = EEPROM.read(11);
-  if(alarm_hour > 24){
-    alarm_hour = 0;
-  }
-    
-  alarm_minute = EEPROM.read(12);
-  if(alarm_minute > 59){
-    alarm_minute = 0;
-  }
-  //while(1)delay(100);
-}
-
-void setTimeZone(int8_t value){
-  timezone = value;
-  EEPROM.write(10, timezone);
-  EEPROM.commit();
-}
-
-void setAlarmHour(int8_t value){
-  alarm_hour = value;
-  EEPROM.write(11, alarm_hour);
-  EEPROM.commit();
-}
-
-void setAlarmMinute(int8_t value){
-  alarm_minute = value;
-  EEPROM.write(12, alarm_minute);
-  EEPROM.commit();
 }
 
 void setPower(uint8_t value)
@@ -821,43 +720,6 @@ void setDisplayClock(uint8_t value)
 
 uint8_t saved_pattern_index;
 uint8_t saved_brightness;
-bool alarm_active = false;
-void activate_alarm(){
-  if(!alarm_active){
-    saved_pattern_index = currentPatternIndex;
-    saved_brightness = brightness;
-  }
-  alarm_active = true;
-  setPower(true);
-  fill_solid(leds, NUM_LEDS, CRGB::Black);
-  setDisplayClock(false);
-  sunriseLevel = 0;
-  setPatternName("Sunrise");
-  setBrightness(100);
-  Serial.println("Alarm!!");
-}
-bool deactivate_alarm(){
-  if(alarm_active){
-    alarm_active = false;
-    setPattern(saved_pattern_index);
-    //setPatternName("Solid Color");
-    setDisplayClock(true);
-    setBrightness(saved_brightness);
-  }
-}
-
-void setAlarm(uint8_t value)
-{
-  bool orig = alarm;
-  alarm = value == 0 ? 0 : 1;
-  if(alarm == false && orig == true){
-    deactivate_alarm();
-  }
-  EEPROM.write(11, alarm);
-  EEPROM.commit();
-
-  broadcastInt("alarm", alarm);
-}
 
 void setAutoplay(uint8_t value)
 {
@@ -1535,24 +1397,54 @@ const byte digits4x8[8*10] = {
   0x06,0x09,0x09,0x09,0x0e,0x08,0x09,0x06, // 9
 };
 
-bool mask[NUM_LEDS];
-
-void togglePixelMask(uint8_t row, uint8_t col, bool b){
-  mask[XY(col, row)] = ! mask[XY(col, row)];
+void displayString(uint8_t row, uint8_t col, char *s){
+  uint8_t l = strlen(s);
+  for(uint8_t i=0; i < l; i++){
+    font_4x8.drawChar(s[i], row, i * 5, true, false);
+  }
 }
-void setPixelMask(uint8_t row, uint8_t col, bool b){
-  if(row >= MatrixHeight){
+
+void scrollLeft(){
+  scrollLeft(1);
+}
+
+void scrollLeft(uint8_t n_col){
+  bool p;
+  uint8_t row, col;
+
+  // copy first n_col rows to buffer
+  uint8_t buffer[n_col];
+  for(col=0; col < n_col; col++){
+    buffer[col] = 0;
+    for(row=0; row < MatrixHeight; row++){
+      if(getPixel(row, col)){
+	buffer[col] |= (1 << row);
+      }
+      else{
+	buffer[col] &= (0xFF - (1 << row));
+      }
+    }
   }
-  else if(col >= MatrixWidth){
+  for(col=0; col < MatrixWidth - n_col; col++){
+    for(row=0; row < MatrixHeight; row++){
+      p = getPixel(row, col + n_col);
+      setPixel(row, col, p);
+    }
   }
-  else{
-    uint16_t pos = XY(col, row);
-    if(pos < NUM_LEDS){
-      mask[pos] = b;
+
+  // copy buffer to end of mask
+  for(col=0; col < n_col; col++){
+    for(row=0; row < MatrixHeight; row++){
+      setPixel(row, col + MatrixWidth - n_col, (buffer[col] >> row) & 1);
     }
   }
 }
 
+void getHHMMSS(uint32_t tm, uint8_t *hhmmss){
+  hhmmss[0] = (tm / 3600) % 24;
+  hhmmss[1] = (tm / 60) % 60;
+  hhmmss[2] = (tm) % 60;
+}
 // preceed with a call to fillMask(false);
 // set mask to true where digit should light
 void digit(byte start, byte d){
@@ -1560,36 +1452,12 @@ void digit(byte start, byte d){
   for(col = 0; col < 4; col++){
     for(row = 0; row < 8; row++){
       if((digits4x8[d * 8 + row] >> col) & 1){
-	setPixelMask(row, col + start, true);
-	setPixelMask(row, col + start + 24, true);
-	//setPixelMask(row + 8, col + start, true);
-	setPixelMask(row + 16, col + start, true);
+	setPixel(row, col + start, true);
       }
       else{
       }
     }
   }
-}
-
-void colen(byte col){
-  setPixelMask(2, col, true);
-  setPixelMask(3, col, true);
-  setPixelMask(5, col, true);
-  setPixelMask(6, col, true);
-  setPixelMask(2, col + 24, true);
-  setPixelMask(3, col + 24, true);
-  setPixelMask(5, col + 24, true);
-  setPixelMask(6, col + 24, true);
-  setPixelMask(2 + 16, col, true);
-  setPixelMask(3 + 16, col, true);
-  setPixelMask(5 + 16, col, true);
-  setPixelMask(6 + 16, col, true);
-}
-
-void getHHMMSS(uint32_t tm, uint8_t *hhmmss){
-  hhmmss[0] = (tm / 3600) % 24;
-  hhmmss[1] = (tm / 60) % 60;
-  hhmmss[2] = (tm) % 60;
 }
 void displayTime(uint32_t tm){
   uint8_t hhmmss[3];
@@ -1600,16 +1468,18 @@ void displayTime(uint32_t tm){
   digit( 6, hhmmss[0]%10);
   digit(13, hhmmss[1] / 10);
   digit(18, hhmmss[1] % 10);
-  colen(11);
 }
 
 // set mask to all masked (b=false) or all unmasked (b = true)
 void fillMask(bool b){
-  fillMask(b, 0, NUM_LEDS);
-}
-
-void fillMask(bool b, int start, int stop){
-  for(int i = start; i < stop && i < NUM_LEDS; i++){
+  uint8_t v;
+  if(b){
+    v = 0xFF;
+  }
+  else{
+    v = 0x00;
+  }
+  for(int i = 0; i < NUM_LEDS / 8 + 1; i++){
     mask[i] = b;
   }
 }
@@ -1617,158 +1487,24 @@ void fillMask(bool b, int start, int stop){
 // turn off leds where mask[i] = false
 void apply_mask(){
   uint16_t b, k;
+  uint8_t v;
   for(uint16_t i=0; i < NUM_LEDS; i++){
-    if(!mask[i]){
+    if(!((mask[i / 8] >> (i % 8)) & 1)){
       leds[i] = CRGB::Black;
+    }
+    else{
     }
   }
 }
 
 void clock(){
-  uint32_t tm = current_time + timezone * 3600;
   fillMask(false);
-  displayTime(tm);
+  uint8_t i = (millis() / 10000) % 3;
+  char *msgs[3] = {"STFU!", " LOL!",      "  :)"};
+  fillMask(false);
+  displayString(0, 0, msgs[i]);
+  //scrollLeft((millis() / 100) % MatrixWidth);
   apply_mask();
-}
-//################################################################### NTP Client
-//  NTP Client
-//################################################################### NTP Client
-
-
-const char* ntpServerName = "time.nist.gov";
-bool ntp_pending = false;
-uint32_t ntp_request_sent_ms = 0;
-const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of the message
-byte packetBuffer[UDP_TX_PACKET_MAX_SIZE]; //buffer to hold incoming and outgoing packets
-const double LSB = 1./4294967296.;
-const unsigned long seventyYears = 2208988800UL;
-const uint32_t TOLLERANCE_MS = 100;
-//const unsigned int localPort = 123;    // local port to listen for UDP packets
-
-const uint32_t MEASURED_BIAS_ms = +400;
-// uint32_t current_time;     // moved to top
-// uint32_t last_update_time; // moved to top
-
-void requestNTP(){
-  //get a random server from the pool
-  IPAddress nist_timeServerIP; // time.nist.gov NTP server address
-
-  if(!ntp_pending){ // request
-    WiFi.hostByName(ntpServerName, nist_timeServerIP); 
-    Serial.print("nist_timeServerIP:");
-    Serial.println(nist_timeServerIP);
-    sendNTPpacket(nist_timeServerIP); // send an NTP packet to a time server
-    Serial.println("NTP request sent");
-    ntp_request_sent_ms = millis();
-    ntp_pending = true;
-  }
-  if(millis() - ntp_request_sent_ms > 1){ // receive and parse
-    ntp_pending = false;
-    Serial.println("check for NTP data");
-    int n_byte = udp.parsePacket();
-    if(n_byte >= NTP_PACKET_SIZE) { // we have received ntp packet back!
-      uint32_t receive_ms = millis();
-      int32_t lag_ms = receive_ms - ntp_request_sent_ms;
-      Serial.print("Lag (ms):");
-      Serial.println(lag_ms);
-
-      // We've received a packet, read the data from it
-      udp.read(packetBuffer, NTP_PACKET_SIZE); // read the packet into the buffer
-
-      //the timestamp starts at byte 40 of the received packet and is four bytes,
-      // or two words, long. First, esxtract the two words:
-      // inspect header
-      for(int ii=0; ii<4; ii++){
-	Serial.println(packetBuffer[ii], BIN);
-      }
-      
-      // this is NTP time (seconds since Jan 1 1900):
-      unsigned long secsSince1900 = bytes2long(packetBuffer + 40);
-      unsigned long hack_us = bytes2long(packetBuffer + 44) * 1e6 * LSB;
-      unsigned long origin_stamp = bytes2long(packetBuffer + 24);
-      unsigned long receipt_stamp = bytes2long(packetBuffer + 32);
-      unsigned long transmit_stamp = bytes2long(packetBuffer + 40);
-
-      // now convert NTP time into everyday time:
-      // subtract seventy years:
-      unsigned long epoch = secsSince1900 - seventyYears;
-      uint32_t hack = epoch;
-      double expect = local_hack + (local_hack_us / 1000. + receive_ms - local_hack_ms) / 1000.;
-      //correction =  -lag_ms + last_lag_ms - dLag
-      // expect += lag_ms/2000.;
-      double got = hack + hack_us / 1e6;
-      int diff_ms = (int)((got - expect) * 1000);                        /// say diff_ms = 300 ==> refernce is 300 ms ahead of local
-      Serial.print("got - expect(ms): ");
-      Serial.println((int)(diff_ms));
-      last_update_time = hack;
-      current_time = last_update_time;
-      clock_initialized = true;
-      
-      uint32_t hack_ms = millis();
-
-      local_hack = hack;
-      local_hack_ms = hack_ms;
-      local_hack_us = hack_us;
-      last_lag_ms = lag_ms;
-    }
-    else{
-      if(millis() - ntp_request_sent_ms > 1000){
-	ntp_pending = false; // give up on this packet and requesta  new one
-      }
-      else{
-	ntp_pending = true; // check back later
-      }
-    }
-  }
-}
-
-// send an NTP request to the time server at the given address
-unsigned long sendNTPpacket(IPAddress& address)
-{
-  Serial.println("sending NTP packet...");
-  // set all bytes in the buffer to 0
-  memset(packetBuffer, 0, NTP_PACKET_SIZE);
-  // Initialize values needed to form NTP request
-  // (see URL above for details on the packets)
-  packetBuffer[0] = 0b11100011;   // LI, Version, Mode
-  packetBuffer[1] = 0;     // Stratum, or type of clock
-  packetBuffer[2] = 6;     // Polling Interval
-  packetBuffer[3] = 0xEC;  // Peer Clock Precision
-  // 8 bytes of zero for Root Delay & Root Dispersion
-  packetBuffer[12]  = 49;
-  packetBuffer[13]  = 0x4E;
-  packetBuffer[14]  = 49;
-  packetBuffer[15]  = 52;
-  // 8 bytes of origin timestamp
-  packetBuffer[24] = 1;
-  packetBuffer[25] = 2;
-  packetBuffer[26] = 3;
-  packetBuffer[27] = 4;
-  packetBuffer[28] = 5;
-  packetBuffer[29] = 6;
-  packetBuffer[30] = 7;
-  packetBuffer[31] = 8;
-
-  // all NTP fields have been given values, now
-  // you can send a packet requesting a timestamp:
-  udp.beginPacket(address, 123); //NTP requests are to port 123
-  udp.write(packetBuffer, NTP_PACKET_SIZE);
-  udp.endPacket();
-}
-
-uint32_t bytes2long(byte *bytes){
-  uint32_t out = 0;
-  out = 0;
-  for(int ii=0; ii<4; ii++){
-    out |= (bytes[ii] << ((3 - ii) * 8));
-  }
-  return out;
-}
-
-void long2bytes(uint32_t l, byte *bytes){
-  for(int ii=0; ii<4; ii++){
-    bytes[ii] = (byte)(l >> (3 - ii) * 8);
-  }  
 }
 
 

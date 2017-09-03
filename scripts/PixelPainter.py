@@ -1,8 +1,12 @@
+from __future__ import print_function
+import matplotlib
+matplotlib.use('TkAgg')
+
 import os
-import tkFileDialog
+import tkinter.filedialog
 from pylab import *
 from numpy import *
-from Tkinter import *
+from tkinter import *
 import sys
 
 import sys
@@ -128,7 +132,7 @@ def test():
     for digit in range(10):
         bitmap(8, 16, bytes=digits[digit * 16:(digit+1)*16]).ascii_art()
     fat_nat = bitmap(8, 16 * 10, bytes=digits)
-    print fat_nat
+    print(fat_nat)
     here
     
 # test()
@@ -561,14 +565,14 @@ class PixelPainter:
                 self.r.title(' ' + os.path.split(self.filename)[1])
                 self.modified = False
         else:
-            file = tkFileDialog.askopenfile(mode='r', **self.file_options)
+            file = tkinter.filedialog.askopenfile(mode='r', **self.file_options)
         if file:
             self.filename = os.path.abspath(file.name)
             head = file.readline().strip()
             assert '! XPM2' == head
             counts = file.readline().strip().split()
             assert len(counts) == 4, 'corrupted xpm2 file, got %s counts instead of 4' % len(counts)
-            n_col, n_row, n_color, n_char = map(int, counts)
+            n_col, n_row, n_color, n_char = list(map(int, counts))
             self.n_col_var.set(n_col)
             self.n_row_var.set(n_row)
             self.resize()
@@ -610,7 +614,7 @@ class PixelPainter:
         '''
         File dialog to save current bitmap.
         '''
-        file = tkFileDialog.asksaveasfile(mode='w', **self.file_options)
+        file = tkinter.filedialog.asksaveasfile(mode='w', **self.file_options)
         if file:
             self.save_xpm2(file)
         self.modified = False
@@ -619,7 +623,7 @@ class PixelPainter:
         '''
         Write xmp2 formated bitmap to open file.
         '''
-        print >> file, self.toxpm2()
+        print(self.toxpm2(), file=file)
         self.filename = os.path.abspath(file.name)
         self.r.title(' ' + os.path.split(self.filename)[1])
         
@@ -644,9 +648,9 @@ class PixelPainter:
                 r_bitmap.setbit(c, r, color[1].upper() == 'F')
                 g_bitmap.setbit(c, r, color[3].upper() == 'F')
                 b_bitmap.setbit(c, r, color[5].upper() == 'F')
-        print str(r_bitmap)
-        print str(g_bitmap)
-        print str(b_bitmap)
+        print(str(r_bitmap))
+        print(str(g_bitmap))
+        print(str(b_bitmap))
 
     def toxpm2(self):
         '''
@@ -668,7 +672,7 @@ class PixelPainter:
         return '\n'.join(out)
     
     def printxpm2(self):
-        print self.toxpm2()
+        print(self.toxpm2())
         
     def resize(self, event=None, clear=False):
         '''

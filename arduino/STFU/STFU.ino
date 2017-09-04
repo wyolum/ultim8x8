@@ -1499,8 +1499,8 @@ void apply_mask(){
 
 void clock(){
   fillMask(false);
-  uint8_t i = (millis() / 10000) % 3;
-  char *msgs[3] = {"STFU!", " LOL!",      "  :)"};
+  uint8_t i = (millis() / 3000) % 5;
+  char *msgs[5] = {"STFU!", " LOL!",      "  :)", "BACK", " OFF!"};
   fillMask(false);
   displayString(0, 0, msgs[i]);
   //scrollLeft((millis() / 100) % MatrixWidth);

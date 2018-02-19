@@ -19,6 +19,7 @@
 #include <FastLED.h>
 #include <Wire.h>
 #include <WiFiUdp.h>
+#include <credentials.h>
 
 FASTLED_USING_NAMESPACE
 
@@ -53,8 +54,6 @@ const bool apMode = false;
 const char WiFiAPPSK[] = "";
 
 // Wi-Fi network to connect to (if not in AP mode)
-const char* ssid = "BP6DF";
-const char* password = "ABBAABBA00";
 
 ESP8266WebServer webServer(80);
 WebSocketsServer webSocketsServer = WebSocketsServer(81);
@@ -69,6 +68,7 @@ ESP8266HTTPUpdateServer httpUpdateServer;
 #define MatrixWidth   56
 #define MatrixHeight  16
 #define NUM_LEDS      MatrixWidth * MatrixHeight
+#define MAX_BRIGHTNESS 255
 
 const bool MatrixSerpentineLayout = true;
 const double LSB = 1./4294967296.;
@@ -400,7 +400,7 @@ uint32_t ntp_request_sent_ms = 0;
 //IPAddress timeServerIP(192, 168, 1, 4); // DOOMSDAY NTP
 IPAddress timeServerIP; // time.nist.gov NTP server address
 const char* ntpServerName = "time.nist.gov";
-const int16_t TIMEZONE = -4 * 3600;
+int16_t timezone = -5 * 3600;
 
 const int NTP_PACKET_SIZE = 48; // NTP time stamp is in the first 48 bytes of the message
 
@@ -649,7 +649,7 @@ void setup() {
   udp.begin(localPort);
   Serial.print("Local port: ");
   Serial.println(udp.localPort());
-  
+
 }
 
 void sendInt(uint8_t value)
@@ -809,7 +809,7 @@ void ntp_update(){
       // now convert NTP time into everyday time:
       // subtract seventy years:
       unsigned long epoch = secsSince1900 - seventyYears;
-      uint32_t hack = epoch + TIMEZONE;
+      uint32_t hack = epoch + timezone;
       double expect = local_hack + (local_hack_us/1000. + receive_ms - local_hack_ms) / 1000.;
       //correction =  -lag_ms + last_lag_ms - dLag
       // expect += lag_ms/2000.;

@@ -20,10 +20,10 @@ FASTLED_USING_NAMESPACE
 //#define LED_TYPE    WS2811
 #define LED_TYPE    APA102
 #define COLOR_ORDER GRB
-#define NUM_LEDS    (64 * 3)
+#define NUM_LEDS    (64 * 2)
 CRGB leds[NUM_LEDS];
 
-#define BRIGHTNESS          30
+#define BRIGHTNESS          10
 #define FRAMES_PER_SECOND  120
 
 void setup() {
@@ -32,7 +32,7 @@ void setup() {
   // tell FastLED about the LED strip configuration
   // FastLED.addLeds<LED_TYPE,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
   //FastLED.addLeds<APA102>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
-  FastLED.addLeds<APA102,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<APA102,CLK_PIN,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
 
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);

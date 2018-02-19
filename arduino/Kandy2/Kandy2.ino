@@ -14,7 +14,7 @@ const int DS3231_ALARM1_OFFSET = 0x7;
 const int DS3231_ALARM2_OFFSET = 0xB;
 const byte N_8x8_ROW = 2;
 const byte N_8x8_COL = 7;
-const byte N_CLOCK = 2;
+const byte N_CLOCK = 1;
 const byte N_ROW = N_8x8_ROW * 8;
 const byte N_COL = N_8x8_COL * 8;
 const byte BUFFER_SIZE = N_ROW * 8;
@@ -229,16 +229,29 @@ void write_stopwatch_start_time(time_t start_time);
 void interact();
 void setup() {
   Serial.begin(115200);
+  delay(100);
+  Serial.println("Kandy2... setup()");
   Serial1.begin(57600);
   FastLED.addLeds<APA102, SCK, MOSI, BGR, DATA_RATE_MHZ(25)>(leds, N_PIXEL);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, 20000);
   //FastLED.addLeds<APA102>(leds, N_PIXEL);//.setCorrection(TypicalSMD5050);
-  fill(CRGB::Black);
   FastLED.setBrightness(brightness);
-  //fill(CRGB::Green);
-  // FastLED.show();
-  // delay(100);
+  for(int ii = 0; ii < 1; ii++){
+    fill(CRGB::Red);
+    FastLED.show();
+    FastLED.show();
+    delay(100);
+    fill(CRGB::Black);
+    FastLED.show();
+    FastLED.show();
+    delay(100);
+  }
+  FastLED.show();
+  delay(100);
+  Serial.println(N_PIXEL);
+  Serial.println("Look for RTC");
   fill(CRGB::Black);
+  FastLED.show();
   if (!rtc.begin()) {
     Serial.println("Couldn't find RTC");
     while (1){
@@ -262,20 +275,25 @@ void setup() {
       }
     }
   }
-  /* // rainbow test
+  /*
+  // rainbow test
   for(int ii=0; ii<N_PIXEL; ii++){
     leds[ii] = Wheel(ii % 256);
   }
   FastLED.show();
   while(1);
-  */
+  */  
   now = rtc.now();
-  //stopwatch_start_time = now.unixtime();
-  stopwatch_start_time = read_stopwatch_start_time();
+  Serial.println("RTC Found");
+  Serial.print("now.unixtime(): ");
+  Serial.println(now.unixtime());
+  stopwatch_start_time = now.unixtime();
+  //stopwatch_start_time = read_stopwatch_start_time();
   if(racing){
     mode = RACE_MODE;
   }
 #ifdef NOTDEF  // ## test small font
+  Serial.println("test small font");
   // test 4x8 font
   for(int i=0; i<11; i++){
     digit_4x8(i * 5, 0, i % 9, CRGB::White);
@@ -286,6 +304,7 @@ void setup() {
   while(1){
     digits_4x8(0, 8, count++, 11, CRGB::Green);
     FastLED.show();
+    Serial.println("hello");
   }
 #endif
   /*
@@ -433,7 +452,8 @@ void loop(){
   //bigDigits(0, 9999, 4, CRGB::Red);  FastLED.show();  return;
   now = rtc.now();
   updateDisplay();
-  interact();
+  //fill(CRGB::White);
+  //interact();
   //Serial.println(count);
 }
 

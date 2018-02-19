@@ -30,9 +30,9 @@ extern "C" {
 }
 
 //#define ULTIM24x24
-//#define ULTIM48x24
+#define ULTIM48x24
 //#define ULTIM16x56
-#define ULTIM8x48
+//#define ULTIM8x48
 #include <MatrixMaps.h>
 
 #include <ESP8266WiFi.h>
@@ -50,7 +50,7 @@ extern "C" {
 
 #include "Field.h"
 
-#define HOSTNAME "Sunrise" ///< Hostname. The setup function adds the Chip ID at the end.
+#define HOSTNAME "Sunrise1" ///< Hostname. The setup function adds the Chip ID at the end.
 
 //#define RECV_PIN D4
 //IRrecv irReceiver(RECV_PIN);

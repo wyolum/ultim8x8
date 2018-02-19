@@ -22,7 +22,7 @@ void setup() {
   //delay(1000); // 3 second delay for recovery
   Serial.begin(115200);
   
-  FastLED.addLeds<APA102,DATA_PIN,CLK_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
+  FastLED.addLeds<APA102,CLK_PIN,DATA_PIN,COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalLEDStrip);
 
   // set master brightness control
   FastLED.setBrightness(BRIGHTNESS);

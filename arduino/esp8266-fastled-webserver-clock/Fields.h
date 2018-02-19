@@ -1,3 +1,6 @@
+#ifndef FIELDS_H
+#define FIELDS_H
+
 /*
    ESP8266 + FastLED + IR Remote: https://github.com/jasoncoon/esp8266-fastled-webserver
    Copyright (C) 2016 Jason Coon
@@ -125,3 +128,4 @@ FieldList fields = {
 };
 
 uint8_t fieldCount = ARRAY_SIZE(fields);
+#endif

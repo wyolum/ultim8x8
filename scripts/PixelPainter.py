@@ -43,6 +43,14 @@ class bitmap:
             assert self.n_byte == len(bytes), '%s != %s' % (self.n_byte, len(bytes))
             for i in range(self.n_byte):
                 self.bits[i * 8:(i + 1) * 8] = byte2bits(bytes[i])
+    def to_bitarray(self):
+        return self.bits.reshape((self.w, self.bitheight))
+    def move_up(self):
+        a = self.to_bitarray()
+        save = a[0]
+        a[:-1] = a[1:]
+        a[-1] = save
+        self.bits = a.reshape(self.n_byte * 8)
     def getbit(self, i, j):
         return self.bits[j * self.h + i]
     def setbit(self, i, j, val=True):
@@ -217,6 +225,12 @@ class Pixels:
                                                                    fill='#000000',
                                                                    outline='#FFFFFF',
                                                                    tags=("layer_0", "row_%d" % i, "col_%d" % j)))
+        cx = (n_col / 2. * pixel_w)
+        cy = int(n_row / 2. * pixel_w)
+        self.can.create_oval(cx - self.pixel_w / 4, cy - self.pixel_w / 4,
+                             cx + self.pixel_w / 4, cy + self.pixel_w / 4,
+                             fill='#888888')
+        
     def set_pixel_color(self, row, col, color, layer=None):
         if (0 <= row and row < self.n_row and
             0 <= col and col < self.n_col):
@@ -428,9 +442,9 @@ class PixelPainter:
     '''
     RGB bit map editor.  TODO: separate classes for rgb_bitmap and GUI
     '''
-    pixel_w = 15  # initial on screen pixel dimension
-    n_row = 16
-    n_col = 56
+    pixel_w = 10  # initial on screen pixel dimension
+    n_row_default = 16 ## default
+    n_col_default = 56 ## default
     file_options = {'defaultextension':'.xpm2',
                     'filetypes':[('xpm2','.xpm2')],
                     'initialdir':'./',
@@ -467,8 +481,8 @@ class PixelPainter:
         self.n_col_var = IntVar(self.r) ## TODO: needs gaurd rail
         self.pix_w_var = IntVar(self.r) ## TODO: needs gaurd rail
 
-        self.n_row_var.set(self.n_row)
-        self.n_col_var.set(self.n_col)
+        self.n_row_var.set(self.n_row_default)
+        self.n_col_var.set(self.n_col_default)
         self.pix_w_var.set(self.pixel_w)
         self.menubar = Menu(self.r)
 
@@ -505,6 +519,10 @@ class PixelPainter:
         self.r.bind('<Key-C>', self.on_keyboard)
         self.r.bind('<Key-t>', self.on_keyboard)
         self.r.bind('<Key-T>', self.on_keyboard)
+        self.r.bind('<Shift-Up>', self.on_shift)
+        self.r.bind('<Shift-Down>', self.on_shift)
+        self.r.bind('<Shift-Right>', self.on_shift)
+        self.r.bind('<Shift-Left>', self.on_shift)
         self.pencil = Pencil()
         self.line = Line()
         self.circle = Circle()
@@ -540,7 +558,24 @@ class PixelPainter:
         elif event.keysym == 'T':
             idx = (self.tools.index(self.current_tool) - 1) % len(self.tools)
             self.change_tool(idx)
+    def on_shift(self, event):
+        if (event.keysym == 'Left'):
+            self.move(0, 1)
+        if (event.keysym == 'Right'):
+            self.move(0, -1)
+        if (event.keysym == 'Up'):
+            self.move(1, 0)
+        if (event.keysym == 'Down'):
+            self.move(-1, 0)
             
+    def move(self, dx, dy):
+        old_pixels = self.pixels
+        self.pixels = Pixels(self.can, self.n_col_var.get(), self.n_row_var.get(), self.pix_w_var.get())
+        for r in range(self.n_row_var.get()):
+            for c in range(self.n_col_var.get()):
+                self.pixels.set_pixel_color(r, c, old_pixels.get_pixel_color((r + dx) % self.n_col_var.get(),
+                                                                             (c + dy) % self.n_row_var.get()), layer=0)
+        
     def change_tool(self, index):
         self.current_tool = self.tools[index]
         self.current_cursor = self.cursors[index]

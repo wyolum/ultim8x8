@@ -57,9 +57,9 @@
      inkscape:window-height="1005"
      id="namedview4409"
      showgrid="false"
-     inkscape:zoom="1"
-     inkscape:cx="730.03109"
-     inkscape:cy="452.04879"
+     inkscape:zoom="0.70710678"
+     inkscape:cx="902.24629"
+     inkscape:cy="404.18271"
      inkscape:window-x="0"
      inkscape:window-y="1"
      inkscape:window-maximized="1"
@@ -5821,7 +5821,7 @@ AAAgcQHyNNwiVrAqHgAAAABJRU5ErkJggg==
        y="215.12753"
        x="800.56171"
        id="tspan4772"
-       sodipodi:role="line">HUZZAH</tspan></text>
+       sodipodi:role="line">HUZZAH8266</tspan></text>
   <rect
      style="fill:#aa55ff;fill-opacity:0.74871796;stroke:#000000;stroke-width:2.02808976;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
      id="rect4774"
@@ -6056,7 +6056,7 @@ AAAgcQHyNNwiVrAqHgAAAABJRU5ErkJggg==
        y="215.12753"
        x="476.27991"
        id="tspan4846"
-       sodipodi:role="line">ESP32</tspan></text>
+       sodipodi:role="line">HUZZAH32</tspan></text>
   <rect
      ry="8.5731783"
      y="438.03705"

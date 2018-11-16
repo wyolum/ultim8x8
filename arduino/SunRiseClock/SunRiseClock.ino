@@ -30,9 +30,9 @@ extern "C" {
 }
 
 //#define ULTIM24x24
-#define ULTIM48x24
+//#define ULTIM48x24
 //#define ULTIM16x56
-//#define ULTIM8x48
+#define ULTIM8x48
 #include <MatrixMaps.h>
 
 #include <ESP8266WiFi.h>
@@ -321,7 +321,6 @@ void setup() {
   Serial.begin(115200);
   delay(100);
   Serial.setDebugOutput(true);
-
   //FastLED.addLeds<LED_TYPE, DATA_PIN, COLOR_ORDER>(leds, NUM_LEDS);     // for WS2812 (Neopixel)
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
   FastLED.setDither(true);
@@ -678,6 +677,7 @@ void loop() {
   if(display_clock){
     clock();
   }
+  FastLED.show();
   FastLED.show();
 
   // insert a delay to keep the framerate modest
@@ -1620,6 +1620,9 @@ void apply_mask(){
   for(uint16_t i=0; i < NUM_LEDS; i++){
     if(!mask[i]){
       leds[i] = CRGB::Black;
+    }
+    else{
+      // leds[i] = CRGB::Green;
     }
   }
 }

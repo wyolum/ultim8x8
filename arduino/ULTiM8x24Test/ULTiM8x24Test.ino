@@ -226,6 +226,17 @@ void setup() {
   //fill(CRGB::White);
 }
 
+inline int min(int x, int y){
+  int out;
+  if(x < y){
+    out = x;
+  }
+  else{
+    out = y;
+  }
+  return out;
+}
+
 void displayString(char *msg, uint8_t row, uint8_t col,
 		   PixelFont font, const struct CRGB & color, const struct CRGB & background){
   uint16_t ii;

@@ -14,8 +14,8 @@ CRGB primary_colors[6] = {
   CRGB(0, 255, 255),
   CRGB(255, 0, 255),
 };
-const byte N_8x8_ROW = 2;
-const byte N_8x8_COL = 7;
+const byte N_8x8_ROW = 1;
+const byte N_8x8_COL = 12;
 const byte N_ROW = N_8x8_ROW * 8;
 const byte N_COL = N_8x8_COL * 8;
 const byte BUFFER_SIZE = N_ROW * 8;
@@ -38,8 +38,8 @@ const byte digits4x7[4*10] = {
   
 //uint32_t my_display[NUMPIXELS];
 
-#define DATAPIN    23
-#define CLOCKPIN   24
+#define DATAPIN    MOSI
+#define CLOCKPIN   SCK
 #define LEDVAL 1
 
 int32_t snake(byte row, byte col){
@@ -191,17 +191,25 @@ uint8_t brightness = 4;
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("HERE!");
+  Serial.println("start setup!");
   for(int ii=0; ii<BUFFER_SIZE; ii++){
     //rightBuffer[ii] = 0;
     //leftBuffer[ii] = 0;
   }
   FastLED.setBrightness(brightness);
-  FastLED.addLeds<APA102, SCK, MOSI, BGR, DATA_RATE_MHZ(25)>(leds, NUMPIXELS);
+  FastLED.addLeds<APA102, MOSI, SCK, BGR, DATA_RATE_MHZ(25)>(leds, NUMPIXELS);
   FastLED.show(); // Turn all LEDs off ASAP
+  Serial.println("end setup!");
   //fill(CRGB::White);
 }
 
+int min(int x, int y){
+  int out;
+  
+  if(x < y) out = x;
+  else out = y;
+  return out;
+}
 void displayString(char *msg, uint8_t row, uint8_t col,
 		   PixelFont font, const struct CRGB & color, const struct CRGB & background){
   uint16_t ii;
@@ -301,8 +309,8 @@ void loop() {
   const struct CRGB & color = CRGB::White;
   
   fill(CRGB::Black);
-  char *top    = "              Hello        ";
-  char *bottom = "              World!       ";
+  char *top    = "  Hello       ";
+  char *bottom = "  World!      ";
   for(int ii=0; ii < min(strlen(top), strlen(bottom)); ii++){
     small_font.drawChar(top[ii],                     0, N_COL, Wheel(      2 * ii), CRGB::Black);
     small_font.drawChar(bottom[ii], small_font.height, N_COL, Wheel(128 + 2 * ii), CRGB::Black);
@@ -310,6 +318,7 @@ void loop() {
     for(int ii = 0; ii<small_font.width; ii++){
       shiftLeft(0, 16);
       FastLED.show();
+      delay(100);
     }
   }
   delay(1000);
@@ -320,9 +329,11 @@ void loop() {
     for(int ii = 0; ii<4; ii++){
       shiftLeft(0, 16);
       FastLED.show();
+      delay(100);
     }
   }
   delay(1000);
+
   hh = (count / 3600);
   mm = (count - hh * 3600) / 60;
   ss = count % 60;
@@ -356,6 +367,7 @@ void loop() {
   scrollMsg("     World!!! ", small_font.height, small_font, CRGB::Blue, CRGB::Black);
   delay(1000);
   scrollMsg("          ", 0, big_font, CRGB::Blue, CRGB::Black);
+  return;
   for(char ii='A'; ii<='Z'; ii++){
     scrollChar(ii, 0, big_font, Wheel((ii * 10) %256), CRGB::Black);
   }

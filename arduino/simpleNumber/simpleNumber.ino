@@ -35,7 +35,7 @@
 #include <ESP8266WebServer.h>
 #include <FastLED.h>
 FASTLED_USING_NAMESPACE
-#define ULTIM8x24
+#define ULTIM8x48
 #include <MatrixMaps.h>
 #define DATA_PIN      13
 #define CLK_PIN       14

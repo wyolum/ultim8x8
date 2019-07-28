@@ -117,7 +117,7 @@ String getTwinkleDensity() {
 
 FieldList fields = {
   { "power", "Power", BooleanFieldType, 0, 1, getPower },
-  { "display_clock", "Clock", BooleanFieldType, 0, 1, getDisplayClock },
+  //{ "display_clock", "Clock", BooleanFieldType, 0, 1, getDisplayClock },
   { "take_a_number", "Now Serving:", NumberFieldType, 0, 99, getTakeANumber },
   {    "brightness",    "Brightness", NumberFieldType, 1, 255, getBrightness },
 };

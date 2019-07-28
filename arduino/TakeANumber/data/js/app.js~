@@ -59,38 +59,6 @@ $(document).ready(function() {
     });
 });
 
-function addBooleanField(field) {
-  var template = $("#booleanTemplate").clone();
-
-  template.attr("id", "form-group-" + field.name);
-  template.attr("data-field-type", field.type);
-
-  var label = template.find(".control-label");
-  label.attr("for", "btn-group-" + field.name);
-  label.text(field.label);
-
-  var btngroup = template.find(".btn-group");
-  btngroup.attr("id", "btn-group-" + field.name);
-
-  var btnOn = template.find("#btnOn");
-  var btnOff = template.find("#btnOff");
-
-  btnOn.attr("id", "btnOn" + field.name);
-  btnOff.attr("id", "btnOff" + field.name);
-
-  btnOn.attr("class", field.value ? "btn btn-primary" : "btn btn-default");
-  btnOff.attr("class", !field.value ? "btn btn-primary" : "btn btn-default");
-
-  btnOn.click(function() {
-    setBooleanFieldValue(field, btnOn, btnOff, 1)
-  });
-  btnOff.click(function() {
-    setBooleanFieldValue(field, btnOn, btnOff, 0)
-  });
-
-  $("#form").append(template);
-}
-
 function addNumberField(field) {
   var template = $("#numberTemplate").clone();
 
@@ -103,8 +71,6 @@ function addNumberField(field) {
 
   var input = template.find(".input");
   var slider = template.find(".slider");
-  var nextButton = template.find(".my_button");
-
   slider.attr("id", "input-" + field.name);
   if (field.min) {
     input.attr("min", field.min);
@@ -132,21 +98,43 @@ function addNumberField(field) {
     delayPostValue(field.name, value);
   });
 
-
   input.on("change", function() {
     var value = $(this).val();
     slider.val(value);
     field.value = value;
     delayPostValue(field.name, value);
   });
-    alert("HERE!");
-    nextButton.onclick(function() {
-	alert("HERE!!!");
-    var value = 76;
-    value++;
-    input.val(value);
-    slider.val(value);
-    postValue(field.name, value);
+
+  $("#form").append(template);
+}
+
+function addBooleanField(field) {
+  var template = $("#booleanTemplate").clone();
+
+  template.attr("id", "form-group-" + field.name);
+  template.attr("data-field-type", field.type);
+
+  var label = template.find(".control-label");
+  label.attr("for", "btn-group-" + field.name);
+  label.text(field.label);
+
+  var btngroup = template.find(".btn-group");
+  btngroup.attr("id", "btn-group-" + field.name);
+
+  var btnOn = template.find("#btnOn");
+  var btnOff = template.find("#btnOff");
+
+  btnOn.attr("id", "btnOn" + field.name);
+  btnOff.attr("id", "btnOff" + field.name);
+
+  btnOn.attr("class", field.value ? "btn btn-primary" : "btn btn-default");
+  btnOff.attr("class", !field.value ? "btn btn-primary" : "btn btn-default");
+
+  btnOn.click(function() {
+    setBooleanFieldValue(field, btnOn, btnOff, 1)
+  });
+  btnOff.click(function() {
+    setBooleanFieldValue(field, btnOn, btnOff, 0)
   });
 
   $("#form").append(template);

@@ -51,8 +51,39 @@ int take_a_number = 57;
 CRGB leds[NUM_LEDS];
 const boolean FLIP_DISPLAY = true;
 uint8_t brightness = 50;
-uint16_t XY( uint8_t x, uint8_t y)
-{
+
+// start API
+void set_number(int number){
+  take_a_number = number;
+}
+int get_number(){
+  return take_a_number;
+}
+void increment_number(){
+  set_number(take_a_number + 1);
+}
+void reset_number(){
+  set_number(0);
+}
+void brighter(){
+  if(brightness < 128){
+    brightness *= 2;
+  }
+  else{
+    brightness = 255;
+  }
+}
+void dimmer(){
+  if(brightness > 1){
+    brightness /= 2;
+  }
+  else{
+    brightness = 1;
+  }
+}
+// end API
+
+uint16_t XY( uint8_t x, uint8_t y){
   if(FLIP_DISPLAY){
     x = MatrixWidth - x - 1;
     y = MatrixHeight - y - 1;
@@ -101,7 +132,19 @@ void setup() {
 }
 
 void loop() {
-	server.handleClient();
+  /* // test API
+  //set_number((millis() / 1000) % 100);
+  if (millis() > 1000 and millis() < 2000){
+    increment_number();
+  }
+  else if(millis() < 10000){
+    set_number((millis() / 1000) % 100);
+  }
+  else{
+    reset_number();
+  }
+  */
+  server.handleClient();
   fill_solid(leds, NUM_LEDS, CRGB::Red);
   number();
   FastLED.show();

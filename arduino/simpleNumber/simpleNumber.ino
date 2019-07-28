@@ -1,38 +1,16 @@
-/*
- * Copyright (c) 2015, Majenko Technologies
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- * 
- * * Redistributions of source code must retain the above copyright notice, this
- *   list of conditions and the following disclaimer.
- * 
- * * Redistributions in binary form must reproduce the above copyright notice, this
- *   list of conditions and the following disclaimer in the documentation and/or
- *   other materials provided with the distribution.
- * 
- * * Neither the name of Majenko Technologies nor the names of its
- *   contributors may be used to endorse or promote products derived from
- *   this software without specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR
- * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
- * ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+/* Take-a-number display 
+ *  now serving...
+ *  with websockets API for setting and incrementing the number.
  */
-
-/* Create a WiFi access point and provide a web server on it. */
-
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h> 
 #include <ESP8266WebServer.h>
+#include <WebSocketsServer.h>
+/*********************************************************************************/
+// Web Socket Server stuff
+WebSocketsServer webSocket = WebSocketsServer(81);
+extern void websocketSetup();
+
 #include <FastLED.h>
 FASTLED_USING_NAMESPACE
 #define ULTIM8x48
@@ -42,7 +20,8 @@ FASTLED_USING_NAMESPACE
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
 #define NUM_LEDS      MatrixWidth * MatrixHeight
-
+CRGB solidColor = CRGB::Blue;
+uint8_t solid_color_rgb[3];
 const bool MatrixSerpentineLayout = true;
 #define MILLI_AMPS         1000     // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 #define FRAMES_PER_SECOND  120 // here you can control the speed. With the Access Point / Web Server the animations run a bit slower.
@@ -96,7 +75,7 @@ uint16_t XY( uint8_t x, uint8_t y){
 }
 /* Set these to your desired credentials. */
 const char *ssid = "TakeANumber";
-const char *password = "Password";
+const char *password = "spamspamspamspam";
 
 ESP8266WebServer server(80);
 
@@ -129,6 +108,8 @@ void setup() {
 	server.on("/", handleRoot);
 	server.begin();
 	Serial.println("HTTP server started");
+  websocket_setup();
+
 }
 
 void loop() {
@@ -145,7 +126,9 @@ void loop() {
   }
   */
   server.handleClient();
-  fill_solid(leds, NUM_LEDS, CRGB::Red);
+  webSocket.loop();
+  FastLED.setBrightness(brightness);
+  fill_solid(leds, NUM_LEDS, solidColor);
   number();
   FastLED.show();
   FastLED.show();
@@ -243,3 +226,150 @@ void number(){
   displayNumber(take_a_number);
   apply_mask();
 }
+
+/**********Websocket server stuff **************/
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload, size_t length) {
+  char topic_payload[length + 1];
+  String str_topic_payload;
+  int i;
+  int start, stop;
+
+  Serial.println("handling websocket event");
+  switch(type) {
+  case WStype_DISCONNECTED:
+    Serial.printf("[%u] Disconnected!\n", num);
+    break;
+  case WStype_CONNECTED:
+    {
+      IPAddress ip = webSocket.remoteIP(num);
+      Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], ws_payload);
+      
+      // send message to client
+      webSocket.sendTXT(num, "Connected");
+    }
+    break;
+  case WStype_TEXT:
+    Serial.printf("[%u] get Text: %s\n", num, ws_payload);
+
+    for(i=0; i < length; i++){
+      topic_payload[i] = (char)ws_payload[i];
+    }
+    topic_payload[length] = 0;
+    str_topic_payload = String(topic_payload);
+
+    start = str_topic_payload.indexOf("//");
+    stop = start + 2;
+    if(start < 0){
+      start = length;
+      stop = length;
+    }
+    
+    char topic[100];
+    byte payload[100];
+    for(i = 0; i < start; i++){
+      topic[i] = topic_payload[i];
+    }
+    topic[start] = 0;
+
+    for(i = 0; i < length - stop; i++){
+      payload[i] = (byte)topic_payload[stop + i];
+    }
+    payload[length - stop] = 0;
+    
+    handle_msg(topic, payload, length - stop);
+
+ 
+    // send data to all connected clients
+    // webSocket.broadcastTXT("message here");
+    break;
+  case WStype_BIN:
+    Serial.printf("[%u] get binary length: %u\n", num, length);
+    hexdump(ws_payload, length, 16);
+    
+    // send message to client
+    // webSocket.sendBIN(num, ws_payload, length);
+    break;
+  case WStype_ERROR:      
+  case WStype_FRAGMENT_TEXT_START:
+  case WStype_FRAGMENT_BIN_START:
+  case WStype_FRAGMENT:
+  case WStype_FRAGMENT_FIN:
+    break;
+  }
+}
+void handle_msg(char* topic, byte* payload, unsigned int length) {
+  bool handled = false;
+  char str_payload[length + 1];
+  char *subtopic = topic + 12;
+
+  // copy bytes to normal char array
+  for(int i = 0; i < length; i++){
+    str_payload[i] = payload[i];
+  }
+  str_payload[length] = 0;
+  
+  Serial.print("msg\n  subtopic:");
+  Serial.println(subtopic);
+  Serial.print("  payload:");
+  Serial.println(str_payload);
+  
+  if(strcmp(subtopic, "brighter") == 0){
+    Serial.println("Increment brigtness.");
+    brighter();
+  }
+  else if(strcmp(subtopic, "dimmer") == 0){
+    Serial.println("Decrement brigtness.");
+    dimmer();
+  }
+  else if(strcmp(subtopic, "increment") == 0){
+    Serial.println("Increment number");
+    increment_number();
+  }
+  else if(strcmp(subtopic, "set_number") == 0){
+    Serial.println("setNumber");
+    set_number(String(str_payload).toInt());
+  }
+  else if(strcmp(subtopic, "reset_number") == 0){
+    Serial.println("resetNumber");
+    reset_number();
+  }
+  else if(strcmp(subtopic, "set_rgb") == 0 && length == 6){
+    // payload: rrggbb lowercase html color code example "ff0000" is RED
+    solid_color_rgb[0] = hh2dd((char*)payload);
+    solid_color_rgb[1] = hh2dd((char*)payload + 2);
+    solid_color_rgb[2] = hh2dd((char*)payload + 4);
+    //force_update = true;
+    //saveSettings();
+  }
+   else if(strcmp(subtopic, "notify") == 0){
+    // payload: ascii notification
+  }
+}
+
+void websocket_setup(){
+  Serial.println("Setting up websocket server");
+  webSocket.begin();
+  webSocket.onEvent(webSocketEvent);  
+}
+uint8_t hex2dig(char h){
+  uint8_t d = 0;
+  if('0' <= h && h <= '9'){
+    d = (uint8_t)(h - '0');
+  }
+  else if('a' <= h && h <= 'f'){
+    d = (uint8_t)(10 + h - 'a');
+  }
+  else if('A' <= h && h <= 'F'){
+    d = (uint8_t)(10 + h - 'A');
+  }
+  return d;
+}
+
+uint8_t hh2dd(char *hh){
+  return hex2dig(hh[0]) * 16 + hex2dig(hh[1]);
+}
+void saveSettings(){
+  //TBD
+}
+
+

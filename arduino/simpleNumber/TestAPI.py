@@ -33,7 +33,6 @@ async def reset_number():
         await websocket.send("takeanumber/reset_number")
         greeting = await websocket.recv()
         print(f"< {greeting}")
-
 async def increment():
     async with websockets.connect('ws://192.168.4.1:81') as websocket:
         await websocket.send("takeanumber/increment")
@@ -45,13 +44,16 @@ async def set_number(number):
         greeting = await websocket.recv()
         print(f"< {greeting}")
 
+for i in range(100):
+    asyncio.get_event_loop().run_until_complete(increment())
+
 asyncio.get_event_loop().run_until_complete(reset_number())
-#asyncio.get_event_loop().run_until_complete(brighter())
-#asyncio.get_event_loop().run_until_complete(dimmer())
-#asyncio.get_event_loop().run_until_complete(increment())
-#asyncio.get_event_loop().run_until_complete(set_number(99))
+asyncio.get_event_loop().run_until_complete(brighter())
+asyncio.get_event_loop().run_until_complete(dimmer())
+asyncio.get_event_loop().run_until_complete(increment())
+asyncio.get_event_loop().run_until_complete(set_number(99))
 
 for i in range(20):
     asyncio.get_event_loop().run_until_complete(set_number(i))
     time.sleep(.5)
-
+    

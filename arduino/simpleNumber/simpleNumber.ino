@@ -83,14 +83,14 @@ ESP8266WebServer server(80);
  * connected to this access point to see it.
  */
 void handleRoot() {
-	server.send(200, "text/html", "<h1>You are connected</h1>");
+  server.send(200, "text/html", "<h1>You are connected</h1>");
 }
 
 void setup() {
-	delay(1000);
-	Serial.begin(115200);
-	Serial.println();
-   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
+  delay(1000);
+  Serial.begin(115200);
+  Serial.println();
+  FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS); // for APA102 (Dotstar)
   FastLED.setDither(true);
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setBrightness(brightness);
@@ -98,16 +98,16 @@ void setup() {
   fill_solid(leds, NUM_LEDS, CRGB::Black);
   FastLED.show();
 
-	Serial.print("Configuring access point...");
-	/* You can remove the password parameter if you want the AP to be open. */
-	WiFi.softAP(ssid, password);
+  Serial.print("Configuring access point...");
+  /* You can remove the password parameter if you want the AP to be open. */
+  WiFi.softAP(ssid, password);
 
-	IPAddress myIP = WiFi.softAPIP();
-	Serial.print("AP IP address: ");
-	Serial.println(myIP);
-	server.on("/", handleRoot);
-	server.begin();
-	Serial.println("HTTP server started");
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
+  server.on("/", handleRoot);
+  server.begin();
+  Serial.println("HTTP server started");
   websocket_setup();
 
 }
@@ -116,13 +116,13 @@ void loop() {
   /* // test API
   //set_number((millis() / 1000) % 100);
   if (millis() > 1000 and millis() < 2000){
-    increment_number();
+  increment_number();
   }
   else if(millis() < 10000){
-    set_number((millis() / 1000) % 100);
+  set_number((millis() / 1000) % 100);
   }
   else{
-    reset_number();
+  reset_number();
   }
   */
   server.handleClient();
@@ -175,10 +175,10 @@ void digit(byte start, byte d){
   for(col = 0; col < 4; col++){
     for(row = 0; row < 8; row++){
       if((digits4x8[d * 8 + row] >> col) & 1){
-  setPixelMask(row, col + start, true);
-  setPixelMask(row, col + start + 24, true);
-  //setPixelMask(row + 8, col + start, true);
-  setPixelMask(row + 16, col + start, true);
+	setPixelMask(row, col + start, true);
+	setPixelMask(row, col + start + 24, true);
+	//setPixelMask(row + 8, col + start, true);
+	setPixelMask(row + 16, col + start, true);
       }
       else{
       }
@@ -341,7 +341,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     //force_update = true;
     //saveSettings();
   }
-   else if(strcmp(subtopic, "notify") == 0){
+  else if(strcmp(subtopic, "notify") == 0){
     // payload: ascii notification
   }
 }

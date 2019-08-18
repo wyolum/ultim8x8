@@ -68,14 +68,14 @@ void setPixelMask(uint8_t row, uint8_t col, bool b){
 
 #define USE_SERIAL Serial
 
-void broadcast_number(){
+bool broadcast_number(){
   char base[] = "takeanumber/set_number//";
   char *digits = "XX";
   digits = itoa(take_a_number % 100, digits, 10);
   char *msg = strcat(base, digits);
   msg[24 + 2] = 0;
-  webSocket.sendTXT(msg);
-  USE_SERIAL.println(msg);
+  //USE_SERIAL.println(msg);
+  return webSocket.sendTXT(msg);
 }
 // start API
 void set_number(int number){
@@ -257,7 +257,6 @@ void number(){
 int wait_ms = 200;
 int accel = 10;
 void loop() {
-  take_a_number++;
   webSocket.loop();
   /*
     webSocket.sendTXT("takeanumber/increment");
@@ -274,6 +273,10 @@ void loop() {
   FastLED.show();
   // insert a delay to keep the framerate modest
   FastLED.delay(1000 / FRAMES_PER_SECOND);
-  broadcast_number();delay(1000);
+  take_a_number++;
+  if(broadcast_number()){
+    USE_SERIAL.println("Success");
+  }
   USE_SERIAL.println(take_a_number);
+  delay(1000);
 }

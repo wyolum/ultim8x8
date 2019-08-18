@@ -25,14 +25,14 @@ FASTLED_USING_NAMESPACE
 
 #define ARRAY_SIZE(A) (sizeof(A) / sizeof((A)[0]))
 
-//#define DATA_PIN      11
-//#define CLK_PIN       13
+//#define DATA_PIN      19 ## FeatherM0
+//#define CLK_PIN       20 ## FeatherM0
 #define DATA_PIN      MOSI
 #define CLK_PIN       SCK
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
-#define MatrixWidth   12*8
-#define MatrixHeight  8
+#define MatrixWidth   8 * 7
+#define MatrixHeight  8 * 3
 #define NUM_LEDS      MatrixWidth * MatrixHeight
 
 const bool MatrixSerpentineLayout = true;

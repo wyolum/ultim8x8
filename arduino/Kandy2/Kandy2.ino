@@ -575,6 +575,7 @@ void updateDisplay(){
   }
   //displayTime(0, 0, count%10, CRGB::Green, true);  FastLED.show();  return;
   FastLED.show();
+  Serial.println(ss);
   return;
 }
 

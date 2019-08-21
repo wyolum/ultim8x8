@@ -70,6 +70,7 @@ ultim16x56.addRow(mapGen(8, 56, serpentine=True,
                   rotation=MatrixRotation.ROTATE_270,
                   y_flip=False))
 
+
 def map2h(m, name):
     w = len(m[0])
     h = len(m)

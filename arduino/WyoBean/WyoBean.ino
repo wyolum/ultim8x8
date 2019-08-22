@@ -143,8 +143,7 @@ void set_timezone_from_ip(){
     String(WiFi.localIP()[2]) + String('.') + 
     String(WiFi.localIP()[3]) + String('&') +
     String("macaddress=") + WiFi.macAddress() + String('&') + 
-    String("dev_type=ClockIOT");
-  url = String("https://www.wyolum.com");
+    String("dev_type=ClockIOT    ");
   Serial.println(url);
   http.begin(url);
   
@@ -913,7 +912,6 @@ void setup(){
       ntp_clock.setOffset(config.timezone);
     }
     set_timezone_from_ip();
-    
   }
   Serial.print("config.timezone: ");
   Serial.println(config.timezone);
@@ -1095,7 +1093,7 @@ void loop(){
   */
   if(config.use_wifi){
     if(config.use_ntp_time){
-      if(ntp_clock.seconds() == 0 and millis() < 1){
+      if(ntp_clock.seconds() == 0 and millis() < 10000){
 	Serial.print("Doomsday Time:");
 	Serial.print(ntp_clock.year());
 	Serial.print("/");

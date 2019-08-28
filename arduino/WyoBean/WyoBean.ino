@@ -19,6 +19,18 @@
 #include "MatrixMap.h"
 #include "digits.h"
 
+NTPClock ntp_clock;
+WiFiManager wifiManager;
+WiFiUDP ntpUDP;
+/*
+Sunday
+Monday
+Tuesday
+Wednesday
+Thursday
+Friday
+Saturday
+ */
 struct config_t{
   int timezone;
   uint8_t brightness;
@@ -35,6 +47,11 @@ struct config_t{
   uint8_t faceplate_idx;
 } config;
 
+void fillMask(bool val, bool *mask){
+  for(int i=0;i<NUM_LEDS; i++){
+    mask[i] = val;
+  }
+}
 void maskPixel(byte row, byte col, bool val, bool *mask);
 void maskPixel(byte row, byte col, bool val, bool *mask){
   uint16_t pos = XY(row, col);
@@ -44,6 +61,23 @@ void maskPixel(byte row, byte col, bool val, bool *mask){
   }
 }
 
+void print_time(){
+  Serial.print("Time: ");
+  Serial.print(ntp_clock.year());
+  Serial.print("/");
+  Serial.print(ntp_clock.month());
+  Serial.print("/");
+  Serial.print(ntp_clock.day());
+  Serial.print(" ");
+  if(ntp_clock.hours() < 10)Serial.print('0');
+  Serial.print(ntp_clock.hours());
+  Serial.print(":");
+  if(ntp_clock.minutes() < 10)Serial.print('0');
+  Serial.print(ntp_clock.minutes());
+  Serial.print(":");
+  if(ntp_clock.seconds() < 10)Serial.print('0');
+  Serial.println(ntp_clock.seconds());
+}
 void print_config(){
   Serial.println("config:");
   Serial.print("    timezone:"); Serial.println(config.timezone);
@@ -109,11 +143,6 @@ void my_show(){
 
 typedef void (*Init)();
 typedef void (*DisplayTime)(uint32_t last_tm, uint32_t tm);
-
-NTPClock ntp_clock;
-
-WiFiManager wifiManager;
-WiFiUDP ntpUDP;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
 
@@ -555,7 +584,7 @@ uint16_t XY(int x, int y){
   if(rotate_display){
     int tmp = x;
     x = y;
-    y = MatrixHeight - tmp;
+    y = MatrixHeight - tmp - 1;
   }
   
   if(0 <= x && x < MatrixWidth &&
@@ -644,16 +673,7 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     Serial.println(config.brightness);
   }
   else if(strcmp(subtopic, "flip_display") == 0){
-    if(config.flip_display){
-      config.flip_display = false;
-    }
-    else{
-      config.flip_display = true;
-    }      
-    Serial.print("Flip Display:");
-    Serial.println(config.flip_display);
-    force_update = true;
-    saveSettings();
+    Serial.print("Flip Display not supported");
   }
   else if(strcmp(subtopic, "mqtt_ip") == 0){
     Serial.println("Update mqtt_ip address.");
@@ -790,7 +810,6 @@ void mqtt_setup(){
 void splash(){
   display_time(0, 0);
   my_show();
-  delay(1000);
 }
 void led_setup(){
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS);
@@ -855,7 +874,6 @@ void factory_reset(){
   config.factory_reset = false;
   saveSettings();
   print_config();
-  delay(1000);
 
   Serial.println("Factory reset complete");
   ESP.restart();
@@ -917,6 +935,8 @@ void setup(){
   Serial.println(config.timezone);
   Serial.print("config.use_ip_timezone: ");
   Serial.println((bool)config.use_ip_timezone);
+
+  print_time();
   Serial.println("setup() complete");
 }
 
@@ -1018,7 +1038,7 @@ void  interact_loop(){
 void fireNoise2(void);
 
 void display_time(uint32_t last_time, uint32_t current_time){
-  int hh, mm, ss;
+  int hh, mm, ss, start_x =  7;
   int spm = current_time % 86400;
   hh = spm / 3600;
   mm = ((spm - hh * 3600) / 60); 
@@ -1032,7 +1052,10 @@ void display_time(uint32_t last_time, uint32_t current_time){
     Serial.println(ss);
   }
   
+  fillMask(false, mask);
+
   bool colen = (ss % 2) == 0;
+  //colen = true;
   
   //fill_solid(leds, NUM_LEDS, CRGB::Blue);
   //fireNoise2();
@@ -1046,28 +1069,34 @@ void display_time(uint32_t last_time, uint32_t current_time){
   }
   Serial.println();
   */
-  bigDigit(4 + 0 + 0,  0, hh/10, mask);
-  bigDigit(4 + 8 + 1,  0, hh%10, mask);
-  bigDigit(4 + 0 + 0, 20, mm/10, mask);
-  bigDigit(4 + 8 + 1, 20, mm%10, mask);
-  bigDigit(4 + 0 + 0, 40, ss/10, mask);
-  bigDigit(4 + 8 + 1, 40, ss%10, mask);
-  maskPixel(         7,      17, colen, mask);
-  maskPixel(         8,      17, colen, mask);
-  maskPixel(         7,      18, colen, mask);
-  maskPixel(         8,      18, colen, mask);
-  maskPixel(     7 + 9,      17, colen, mask);
-  maskPixel(     8 + 9,      17, colen, mask);
-  maskPixel(     7 + 9,      18, colen, mask);
-  maskPixel(     8 + 9,      18, colen, mask);
-  maskPixel(         7, 17 + 20, colen, mask);
-  maskPixel(         8, 17 + 20, colen, mask);
-  maskPixel(         7, 18 + 20, colen, mask);
-  maskPixel(         8, 18 + 20, colen, mask);
-  maskPixel(     7 + 9, 17 + 20, colen, mask);
-  maskPixel(     8 + 9, 17 + 20, colen, mask);
-  maskPixel(     7 + 9, 18 + 20, colen, mask);
-  maskPixel(     8 + 9, 18 + 20, colen, mask);
+  if(hh % 12 > 9){
+    bigDigit(start_x + 0 + 0,  0, (hh%12)/10, mask);
+    bigDigit(start_x + 8 + 1,  0, (hh%12)%10, mask);
+  }
+  else{
+    bigDigit(start_x + 8 - 4 + 1,  0, (hh%12)%10, mask);
+  }
+  bigDigit(start_x + 0 + 0, 20, mm/10, mask);
+  bigDigit(start_x + 8 + 1, 20, mm%10, mask);
+  bigDigit(start_x + 0 + 0, 40, ss/10, mask);
+  bigDigit(start_x + 8 + 1, 40, ss%10, mask);
+  maskPixel(start_x + 3    ,      17, colen, mask);
+  maskPixel(start_x + 4    ,      17, colen, mask);
+  maskPixel(start_x + 3    ,      18, colen, mask);
+  maskPixel(start_x + 4    ,      18, colen, mask);
+  maskPixel(start_x + 3 + 9,      17, colen, mask);
+  maskPixel(start_x + 4 + 9,      17, colen, mask);
+  maskPixel(start_x + 3 + 9,      18, colen, mask);
+  maskPixel(start_x + 4 + 9,      18, colen, mask);
+  maskPixel(start_x + 3    , 17 + 20, colen, mask);
+  maskPixel(start_x + 4    , 17 + 20, colen, mask);
+  maskPixel(start_x + 3    , 18 + 20, colen, mask);
+  maskPixel(start_x + 4    , 18 + 20, colen, mask);
+  maskPixel(start_x + 3 + 9, 17 + 20, colen, mask);
+  maskPixel(start_x + 4 + 9, 17 + 20, colen, mask);
+  maskPixel(start_x + 3 + 9, 18 + 20, colen, mask);
+  maskPixel(start_x + 4 + 9, 18 + 20, colen, mask);
+
   applyMask(mask);
 
 }
@@ -1076,20 +1105,27 @@ void display_time(uint32_t last_time, uint32_t current_time){
 void loop(){
   uint8_t word[3];
   uint32_t current_time = Now();
-
+  uint8_t month, day, dow;
+  
   display_time(last_time, current_time);
+  month = ntp_clock.month();
+  day = ntp_clock.day();
+  dow = timeClient.getDay();
+  for(int i = 0; i < 3; i++){
+    setPixel(0 + dow, i + 1, CRGB::Blue);
+  }  
+  for(int i = 0; i < 3; i++){
+    setPixel(7 + month, i + 1, CRGB::Blue);
+  }
+  if(day > 9){
+    setPixel(7 + 12 + day, 2, CRGB::Blue);
+  }
+  setPixel(7 + 12 + day, 3, CRGB::Blue);
   my_show();
 
+  //print_time();
+  //delay(1000);
   /*
-  Serial.print("NTP Time:");
-  Serial.print(timeClient.getHours());
-  Serial.print(":");
-  Serial.print(timeClient.getMinutes());
-  Serial.print(":");
-  Serial.print(timeClient.getSeconds());
-  Serial.println("");
-  
-  delay(1000);
   */
   if(config.use_wifi){
     if(config.use_ntp_time){

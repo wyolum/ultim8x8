@@ -164,7 +164,7 @@ void set_timezone_from_ip(){
 
   //http.begin("https://timezoneapi.io/api/ip");// no longer works!
   //http.begin("https://ipapi.co/json");
-  String url = String("https://www.wyolum.com/utc_offset/utc_offset.py") +
+  String url = String("http://www.wyolum.com/utc_offset/utc_offset.py") +
     String("?refresh=") + String(millis()) +
     String("&localip=") +
     String(WiFi.localIP()[0]) + String('.') + 

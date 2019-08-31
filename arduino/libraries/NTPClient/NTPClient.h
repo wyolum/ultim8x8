@@ -81,7 +81,12 @@ class NTPClient {
     String getFormattedTime();
 
     /**
-     * @return time in seconds since Jan. 1, 1970
+     * @return Grenwhich mean time in seconds since Jan. 1, 1970
+     */
+    unsigned long getGMTime();
+
+    /**
+     * @return local time in seconds since Jan. 1, 1970
      */
     unsigned long getEpochTime();
 

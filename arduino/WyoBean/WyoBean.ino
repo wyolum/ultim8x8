@@ -18,6 +18,8 @@
 #include "config.h"
 #include "MatrixMap.h"
 #include "digits.h"
+#include "fonts.h"
+#include "moon_phases.h"
 
 NTPClock ntp_clock;
 WiFiManager wifiManager;
@@ -47,15 +49,26 @@ struct config_t{
   uint8_t faceplate_idx;
 } config;
 
+uint16_t XY(int x, int y);
+void set_timezone_offset(int32_t offset);
+uint32_t Now();
+void saveSettings();
+void display_time(uint32_t last_time, uint32_t current_time);
+void apply_mask(bool* mask);
+void apply_mask(bool* mask, CRGB color);
+void fillMask(bool* mask, bool b);
+void fillMask(bool* mask, bool b, int start, int stop);
+bool ip_from_str(char* str, byte* ip);
+void mqtt_setup();
+
 void fillMask(bool val, bool *mask){
   for(int i=0;i<NUM_LEDS; i++){
     mask[i] = val;
   }
 }
-void maskPixel(byte row, byte col, bool val, bool *mask);
+
 void maskPixel(byte row, byte col, bool val, bool *mask){
   uint16_t pos = XY(row, col);
-  
   if(0 <= pos && pos < NUM_LEDS){
     mask[pos] = val;
   }
@@ -129,7 +142,7 @@ void  interact_loop();
 
 #define COLOR_ORDER BGR
 #define LED_TYPE APA102
-#define MILLI_AMPS 500  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
+#define MILLI_AMPS 2000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 
 uint32_t last_time;
 
@@ -172,7 +185,7 @@ void set_timezone_from_ip(){
     String(WiFi.localIP()[2]) + String('.') + 
     String(WiFi.localIP()[3]) + String('&') +
     String("macaddress=") + WiFi.macAddress() + String('&') + 
-    String("dev_type=ClockIOT    ");
+    String("dev_type=ClockIOT");
   Serial.println(url);
   http.begin(url);
   
@@ -251,7 +264,7 @@ void wipe_around(bool val){
   cx = 8;
   cy = 4;
   
-  fillMask(wipe, !val); // 
+  fillMask(!val, wipe); // 
   while (theta < 3.14 + dtheta){
     for(row=0; row < MatrixHeight; row++){
       for(col=0; col < MatrixWidth; col++){
@@ -279,21 +292,6 @@ typedef struct{
   String     name;
   int        id;
 } Display;
-
-void Plain_init(){
-  return;
-  while(1){
-    fill_blue();
-    fillMask(mask, ON);
-    wipe_around(ON);
-    Serial.println("HERE");
-    delay(500);
-
-    wipe_around(OFF);
-    my_show();
-    delay(500);
-  }
-}
 
 //--------------------------------------------------------------------------------
 //uint32_t current_time;
@@ -562,6 +560,15 @@ void applyMask(bool* mask){
   }
 }
 
+void paintMask(bool* mask, CRGB color){
+  uint16_t b, k;
+  for(uint16_t i=0; i < NUM_LEDS; i++){
+    if(mask[i]){
+      leds[i] = color;
+    }
+  }
+}
+
 void bigDigit(int x, int y, byte digit, bool* mask){
   byte row, col;
   if(digit < 10){
@@ -572,6 +579,112 @@ void bigDigit(int x, int y, byte digit, bool* mask){
 	}
 	else{
 	  maskPixel(col + x, row + y, false, mask);
+	}
+      }
+    }
+  }
+}
+
+void middleDigit(int x, int y, byte digit, bool* mask){
+  byte row, col;
+  if(digit < 10){
+    for(col = 0; col < 7; col++){
+      for(row = 0; row < 11; row++){
+	int _row = 11 - row - 1;
+	int _col = 7 - col - 1;
+	if((digits7x11[digit * 11 + _row] >> _col) & 1){
+	  maskPixel(col + x, row + y, true, mask);
+	}
+	else{
+	  maskPixel(col + x, row + y, false, mask);
+	}
+      }
+    }
+  }
+}
+
+void moonPhase(int x, int y, bool* mask){
+  uint8_t row, col;
+  uint8_t phase_idx = 0;
+  uint8_t i;
+  const uint8_t *phase;
+  double theta = get_moon_phase(timeClient.getGMTime());
+  
+  int theta_byt = (int)((theta * 256) / (2 * PI));
+  // find phase index
+  for(i = 1; i < N_MOON_PHASE; i++){
+    if(moon_phases_11x11[i * MOON_PHASE_STEP] > theta_byt){
+      phase_idx = i - 1;
+      break;
+    }
+  }
+  uint8_t bit, byt;
+  uint16_t n; // pixel counter
+  bool val;
+  phase = &moon_phases_11x11[phase_idx * MOON_PHASE_STEP];
+  if(phase_idx < N_MOON_PHASE){
+    for(col = 0; col < 11; col++){
+      for(row = 0; row < 11; row++){
+	n = row * 11 + col;
+	byt = n / 8 + 1; // plus one for theta_byt
+	bit = n % 8;
+	if (byt < MOON_PHASE_STEP){
+	  val = (phase[byt] >> bit) & 1;
+	  maskPixel(col + x, row + y, val, mask);
+	}
+      }
+    }
+    maskPixel(x + 10, y + 10, false, mask); // last always off
+  }
+}
+
+void littleDigit(int x, int y, byte digit, bool* mask){
+  byte row, col;
+  if(digit < 10){
+    for(col = 0; col < 4; col++){
+      for(row = 0; row < 7; row++){
+	if((digits4x7[digit * 4 + col] >> row) & 1){
+	  maskPixel(col + x, row + y, true, mask);
+	}
+	else{
+	  maskPixel(col + x, row + y, false, mask);
+	}
+      }
+    }
+  }
+}
+
+void littleChar(uint8_t x, uint8_t y, char c, bool *mask){
+  uint8_t idx = (uint8_t)c - 32;
+  byte row, col;
+  const unsigned char* pixels = font_5x6[idx];
+  
+  if(idx < 96){
+    for(col = 0; col < 5; col++){
+      for(row = 0; row < 5; row++){
+	if((pixels[col] >> (row+2)) & 1){
+	  maskPixel(col + x, row + y, true, mask);
+	}
+	else{
+	  maskPixel(col + x, row + y, false, mask);
+	}
+      }
+    }
+  }
+}
+
+void bigChar(uint8_t x, uint8_t y, char c, bool *mask){
+  uint8_t idx = (uint8_t)c - 32;
+  byte row, col;
+  const unsigned char* pixels = font_7x13[idx];
+  
+  if(idx < 96){
+    for(col = 0; col < 7; col++){
+      for(row = 0; row < 13; row++){
+	if((pixels[12-row] >> (7-col)) & 1){
+	  maskPixel(col + x, row + y, true, mask);
+	}
+	else{
 	}
       }
     }
@@ -808,7 +921,7 @@ void mqtt_setup(){
 }
 
 void splash(){
-  display_time(0, 0);
+  display_time(86400, 86400);
   my_show();
 }
 void led_setup(){
@@ -1037,12 +1150,89 @@ void  interact_loop(){
 
 void fireNoise2(void);
 
-void display_time(uint32_t last_time, uint32_t current_time){
-  int hh, mm, ss, start_x =  7;
-  int spm = current_time % 86400;
+void unix2hms(uint32_t unix, uint8_t *h, uint8_t *m, uint8_t *s){
+  int spm = unix % 86400;
+  int hh, mm, ss;
   hh = spm / 3600;
   mm = ((spm - hh * 3600) / 60); 
   ss = spm % 60;
+  *h = hh;
+  *m = mm;
+  *s = ss;
+}
+
+void littleTime(uint32_t current_time, uint8_t start_x, uint8_t start_y, bool* mask){
+  uint8_t hh, mm, ss;
+  unix2hms(current_time, &hh, &mm, &ss);
+
+  bool colen = (ss % 2) == 0;
+
+  if((hh % 12) > 9){
+    littleDigit(start_x + 0 * 5 - 1,  start_y, 1, mask);
+  }
+  littleDigit(start_x + 1 * 5 - 1,  start_y, (hh % 12)%10, mask);
+
+  maskPixel(start_x + 9, start_y + 2, colen, mask);
+  maskPixel(start_x + 9, start_y + 4, colen, mask);
+
+  littleDigit(start_x + 2 * 5 + 1,  start_y, mm/10, mask);
+  littleDigit(start_x + 3 * 5 + 1,  start_y, mm%10, mask);
+}
+void little3Code(char *code, uint8_t start_x, uint8_t start_y, bool* mask){
+  
+  littleChar(start_x +  0, start_y, code[0], mask);
+  littleChar(start_x +  6, start_y, code[1], mask);
+  littleChar(start_x + 12, start_y, code[2], mask);
+
+}
+
+void display_global_time(uint32_t last_time, uint32_t current_time){
+  uint8_t start_x =  4;
+  uint8_t ss = current_time % 60;
+  bool colen = (ss % 2) == 0;
+
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+  				  config.solid_color_rgb[1],
+  				  config.solid_color_rgb[2]));
+  fillMask(false, mask);
+  little3Code("SFO", start_x + 3, 0, mask);
+  littleTime(current_time - 3600 * 1, start_x, 6, mask);
+
+  little3Code("WYO", start_x + 3, 15, mask);
+  littleTime(current_time           , start_x, 21, mask);
+
+  little3Code(" NY", start_x + 3, 30, mask);
+  littleTime(current_time + 3600 * 2, start_x, 36, mask);
+  applyMask(mask);
+
+
+  // seconds
+  bool seconds_mask[NUM_LEDS];
+  fillMask(seconds_mask, false);
+  for(int i = 0; i < 2; i++){
+    for(int j = 0; j < 2; j++){
+      maskPixel(start_x + 2 + i    ,      48 + j, colen, seconds_mask);
+      maskPixel(start_x + 2 + i    ,      53 + j, colen, seconds_mask);
+    }
+  }
+  //bigChar(start_x + 5, 45, ss / 10 + '0', seconds_mask);
+  //bigChar(start_x +13, 45, ss % 10 + '0', seconds_mask);
+  middleDigit(start_x +  5, 45, ss / 10, seconds_mask);
+  middleDigit(start_x + 13, 45, ss % 10, seconds_mask);
+  
+  paintMask(seconds_mask, CRGB::Green);
+  
+  // moon
+  bool moon_mask[NUM_LEDS + 10];
+  fillMask(moon_mask, false);
+  moonPhase(start_x + 5, 45, moon_mask);
+  //paintMask(moon_mask, CRGB(0x80, 0xff, 0xff));// balanced white
+}
+
+void display_local_time(uint32_t last_time, uint32_t current_time){
+  uint8_t hh, mm, ss, start_x =  7;
+  unix2hms(current_time, &hh, &mm, &ss);
+
   if(false){
     Serial.print("hh:");
     Serial.print(hh);
@@ -1101,6 +1291,9 @@ void display_time(uint32_t last_time, uint32_t current_time){
 
 }
 
+void display_time(uint32_t last_time, uint32_t current_time){
+  display_global_time(last_time, current_time);
+}
 
 void loop(){
   uint8_t word[3];

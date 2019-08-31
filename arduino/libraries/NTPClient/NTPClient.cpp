@@ -103,7 +103,13 @@ bool NTPClient::update() {
   return true;
 }
 
+unsigned long NTPClient::getGMTime() {
+  return this->_currentEpoc + // Epoc returned by the NTP server
+         ((millis() - this->_lastUpdate) / 1000); // Time since last update
+}
+
 unsigned long NTPClient::getEpochTime() {
+  return this->getGMTime() + this->_timeOffset;
   return this->_timeOffset + // User offset
          this->_currentEpoc + // Epoc returned by the NTP server
          ((millis() - this->_lastUpdate) / 1000); // Time since last update

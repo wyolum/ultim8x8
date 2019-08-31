@@ -6,6 +6,7 @@ from kandy_commands import *
 port = sys.argv[1]
 s = serial.Serial(port, baudrate=115200, timeout=1);
 
+TZ = +5 * 3600 + 30 * 60 ## Mumbia
 TZ = -4 * 3600
 now = time.time() + TZ
 hh = int(now % 86400) / 3600

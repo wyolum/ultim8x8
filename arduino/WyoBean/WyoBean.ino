@@ -44,6 +44,8 @@ struct config_t{
   bool flip_display;
   uint32_t last_tz_lookup; // look up tz info every Sunday at 3:00 AM
   uint8_t solid_color_rgb[3];
+  uint8_t second_color_rgb[3];
+  uint8_t third_color_rgb[3];
   bool use_ntp_time;
   bool wifi_reset;
   uint8_t faceplate_idx;
@@ -60,6 +62,31 @@ void fillMask(bool* mask, bool b);
 void fillMask(bool* mask, bool b, int start, int stop);
 bool ip_from_str(char* str, byte* ip);
 void mqtt_setup();
+
+void Wheel(uint8_t WheelPos, uint8_t *red, uint8_t *green, uint8_t *blue) {
+  uint8_t r, g, b;
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    r = 255 - WheelPos * 3;
+    g = 0;
+    b = WheelPos * 3;
+  }
+  else if(WheelPos < 170) {
+    WheelPos -= 85;
+    r = 0;
+    g = WheelPos * 3;
+    b = 255 - WheelPos * 3;
+  }
+  else{
+    WheelPos -= 170;
+    r = WheelPos * 3;
+    g = 255 - WheelPos * 3;
+    b = 0;
+  }
+  *red = r;
+  *green = g;
+  *blue = b;
+}
 
 void fillMask(bool val, bool *mask){
   for(int i=0;i<NUM_LEDS; i++){
@@ -115,6 +142,20 @@ void print_config(){
       Serial.print(".");
     }
     Serial.print(config.solid_color_rgb[ii]);
+  }
+  Serial.print("    second_color_rgb:");
+  for(int ii = 0; ii < 3; ii++){
+    if (ii > 0){
+      Serial.print(".");
+    }
+    Serial.print(config.second_color_rgb[ii]);
+  }
+  Serial.print("    third_color_rgb:");
+  for(int ii = 0; ii < 3; ii++){
+    if (ii > 0){
+      Serial.print(".");
+    }
+    Serial.print(config.third_color_rgb[ii]);
   }
   Serial.println();
   Serial.print("    use_ntp_time:"); Serial.println(config.use_ntp_time);
@@ -811,6 +852,29 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     force_update = true;
     saveSettings();
   }
+  else if(strcmp(subtopic, "set_colorwheel") == 0 && length >= 1){
+    // payload: 0-255 color wheel value
+    Serial.print("color changed to wheel:");
+    for(int i=0; i<length; i++){
+      Serial.print((char)payload[i]);
+    }
+
+    uint8_t wheel_val = String(str_payload).toInt();
+    Wheel(wheel_val,
+	  &config.solid_color_rgb[0],
+	  &config.solid_color_rgb[1],
+	  &config.solid_color_rgb[2]);
+    Wheel(wheel_val + 85,
+	  &config.second_color_rgb[0],
+	  &config.second_color_rgb[1],
+	  &config.second_color_rgb[2]);
+    Wheel(wheel_val + 85 * 2,
+	  &config.third_color_rgb[0],
+	  &config.third_color_rgb[1],
+	  &config.third_color_rgb[2]);
+    force_update = true;
+    saveSettings();
+  }
   else if(strcmp(subtopic, "set_time") == 0){
     uint32_t tm = String(str_payload).toInt();
     config.use_ip_timezone = false;
@@ -979,6 +1043,12 @@ void factory_reset(){
   config.solid_color_rgb[0] = 0;
   config.solid_color_rgb[1] = 0;
   config.solid_color_rgb[2] = 255;
+  config.second_color_rgb[0] = 0;
+  config.second_color_rgb[1] = 255;
+  config.second_color_rgb[2] = 0;
+  config.third_color_rgb[0] = 255;
+  config.third_color_rgb[1] = 0;
+  config.third_color_rgb[2] = 0;
   config.flip_display = 255;
   config.last_tz_lookup = 0;
   config.use_ntp_time = true;
@@ -1166,11 +1236,14 @@ void littleTime(uint32_t current_time, uint8_t start_x, uint8_t start_y, bool* m
   unix2hms(current_time, &hh, &mm, &ss);
 
   bool colen = (ss % 2) == 0;
+  if(hh != 12){
+    hh = hh % 12;
+  }
 
-  if((hh % 12) > 9){
+  if(hh > 9){
     littleDigit(start_x + 0 * 5 - 1,  start_y, 1, mask);
   }
-  littleDigit(start_x + 1 * 5 - 1,  start_y, (hh % 12)%10, mask);
+  littleDigit(start_x + 1 * 5 - 1,  start_y, hh % 10, mask);
 
   maskPixel(start_x + 9, start_y + 2, colen, mask);
   maskPixel(start_x + 9, start_y + 4, colen, mask);
@@ -1220,7 +1293,9 @@ void display_global_time(uint32_t last_time, uint32_t current_time){
   middleDigit(start_x +  5, 45, ss / 10, seconds_mask);
   middleDigit(start_x + 13, 45, ss % 10, seconds_mask);
   
-  paintMask(seconds_mask, CRGB::Green);
+  paintMask(seconds_mask, CRGB(config.third_color_rgb[0],
+			       config.third_color_rgb[1],
+			       config.third_color_rgb[2]));
   
   // moon
   bool moon_mask[NUM_LEDS + 10];
@@ -1259,7 +1334,11 @@ void display_local_time(uint32_t last_time, uint32_t current_time){
   }
   Serial.println();
   */
-  if(hh % 12 > 9){
+  if(hh != 12){
+    hh = hh % 12;
+  }
+
+  if(hh > 9){
     bigDigit(start_x + 0 + 0,  0, (hh%12)/10, mask);
     bigDigit(start_x + 8 + 1,  0, (hh%12)%10, mask);
   }
@@ -1305,15 +1384,23 @@ void loop(){
   day = ntp_clock.day();
   dow = timeClient.getDay();
   for(int i = 0; i < 3; i++){
-    setPixel(0 + dow, i + 1, CRGB::Blue);
+    setPixel(0 + dow, i + 1, CRGB(config.second_color_rgb[0],
+  				  config.second_color_rgb[1],
+  				  config.second_color_rgb[2]));
   }  
   for(int i = 0; i < 3; i++){
-    setPixel(7 + month, i + 1, CRGB::Blue);
+    setPixel(7 + month, i + 1, CRGB(config.second_color_rgb[0],
+				    config.second_color_rgb[1],
+				    config.second_color_rgb[2]));
   }
   if(day > 9){
-    setPixel(7 + 12 + day, 2, CRGB::Blue);
+    setPixel(7 + 12 + day, 2, CRGB(config.second_color_rgb[0],
+				   config.second_color_rgb[1],
+				   config.second_color_rgb[2]));
   }
-  setPixel(7 + 12 + day, 3, CRGB::Blue);
+  setPixel(7 + 12 + day, 3, CRGB(config.second_color_rgb[0],
+				 config.second_color_rgb[1],
+				 config.second_color_rgb[2]));
   my_show();
 
   //print_time();

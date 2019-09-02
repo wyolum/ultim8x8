@@ -33,6 +33,7 @@ Thursday
 Friday
 Saturday
  */
+const uint8_t N_DISPLAY = 4;
 struct config_t{
   int timezone;
   uint8_t brightness;
@@ -186,6 +187,7 @@ void  interact_loop();
 #define MILLI_AMPS 2000  // IMPORTANT: set the max milli-Amps of your power supply (4A = 4000mA)
 
 uint32_t last_time;
+bool sleeping = false;
 
 //********************************************************************************
 // Displays
@@ -814,8 +816,26 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
   else if(strcmp(subtopic, "display_idx") == 0){
     Serial.println("Change display_idx, not supported.");
   }
+  else if(strcmp(subtopic, "prev_display") == 0){
+    config.display_idx = (config.display_idx + N_DISPLAY - 1) % N_DISPLAY;
+    saveSettings();
+    Serial.print("Display incremented to: ");
+    Serial.print(config.display_idx);
+  }
   else if(strcmp(subtopic, "next_display") == 0){
-    Serial.println("Increment display, not supported.");
+    config.display_idx = (config.display_idx + 1) % N_DISPLAY;
+    saveSettings();
+    Serial.print("Display incremented to: ");
+    Serial.print(config.display_idx);
+  }
+  else if(strcmp(subtopic, "toggle_sleep") == 0){
+    sleeping = !sleeping;
+    if(sleeping){
+      Serial.println("Going to sleep.");
+    }
+    else{
+      Serial.println("Waking up.");
+    }
   }
   else if(strcmp(subtopic, "brighter") == 0){
     Serial.println("Increment brigtness.");
@@ -1278,14 +1298,18 @@ void display_global_time(uint32_t last_time, uint32_t current_time){
   littleTime(current_time + 3600 * 2, start_x, 36, mask);
   applyMask(mask);
 
-
+}
+void display_big_seconds(){
+  uint8_t start_x =  4;
+  uint8_t ss = timeClient.getGMTime() % 60;
+  
   // seconds
   bool seconds_mask[NUM_LEDS];
   fillMask(seconds_mask, false);
   for(int i = 0; i < 2; i++){
-    for(int j = 0; j < 2; j++){
-      maskPixel(start_x + 2 + i    ,      48 + j, colen, seconds_mask);
-      maskPixel(start_x + 2 + i    ,      53 + j, colen, seconds_mask);
+    for(int j = 0; j < 2; j++){ // 2x2 colen?
+      //maskPixel(start_x + 2 + i    ,      48 + j, colen, seconds_mask);
+      //maskPixel(start_x + 2 + i    ,      53 + j, colen, seconds_mask);
     }
   }
   //bigChar(start_x + 5, 45, ss / 10 + '0', seconds_mask);
@@ -1297,11 +1321,16 @@ void display_global_time(uint32_t last_time, uint32_t current_time){
 			       config.third_color_rgb[1],
 			       config.third_color_rgb[2]));
   
+}
+
+void display_moon_phase(){
+  uint8_t start_x =  4;
+
   // moon
   bool moon_mask[NUM_LEDS + 10];
   fillMask(moon_mask, false);
   moonPhase(start_x + 5, 45, moon_mask);
-  //paintMask(moon_mask, CRGB(0x80, 0xff, 0xff));// balanced white
+  paintMask(moon_mask, CRGB(0x80, 0xff, 0xff));// balanced white
 }
 
 void display_local_time(uint32_t last_time, uint32_t current_time){
@@ -1370,8 +1399,39 @@ void display_local_time(uint32_t last_time, uint32_t current_time){
 
 }
 
+void display_small_time(uint32_t last_time, uint32_t current_time){
+  uint8_t start_x =  4;
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+  				  config.solid_color_rgb[1],
+  				  config.solid_color_rgb[2]));
+  fillMask(false, mask);
+  little3Code("WYO", start_x + 3, 0, mask);
+  littleTime(current_time          , start_x, 6, mask);
+  applyMask(mask);
+}
 void display_time(uint32_t last_time, uint32_t current_time){
-  display_global_time(last_time, current_time);
+  if(sleeping){
+    fill_solid(leds, NUM_LEDS, CRGB::Black);
+  }
+  else{
+    if(config.display_idx == 0){
+      display_local_time(last_time, current_time);
+    }
+    else if(config.display_idx == 1){
+      display_global_time(last_time, current_time);
+      display_big_seconds();
+    }
+    else if(config.display_idx == 2){
+      display_global_time(last_time, current_time);
+      display_moon_phase();    
+    }
+    else if(config.display_idx == 3){
+      display_small_time(last_time, current_time);
+    }
+    else{
+      fill_solid(leds, NUM_LEDS, CRGB::Black);
+    }
+  }
 }
 
 void loop(){
@@ -1384,21 +1444,21 @@ void loop(){
   day = ntp_clock.day();
   dow = timeClient.getDay();
   for(int i = 0; i < 3; i++){
-    setPixel(0 + dow, i + 1, CRGB(config.second_color_rgb[0],
+    setPixel(0 + dow, i, CRGB(config.second_color_rgb[0],
   				  config.second_color_rgb[1],
   				  config.second_color_rgb[2]));
   }  
   for(int i = 0; i < 3; i++){
-    setPixel(7 + month, i + 1, CRGB(config.second_color_rgb[0],
+    setPixel(7 + month, i, CRGB(config.second_color_rgb[0],
 				    config.second_color_rgb[1],
 				    config.second_color_rgb[2]));
   }
   if(day > 9){
-    setPixel(7 + 12 + day, 2, CRGB(config.second_color_rgb[0],
+    setPixel(7 + 12 + day + 1, 1, CRGB(config.second_color_rgb[0],
 				   config.second_color_rgb[1],
 				   config.second_color_rgb[2]));
   }
-  setPixel(7 + 12 + day, 3, CRGB(config.second_color_rgb[0],
+  setPixel(7 + 12 + day + 1, 2, CRGB(config.second_color_rgb[0],
 				 config.second_color_rgb[1],
 				 config.second_color_rgb[2]));
   my_show();

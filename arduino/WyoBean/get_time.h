@@ -37,6 +37,8 @@ class NTPClock : public Clock{
   void setOffset(int32_t offset_seconds);
   NTPClient *timeClient;
   uint32_t now();
+  uint32_t gmt();
+  uint32_t dow();
   bool update();
 };
 

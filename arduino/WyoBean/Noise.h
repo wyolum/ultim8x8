@@ -17,7 +17,7 @@
    You should have received a copy of the GNU General Public License
    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
-
+#include "MatrixMap.h"
 #define MAX_DIMENSION ((MatrixWidth > MatrixHeight) ? MatrixWidth : MatrixHeight)
 
 // The 16 bit version of our coordinates
@@ -85,6 +85,7 @@ void SetupBlackAndBlueStripedPalette()
 //
 // Additionally, you can manually define your own color palettes, or you can write
 // code that creates color palettes on the fly.
+CRGB *my_leds;
 
 void drawNoise(CRGBPalette16 palette, uint8_t hueReduce = 0)
 {
@@ -108,7 +109,7 @@ void drawNoise(CRGBPalette16 palette, uint8_t hueReduce = 0)
       if(hueReduce > 0 && data >= hueReduce)
         data -= hueReduce;
   
-      leds[i] = ColorFromPalette(palette, data, 255, LINEARBLEND);
+      my_leds[i] = ColorFromPalette(palette, data, 255, LINEARBLEND);
     }
   }
 
@@ -173,7 +174,7 @@ void fireNoise() {
 
 void fireNoise2() {
   noisespeedx = 0;
-  noisespeedy = -8;
+  noisespeedy = 8;
   noisespeedz = 3;
   noisescale = 32;
   colorLoop = 0;

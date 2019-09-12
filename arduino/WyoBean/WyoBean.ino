@@ -12,6 +12,7 @@
 #include <ESP8266HTTPClient.h>
 
 #include "textures.h"
+#include "Noise.h"
 #include "logic.h"
 #include "get_time.h"
 
@@ -21,7 +22,6 @@
 #include "fonts.h"
 #include "moon_phases.h"
 
-NTPClock ntp_clock;
 WiFiManager wifiManager;
 WiFiUDP ntpUDP;
 /*
@@ -33,7 +33,10 @@ Thursday
 Friday
 Saturday
  */
-const uint8_t N_DISPLAY = 4;
+const uint8_t N_DISPLAY = 9;
+const uint8_t N_BRIGHTNESS = 18;
+const uint8_t BRIGHTNESSES[N_BRIGHTNESS] = {1, 2,  3,  4,  5,  6,  7,  8,
+					    10, 12, 14, 16, 19, 23, 27, 32, 38, 45};
 struct config_t{
   int timezone;
   uint8_t brightness;
@@ -52,6 +55,9 @@ struct config_t{
   uint8_t faceplate_idx;
 } config;
 
+NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000); // do not use directly (only through ntp_clock)
+NTPClock ntp_clock; // uses timeClient
+
 uint16_t XY(int x, int y);
 void set_timezone_offset(int32_t offset);
 uint32_t Now();
@@ -63,6 +69,7 @@ void fillMask(bool* mask, bool b);
 void fillMask(bool* mask, bool b, int start, int stop);
 bool ip_from_str(char* str, byte* ip);
 void mqtt_setup();
+
 
 void Wheel(uint8_t WheelPos, uint8_t *red, uint8_t *green, uint8_t *blue) {
   uint8_t r, g, b;
@@ -200,8 +207,6 @@ void my_show(){
 typedef void (*Init)();
 typedef void (*DisplayTime)(uint32_t last_tm, uint32_t tm);
 
-NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000);
-
 String jsonLookup(String s, String name){
   int start = s.indexOf(name) + name.length() + 3;
   int stop = s.indexOf('"', start);
@@ -228,7 +233,7 @@ void set_timezone_from_ip(){
     String(WiFi.localIP()[2]) + String('.') + 
     String(WiFi.localIP()[3]) + String('&') +
     String("macaddress=") + WiFi.macAddress() + String('&') + 
-    String("dev_type=ClockIOT");
+    String("dev_type=WyoBean");
   Serial.println(url);
   http.begin(url);
   
@@ -404,45 +409,6 @@ void fill_black(){
 void noop(){
 }
 
-void rainbow_cycle(int count){
-  int i, dx, dy;
-  CHSV hsv;
-  float dist;
-  
-  hsv.hue = 0;
-  hsv.val = 255;
-  hsv.sat = 240;
-
-  for( int row = 0; row < MatrixHeight; row++) {
-    for( int col = 0; col < MatrixWidth; col++) {
-      // dx, dy, dist used for radial pattern, not used here
-      dy = (row - 4) * 2;
-      dx = col - 8;
-      dist = sqrt(dx * dx + dy * dy);
-      i = XY(col, row);
-      //hsv.hue =  ((int)(dist * 16) - count) % 256;
-      hsv.hue =  (count + (MatrixWidth * row + col) * 2) % 256;
-      leds[i] = hsv;
-    }
-  }
-}
-
-void rainbow_fast() {
-  uint32_t current_time = Now();
-  int count = millis() / 100;
-  
-  rainbow_cycle(millis()/25);
-  // Show the leds (only one of which is set to white, from above)
-  //delay(100);
-}
-
-void rainbow_slow() {
-  uint32_t current_time = Now();
-  int count = ((current_time % 300) * 255) / 300;
-  rainbow_cycle(count);
-}
-
-
 uint8_t logo_rgb[] = {
   0x11,0x00,0x29,0x00,0x25,0x00,0x23,0x00,0x25,0x00,0x29,0x00,0x31,0x00,0xe0,0x01,
   0x00,0x03,0x80,0x04,0x80,0x04,0x80,0x04,0x80,0x04,0x00,0x03,0x00,0x00,0x00,0x00,
@@ -451,52 +417,28 @@ uint8_t logo_rgb[] = {
 
 // Common Interface for buttons and MQTT
 void set_brightness(uint8_t brightness){
-  if(brightness < 256){
+  if(brightness < N_BRIGHTNESS){
     config.brightness = brightness;
-    FastLED.setBrightness(config.brightness);
+    FastLED.setBrightness(BRIGHTNESSES[config.brightness]);
     Serial.print("Adjust brightness to ");
     Serial.println(config.brightness);
     saveSettings();
   }
 }
 
-void adjust_brightness(int delta){
-  int new_val = delta + config.brightness;
-  if(delta != 0){
-    if(0 < new_val && new_val < 256){
-      set_brightness(new_val);
-    }
-  }
-}
-
 void dimmer(){
   byte b;
   b = config.brightness;
-  if(b == 255){
-    b = 128;
-  }
-  else if(b > 3){
-    b /= 2;
-  }
-  else if (b == 3){
-    b = 2;
-  }
-  else{
-    b = 2;
+  if(b >= 1){
+    b -= 1;
   }
   set_brightness(b);
 }
 void brighter(){
   byte b;
   b = config.brightness;
-  if(b >= 128){
-    b = 255;
-  }
-  else if(b < 128){
-    b *= 2;
-  }
-  else{
-    b = 128;
+  if(b < N_BRIGHTNESS - 1){
+    b += 1;
   }
   set_brightness(b);
 }
@@ -651,7 +593,7 @@ void moonPhase(int x, int y, bool* mask){
   uint8_t phase_idx = 0;
   uint8_t i;
   const uint8_t *phase;
-  double theta = get_moon_phase(timeClient.getGMTime());
+  double theta = get_moon_phase(ntp_clock.gmt());
   
   int theta_byt = (int)((theta * 256) / (2 * PI));
   // find phase index
@@ -732,25 +674,6 @@ void bigChar(uint8_t x, uint8_t y, char c, bool *mask){
       }
     }
   }
-}
-
-bool rotate_display = true;
-uint16_t XY(int x, int y){
-  uint16_t out;
-  if(rotate_display){
-    int tmp = x;
-    x = y;
-    y = MatrixHeight - tmp - 1;
-  }
-  
-  if(0 <= x && x < MatrixWidth &&
-     0 <= y && y < MatrixHeight){
-    out = MatrixMap[y][x];
-  }
-  else{
-    out = 0;
-  }
-  return out;
 }
 
 uint8_t hex2dig(char h){
@@ -1049,10 +972,112 @@ void hexdump(const void *mem, uint32_t len, uint8_t cols) {
 	Serial.printf("\n");
 }
 
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * ws_payload,
+		    size_t length) {
+  char topic_payload[length + 1];
+  String str_topic_payload;
+  int i;
+  int start, stop;
+  Serial.println("WebSocket Event!");
+  switch(type) {
+  case WStype_DISCONNECTED:
+    Serial.printf("[%u] Disconnected!\n", num);
+    break;
+  case WStype_CONNECTED:
+    {
+      IPAddress ip = webSocket.remoteIP(num);
+      Serial.printf("[%u] Connected from %d.%d.%d.%d url: %s\n", num, ip[0], ip[1], ip[2], ip[3], ws_payload);
+      
+      // send message to client
+      webSocket.sendTXT(num, "Connected");
+    }
+    break;
+  case WStype_TEXT:
+    Serial.printf("[%u] get Text: %s\n", num, ws_payload);
+
+    for(i=0; i < length; i++){
+      topic_payload[i] = (char)ws_payload[i];
+    }
+    topic_payload[length] = 0;
+    str_topic_payload = String(topic_payload);
+
+    start = str_topic_payload.indexOf("//");
+    stop = start + 2;
+    if(start < 0){
+      start = length;
+      stop = length;
+    }
+    
+    char topic[100];
+    byte payload[100];
+    for(i = 0; i < start; i++){
+      topic[i] = topic_payload[i];
+    }
+    topic[start] = 0;
+
+    for(i = 0; i < length - stop; i++){
+      payload[i] = (byte)topic_payload[stop + i];
+    }
+    payload[length - stop] = 0;
+    
+    handle_msg(topic, payload, length - stop);
+
+    if (strcmp(topic, "clockiot/get_displays") == 0) {
+	// send display names to client
+      String display_names = String("{\"displays\":[");
+      for(int ii=0; ii < N_DISPLAY; ii++){
+	//display_names = display_names + String("\"") + String(Displays[ii].name)  + String("\"");
+	if(ii < N_DISPLAY - 1){
+	  //display_names = display_names + String(",");
+	}
+      }
+      display_names = display_names + String("],\"display_idx\":\"") + String(config.display_idx) + String("\"}");
+      
+      webSocket.sendTXT(num, display_names.c_str());
+      Serial.println("Display names requested");
+      }
+    
+    // send data to all connected clients
+    // webSocket.broadcastTXT("message here");
+    if (strcmp(topic, "clockiot/get_faceplates") == 0) {
+	// send faceplate names to client
+      String faceplate_names = String("{\"faceplates\":[");
+      faceplate_names = faceplate_names + String("],\"faceplate_idx\":\"") + String(config.faceplate_idx) + String("\"}");
+      
+      webSocket.sendTXT(num, faceplate_names.c_str());
+      Serial.println("Faceplate names requested");
+      }
+    
+    // send data to all connected clients
+    // webSocket.broadcastTXT("message here");
+    break;
+  case WStype_BIN:
+    Serial.printf("[%u] get binary length: %u\n", num, length);
+    hexdump(ws_payload, length, 16);
+    
+    // send message to client
+    // webSocket.sendBIN(num, ws_payload, length);
+    break;
+  case WStype_ERROR:			
+  case WStype_FRAGMENT_TEXT_START:
+  case WStype_FRAGMENT_BIN_START:
+  case WStype_FRAGMENT:
+  case WStype_FRAGMENT_FIN:
+    break;
+  }
+}
+
+void websocket_setup(){
+  webSocket.begin();
+  webSocket.onEvent(webSocketEvent);
+  Serial.println("WebSocket Setup!");
+  
+}
+
 void factory_reset(){
   Serial.println("Factory RESET");
   config.timezone = 255; //?
-  config.brightness = 8;
+  config.brightness = 6;
   config.display_idx = 255;
   config.use_wifi = 255;
   config.use_ip_timezone = 255;
@@ -1094,6 +1119,7 @@ bool use_mqtt(){
 }
 
 void setup(){
+  my_leds = &leds[0];
   last_time = 0;
   
   Wire.begin();
@@ -1107,8 +1133,8 @@ void setup(){
   print_config();
 
   // logo
-  if( config.brightness == 0 || config.brightness == 255){
-    set_brightness(8);
+  if(config.brightness >= N_BRIGHTNESS){
+    set_brightness(6);
   }
   led_setup(); // set up leds first so buttons can affect display if needed
   //factory_reset(); // manually call once, then recomment out and upload
@@ -1139,6 +1165,7 @@ void setup(){
   Serial.print("config.use_ip_timezone: ");
   Serial.println((bool)config.use_ip_timezone);
 
+  websocket_setup();
   print_time();
   Serial.println("setup() complete");
 }
@@ -1234,6 +1261,7 @@ void  interact_loop(){
     mqtt_client.loop();
   }
   if(config.use_wifi){
+    webSocket.loop();
   }
   serial_loop();
 }
@@ -1299,9 +1327,9 @@ void display_global_time(uint32_t last_time, uint32_t current_time){
   applyMask(mask);
 
 }
-void display_big_seconds(){
+void display_big_seconds(uint32_t current_time){
   uint8_t start_x =  4;
-  uint8_t ss = timeClient.getGMTime() % 60;
+  uint8_t ss = current_time % 60;
   
   // seconds
   bool seconds_mask[NUM_LEDS];
@@ -1333,36 +1361,12 @@ void display_moon_phase(){
   paintMask(moon_mask, CRGB(0x80, 0xff, 0xff));// balanced white
 }
 
-void display_local_time(uint32_t last_time, uint32_t current_time){
-  uint8_t hh, mm, ss, start_x =  7;
+void mask_big_time(uint8_t start_x, uint32_t current_time, bool *mask){
+  uint8_t hh, mm, ss;
   unix2hms(current_time, &hh, &mm, &ss);
-
-  if(false){
-    Serial.print("hh:");
-    Serial.print(hh);
-    Serial.print(" mm:");
-    Serial.print(mm);
-    Serial.print(" ss:");
-    Serial.println(ss);
-  }
-  
-  fillMask(false, mask);
-
   bool colen = (ss % 2) == 0;
   //colen = true;
-  
-  //fill_solid(leds, NUM_LEDS, CRGB::Blue);
-  //fireNoise2();
-  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
-  				  config.solid_color_rgb[1],
-  				  config.solid_color_rgb[2]));
-  /*
-  for(int i=0; i < 3; i++){
-    Serial.print(config.solid_color_rgb[i]);
-    Serial.print(" ");
-  }
-  Serial.println();
-  */
+
   if(hh != 12){
     hh = hh % 12;
   }
@@ -1394,39 +1398,119 @@ void display_local_time(uint32_t last_time, uint32_t current_time){
   maskPixel(start_x + 4 + 9, 17 + 20, colen, mask);
   maskPixel(start_x + 3 + 9, 18 + 20, colen, mask);
   maskPixel(start_x + 4 + 9, 18 + 20, colen, mask);
+}
 
+void mask_perpetual_calendar(bool *mask){
+  for(int row = 0; row < MatrixWidth; row++){
+    for(int col = 0; col < 4; col++){
+      mask[XY(col, row)] = false;
+    }
+    mask[XY(23, row)] = false;
+  }
+}
+
+void display_local_time(uint32_t last_time, uint32_t current_time, bool invert){
+  uint8_t hh, mm, ss, start_x =  5;
+  unix2hms(current_time, &hh, &mm, &ss);
+
+  if(false){
+    Serial.print("hh:");
+    Serial.print(hh);
+    Serial.print(" mm:");
+    Serial.print(mm);
+    Serial.print(" ss:");
+    Serial.println(ss);
+  }
+  
+  fillMask(false, mask);
+  
+  //fill_solid(leds, NUM_LEDS, CRGB::Blue);
+  //fireNoise2();
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+  				  config.solid_color_rgb[1],
+  				  config.solid_color_rgb[2]));
+  /*
+  for(int i=0; i < 3; i++){
+    Serial.print(config.solid_color_rgb[i]);
+    Serial.print(" ");
+  }
+  Serial.println();
+  */
+  mask_big_time(start_x, current_time, mask);
+  if(invert){
+    logical_not(NUM_LEDS, mask, mask);
+  }
+  mask_perpetual_calendar(mask);  
   applyMask(mask);
 
 }
 
 void display_small_time(uint32_t last_time, uint32_t current_time){
   uint8_t start_x =  4;
+  uint8_t start_y = current_time % 60;
+
+  if(start_y > 29){
+    start_y = 60 - start_y;
+  }
+
   fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
   				  config.solid_color_rgb[1],
   				  config.solid_color_rgb[2]));
   fillMask(false, mask);
-  little3Code("WYO", start_x + 3, 0, mask);
-  littleTime(current_time          , start_x, 6, mask);
+  //little3Code("   ", start_x + 3, start_y, mask);
+  littleTime(current_time          , start_x, start_y, mask);
   applyMask(mask);
 }
+void my_rainbow(){
+  int i;
+  uint8_t red, green, blue;
+  
+  for(uint8_t row=0; row < MatrixWidth; row++){
+    for(uint8_t col=0; col < MatrixHeight; col++){
+      i = XY(col, row);
+      Wheel(((col + row) + millis()/300) % 255, &red, &green, &blue);
+      leds[i] = CRGB(red,green, blue);
+    }
+  }
+}
+
 void display_time(uint32_t last_time, uint32_t current_time){
   if(sleeping){
     fill_solid(leds, NUM_LEDS, CRGB::Black);
   }
   else{
     if(config.display_idx == 0){
-      display_local_time(last_time, current_time);
+      display_local_time(last_time, current_time, false);
     }
     else if(config.display_idx == 1){
-      display_global_time(last_time, current_time);
-      display_big_seconds();
+      display_local_time(last_time, current_time, true);
     }
     else if(config.display_idx == 2){
       display_global_time(last_time, current_time);
-      display_moon_phase();    
+      display_big_seconds(current_time);
     }
     else if(config.display_idx == 3){
+      display_global_time(last_time, current_time);
+      display_moon_phase();    
+    }
+    else if(config.display_idx == 4){
       display_small_time(last_time, current_time);
+    }
+    else if(config.display_idx > 4){
+      fillMask(false, mask);
+      mask_big_time(5, current_time, mask);
+      if(config.display_idx % 2 == 0){
+	logical_not(NUM_LEDS, mask, mask);
+      }
+      mask_perpetual_calendar(mask);
+      if(config.display_idx == 5 || config.display_idx == 6){
+	fireNoise2();// 5 or 6
+      }
+      else if (config.display_idx == 7 || config.display_idx == 8){
+	my_rainbow(); // 7 or 8
+	//rainbow_slow(); // 7 or 8
+      }
+      applyMask(mask);
     }
     else{
       fill_solid(leds, NUM_LEDS, CRGB::Black);
@@ -1442,7 +1526,8 @@ void loop(){
   display_time(last_time, current_time);
   month = ntp_clock.month();
   day = ntp_clock.day();
-  dow = timeClient.getDay();
+  //dow = timeClient.getDay();
+  dow = ntp_clock.dow();
   for(int i = 0; i < 3; i++){
     setPixel(0 + dow, i, CRGB(config.second_color_rgb[0],
   				  config.second_color_rgb[1],

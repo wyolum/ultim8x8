@@ -32,4 +32,23 @@ uint16_t MatrixMap[MatrixHeight][MatrixWidth] = {
 {1336,1335,1320,1319,1304,1303,1288,1287,1272,1271,1256,1255,1240,1239,1224,1223,1208,1207,1192,1191,1176,1175,1160,1159,1144,1143,1128,1127,1112,1111,1096,1095,1080,1079,1064,1063,1048,1047,1032,1031,1016,1015,1000, 999, 984, 983, 968, 967, 952, 951, 936, 935, 920, 919, 904, 903},
 };
 
+bool rotate_display = true;
+uint16_t XY(int x, int y){
+  uint16_t out;
+  if(rotate_display){
+    int tmp = x;
+    x = y;
+    y = MatrixHeight - tmp - 1;
+  }
+  
+  if(0 <= x && x < MatrixWidth &&
+     0 <= y && y < MatrixHeight){
+    out = MatrixMap[y][x];
+  }
+  else{
+    out = 0;
+  }
+  return out;
+}
+
 #endif

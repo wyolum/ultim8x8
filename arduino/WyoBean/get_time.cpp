@@ -62,6 +62,16 @@ uint32_t NTPClock::now(){
   return this->timeClient->getEpochTime();
 }
 
+uint32_t NTPClock::gmt(){
+  this->update();
+  return this->now() + this->timeClient->_timeOffset;
+}
+
+uint32_t NTPClock::dow(){
+  this->update();
+  return this->timeClient->getDay();
+}
+
 time_t ds3231_now(){
   RTC_DS3231 rtc;
   time_t n = rtc.now().unixtime();

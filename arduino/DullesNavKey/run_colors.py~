@@ -1,0 +1,10 @@
+from serial import *
+import time
+s = serial.Serial('/dev/ttyUSB0', baudrate=115200, timeout=.1)
+
+i = 0
+while 1:
+    s.write('clockiot/set_colorwheel//%d' % i)
+    i += 1
+    i %= 256
+    time.sleep(.1)

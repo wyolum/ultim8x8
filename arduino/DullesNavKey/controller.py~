@@ -1,0 +1,6 @@
+from tkinter import *
+
+r = Tk()
+c = Canvas(r, width=300, height=300)
+c.pack()
+r.mainloop()

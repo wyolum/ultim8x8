@@ -197,11 +197,6 @@ Display *Display_ps[N_DISPLAY] = {&WordDropDisplay,
 Display* CurrentDisplay_p = &TheMatrixDisplay;
 //Display* CurrentDisplay_p = &WordDropDisplay;
 
-void new_display(Display* Display_p){
-  Display_p->init();
-  CurrentDisplay_p = Display_p;
-}
-
 void get_time_display(bool* mask, int time_inc){
   uint8_t bits;     // holds the on off state for 8 words at a time
   uint8_t word[3];  // start columm, start row, length of the current word

@@ -7,6 +7,7 @@
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
 #include <WebSocketsServer.h>
+#include <I2CNavKey.h>
 #include <i2cEncoderLibV2.h>
 #include "english_v3.h"
 
@@ -16,12 +17,113 @@
 #include "textures.h"
 #include "logic.h"
 #include "get_time.h"
-
 #include "config.h"
 #include "MatrixMap.h"
 #include "digits.h"
 #include "fonts.h"
 #include "moon_phases.h"
+
+const int IntPin = 16; /* Definition of the interrupt pin*/
+//Class initialization with the I2C addresses
+
+// header ################################################################################
+void set_timezone_offset(int32_t offset);
+uint32_t Now();
+void saveSettings();
+void display_time(uint32_t last_time, uint32_t current_time);
+void apply_mask(bool* mask);
+void apply_mask(bool* mask, CRGB color);
+void fillMask(bool* mask, bool b);
+void fillMask(bool* mask, bool b, int start, int stop);
+bool ip_from_str(char* str, byte* ip);
+
+void word_drop_in(uint16_t time_inc, bool* mask);
+void word_drop_out(uint16_t time_inc);
+void word_drop(uint16_t last_time_inc, uint16_t time_inc);
+void fade_transition(uint16_t time_inc, uint16_t last_time_inc);
+void plain_jane(uint16_t last_time_inc, uint16_t time_inc);
+void TheMatrix(uint16_t last_time_inc, uint16_t time_inc);
+void wipe_around_transition(uint16_t last_time_inc, uint16_t time_inc);
+void setPixelMask(bool* mask, uint8_t row, uint8_t col, bool b);
+void get_time_display(bool* mask, int i);
+void getword(int i, uint8_t* out);
+void setWordMask(bool *mask, uint8_t* word, bool b);
+void prev_display();
+void next_display();
+void UP_Button_Pressed(i2cNavKey* p);
+void DOWN_Button_Pressed(i2cNavKey* p);
+void LEFT_Button_Pressed(i2cNavKey* p);
+void RIGHT_Button_Pressed(i2cNavKey* p);
+void CENTRAL_Button_Pressed(i2cNavKey* p);
+void CENTRAL_Button_Double(i2cNavKey* p);
+void Encoder_Rotate(i2cNavKey* p);
+void fill_color();
+void fill_blue();
+void fill_red();
+void fill_green();
+void Wheel(uint8_t WheelPos, uint8_t *red, uint8_t *green, uint8_t *blue);
+
+struct config_t{
+  int timezone;
+  uint8_t brightness;
+  uint8_t display_idx;
+  bool factory_reset;
+  bool use_wifi;
+  bool use_ip_timezone;
+  byte mqtt_ip[4];
+  bool flip_display;
+  uint32_t last_tz_lookup; // look up tz info every Sunday at 3:00 AM
+  uint8_t solid_color_rgb[3];
+  uint8_t second_color_rgb[3];
+  uint8_t third_color_rgb[3];
+  bool use_ntp_time;
+  bool wifi_reset;
+  uint8_t faceplate_idx;
+} config;
+
+
+// end header ################################################################################
+
+// navkey callbacks
+//******************************************************************************
+i2cNavKey navkey(0b0010000); /* Default address when no jumper are soldered */
+void UP_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button UP Pressed!");
+  prev_display();
+}
+
+void DOWN_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button DOWN Pressed!");
+  next_display();
+}
+
+void LEFT_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button LEFT Pressed!");
+}
+
+void RIGHT_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button RIGHT Pressed!");
+}
+
+void CENTRAL_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button Central Pressed!");
+}
+
+void CENTRAL_Button_Double(i2cNavKey* p) {
+  Serial.println("Button Central Double push!");
+}
+
+void Encoder_Rotate(i2cNavKey* p) {
+  byte wheel_val = (byte)p->readCounterInt();
+  Serial.println(wheel_val);
+  Wheel(wheel_val,
+	&config.solid_color_rgb[0],
+	&config.solid_color_rgb[1],
+	&config.solid_color_rgb[2]);
+  saveSettings();
+}
+// end navkey callbacks
+//********************************************************************************
 
 WiFiManager wifiManager;
 WiFiUDP ntpUDP;
@@ -50,50 +152,9 @@ uint8_t display_idx;
 uint8_t last_min_hack_inc = 0;
 uint16_t last_time_inc = 0;
 
-struct config_t{
-  int timezone;
-  uint8_t brightness;
-  uint8_t display_idx;
-  bool factory_reset;
-  bool use_wifi;
-  bool use_ip_timezone;
-  byte mqtt_ip[4];
-  bool flip_display;
-  uint32_t last_tz_lookup; // look up tz info every Sunday at 3:00 AM
-  uint8_t solid_color_rgb[3];
-  uint8_t second_color_rgb[3];
-  uint8_t third_color_rgb[3];
-  bool use_ntp_time;
-  bool wifi_reset;
-  uint8_t faceplate_idx;
-} config;
-
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000); // do not use directly (only through ntp_clock)
 NTPClock ntp_clock; // uses timeClient
 
-
-// header ################################################################################
-void set_timezone_offset(int32_t offset);
-uint32_t Now();
-void saveSettings();
-void display_time(uint32_t last_time, uint32_t current_time);
-void apply_mask(bool* mask);
-void apply_mask(bool* mask, CRGB color);
-void fillMask(bool* mask, bool b);
-void fillMask(bool* mask, bool b, int start, int stop);
-bool ip_from_str(char* str, byte* ip);
-
-void word_drop_in(uint16_t time_inc, bool* mask);
-void word_drop_out(uint16_t time_inc);
-void word_drop(uint16_t last_time_inc, uint16_t time_inc);
-void fade_transition(uint16_t time_inc, uint16_t last_time_inc);
-void TheMatrix(uint16_t last_time_inc, uint16_t time_inc);
-void wipe_around_transition(uint16_t last_time_inc, uint16_t time_inc);
-void setPixelMask(bool* mask, uint8_t row, uint8_t col, bool b);
-void get_time_display(bool* mask, int i);
-void getword(int i, uint8_t* out);
-void setWordMask(bool *mask, uint8_t* word, bool b);
-// end header ################################################################################
 
 void getword(int i, uint8_t* out){
   out[0] = pgm_read_byte(WORDS + 3 * i + 1);
@@ -124,12 +185,14 @@ void blend_to_rainbow();
 
 Display WordDropDisplay = {blend_to_rainbow, rainbow, word_drop, String("Word Drop"), 0};
 Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 1};
-Display TheMatrixDisplay = {blend_to_blue, fill_blue, TheMatrix, String("The Matrix"), 2};
+Display TheMatrixDisplay = {fill_blue, fill_blue, TheMatrix, String("The Matrix"), 2};
+Display PlaneJaneDisplay = {fill_color, fill_color, plain_jane, String("Plane Jane"), 3};
 
-const int N_DISPLAY = 3;
+const int N_DISPLAY = 4;
 Display *Display_ps[N_DISPLAY] = {&WordDropDisplay,
 				  &WipeAroundDisplay,
-				  &TheMatrixDisplay};
+				  &TheMatrixDisplay,
+				  &PlaneJaneDisplay};
 //Display* CurrentDisplay_p = &WipeAroundDisplay;
 Display* CurrentDisplay_p = &TheMatrixDisplay;
 //Display* CurrentDisplay_p = &WordDropDisplay;
@@ -296,6 +359,12 @@ void fade_transition(uint16_t time_inc, uint16_t last_time_inc){
   }
 }
 
+void plain_jane(uint16_t last_time_inc, uint16_t time_inc){
+  fillMask(mask, false);
+  get_time_display(mask, time_inc); // leds have old time
+  fill_color();
+  apply_mask(mask);
+}
 void TheMatrix(uint16_t last_time_inc, uint16_t time_inc){
   int n_drop = 0;
   int n_need = 8;
@@ -519,11 +588,23 @@ void wipe_left(bool val){
 void next_display(){
   Serial.println("Next Display");
   String name = CurrentDisplay_p->name;
-  Serial.println(name);
-  int next_display_i = CurrentDisplay_p->id + 1;
-  next_display_i %= N_DISPLAY;
+  Serial.print("from:");
+  Serial.print(name);
+  int next_display_i = (CurrentDisplay_p->id + 1) % N_DISPLAY;
   CurrentDisplay_p = Display_ps[next_display_i];
   CurrentDisplay_p->init();
+  Serial.print(" to:");
+  Serial.println(CurrentDisplay_p->name);
+}
+void prev_display(){
+  Serial.println("Previous Display");
+  String name = CurrentDisplay_p->name;
+  Serial.print("from:");
+  Serial.print(name);
+  int prev_display_i = (CurrentDisplay_p->id + N_DISPLAY - 1) % N_DISPLAY;
+  CurrentDisplay_p = Display_ps[prev_display_i];
+  CurrentDisplay_p->init();
+  Serial.print(" to:");
   Serial.println(CurrentDisplay_p->name);
 }
 
@@ -620,7 +701,6 @@ void print_config(){
   Serial.print("    wifi_reset:"); Serial.println(config.wifi_reset);
   Serial.print("    faceplate_idx:"); Serial.println(config.faceplate_idx);
 }
-bool force_update = false;
 
 //const bool ON = true;
 //const bool OFF = !ON;
@@ -795,6 +875,11 @@ void blend_to_blue(){
   blend_to_color(CRGB::Blue);
 }
 
+void fill_color(){
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+  				  config.solid_color_rgb[1],
+  				  config.solid_color_rgb[2]));
+}
 void fill_red(){
   fill_solid(leds, NUM_LEDS, CRGB::Red);
 }
@@ -1175,7 +1260,6 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     config.solid_color_rgb[0] = hh2dd((char*)payload);
     config.solid_color_rgb[1] = hh2dd((char*)payload + 2);
     config.solid_color_rgb[2] = hh2dd((char*)payload + 4);
-    force_update = true;
     saveSettings();
   }
   else if(strcmp(subtopic, "set_colorwheel") == 0 && length >= 1){
@@ -1198,7 +1282,6 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
 	  &config.third_color_rgb[0],
 	  &config.third_color_rgb[1],
 	  &config.third_color_rgb[2]);
-    force_update = true;
     saveSettings();
   }
   else if(strcmp(subtopic, "set_time") == 0){
@@ -1269,6 +1352,45 @@ bool ip_from_str(char* str, byte* ip){
     Serial.println();
   }
   return out;
+}
+
+void navkey_setup(){
+  pinMode(IntPin, INPUT);
+  Wire.begin();
+  Serial.begin(115200);
+  Serial.println("**** I2C navkey V2 basic example ****");
+  /*
+      INT_DATA= The register are considered integer.
+      WRAP_ENABLE= The WRAP option is enabled
+      DIRE_RIGHT= navkey right direction increase the value
+      IPUP_ENABLE= INT pin have the pull-up enabled.
+  */
+
+  navkey.reset();
+  navkey.begin(i2cNavKey::INT_DATA | i2cNavKey::WRAP_ENABLE | i2cNavKey::DIRE_RIGHT | i2cNavKey::IPUP_ENABLE);
+
+  navkey.writeCounter((int32_t)0); /* Reset the counter value */
+  navkey.writeMax((int32_t)255); /* Set the maximum threshold*/
+  navkey.writeMin((int32_t)0); /* Set the minimum threshold */
+  navkey.writeStep((int32_t)1); /* Set the step to 1*/
+
+  navkey.writeDoublePushPeriod(30);  /*Set a period for the double push of 300ms */
+
+  navkey.onUpPush = UP_Button_Pressed;
+  navkey.onDownPush = DOWN_Button_Pressed;
+  navkey.onRightPush = RIGHT_Button_Pressed;
+  navkey.onLeftPush = LEFT_Button_Pressed;
+  navkey.onCentralPush = CENTRAL_Button_Pressed;
+  navkey.onCentralDoublePush = CENTRAL_Button_Double;
+  navkey.onChange = Encoder_Rotate;
+
+  navkey.autoconfigInterrupt(); /* Enable the interrupt with the attached callback */
+
+  Serial.print("ID CODE: 0x");
+  Serial.println(navkey.readIDCode(), HEX);
+  Serial.print("Board Version: 0x");
+  Serial.println(navkey.readVersion(), HEX);
+
 }
 
 void splash(){
@@ -1471,6 +1593,7 @@ void setup(){
   loadSettings();
   print_config();
 
+  navkey_setup();
   // logo
   if(config.brightness >= N_BRIGHTNESS){
     set_brightness(6);
@@ -1587,6 +1710,13 @@ void serial_loop(){
   ser_msg_len = 0;
 }
 
+void navkey_loop() {
+  uint8_t enc_cnt;
+  if (digitalRead(IntPin) == LOW) {
+    navkey.updateStatus();
+  }
+}
+
 void  interact_loop(){
   if(force_timezone_from_ip){
     force_timezone_from_ip = false;
@@ -1596,6 +1726,7 @@ void  interact_loop(){
     webSocket.loop();
   }
   serial_loop();
+  navkey_loop();
 }
 
 void fireNoise2(void);
@@ -1717,10 +1848,10 @@ void rainbow(){
   int i;
   uint8_t red, green, blue;
   
-  for(uint8_t row=0; row < MatrixWidth; row++){
-    for(uint8_t col=0; col < MatrixHeight; col++){
+  for(uint8_t row=0; row < MatrixHeight; row++){
+    for(uint8_t col=0; col < MatrixWidth; col++){
       i = XY(col, row);
-      Wheel(((col + row) + millis()/300) % 255, &red, &green, &blue);
+      Wheel(((col * 10 + row * 10) + millis()/300) % 255, &red, &green, &blue);
       leds[i] = CRGB(red,green, blue);
     }
   }
@@ -1733,12 +1864,11 @@ void display_time(uint32_t last_time, uint32_t current_time){
 
   spm = current_time % 86400;
   time_inc = spm / 300;
-  /* //remove transitions for now
+  //remove transitions for now
   if(time_inc != last_time_inc){
     CurrentDisplay_p->transition(last_time_inc, time_inc);
     last_time_inc = time_inc;
   }
-  */
   
   fillMask(mask, false);
   get_time_display(mask, time_inc);
@@ -1752,7 +1882,8 @@ void loop(){
   uint8_t word[3];
   uint32_t current_time = Now();
   uint8_t month, day, dow;
-  
+
+  interact_loop();
   display_time(last_time, current_time);
   my_show();
 

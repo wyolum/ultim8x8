@@ -104,7 +104,7 @@ void writeEncoder(uint8_t reg, uint8_t data) {
   Wire.endTransmission();
 }
 
-void loop(){
+void _loop(){
   byte rdata0 = 0xFF;
   byte rdata1 = 0xFF;
   writeEncoder(0x04, 0xFF);
@@ -133,7 +133,7 @@ void loop(){
   Serial.println();
   delay(1000);
 }
-void _loop() {
+void loop() {
   uint8_t enc_cnt;
   if (digitalRead(IntPin) == LOW) {
     navkey.updateStatus();

@@ -7,12 +7,12 @@
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
 #include <WebSocketsServer.h>
+#include <I2CNavKey.h>
 
 //#define ULTIM8x16 // DullesKlok
 #include <ESP8266HTTPClient.h>
 
 #include "textures.h"
-#include "Snake.h"
 #include "Noise.h"
 #include "logic.h"
 #include "get_time.h"
@@ -35,9 +35,13 @@ Friday
 Saturday
  */
 const uint8_t N_DISPLAY = 9;
-const uint8_t N_BRIGHTNESS = 18;
-const uint8_t BRIGHTNESSES[N_BRIGHTNESS] = {1, 2,  3,  4,  5,  6,  7,  8,
-					    10, 12, 14, 16, 19, 23, 27, 32, 38, 45};
+const uint8_t N_BRIGHTNESS = 17;
+const uint8_t BRIGHTNESSES[N_BRIGHTNESS] = {2,  3,  4,  5,  6,  7,  8, 10,
+					    12, 14, 16, 19, 23, 27, 32, 38, 45};
+bool setup_complete = false;
+const int IntPin = 16; /* Definition of the interrupt pin*/
+
+
 struct config_t{
   int timezone;
   uint8_t brightness;
@@ -71,31 +75,73 @@ void fillMask(bool* mask, bool b, int start, int stop);
 bool ip_from_str(char* str, byte* ip);
 void mqtt_setup();
 
+void prev_display();
+void next_display();
+void toggle_sleep();
+void brighter();
+void dimmer();
+void Wheel(uint8_t WheelPos, uint8_t *red, uint8_t *green, uint8_t *blue);
 
-void Wheel(uint8_t WheelPos, uint8_t *red, uint8_t *green, uint8_t *blue) {
-  uint8_t r, g, b;
-  WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
-    r = 255 - WheelPos * 3;
-    g = 0;
-    b = WheelPos * 3;
-  }
-  else if(WheelPos < 170) {
-    WheelPos -= 85;
-    r = 0;
-    g = WheelPos * 3;
-    b = 255 - WheelPos * 3;
-  }
-  else{
-    WheelPos -= 170;
-    r = WheelPos * 3;
-    g = 255 - WheelPos * 3;
-    b = 0;
-  }
-  *red = r;
-  *green = g;
-  *blue = b;
+void UP_Button_Pressed(i2cNavKey* p);
+void DOWN_Button_Pressed(i2cNavKey* p);
+void LEFT_Button_Pressed(i2cNavKey* p);
+void RIGHT_Button_Pressed(i2cNavKey* p);
+void CENTRAL_Button_Pressed(i2cNavKey* p);
+void CENTRAL_Button_Double(i2cNavKey* p);
+void Encoder_Rotate(i2cNavKey* p);
+
+// navkey callbacks
+//******************************************************************************
+i2cNavKey navkey(0b0010000); /* Default address when no jumper are soldered */
+void UP_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button UP Pressed!");
+  prev_display();
 }
+
+void DOWN_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button DOWN Pressed!");
+  next_display();
+}
+
+void LEFT_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button LEFT Pressed!");
+  brighter();
+}
+
+void RIGHT_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button RIGHT Pressed!");
+  dimmer();
+}
+
+void CENTRAL_Button_Pressed(i2cNavKey* p) {
+  Serial.println("Button Central Pressed!");
+  toggle_sleep();
+}
+
+void CENTRAL_Button_Double(i2cNavKey* p) {
+  Serial.println("Button Central Double push!");
+}
+
+void Encoder_Rotate(i2cNavKey* p) {
+  byte wheel_val = (byte)p->readCounterInt();
+  Serial.println(wheel_val);
+  Wheel(wheel_val,
+	&config.solid_color_rgb[0],
+	&config.solid_color_rgb[1],
+	&config.solid_color_rgb[2]);
+  Wheel(wheel_val + 85,
+	&config.second_color_rgb[0],
+	&config.second_color_rgb[1],
+	&config.second_color_rgb[2]);
+  Wheel(wheel_val + 85 * 2,
+	&config.third_color_rgb[0],
+	&config.third_color_rgb[1],
+	&config.third_color_rgb[2]);
+
+  saveSettings();
+}
+// end navkey callbacks
+//********************************************************************************
 
 void fillMask(bool val, bool *mask){
   for(int i=0;i<NUM_LEDS; i++){
@@ -593,8 +639,13 @@ void moonPhase(int x, int y, bool* mask){
   uint8_t row, col;
   uint8_t phase_idx = 0;
   uint8_t i;
+  double theta;
   const uint8_t *phase;
-  double theta = get_moon_phase(ntp_clock.gmt());
+
+  // some strange bug if get_moon_phase is called prior to setup completion
+  if(setup_complete){
+    theta = get_moon_phase(ntp_clock.gmt());
+  }
   
   int theta_byt = (int)((theta * 256) / (2 * PI));
   // find phase index
@@ -697,6 +748,55 @@ uint8_t hh2dd(char *hh){
 
 bool force_timezone_from_ip = false;
 
+void Wheel(uint8_t WheelPos, uint8_t *red, uint8_t *green, uint8_t *blue) {
+  uint8_t r, g, b;
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    r = 255 - WheelPos * 3;
+    g = 0;
+    b = WheelPos * 3;
+  }
+  else if(WheelPos < 170) {
+    WheelPos -= 85;
+    r = 0;
+    g = WheelPos * 3;
+    b = 255 - WheelPos * 3;
+  }
+  else{
+    WheelPos -= 170;
+    r = WheelPos * 3;
+    g = 255 - WheelPos * 3;
+    b = 0;
+  }
+  *red = r;
+  *green = g;
+  *blue = b;
+}
+
+void prev_display(){
+    config.display_idx = (config.display_idx + N_DISPLAY - 1) % N_DISPLAY;
+    saveSettings();
+    Serial.print("Display incremented to: ");
+    Serial.print(config.display_idx);
+}
+
+void next_display(){
+    config.display_idx = (config.display_idx + 1) % N_DISPLAY;
+    saveSettings();
+    Serial.print("Display incremented to: ");
+    Serial.print(config.display_idx);
+}
+
+void toggle_sleep(){
+  sleeping = !sleeping;
+  if(sleeping){
+    Serial.println("Going to sleep.");
+  }
+  else{
+    Serial.println("Waking up.");
+  }
+}
+
 void handle_msg(char* topic, byte* payload, unsigned int length) {
   bool handled = false;
   char str_payload[length + 1];
@@ -741,25 +841,13 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
     Serial.println("Change display_idx, not supported.");
   }
   else if(strcmp(subtopic, "prev_display") == 0){
-    config.display_idx = (config.display_idx + N_DISPLAY - 1) % N_DISPLAY;
-    saveSettings();
-    Serial.print("Display incremented to: ");
-    Serial.print(config.display_idx);
+    prev_display();
   }
   else if(strcmp(subtopic, "next_display") == 0){
-    config.display_idx = (config.display_idx + 1) % N_DISPLAY;
-    saveSettings();
-    Serial.print("Display incremented to: ");
-    Serial.print(config.display_idx);
+    next_display();
   }
   else if(strcmp(subtopic, "toggle_sleep") == 0){
-    sleeping = !sleeping;
-    if(sleeping){
-      Serial.println("Going to sleep.");
-    }
-    else{
-      Serial.println("Waking up.");
-    }
+    toggle_sleep();
   }
   else if(strcmp(subtopic, "brighter") == 0){
     Serial.println("Increment brigtness.");
@@ -919,6 +1007,45 @@ bool mqtt_connect(){
   return mqtt_client.connected();
 }
 
+void navkey_setup(){
+  pinMode(IntPin, INPUT);
+  Wire.begin();
+  Serial.begin(115200);
+  Serial.println("**** I2C navkey V2 basic example ****");
+  /*
+      INT_DATA= The register are considered integer.
+      WRAP_ENABLE= The WRAP option is enabled
+      DIRE_RIGHT= navkey right direction increase the value
+      IPUP_ENABLE= INT pin have the pull-up enabled.
+  */
+
+  navkey.reset();
+  navkey.begin(i2cNavKey::INT_DATA | i2cNavKey::WRAP_ENABLE | i2cNavKey::DIRE_RIGHT | i2cNavKey::IPUP_ENABLE);
+
+  navkey.writeCounter((int32_t)0); /* Reset the counter value */
+  navkey.writeMax((int32_t)255); /* Set the maximum threshold*/
+  navkey.writeMin((int32_t)0); /* Set the minimum threshold */
+  navkey.writeStep((int32_t)1); /* Set the step to 1*/
+
+  navkey.writeDoublePushPeriod(30);  /*Set a period for the double push of 300ms */
+
+  navkey.onUpPush = UP_Button_Pressed;
+  navkey.onDownPush = DOWN_Button_Pressed;
+  navkey.onRightPush = RIGHT_Button_Pressed;
+  navkey.onLeftPush = LEFT_Button_Pressed;
+  navkey.onCentralPush = CENTRAL_Button_Pressed;
+  navkey.onCentralDoublePush = CENTRAL_Button_Double;
+  navkey.onChange = Encoder_Rotate;
+
+  navkey.autoconfigInterrupt(); /* Enable the interrupt with the attached callback */
+
+  Serial.print("ID CODE: 0x");
+  Serial.println(navkey.readIDCode(), HEX);
+  Serial.print("Board Version: 0x");
+  Serial.println(navkey.readVersion(), HEX);
+
+}
+
 void mqtt_setup(){
   //uint8_t server[4] = {192, 168, 1, 159};
   //uint8_t server[4] = {10, 10, 10, 2};
@@ -932,6 +1059,7 @@ void splash(){
   display_time(86400, 86400);
   my_show();
 }
+
 void led_setup(){
   FastLED.addLeds<LED_TYPE, DATA_PIN, CLK_PIN, COLOR_ORDER>(leds, NUM_LEDS);
   FastLED.setDither(true);
@@ -1132,16 +1260,18 @@ void setup(){
   EEPROM.begin(1024);
   loadSettings();
   print_config();
-
   // logo
   if(config.brightness >= N_BRIGHTNESS){
     set_brightness(6);
   }
+  navkey_setup(); // set up navigation controls
+  
   led_setup(); // set up leds first so buttons can affect display if needed
   //factory_reset(); // manually call once, then recomment out and upload
   if(config.factory_reset){// do factory reset on first on
     factory_reset();
   }
+
   if(config.display_idx == 255){
     config.display_idx = 0;
     saveSettings();
@@ -1150,6 +1280,7 @@ void setup(){
   if(config.use_wifi){
     wifi_setup();
   }
+
   if(use_mqtt()){
     mqtt_setup();
   }
@@ -1169,6 +1300,7 @@ void setup(){
   websocket_setup();
   print_time();
   Serial.println("setup() complete");
+  setup_complete = true;
 }
 
 uint32_t Now(){
@@ -1253,6 +1385,13 @@ void serial_loop(){/// allow same msgs as mqtt
   ser_msg_len = 0;
 }
 
+void navkey_loop() {
+  uint8_t enc_cnt;
+  if (digitalRead(IntPin) == LOW) {
+    navkey.updateStatus();
+  }
+}
+
 void  interact_loop(){
   if(force_timezone_from_ip){
     force_timezone_from_ip = false;
@@ -1265,6 +1404,7 @@ void  interact_loop(){
     webSocket.loop();
   }
   serial_loop();
+  navkey_loop();
 }
 
 void fireNoise2(void);

@@ -14,9 +14,9 @@
   INT -> A3
 */
 
-const int IntPin = A3; /* Definition of the interrupt pin. You can change according to your board /*
+const int IntPin = 16; /* Definition of the interrupt pin. You can change according to your board /*
   //Class initialization with the I2C addresses*/
-i2cEncoderLibV2 Encoder(0x01); /* A0 is soldered */
+i2cEncoderLibV2 Encoder(0x00); /* none is soldered */
 
 void setup(void) {
   pinMode(IntPin, INPUT);
@@ -53,7 +53,7 @@ void setup(void) {
 }
 
 void loop() {
-
+  
   if (digitalRead(IntPin) == LOW) {
     if (Encoder.updateStatus()) {
       if (Encoder.readStatus(i2cEncoderLibV2::RINC)) {

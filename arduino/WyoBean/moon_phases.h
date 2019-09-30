@@ -1,6 +1,7 @@
 const uint32_t NEW_MOON_EPOCH = 1546741792; // Jan 6, 2019 2:29:52
 const double MOON_PERIOD =  29.530588853 * 86400;
 double get_moon_phase(uint32_t gmt){
+
   uint32_t seconds = gmt - NEW_MOON_EPOCH;
   double phase = 2 * PI * (seconds / MOON_PERIOD - int(seconds / MOON_PERIOD));
   return phase;

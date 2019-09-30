@@ -12,6 +12,7 @@
 #include <ESP8266HTTPClient.h>
 
 #include "textures.h"
+#include "Snake.h"
 #include "Noise.h"
 #include "logic.h"
 #include "get_time.h"

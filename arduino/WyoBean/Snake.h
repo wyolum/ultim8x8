@@ -3,11 +3,12 @@
 #include <FastLED.h>
 #include "MatrixMap.h"
 
-const int NORTH[2] = { 0,  1};
-const int  WEST[2] = { 1,  0};
-const int SOUTH[2] = { 0, -1};
-const int  EAST[2] = {-1,  0};
-const int *snake_direction = NORTH;
+const int SNAKE_DIRS[4][2] = {{ 1,  0}, { 0, -1}, {-1,  0}, { 0,  1}};
+const int *NORTH = SNAKE_DIRS[2];
+const int  *WEST = SNAKE_DIRS[1];
+const int *SOUTH = SNAKE_DIRS[0];
+const int  *EAST = SNAKE_DIRS[3];
+const int *snake_direction = SOUTH;
 
 bool GameOver;
 
@@ -131,9 +132,9 @@ class Snake{
   }
   void reset(){
     Serial.println("reset()");
-    segments[0].moveto(8, 5, CRGB::Blue); // tail
-    segments[1].moveto(8, 4, CRGB::Red ); // head
-    length = 2;
+    segments[0].moveto(0, 12, CRGB::Blue); // tail
+    segments[1].moveto(1, 12, CRGB::Red ); // head
+    length = 1;
     snake_direction = SOUTH;
     GameOver = false;
   }

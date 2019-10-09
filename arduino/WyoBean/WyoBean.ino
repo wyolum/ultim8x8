@@ -12,6 +12,7 @@
 //#define ULTIM8x16 // DullesKlok
 #include <ESP8266HTTPClient.h>
 
+#include "Snake.h"
 #include "textures.h"
 #include "Noise.h"
 #include "logic.h"
@@ -34,7 +35,8 @@ Thursday
 Friday
 Saturday
  */
-const uint8_t N_DISPLAY = 9;
+const uint8_t SNAKE_DISPLAY_IDX = 9;
+const uint8_t N_DISPLAY = 9; // SNAKE DISABLED
 const uint8_t N_BRIGHTNESS = 17;
 const uint8_t BRIGHTNESSES[N_BRIGHTNESS] = {2,  3,  4,  5,  6,  7,  8, 10,
 					    12, 14, 16, 19, 23, 27, 32, 38, 45};
@@ -58,6 +60,7 @@ struct config_t{
   bool use_ntp_time;
   bool wifi_reset;
   uint8_t faceplate_idx;
+  uint8_t colorwheel_idx;
 } config;
 
 NTPClient timeClient(ntpUDP, "us.pool.ntp.org", 0, 60000); // do not use directly (only through ntp_clock)
@@ -124,21 +127,39 @@ void CENTRAL_Button_Double(i2cNavKey* p) {
 
 void Encoder_Rotate(i2cNavKey* p) {
   byte wheel_val = (byte)p->readCounterInt();
-  Serial.println(wheel_val);
-  Wheel(wheel_val,
-	&config.solid_color_rgb[0],
-	&config.solid_color_rgb[1],
-	&config.solid_color_rgb[2]);
-  Wheel(wheel_val + 85,
-	&config.second_color_rgb[0],
-	&config.second_color_rgb[1],
-	&config.second_color_rgb[2]);
-  Wheel(wheel_val + 85 * 2,
-	&config.third_color_rgb[0],
-	&config.third_color_rgb[1],
-	&config.third_color_rgb[2]);
-
-  saveSettings();
+  if(config.display_idx != SNAKE_DISPLAY_IDX){
+    config.colorwheel_idx = wheel_val;
+    saveSettings();
+    Serial.println(wheel_val);
+    Wheel(wheel_val,
+	  &config.solid_color_rgb[0],
+	  &config.solid_color_rgb[1],
+	  &config.solid_color_rgb[2]);
+    Wheel(wheel_val + 85,
+	  &config.second_color_rgb[0],
+	  &config.second_color_rgb[1],
+	  &config.second_color_rgb[2]);
+    Wheel(wheel_val + 85 * 2,
+	  &config.third_color_rgb[0],
+	  &config.third_color_rgb[1],
+	  &config.third_color_rgb[2]);
+    saveSettings();
+  }
+}
+int snake_dir_idx = 0;
+void Encoder_Increment(i2cNavKey* p){
+  if(config.display_idx == SNAKE_DISPLAY_IDX){
+    Serial.println("Inc.");
+    snake_dir_idx = (snake_dir_idx + 1) % 4;
+    snake_direction = SNAKE_DIRS[snake_dir_idx];
+  }
+}
+void Encoder_Decrement(i2cNavKey* p){
+  if(config.display_idx == SNAKE_DISPLAY_IDX){
+    Serial.println("Dec.");
+    snake_dir_idx = (snake_dir_idx + 3) % 4;
+    snake_direction = SNAKE_DIRS[snake_dir_idx];
+  }
 }
 // end navkey callbacks
 //********************************************************************************
@@ -216,6 +237,7 @@ void print_config(){
   Serial.print("    use_ntp_time:"); Serial.println(config.use_ntp_time);
   Serial.print("    wifi_reset:"); Serial.println(config.wifi_reset);
   Serial.print("    faceplate_idx:"); Serial.println(config.faceplate_idx);
+  Serial.print("    colorwheel_idx:"); Serial.println(config.colorwheel_idx);
 }
 bool force_update = false;
 
@@ -227,7 +249,6 @@ const uint8_t N_BOARD = 2;
 
 bool mask[NUM_LEDS];
 bool wipe[NUM_LEDS];
-CRGB leds[NUM_LEDS];
 
 WiFiClient espClient;
 PubSubClient mqtt_client(espClient);
@@ -331,10 +352,6 @@ void set_timezone_from_ip(){
   }
 }
 
-void setPixel(byte row, byte col, const struct CRGB & color){
-  int pos = XY(col, row);
-  leds[pos] = color;
-}
 void setPixelMask(bool* mask, uint8_t row, uint8_t col, bool b){
   if(row >= MatrixHeight){
   }
@@ -823,14 +840,12 @@ void handle_msg(char* topic, byte* payload, unsigned int length) {
       config.use_ip_timezone = true;
       force_timezone_from_ip = true;
       saveSettings();
-      print_config();
     }
     else{
       String s = String(str_payload);
       set_timezone_offset(s.toInt());
       config.use_ip_timezone = false;
       saveSettings();
-      print_config();
     }
   }
   else if(strcmp(subtopic, "add_to_timezone") == 0){
@@ -1022,7 +1037,7 @@ void navkey_setup(){
   navkey.reset();
   navkey.begin(i2cNavKey::INT_DATA | i2cNavKey::WRAP_ENABLE | i2cNavKey::DIRE_RIGHT | i2cNavKey::IPUP_ENABLE);
 
-  navkey.writeCounter((int32_t)0); /* Reset the counter value */
+  navkey.writeCounter((int32_t)config.colorwheel_idx); // set counter value
   navkey.writeMax((int32_t)255); /* Set the maximum threshold*/
   navkey.writeMin((int32_t)0); /* Set the minimum threshold */
   navkey.writeStep((int32_t)1); /* Set the step to 1*/
@@ -1036,7 +1051,8 @@ void navkey_setup(){
   navkey.onCentralPush = CENTRAL_Button_Pressed;
   navkey.onCentralDoublePush = CENTRAL_Button_Double;
   navkey.onChange = Encoder_Rotate;
-
+  navkey.onIncrement = Encoder_Increment;
+  navkey.onDecrement = Encoder_Decrement;
   navkey.autoconfigInterrupt(); /* Enable the interrupt with the attached callback */
 
   Serial.print("ID CODE: 0x");
@@ -1065,7 +1081,7 @@ void led_setup(){
   FastLED.setDither(true);
   FastLED.setCorrection(TypicalLEDStrip);
   FastLED.setMaxPowerInVoltsAndMilliamps(5, MILLI_AMPS);
-  FastLED.setBrightness(config.brightness);
+  FastLED.setBrightness(BRIGHTNESSES[config.brightness]);
   splash();
 }
 
@@ -1228,6 +1244,7 @@ void factory_reset(){
   config.use_ntp_time = true;
   config.wifi_reset = true;
   config.faceplate_idx = 255;
+  config.colorwheel_idx = 0;
   config.factory_reset = false;
   saveSettings();
   print_config();
@@ -1298,6 +1315,8 @@ void setup(){
   Serial.println((bool)config.use_ip_timezone);
 
   websocket_setup();
+  print_config();
+  
   print_time();
   Serial.println("setup() complete");
   setup_complete = true;
@@ -1425,8 +1444,9 @@ void littleTime(uint32_t current_time, uint8_t start_x, uint8_t start_y, bool* m
   unix2hms(current_time, &hh, &mm, &ss);
 
   bool colen = (ss % 2) == 0;
-  if(hh != 12){
-    hh = hh % 12;
+  hh = hh % 12;
+  if(hh == 0){
+    hh = 12;
   }
 
   if(hh > 9){
@@ -1513,8 +1533,8 @@ void mask_big_time(uint8_t start_x, uint32_t current_time, bool *mask){
   }
 
   if(hh > 9){
-    bigDigit(start_x + 0 + 0,  0, (hh%12)/10, mask);
-    bigDigit(start_x + 8 + 1,  0, (hh%12)%10, mask);
+    bigDigit(start_x + 0 + 0,  0, (hh)/10, mask);
+    bigDigit(start_x + 8 + 1,  0, (hh)%10, mask);
   }
   else{
     bigDigit(start_x + 8 - 4 + 1,  0, (hh%12)%10, mask);
@@ -1615,6 +1635,25 @@ void my_rainbow(){
   }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// SNAKE
+void snake_setup(){
+  snacks.New();
+}
+
+Snake snake;
+
+void snake_loop(){
+  fill_solid(leds, NUM_LEDS, CRGB::Black);
+  snake.move();
+  snacks.draw();
+  snake.draw();
+  delay(100);
+}
+
+// END SNAKE
+////////////////////////////////////////////////////////////////////////////////
+
 void display_time(uint32_t last_time, uint32_t current_time){
   if(sleeping){
     fill_solid(leds, NUM_LEDS, CRGB::Black);
@@ -1637,7 +1676,7 @@ void display_time(uint32_t last_time, uint32_t current_time){
     else if(config.display_idx == 4){
       display_small_time(last_time, current_time);
     }
-    else if(config.display_idx > 4){
+    else if(config.display_idx > 4 && config.display_idx < 9){
       fillMask(false, mask);
       mask_big_time(5, current_time, mask);
       if(config.display_idx % 2 == 0){
@@ -1652,6 +1691,9 @@ void display_time(uint32_t last_time, uint32_t current_time){
 	//rainbow_slow(); // 7 or 8
       }
       applyMask(mask);
+    }
+    else if(config.display_idx == 9){
+      snake_loop();
     }
     else{
       fill_solid(leds, NUM_LEDS, CRGB::Black);
@@ -1689,31 +1731,6 @@ void loop(){
 				 config.second_color_rgb[2]));
   my_show();
 
-  //print_time();
-  //delay(1000);
-  /*
-  */
-  if(config.use_wifi){
-    if(config.use_ntp_time){
-      if(ntp_clock.seconds() == 0 and millis() < 10000){
-	Serial.print("Doomsday Time:");
-	Serial.print(ntp_clock.year());
-	Serial.print("/");
-	Serial.print(ntp_clock.month());
-	Serial.print("/");
-	Serial.print(ntp_clock.day());
-	Serial.print(" ");
-	if(ntp_clock.hours() < 10)Serial.print('0');
-	Serial.print(ntp_clock.hours());
-	Serial.print(":");
-	if(ntp_clock.minutes() < 10)Serial.print('0');
-	Serial.print(ntp_clock.minutes());
-	Serial.print(":");
-	if(ntp_clock.seconds() < 10)Serial.print('0');
-	Serial.println(ntp_clock.seconds());
-      }
-    }
-  }
   last_time = current_time;
 }
 #include "Noise.h"

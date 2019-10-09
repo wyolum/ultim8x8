@@ -50,5 +50,10 @@ uint16_t XY(int x, int y){
   }
   return out;
 }
+CRGB leds[NUM_LEDS];
+void setPixel(byte row, byte col, const struct CRGB & color){
+  int pos = XY(col, row);
+  leds[pos] = color;
+}
 
 #endif

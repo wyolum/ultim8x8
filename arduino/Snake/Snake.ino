@@ -160,6 +160,7 @@ void snake_loop(){
   snake.move();
   snacks.draw();
   snake.draw();
+  delay(30);
 }
 void loop(){
   interact_loop();

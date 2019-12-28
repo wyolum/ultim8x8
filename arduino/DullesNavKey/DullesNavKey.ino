@@ -7,7 +7,12 @@
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
 #include <WebSocketsServer.h>
+
+#undef USE_NAVKEY
+#ifdef USE_NAVKEY
 #include <I2CNavKey.h>
+#endif
+
 #include <i2cEncoderLibV2.h>
 #include "english_v3.h"
 
@@ -50,6 +55,7 @@ void getword(int i, uint8_t* out);
 void setWordMask(bool *mask, uint8_t* word, bool b);
 void prev_display();
 void next_display();
+#ifdef USE_NAVKEY
 void UP_Button_Pressed(i2cNavKey* p);
 void DOWN_Button_Pressed(i2cNavKey* p);
 void LEFT_Button_Pressed(i2cNavKey* p);
@@ -57,6 +63,7 @@ void RIGHT_Button_Pressed(i2cNavKey* p);
 void CENTRAL_Button_Pressed(i2cNavKey* p);
 void CENTRAL_Button_Double(i2cNavKey* p);
 void Encoder_Rotate(i2cNavKey* p);
+#endif
 void fill_color();
 void fill_blue();
 void fill_red();
@@ -86,6 +93,7 @@ struct config_t{
 
 // navkey callbacks
 //******************************************************************************
+#ifdef NAVKEY
 i2cNavKey navkey(0b0010000); /* Default address when no jumper are soldered */
 void UP_Button_Pressed(i2cNavKey* p) {
   Serial.println("Button UP Pressed!");
@@ -122,6 +130,7 @@ void Encoder_Rotate(i2cNavKey* p) {
 	&config.solid_color_rgb[2]);
   saveSettings();
 }
+#endif
 // end navkey callbacks
 //********************************************************************************
 
@@ -1349,6 +1358,7 @@ bool ip_from_str(char* str, byte* ip){
   return out;
 }
 
+#ifdef USE_NAVKEY
 void navkey_setup(){
   pinMode(IntPin, INPUT);
   Wire.begin();
@@ -1387,6 +1397,7 @@ void navkey_setup(){
   Serial.println(navkey.readVersion(), HEX);
 
 }
+#endif
 
 void splash(){
   display_time(86400, 86400);
@@ -1412,10 +1423,10 @@ void wifi_setup(){
   if(config.wifi_reset){
     config.wifi_reset = false;
     saveSettings();
-    wifiManager.startConfigPortal("KLOK");
+    wifiManager.startConfigPortal("DullesClock");
   }
   else{
-    wifiManager.autoConnect("KLOK");
+    wifiManager.autoConnect("DullesClock");
   }
   Serial.println("Yay connected!");
   Serial.println("IP address: ");
@@ -1588,7 +1599,9 @@ void setup(){
   loadSettings();
   print_config();
 
+#ifdef USE_NAVKEY
   navkey_setup();
+#endif
   // logo
   if(config.brightness >= N_BRIGHTNESS){
     set_brightness(6);
@@ -1705,12 +1718,14 @@ void serial_loop(){
   ser_msg_len = 0;
 }
 
+#ifdef USE_NAVKEY
 void navkey_loop() {
   uint8_t enc_cnt;
   if (digitalRead(IntPin) == LOW) {
     navkey.updateStatus();
   }
 }
+#endif
 
 void  interact_loop(){
   if(force_timezone_from_ip){
@@ -1721,7 +1736,9 @@ void  interact_loop(){
     webSocket.loop();
   }
   serial_loop();
+#ifdef USE_NAVKEY
   navkey_loop();
+#endif
 }
 
 void fireNoise2(void);

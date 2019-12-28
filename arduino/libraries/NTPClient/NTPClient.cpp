@@ -88,10 +88,11 @@ bool NTPClient::forceUpdate() {
   // combine the four bytes (two words) into a long integer
   // this is NTP time (seconds since Jan 1 1900):
   unsigned long secsSince1900 = highWord << 16 | lowWord;
-
-  this->_currentEpoc = secsSince1900 - SEVENZYYEARS;
-
-  return true;
+  if(secsSince1900 > 86400){
+    this->_currentEpoc = secsSince1900 - SEVENZYYEARS;
+    return true;
+  }
+  return false;
 }
 
 bool NTPClient::update() {

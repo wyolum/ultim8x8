@@ -1072,7 +1072,26 @@ void mqtt_setup(){
 }
 
 void splash(){
-  display_time(86400, 86400);
+  // display_time(86400, 86400);
+
+  fillMask(false, mask);
+  
+  //fill_solid(leds, NUM_LEDS, CRGB::Blue);
+  fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
+  				  config.solid_color_rgb[1],
+  				  config.solid_color_rgb[2]));
+
+  int start_x = 3;
+  int start_y = 8;
+  littleChar(start_x +  0, start_y, 'W', mask);
+  littleChar(start_x +  6, start_y, 'Y', mask);
+  littleChar(start_x + 12, start_y, 'O', mask);
+  littleChar(start_x + 0, start_y + 7 * 1, 'B', mask);
+  littleChar(start_x + 5, start_y + 7 * 2, 'E', mask);
+  littleChar(start_x + 10, start_y + 7 * 3, 'A', mask);
+  littleChar(start_x + 15, start_y + 7 * 4, 'N', mask);
+  applyMask(mask);
+
   my_show();
 }
 
@@ -1086,13 +1105,14 @@ void led_setup(){
 }
 
 void wifi_setup(){
+  //wifiManager.resetSettings();
   if(config.wifi_reset){
     config.wifi_reset = false;
     saveSettings();
-    wifiManager.startConfigPortal("KLOK");
+    wifiManager.startConfigPortal("WyoBean");
   }
   else{
-    wifiManager.autoConnect("KLOK");
+    wifiManager.autoConnect("WyoBean");
   }
   Serial.println("Yay connected!");
   Serial.println("IP address: ");
@@ -1339,11 +1359,11 @@ uint32_t Now(){
       }
     }
     else{
-      out = 42;
+      out = 42; // debug display
     }
   }
   else{
-    out = 43;
+    out = 43; // debug display
   }
   return out;
 }
@@ -1704,29 +1724,29 @@ void display_time(uint32_t last_time, uint32_t current_time){
 void loop(){
   uint8_t word[3];
   uint32_t current_time = Now();
-  uint8_t month, day, dow;
+  uint8_t current_month, current_day, current_dow;
   
   display_time(last_time, current_time);
-  month = ntp_clock.month();
-  day = ntp_clock.day();
-  //dow = timeClient.getDay();
-  dow = ntp_clock.dow();
+  current_month = month(current_time);
+  current_day = day(current_time);
+  current_dow = ((current_time / 86400) + 4) % 7;
+  
   for(int i = 0; i < 3; i++){
-    setPixel(0 + dow, i, CRGB(config.second_color_rgb[0],
+    setPixel(0 + current_dow, i, CRGB(config.second_color_rgb[0],
   				  config.second_color_rgb[1],
   				  config.second_color_rgb[2]));
   }  
   for(int i = 0; i < 3; i++){
-    setPixel(7 + month, i, CRGB(config.second_color_rgb[0],
+    setPixel(7 + current_month, i, CRGB(config.second_color_rgb[0],
 				    config.second_color_rgb[1],
 				    config.second_color_rgb[2]));
   }
-  if(day > 9){
-    setPixel(7 + 12 + day + 1, 1, CRGB(config.second_color_rgb[0],
+  if(current_day > 9){
+    setPixel(7 + 12 + current_day + 1, 1, CRGB(config.second_color_rgb[0],
 				   config.second_color_rgb[1],
 				   config.second_color_rgb[2]));
   }
-  setPixel(7 + 12 + day + 1, 2, CRGB(config.second_color_rgb[0],
+  setPixel(7 + 12 + current_day + 1, 2, CRGB(config.second_color_rgb[0],
 				 config.second_color_rgb[1],
 				 config.second_color_rgb[2]));
   my_show();

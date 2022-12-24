@@ -77,7 +77,7 @@ void setup(void)
   navkey.writeMin((int32_t)-10); /* Set the minimum threshold */
   navkey.writeStep((int32_t)1); /* Set the step to 1*/
 
-  navkey.writeDoublePushPeriod(30);  /*Set a period for the double push of 300ms */
+  navkey.writeDoublePushPeriod(0);  /*Set a period for the double push of 300ms */
 
   navkey.onUpPush = UP_Button_Pressed;
   navkey.onDownPush = DOWN_Button_Pressed;

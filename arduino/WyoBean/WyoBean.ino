@@ -815,6 +815,7 @@ void toggle_sleep(){
 }
 
 void handle_msg(char* topic, byte* payload, unsigned int length) {
+  return; // disabled
   bool handled = false;
   char str_payload[length + 1];
   char *subtopic = topic + 9;
@@ -1023,6 +1024,7 @@ bool mqtt_connect(){
 }
 
 void navkey_setup(){
+  return; // disabled
   pinMode(IntPin, INPUT);
   Wire.begin();
   Serial.begin(115200);
@@ -1492,7 +1494,15 @@ void display_global_time(uint32_t last_time, uint32_t current_time){
   uint8_t start_x =  4;
   uint8_t ss = current_time % 60;
   bool colen = (ss % 2) == 0;
-
+  config.solid_color_rgb[0] = 0;
+  config.solid_color_rgb[1] = 255;
+  config.solid_color_rgb[2] = 0;
+  Serial.print(config.solid_color_rgb[0]);
+  Serial.print(" ");
+  Serial.print(config.solid_color_rgb[1]);
+  Serial.print(" ");
+  Serial.println(config.solid_color_rgb[2]);
+  
   fill_solid(leds, NUM_LEDS, CRGB(config.solid_color_rgb[0],
   				  config.solid_color_rgb[1],
   				  config.solid_color_rgb[2]));
@@ -1675,6 +1685,10 @@ void snake_loop(){
 ////////////////////////////////////////////////////////////////////////////////
 
 void display_time(uint32_t last_time, uint32_t current_time){
+  display_global_time(last_time, current_time);
+  display_moon_phase();
+  return;
+  /// disabled
   if(sleeping){
     fill_solid(leds, NUM_LEDS, CRGB::Black);
   }
@@ -1730,7 +1744,9 @@ void loop(){
   current_month = month(current_time);
   current_day = day(current_time);
   current_dow = ((current_time / 86400) + 4) % 7;
-  
+  config.second_color_rgb[0] = 255;
+  config.second_color_rgb[1] = 0;
+  config.second_color_rgb[2] = 255;
   for(int i = 0; i < 3; i++){
     setPixel(0 + current_dow, i, CRGB(config.second_color_rgb[0],
   				  config.second_color_rgb[1],

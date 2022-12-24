@@ -7,13 +7,10 @@
 #include <EEPROMAnything.h>
 #include <NTPClient.h>
 #include <WebSocketsServer.h>
+#include "Noise.h"
 
-#undef USE_NAVKEY
-#ifdef USE_NAVKEY
 #include <I2CNavKey.h>
-#endif
 
-#include <i2cEncoderLibV2.h>
 #include "english_v3.h"
 
 //#define ULTIM8x16 // DullesKlok
@@ -55,7 +52,6 @@ void getword(int i, uint8_t* out);
 void setWordMask(bool *mask, uint8_t* word, bool b);
 void prev_display();
 void next_display();
-#ifdef USE_NAVKEY
 void UP_Button_Pressed(i2cNavKey* p);
 void DOWN_Button_Pressed(i2cNavKey* p);
 void LEFT_Button_Pressed(i2cNavKey* p);
@@ -63,8 +59,11 @@ void RIGHT_Button_Pressed(i2cNavKey* p);
 void CENTRAL_Button_Pressed(i2cNavKey* p);
 void CENTRAL_Button_Double(i2cNavKey* p);
 void Encoder_Rotate(i2cNavKey* p);
-#endif
+void toggle_power();
+void dimmer();
+void brighter();
 void fill_color();
+void fill_second_color();
 void fill_blue();
 void fill_red();
 void fill_green();
@@ -93,7 +92,6 @@ struct config_t{
 
 // navkey callbacks
 //******************************************************************************
-#ifdef NAVKEY
 i2cNavKey navkey(0b0010000); /* Default address when no jumper are soldered */
 void UP_Button_Pressed(i2cNavKey* p) {
   Serial.println("Button UP Pressed!");
@@ -107,14 +105,17 @@ void DOWN_Button_Pressed(i2cNavKey* p) {
 
 void LEFT_Button_Pressed(i2cNavKey* p) {
   Serial.println("Button LEFT Pressed!");
+  dimmer();
 }
 
 void RIGHT_Button_Pressed(i2cNavKey* p) {
   Serial.println("Button RIGHT Pressed!");
+  brighter();
 }
 
 void CENTRAL_Button_Pressed(i2cNavKey* p) {
   Serial.println("Button Central Pressed!");
+  toggle_power();
 }
 
 void CENTRAL_Button_Double(i2cNavKey* p) {
@@ -128,9 +129,16 @@ void Encoder_Rotate(i2cNavKey* p) {
 	&config.solid_color_rgb[0],
 	&config.solid_color_rgb[1],
 	&config.solid_color_rgb[2]);
+  Wheel(wheel_val + 85,
+	&config.second_color_rgb[0],
+	&config.second_color_rgb[1],
+	&config.second_color_rgb[2]);
+  Wheel(wheel_val + 85 * 2,
+	&config.third_color_rgb[0],
+	&config.third_color_rgb[1],
+	&config.third_color_rgb[2]);
   saveSettings();
 }
-#endif
 // end navkey callbacks
 //********************************************************************************
 
@@ -147,8 +155,8 @@ Saturday
  */
 
 const uint8_t N_BRIGHTNESS = 18;
-const uint8_t BRIGHTNESSES[N_BRIGHTNESS] = {1, 2,  3,  4,  5,  6,  7,  8,
-					    10, 12, 14, 16, 19, 23, 27, 32, 38, 45};
+const uint8_t BRIGHTNESSES[N_BRIGHTNESS] = {2,  3,  4,  5,  6,  7,  8,
+					    10, 12, 14, 16, 19, 23, 27, 32, 38, 45, 64};
 
 bool mask[NUM_LEDS];
 bool wipe[NUM_LEDS];
@@ -193,15 +201,18 @@ typedef Display Displays[];
 void blend_to_rainbow();
 
 Display WordDropDisplay = {blend_to_rainbow, rainbow, word_drop, String("Word Drop"), 0};
-Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 1};
-Display TheMatrixDisplay = {fill_blue, fill_blue, TheMatrix, String("The Matrix"), 2};
-Display PlaneJaneDisplay = {fill_color, fill_color, plain_jane, String("Plane Jane"), 3};
+Display TheMatrixDisplay = {fill_color, fill_color, TheMatrix, String("The Matrix"), 1};
+Display WipeAroundDisplay = {blend_to_rainbow, rainbow, wipe_around_transition, String("Wipe Around"), 2};
+Display PlaneJaneDisplay = {fill_second_color, fill_second_color, plain_jane, String("Plane Jane"), 3};
+//Display FireDisplay = {fill_color, fill_color, plain_jane, String("Fire"), 4};
 
 const int N_DISPLAY = 4;
 Display *Display_ps[N_DISPLAY] = {&WordDropDisplay,
-				  &WipeAroundDisplay,
 				  &TheMatrixDisplay,
-				  &PlaneJaneDisplay};
+				  &WipeAroundDisplay,
+				  &PlaneJaneDisplay,
+				  //&FireDisplay
+};
 //Display* CurrentDisplay_p = &WipeAroundDisplay;
 Display* CurrentDisplay_p = &TheMatrixDisplay;
 //Display* CurrentDisplay_p = &WordDropDisplay;
@@ -415,7 +426,6 @@ void TheMatrix(uint16_t last_time_inc, uint16_t time_inc){
     FastLED.show();
     delay(5);
   }
-
   for(i = n_drop; i < n_need; i++){/// add enough drops to complete
     cols[i] = random(0, MatrixWidth);
     rows[i] = -random(0, MatrixHeight);
@@ -463,14 +473,18 @@ void TheMatrix(uint16_t last_time_inc, uint16_t time_inc){
       }
     }
 
+
     for(int ii = 0; ii < NUM_LEDS; ii++){
       if(have[ii]){
-	leds[ii] = CRGB::Blue;
+	leds[ii] = CRGB(config.solid_color_rgb[0],
+			config.solid_color_rgb[1],
+			config.solid_color_rgb[2]);
       }
     }
     FastLED.show();
     delay(75);
   }
+  
   for(int ii=0; ii< MatrixHeight * 10; ii++){
       //  while(millis() < end){
     fadeToBlackBy(leds, NUM_LEDS, 75);
@@ -482,18 +496,15 @@ void TheMatrix(uint16_t last_time_inc, uint16_t time_inc){
     }
     for(int ii = 0; ii < NUM_LEDS; ii++){
       if(have[ii]){
-	leds[ii] = CRGB::Blue;
+	leds[ii] = CRGB(config.solid_color_rgb[0],
+			config.solid_color_rgb[1],
+			config.solid_color_rgb[2]);
       }
     }
     FastLED.show();
     delay(75);
   }
 
-  // fade to green
-  delay(1000);
-  
-  
-  
 }
 
 void wipe_around(bool val){
@@ -587,31 +598,29 @@ void wipe_left(bool val){
     FastLED.show();
     delay(10);
   }
+}void set_display(uint8_t idx){
+  Serial.print("Set Display:");
+  Serial.println(idx);
+
+  String name = CurrentDisplay_p->name;
+  Serial.print("from:");
+  Serial.print(name);
+  CurrentDisplay_p = Display_ps[idx % N_DISPLAY];
+  CurrentDisplay_p->init();
+  Serial.print(" to:");
+  Serial.println(CurrentDisplay_p->name);
+  config.display_idx = idx;
+  saveSettings();
 }
 
 void next_display(){
   Serial.println("Next Display");
-  String name = CurrentDisplay_p->name;
-  Serial.print("from:");
-  Serial.print(name);
-  int next_display_i = (CurrentDisplay_p->id + 1) % N_DISPLAY;
-  CurrentDisplay_p = Display_ps[next_display_i];
-  CurrentDisplay_p->init();
-  Serial.print(" to:");
-  Serial.println(CurrentDisplay_p->name);
+  set_display((CurrentDisplay_p->id + 1) % N_DISPLAY);
 }
 void prev_display(){
   Serial.println("Previous Display");
-  String name = CurrentDisplay_p->name;
-  Serial.print("from:");
-  Serial.print(name);
-  int prev_display_i = (CurrentDisplay_p->id + N_DISPLAY - 1) % N_DISPLAY;
-  CurrentDisplay_p = Display_ps[prev_display_i];
-  CurrentDisplay_p->init();
-  Serial.print(" to:");
-  Serial.println(CurrentDisplay_p->name);
+  set_display((CurrentDisplay_p->id + N_DISPLAY - 1) % N_DISPLAY);
 }
-
 
 void Wheel(uint8_t WheelPos, uint8_t *red, uint8_t *green, uint8_t *blue) {
   uint8_t r, g, b;
@@ -884,6 +893,11 @@ void fill_color(){
   				  config.solid_color_rgb[1],
   				  config.solid_color_rgb[2]));
 }
+void fill_second_color(){
+  fill_solid(leds, NUM_LEDS, CRGB(config.second_color_rgb[0],
+  				  config.second_color_rgb[1],
+  				  config.second_color_rgb[2]));
+}
 void fill_red(){
   fill_solid(leds, NUM_LEDS, CRGB::Red);
 }
@@ -908,6 +922,18 @@ uint8_t logo_rgb[] = {
   0x11,0x00,0x09,0x88,0x05,0x48,0x03,0x28,0x05,0x18,0x09,0x28,0x11,0x48,0x00,0x88
 };
 
+bool on_off = true;
+void toggle_power(){
+  if(on_off){
+    on_off = false;
+    FastLED.setBrightness(0);    
+  }
+  else{
+    on_off = true;
+    FastLED.setBrightness(BRIGHTNESSES[config.brightness]);
+  }
+}
+
 void set_brightness(uint8_t brightness){
   if(brightness < N_BRIGHTNESS){
     config.brightness = brightness;
@@ -926,6 +952,7 @@ void dimmer(){
   }
   set_brightness(b);
 }
+
 void brighter(){
   byte b;
   b = config.brightness;
@@ -1358,11 +1385,11 @@ bool ip_from_str(char* str, byte* ip){
   return out;
 }
 
-#ifdef USE_NAVKEY
 void navkey_setup(){
   pinMode(IntPin, INPUT);
   Wire.begin();
   Serial.begin(115200);
+  delay(100);
   Serial.println("**** I2C navkey V2 basic example ****");
   /*
       INT_DATA= The register are considered integer.
@@ -1379,7 +1406,7 @@ void navkey_setup(){
   navkey.writeMin((int32_t)0); /* Set the minimum threshold */
   navkey.writeStep((int32_t)1); /* Set the step to 1*/
 
-  navkey.writeDoublePushPeriod(30);  /*Set a period for the double push of 300ms */
+  navkey.writeDoublePushPeriod(0);  /*Set a period for the double push of 300ms */
 
   navkey.onUpPush = UP_Button_Pressed;
   navkey.onDownPush = DOWN_Button_Pressed;
@@ -1395,9 +1422,7 @@ void navkey_setup(){
   Serial.println(navkey.readIDCode(), HEX);
   Serial.print("Board Version: 0x");
   Serial.println(navkey.readVersion(), HEX);
-
 }
-#endif
 
 void splash(){
   display_time(86400, 86400);
@@ -1599,9 +1624,7 @@ void setup(){
   loadSettings();
   print_config();
 
-#ifdef USE_NAVKEY
   navkey_setup();
-#endif
   // logo
   if(config.brightness >= N_BRIGHTNESS){
     set_brightness(6);
@@ -1633,6 +1656,7 @@ void setup(){
 
   websocket_setup();
   print_time();
+  set_display(config.display_idx % N_DISPLAY);
   Serial.println("setup() complete");
 }
 
@@ -1718,16 +1742,15 @@ void serial_loop(){
   ser_msg_len = 0;
 }
 
-#ifdef USE_NAVKEY
 void navkey_loop() {
   uint8_t enc_cnt;
   if (digitalRead(IntPin) == LOW) {
     navkey.updateStatus();
   }
 }
-#endif
 
 void  interact_loop(){
+  navkey_loop();
   if(force_timezone_from_ip){
     force_timezone_from_ip = false;
     set_timezone_from_ip();
@@ -1736,12 +1759,7 @@ void  interact_loop(){
     webSocket.loop();
   }
   serial_loop();
-#ifdef USE_NAVKEY
-  navkey_loop();
-#endif
 }
-
-void fireNoise2(void);
 
 void unix2hms(uint32_t unix, uint8_t *h, uint8_t *m, uint8_t *s){
   int spm = unix % 86400;

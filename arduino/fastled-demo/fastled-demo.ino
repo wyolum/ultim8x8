@@ -31,8 +31,8 @@ FASTLED_USING_NAMESPACE
 #define CLK_PIN       SCK
 #define LED_TYPE      APA102
 #define COLOR_ORDER   BGR
-#define MatrixWidth   24
-#define MatrixHeight  8
+#define MatrixWidth   64
+#define MatrixHeight  24
 #define NUM_LEDS      MatrixWidth * MatrixHeight
 
 const bool MatrixSerpentineLayout = true;
